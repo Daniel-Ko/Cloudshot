@@ -28,6 +28,15 @@
 
 # IntelliJ
 out/
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# eclipse project file
+.settings/
+.classpath
+.project
 
 
 # OS generated files #
