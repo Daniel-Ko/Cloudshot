@@ -26,6 +26,7 @@ public class Main extends ApplicationAdapter {
 		int y = 200;
 		x = Gdx.input.getX();
 		y = Gdx.input.getY();
+		System.out.println(Gdx.graphics.getHeight());
 		
 		
 		batch.draw(img, x, y);
