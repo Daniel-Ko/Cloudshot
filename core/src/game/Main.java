@@ -16,6 +16,7 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		img = new Texture(Gdx.files.internal("ant.jpg"));
 	}
 
 	@Override
@@ -25,6 +26,7 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		int y = 200;
 		x = Gdx.input.getX();
+		y = Gdx.input.getY();
 		
 		
 		batch.draw(img, x, y);
