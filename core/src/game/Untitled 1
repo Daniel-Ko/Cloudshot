@@ -1,1 +1,4 @@
 git commands
+git add --all
+git commit -a -m "added commands file"
+git push origin v1
