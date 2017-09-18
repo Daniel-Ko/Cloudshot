@@ -19,6 +19,9 @@ public class Controller extends InputAdapter {
 	Main main; // store a reference to main so we can update x/y positions
 	//Main will probably be replaced with a reference to main gamemodel class.
 	
+	public boolean keyPressed = false;
+	public int keycode;
+	
 	public Controller(Main main) {
 		this.main = main;
 	}
@@ -26,31 +29,16 @@ public class Controller extends InputAdapter {
 	
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
-		switch(keycode) {
-		case Keys.A: {
-			main.x-=50;
-			break;
-		}
-		case Keys.D: {
-			main.x+=50;
-			break;
-		}
-		case Keys.W: {
-			main.y+=50;
-			break;
-		}
-		case Keys.S: {
-			main.y-=50;
-			break;
-		}
-		}
+		keyPressed = true;
+		this.keycode = keycode;
 		return true;
 	}
 
 	
 	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
-		return false;
+		keyPressed = false;
+		return true;
 	}
 	
 	
