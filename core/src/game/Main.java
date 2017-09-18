@@ -16,7 +16,6 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		img = new Texture(Gdx.files.internal("ant.jpg"));
 	}
 
 	@Override
