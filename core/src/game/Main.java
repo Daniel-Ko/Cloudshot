@@ -32,7 +32,6 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		
 		
-		
 		batch.draw(img, x, y);
 		batch.end();
 	}
