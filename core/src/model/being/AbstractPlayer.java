@@ -19,25 +19,25 @@ public abstract class AbstractPlayer implements GameObjectInterface {
 	public static enum player_state {
 		ALIVE, DEAD;
 	}
-
+	
+	
 	protected int health;
 	protected int damage;
 	protected Vector2 pos;
 	protected Vector2 velocity;
 	protected Vector2 accel = new Vector2(0,-1);//FIXME
-	int maxD = 10;
 	protected Rectangle boundingBox;/// collision detection
 
 	//players of player actions
 	protected boolean canJump = false;
 	protected boolean falling = true;
 	
-	public AbstractPlayer(Vector2 position, int width, int height, int hp, Vector2 vel, Texture image) {
+	public AbstractPlayer(Vector2 position, int width, int height, int hp, Vector2 vel) {
 		health = hp;
 		pos = position;
 		velocity = vel;
 		boundingBox = new Rectangle((int) pos.x, (int) pos.y, width, height);
-		playerImage = image;
+		
 	}
 	
 	/**
