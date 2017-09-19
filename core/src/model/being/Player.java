@@ -19,14 +19,12 @@ public class Player extends AbstractPlayer{
 
 	@Override
 	public int getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) getPos().x;
 	}
 
 	@Override
 	public int getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) getPos().y;
 	}
 
 	@Override

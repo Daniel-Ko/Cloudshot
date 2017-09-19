@@ -96,10 +96,12 @@ public class View extends ApplicationAdapter{
         batch.draw(mapSprite, 0,0);
         batch.draw(walkingMan.getFrameFromTime(elapsedTime), 100, 100);
         batch.end();
+
+        System.out.println(playerController.left);
     }
 
     private void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
             cam.zoom += 0.1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {

@@ -11,8 +11,8 @@ public class PlayerController extends InputAdapter {
 	//allow us to move in multiple directions
 	private boolean up;
 	private boolean down;
-	private boolean right;
-	private boolean left;
+	boolean right;
+	public boolean left;
 	
 	private boolean jumping;
 	//Player who's this controller belongs to
