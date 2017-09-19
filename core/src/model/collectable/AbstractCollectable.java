@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
-import view.SpriteDrawer;
+import view.MovingSprite;
 
 public abstract class AbstractCollectable implements GameObjectInterface {
 	protected Vector2 pos;
@@ -37,7 +37,7 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	 * @see model.GameObjectInterface#getImage()
 	 */
 	@Override
-	public SpriteDrawer getImage() {
+	public MovingSprite getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,7 +1,7 @@
 package model.mapObject.terrain;
 
 import com.badlogic.gdx.math.Rectangle;
-import view.SpriteDrawer;
+import view.MovingSprite;
 
 /**
  * AbstractTerrain implementation.
@@ -26,7 +26,7 @@ public class Platform extends AbstractTerrain {
     }
 
     @Override
-    public SpriteDrawer getImage() {
+    public MovingSprite getImage() {
         return null;
     }
 }

@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import controller.Controller;
@@ -24,14 +23,17 @@ public class View extends ApplicationAdapter{
     public int x = 50;
     public int y = 50;
 
-    // Sprite animation.
+    // CustomSprite animation.
     SpriteBatch batch;
-    SpriteDrawer walkingMan;
+    MovingSprite walkingMan;
     float elapsedTime;
 
     // Map
     private OrthographicCamera cam;
-    private Sprite mapSprite;
+
+    private StaticSprite mapSprite;
+
+    private static final float FRAME_RATE = 0.25f;
 
     @Override
     public void create () {
@@ -43,12 +45,11 @@ public class View extends ApplicationAdapter{
         Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
         Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
         
-        walkingMan = new SpriteDrawer("sprite-animation4.png", 5, 6);
-        walkingMan.createSprite(0.25f);
+        walkingMan = new MovingSprite("sprite-animation4.png", 5, 6);
+        walkingMan.createSprite(FRAME_RATE);
 
-        mapSprite = new Sprite(new Texture(Gdx.files.internal("game_map.jpg")));
-        mapSprite.setPosition(0, 0);
-        mapSprite.setSize(100, 100);
+        mapSprite = new StaticSprite("game_map.jpg");
+        mapSprite.createSprite(FRAME_RATE);
 
         float w = Gdx.graphics.getWidth()* 0.5f;
         float h = Gdx.graphics.getHeight() * 0.5f;
@@ -93,11 +94,10 @@ public class View extends ApplicationAdapter{
             }
         }
 
-        batch.draw(mapSprite, 0,0);
-        batch.draw(walkingMan.getFrameFromTime(elapsedTime), 100, 100);
+        batch.draw(mapSprite.getFrameFromTime(elapsedTime), 0,0);
+        batch.draw(walkingMan.getFrameFromTime(elapsedTime), 0, 0);
         batch.end();
 
-        System.out.println(playerController.left);
     }
 
     private void handleInput() {

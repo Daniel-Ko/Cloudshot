@@ -1,7 +1,7 @@
 package model.mapObject;
 
 import model.GameObjectInterface;
-import view.SpriteDrawer;
+import view.MovingSprite;
 
 public class Portal implements GameObjectInterface {
 
@@ -16,7 +16,7 @@ public class Portal implements GameObjectInterface {
     }
 
     @Override
-    public SpriteDrawer getImage() {
+    public MovingSprite getImage() {
         return null;
     }
 }

@@ -2,8 +2,7 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.GameObjectInterface;
-import view.SpriteDrawer;
+import view.MovingSprite;
 
 public abstract class AbstractBuff extends AbstractCollectable {
 
@@ -23,7 +22,7 @@ public abstract class AbstractBuff extends AbstractCollectable {
     }
 
     @Override
-    public SpriteDrawer getImage() {
+    public MovingSprite getImage() {
         return null;
     }
 }
