@@ -10,7 +10,11 @@ import java.util.ArrayList;
  * Created by tomherdson on 19/09/17.
  * First level.
  */
-public class LevelOne implements LevelInterface {
+public class LevelOne extends AbstractLevel {
+
+    public LevelOne() {
+        super();
+    }
 
     @Override
     public String getLevelName() {
@@ -24,9 +28,8 @@ public class LevelOne implements LevelInterface {
 
     @Override
     public ArrayList<AbstractTerrain> getTerrain() {
-        ArrayList<AbstractTerrain> terrain = new ArrayList<>();
-        terrain.add(new Ground());
-        terrain.add(new Platform());
-        return terrain;
+        addGround(500,50);
+
+        return super.terrain;
     }
 }

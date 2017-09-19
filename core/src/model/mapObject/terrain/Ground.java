@@ -9,6 +9,12 @@ import view.SpriteDrawer;
  */
 public class Ground extends AbstractTerrain {
 
+    private Rectangle groundPiece;
+
+    public Ground(int startingX, int width, int height){
+        groundPiece = new Rectangle(startingX,0,width,height);
+    }
+
     @Override
     public int getX() {
         return 0;
