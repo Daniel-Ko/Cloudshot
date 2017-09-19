@@ -14,12 +14,12 @@ public abstract class AbstractBuff extends AbstractCollectable {
 
 	@Override
     public int getX() {
-        return 0;
+        return super.getX();
     }
 
     @Override
     public int getY() {
-        return 0;
+        return super.getY();
     }
 
     @Override
