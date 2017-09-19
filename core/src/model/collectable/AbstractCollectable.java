@@ -41,7 +41,7 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	 */
 	@Override
 	public SpriteDrawer getImage() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	/* (non-Javadoc)
@@ -49,7 +49,7 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	 * eg increase help if the collectable is a health pack
 	 */
 	public void pickedUp(){
-		
+		throw new UnsupportedOperationException();
 	}
 
 }
