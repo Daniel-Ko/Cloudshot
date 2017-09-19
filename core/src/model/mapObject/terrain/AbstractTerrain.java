@@ -3,20 +3,12 @@ package model.mapObject.terrain;
 import model.GameObjectInterface;
 import view.SpriteDrawer;
 
-public class AbstractTerrain implements GameObjectInterface {
+public abstract class AbstractTerrain implements GameObjectInterface {
 
-    @Override
-    public int getX() {
-        return 0;
-    }
+    //delegate to subclasses.
+    public abstract int getX();
 
-    @Override
-    public int getY() {
-        return 0;
-    }
+    public abstract int getY();
 
-    @Override
-    public SpriteDrawer getImage() {
-        return null;
-    }
+    public abstract SpriteDrawer getImage();
 }
