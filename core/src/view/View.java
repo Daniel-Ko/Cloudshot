@@ -15,123 +15,108 @@ import controller.Controller;
 import controller.PlayerController;
 import model.being.Player;
 
-public class View extends ApplicationAdapter{
+public class View extends ApplicationAdapter {
 
-    Controller controller;
-    PlayerController playerController;//TODO move this into master controller class
-    Player player;
-    
-    public int x = 50;
-    public int y = 50;
+	// TODO implement master controller
+	PlayerController playerController;
+	Player player;
 
-    // Sprite animation.
-    SpriteBatch batch;
-    SpriteDrawer walkingMan;
-    float elapsedTime;
+	public int x = 50;
+	public int y = 50;
 
-    // Map
-    private OrthographicCamera cam;
-    private Sprite mapSprite;
+	// Sprite animation.
+	SpriteBatch batch;
+	SpriteDrawer walkingMan;
+	float elapsedTime;
 
-    @Override
-    public void create () {
-        batch = new SpriteBatch();
-        controller = new Controller(this);
-        player = new Player(new Vector2(50,50), 50, 50, 10, new Vector2(5,2));
-        playerController = new PlayerController(player);
+	// Map
+	private OrthographicCamera cam;
+	private Sprite mapSprite;
 
-        Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
-        Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
-        
-        walkingMan = new SpriteDrawer("sprite-animation4.png", 5, 6);
-        walkingMan.createSprite(0.25f);
+	@Override
+	public void create() {
+		batch = new SpriteBatch();
+		player = new Player(new Vector2(50, 50), 50, 50, 10, new Vector2(5, 2));
+		playerController = new PlayerController(player);
 
-        mapSprite = new Sprite(new Texture(Gdx.files.internal("game_map.jpg")));
-        mapSprite.setPosition(0, 0);
-        mapSprite.setSize(100, 100);
+		// Game Controller
+		Gdx.input.setInputProcessor(playerController);
 
-        float w = Gdx.graphics.getWidth()* 0.5f;
-        float h = Gdx.graphics.getHeight() * 0.5f;
+		walkingMan = new SpriteDrawer("sprite-animation4.png", 5, 6);
+		walkingMan.createSprite(0.25f);
 
-        // Constructs a new OrthographicCamera, using the given viewport width and height
-        // Height is multiplied by aspect ratio.
-        cam = new OrthographicCamera(30, 30 * (h / w));
-        cam.position.set(cam.viewportWidth, cam.viewportHeight, 0);
-        cam.update();
-    }
+		mapSprite = new Sprite(new Texture(Gdx.files.internal("game_map.jpg")));
+		mapSprite.setPosition(0, 0);
+		mapSprite.setSize(100, 100);
 
-    @Override
-    public void render () {
-        handleInput();
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
+		float w = Gdx.graphics.getWidth() * 0.5f;
+		float h = Gdx.graphics.getHeight() * 0.5f;
 
-        elapsedTime += Gdx.graphics.getDeltaTime();
+		// Constructs a new OrthographicCamera, using the given viewport width
+		// and height
+		// Height is multiplied by aspect ratio.
+		cam = new OrthographicCamera(30, 30 * (h / w));
+		cam.position.set(cam.viewportWidth, cam.viewportHeight, 0);
+		cam.update();
+	}
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
+	@Override
+	public void render() {
+		//updating model
+		updatePlayer();
+		
+		handleInput();
+		cam.update();
+		batch.setProjectionMatrix(cam.combined);
 
-        if(controller.keyPressed) {
-            switch(controller.keycode) {
-                case Input.Keys.A: {
-                    this.x-=10;
-                    break;
-                }
-                case Input.Keys.D: {
-                    this.x+=10;
-                    break;
-                }
-                case Input.Keys.W: {
-                    this.y+=10;
-                    break;
-                }
-                case Input.Keys.S: {
-                    this.y-=10;
-                    break;
-                }
-            }
-        }
+		elapsedTime += Gdx.graphics.getDeltaTime();
 
-        batch.draw(mapSprite, 0,0);
-        batch.draw(walkingMan.getFrameFromTime(elapsedTime), 100, 100);
-        batch.end();
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.begin();
+		batch.draw(mapSprite, 0, 0);
+		batch.draw(walkingMan.getFrameFromTime(elapsedTime), 100, 100);
+		batch.end();
+	}
 
-        System.out.println(playerController.left);
-    }
+	private void updatePlayer() {
+		playerController.applyMovement();
+	}
 
-    private void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
-            cam.zoom += 0.1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-            cam.zoom -= 0.1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            cam.translate(-10, 0, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            cam.translate(10, 0, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            cam.translate(0, -3, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            cam.translate(0, 3, 0);
-        }
+	private void handleInput() {
+		if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+			cam.zoom += 0.1;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+			cam.zoom -= 0.1;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			cam.translate(-10, 0, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			cam.translate(10, 0, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			cam.translate(0, -3, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			cam.translate(0, 3, 0);
+		}
 
-        //cam.zoom = MathUtils.clamp(cam.zoom, 0.1f, 100/cam.viewportWidth);
+		// cam.zoom = MathUtils.clamp(cam.zoom, 0.1f, 100/cam.viewportWidth);
 
-        float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
-        float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
+		float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
+		float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
 
-        //cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f);
-        //cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f);
-    }
+		// cam.position.x = MathUtils.clamp(cam.position.x,
+		// effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f);
+		// cam.position.y = MathUtils.clamp(cam.position.y,
+		// effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f);
+	}
 
-
-    @Override
-    public void dispose () {
-        batch.dispose();
-        //img.dispose();
-    }}
+	@Override
+	public void dispose() {
+		batch.dispose();
+		// img.dispose();
+	}
+}
