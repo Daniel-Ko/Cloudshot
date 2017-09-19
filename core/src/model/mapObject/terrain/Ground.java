@@ -1,6 +1,7 @@
 package model.mapObject.terrain;
 
 import com.badlogic.gdx.math.Rectangle;
+import view.CustomSprite;
 import view.MovingSprite;
 
 /**
@@ -31,7 +32,7 @@ public class Ground extends AbstractTerrain {
     }
 
     @Override
-    public MovingSprite getImage() {
+    public CustomSprite getImage() {
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package model.mapObject;
 
 import model.GameObjectInterface;
+import view.CustomSprite;
 import view.MovingSprite;
 
 public class Portal implements GameObjectInterface {
@@ -16,7 +17,7 @@ public class Portal implements GameObjectInterface {
     }
 
     @Override
-    public MovingSprite getImage() {
+    public CustomSprite getImage() {
         return null;
     }
 }

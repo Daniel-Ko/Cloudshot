@@ -1,6 +1,6 @@
 package model;
 
-import view.MovingSprite;
+import view.CustomSprite;
 
 public interface GameObjectInterface {
 
@@ -8,5 +8,5 @@ public interface GameObjectInterface {
 
     public int getY();
 
-    public MovingSprite getImage();
+    public CustomSprite getImage();
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
+import view.CustomSprite;
 import view.MovingSprite;
 
 public abstract class AbstractCollectable implements GameObjectInterface {
@@ -37,7 +38,7 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	 * @see model.GameObjectInterface#getImage()
 	 */
 	@Override
-	public MovingSprite getImage() {
+	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}

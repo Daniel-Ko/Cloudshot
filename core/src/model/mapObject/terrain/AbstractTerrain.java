@@ -3,6 +3,7 @@ package model.mapObject.terrain;
 import com.badlogic.gdx.math.Rectangle;
 import model.GameObjectInterface;
 import model.being.AbstractPlayer;
+import view.CustomSprite;
 import view.MovingSprite;
 
 public abstract class AbstractTerrain implements GameObjectInterface {
@@ -11,7 +12,7 @@ public abstract class AbstractTerrain implements GameObjectInterface {
 
     public abstract Rectangle getBoundingbox();
 
-    public abstract MovingSprite getImage();
+    public abstract CustomSprite getImage();
 
     public boolean isOnTerrain(AbstractPlayer p){
         throw new UnsupportedOperationException();
