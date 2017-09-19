@@ -14,6 +14,7 @@ public class PlayerController extends InputAdapter {
 	private boolean right;
 	private boolean left;
 	
+	private boolean jumping;
 	//Player who's this controller belongs to
 	private Player player;
 	
@@ -24,6 +25,7 @@ public class PlayerController extends InputAdapter {
 	public void applyMovement(){
 		if(right)player.moveRight();
 		if(left)player.moveLeft();
+		//TODO
 	}
 	
 	//only returns false if key pressed isnt wasd
@@ -47,8 +49,8 @@ public class PlayerController extends InputAdapter {
 		}
 
 		if(Input.Keys.SPACE == keycode){
-			player.jump();
-			return true;
+			jumping = true;
+			return jumping;
 		}
 		return false;
 	}
