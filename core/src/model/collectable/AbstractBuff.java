@@ -3,7 +3,7 @@ package model.collectable;
 import model.GameObjectInterface;
 import view.SpriteDrawer;
 
-public abstract class abstractBuff extends AbstractCollectable {
+public abstract class AbstractBuff extends AbstractCollectable {
 
     @Override
     public int getX() {
