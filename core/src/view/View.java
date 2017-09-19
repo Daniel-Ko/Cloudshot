@@ -9,13 +9,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+
 import controller.Controller;
+import controller.PlayerController;
+import model.being.Player;
 
 public class View extends ApplicationAdapter{
 
     Controller controller;
-    Texture img;
-
+    PlayerController playerController;//TODO move this into master controller class
+    Player player;
+    
     public int x = 50;
     public int y = 50;
 
@@ -32,9 +37,12 @@ public class View extends ApplicationAdapter{
     public void create () {
         batch = new SpriteBatch();
         controller = new Controller(this);
-        Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
-        img = new Texture(Gdx.files.internal("anticon.png"));
+        player = new Player(new Vector2(50,50), 50, 50, 10, new Vector2(5,2));
+        playerController = new PlayerController(player);
 
+        Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
+        Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
+        
         walkingMan = new SpriteDrawer("sprite-animation4.png", 5, 6);
         walkingMan.createSprite(0.25f);
 
@@ -87,7 +95,6 @@ public class View extends ApplicationAdapter{
 
         batch.draw(mapSprite, 0,0);
         batch.draw(walkingMan.getFrameFromTime(elapsedTime), 100, 100);
-        batch.draw(img, x, y);
         batch.end();
     }
 
