@@ -1,12 +1,11 @@
 package model.being;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import view.SpriteDrawer;
 
 /**
- * Reperesents the player..
+ * Reperesents the main playable character that the user controls
  * 
  * @author Jeremy Southon
  * */
