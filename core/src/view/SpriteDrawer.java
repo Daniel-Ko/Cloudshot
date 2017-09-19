@@ -38,10 +38,21 @@ public class SpriteDrawer {
     private final int ROWS;
     private final int COLS;
 
+    /**
+     * The position of the sprite in the game.
+     */
+    private int x;
+    private int y;
+
     public SpriteDrawer(String imageName, int rows, int cols){
         this.imageName = imageName;
         this.ROWS = rows;
         this.COLS = cols;
+    }
+
+    public void setPosition(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -79,4 +90,5 @@ public class SpriteDrawer {
     public TextureRegion getFrameFromTime(float elapsedTime){
         return (TextureRegion) animation.getKeyFrame(elapsedTime, true);
     }
+
 }
