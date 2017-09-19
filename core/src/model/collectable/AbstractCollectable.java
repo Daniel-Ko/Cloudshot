@@ -5,12 +5,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
+import model.being.AbstractPlayer;
 import view.SpriteDrawer;
 
 public abstract class AbstractCollectable implements GameObjectInterface {
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
 	protected Texture image;
+	protected boolean pickedUp;
+	protected AbstractPlayer player;
 	
 	public AbstractCollectable(Vector2 position, int width, int height){
 		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
@@ -40,6 +43,13 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	public SpriteDrawer getImage() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	/* (non-Javadoc)
+	 * abstract method that manipulates player when picked up
+	 * eg increase help if the collectable is a health pack
+	 */
+	public void pickedUp(){
+		
 	}
 
 }
