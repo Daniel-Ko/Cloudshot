@@ -1,8 +1,14 @@
 package model.mapObject.terrain;
 
-import view.SpriteDrawer;
+import com.badlogic.gdx.math.Rectangle;
+import view.MovingSprite;
 
+/**
+ * AbstractTerrain implementation.
+ * The difference between a platform and ground is that platform is hovering in the air.
+ */
 public class Platform extends AbstractTerrain {
+
 
     @Override
     public int getX() {
@@ -15,7 +21,12 @@ public class Platform extends AbstractTerrain {
     }
 
     @Override
-    public SpriteDrawer getImage() {
+    public Rectangle getBoundingbox() {
+        return null;
+    }
+
+    @Override
+    public MovingSprite getImage() {
         return null;
     }
 }

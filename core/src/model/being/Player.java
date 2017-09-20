@@ -1,8 +1,8 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import view.MovingSprite;
 
-import view.SpriteDrawer;
 
 /**
  * Reperesents the main playable character that the user controls
@@ -27,8 +27,8 @@ public class Player extends AbstractPlayer{
 	}
 
 	@Override
-	public SpriteDrawer getImage() {
-		return new SpriteDrawer("anticon.png", 1, 1);
+	public MovingSprite getImage() {
+		return new MovingSprite("anticon.png", 1, 1);
 	}
 
 }
