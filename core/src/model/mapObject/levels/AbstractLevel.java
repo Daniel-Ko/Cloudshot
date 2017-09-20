@@ -3,6 +3,7 @@ package model.mapObject.levels;
 import model.GameObjectInterface;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
+import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
 
@@ -36,12 +37,12 @@ public abstract class AbstractLevel {
      * @param height height of the new piece of ground
      */
     public void addGround(int width, int height){
-        terrain.add(new Ground(xPos, width, height));
-        xPos += width;
+        terrain.add(new Ground(xPos, width*32, height*32));
+        xPos += width*32;
     }
 
-    public void addPlatform(){
-
+    public void addPlatform(int x, int y){
+        terrain.add(new Platform(x,y,107,24));
     }
 
 
