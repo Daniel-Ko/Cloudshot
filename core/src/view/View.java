@@ -16,6 +16,7 @@ import model.being.Player;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
 import model.mapObject.terrain.AbstractTerrain;
+import model.mapObject.terrain.Ground;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class View extends ApplicationAdapter{
     Controller controller;
     PlayerController playerController;//TODO move this into master controller class
     Player player;
+
+    AbstractLevel level;
 
     public int x = 50;
     public int y = 50;
@@ -40,6 +43,7 @@ public class View extends ApplicationAdapter{
     private StaticSprite mapSprite;
 
     private static final float FRAME_RATE = 0.25f;
+    
 
     @Override
     public void create () {
@@ -48,7 +52,7 @@ public class View extends ApplicationAdapter{
         player = new Player(new Vector2(50,50), 50, 50, 10, new Vector2(5,2));
         playerController = new PlayerController(player);
 
-
+        level = new LevelOne();
 
 
 
@@ -60,6 +64,10 @@ public class View extends ApplicationAdapter{
 
         mapSprite = new StaticSprite("game_map.jpg");
         mapSprite.createSprite(FRAME_RATE);
+
+        for(AbstractTerrain t : level.getTerrain()){
+            t.getImage().createSprite(FRAME_RATE);
+        }
 
         float w = Gdx.graphics.getWidth()* 0.5f;
         float h = Gdx.graphics.getHeight() * 0.5f;
@@ -102,6 +110,10 @@ public class View extends ApplicationAdapter{
                     break;
                 }
             }
+        }
+
+        for(AbstractTerrain t : level.getTerrain()){
+            batch.draw(t.getImage().getFrameFromTime(elapsedTime),t.getBoundingbox().getX(),t.getBoundingbox().getY());
         }
 
         batch.draw(mapSprite.getFrameFromTime(elapsedTime), 0,0);

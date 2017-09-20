@@ -30,7 +30,7 @@ public class Ground extends AbstractTerrain {
 
     @Override
     public Rectangle getBoundingbox() {
-        return null;
+        return groundPiece;
     }
 
     @Override
