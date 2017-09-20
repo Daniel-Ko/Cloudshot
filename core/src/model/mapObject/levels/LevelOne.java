@@ -28,7 +28,10 @@ public class LevelOne extends AbstractLevel {
 
     @Override
     public ArrayList<AbstractTerrain> getTerrain() {
-        addGround(500,50);
+       addGround(32,64);
+       addGround(64,128);
+       addGround(128,256);
+
 
         return super.terrain;
     }

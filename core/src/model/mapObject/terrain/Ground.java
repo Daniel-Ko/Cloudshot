@@ -35,6 +35,6 @@ public class Ground extends AbstractTerrain {
 
     @Override
     public CustomSprite getImage() {
-        return new StaticSprite("ground.png");
+        return new StaticSprite("ground.png",(int)groundPiece.getWidth(),(int)groundPiece.getHeight());
     }
 }

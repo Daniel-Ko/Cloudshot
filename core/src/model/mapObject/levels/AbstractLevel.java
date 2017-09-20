@@ -37,6 +37,7 @@ public abstract class AbstractLevel {
      */
     public void addGround(int width, int height){
         terrain.add(new Ground(xPos, width, height));
+        xPos += width;
     }
 
     public void addPlatform(){

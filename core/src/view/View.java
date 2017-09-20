@@ -69,6 +69,7 @@ public class View extends ApplicationAdapter{
         for(AbstractTerrain t : level.getTerrain()){
             CustomSprite customSprite = t.getImage();
             customSprite.createSprite(FRAME_RATE);
+
             groundSprites.add(customSprite);
         }
 
@@ -90,7 +91,7 @@ public class View extends ApplicationAdapter{
 
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
@@ -123,7 +124,7 @@ public class View extends ApplicationAdapter{
             AbstractTerrain currentTerrain = level.getTerrain().get(i);
             batch.draw(groundSprites.get(i).getFrameFromTime(elapsedTime),
                     currentTerrain.getBoundingbox().getX(),
-                    currentTerrain.getBoundingbox().getY());
+                    currentTerrain.getBoundingbox().getY(),currentTerrain.getBoundingbox().getWidth(),currentTerrain.getBoundingbox().getHeight());
         }
 
         batch.draw(walkingMan.getFrameFromTime(elapsedTime), 0, 0);
