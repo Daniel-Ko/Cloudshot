@@ -41,6 +41,7 @@ public class View extends ApplicationAdapter{
     // CustomSprite animation.
     SpriteBatch batch;
     MovingSprite walkingMan;
+    StaticSprite backgroundImage;
 
     float elapsedTime;
 
@@ -68,6 +69,9 @@ public class View extends ApplicationAdapter{
         
         walkingMan = new MovingSprite("sprite-animation4.png", 5, 6);
         walkingMan.createSprite(FRAME_RATE);
+
+        backgroundImage = new StaticSprite("background.png",5000,1000);
+        backgroundImage.createSprite(FRAME_RATE);
 
 
         groundSprites = new ArrayList<>();
@@ -108,6 +112,7 @@ public class View extends ApplicationAdapter{
 
 
         batch.begin();
+        batch.draw(backgroundImage.getFrameFromTime(elapsedTime),0,0);
 
         for(int i = 0; i < groundSprites.size(); i++){
             AbstractTerrain currentTerrain = level.getTerrain().get(i);

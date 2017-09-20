@@ -29,12 +29,12 @@ public class LevelOne extends AbstractLevel {
     @Override
     public ArrayList<AbstractTerrain> getTerrain() {
        addGround(1,2);
-       addGround(2,4);
-       addGround(5,4);
-       addGround(5,6);
-       addGround(5,9);
-       addGround(5,10);
-       addGround(5,5);
+       addGround(2,3);
+       addGround(5,3);
+       addGround(5,3);
+       addGround(5,3);
+       addGround(5,3);
+       addGround(5,3);
        addGround(5,3);
        addGround(5,3);
        addGround(5,3);
