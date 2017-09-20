@@ -2,7 +2,7 @@ package model.mapObject.terrain;
 
 import com.badlogic.gdx.math.Rectangle;
 import model.GameObjectInterface;
-import model.being.AbstractPlayer;
+import src.model.being.AbstractPlayer;
 import view.CustomSprite;
 import view.MovingSprite;
 

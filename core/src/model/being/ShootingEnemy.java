@@ -1,12 +1,12 @@
 package model.being;
 
-import view.SpriteDrawer;
+import view.CustomSprite;
 
 public class ShootingEnemy extends AbstractEnemy{
 
 	
 	@Override
-	public SpriteDrawer getImage() {
+	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}

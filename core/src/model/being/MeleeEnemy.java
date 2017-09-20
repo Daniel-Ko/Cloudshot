@@ -1,6 +1,6 @@
 package model.being;
 
-import view.SpriteDrawer;
+import view.CustomSprite;
 
 /**
  * Class has the basic structure of a basic melee attacking enemy to get a more
@@ -12,9 +12,11 @@ import view.SpriteDrawer;
 public class MeleeEnemy extends AbstractEnemy {
 
 	@Override
-	public SpriteDrawer getImage() {
+	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }
