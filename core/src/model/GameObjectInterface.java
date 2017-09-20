@@ -1,7 +1,6 @@
 package model;
 
-
-import view.SpriteDrawer;
+import view.CustomSprite;
 
 public interface GameObjectInterface {
 
@@ -9,5 +8,5 @@ public interface GameObjectInterface {
 
     public int getY();
 
-    public SpriteDrawer getImage();
+    public CustomSprite getImage();
 }

@@ -6,16 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
- * SpriteDrawer handles all the logic to create and return a TextureRegion based on the time elapsed and frame
+ * MovingSprite handles all the logic to create and return a TextureRegion based on the time elapsed and frame
  * rate of the animation. The TextureRegion is to be rendered by View.java
  * @author Yi Sian Lim
  */
-public class SpriteDrawer {
-
-    /**
-     * Image of the sprite sheet to use.
-     */
-    private Texture spriteImage;
+public class MovingSprite extends CustomSprite {
 
     /**
      * Stores all the TextureRegion of the frames for animation.
@@ -28,31 +23,15 @@ public class SpriteDrawer {
     private Animation animation;
 
     /**
-     * Name of the sprite image to use.
-     */
-    private String imageName;
-
-    /**
      * Number of rows and columns in the sprite image.
      */
     private final int ROWS;
     private final int COLS;
 
-    /**
-     * The position of the sprite in the game.
-     */
-    private int x;
-    private int y;
-
-    public SpriteDrawer(String imageName, int rows, int cols){
-        this.imageName = imageName;
+    public MovingSprite(String imageName, int rows, int cols){
+        super(imageName);
         this.ROWS = rows;
         this.COLS = cols;
-    }
-
-    public void setPosition(int x, int y){
-        this.x = x;
-        this.y = y;
     }
 
     /**
@@ -62,7 +41,6 @@ public class SpriteDrawer {
      *          frameRate for the sprite animation.
      */
     public void createSprite(float frameRate){
-
         // Get the sprite image and split it into TextureRegions consisting of the image during that frame.
         spriteImage = new Texture(Gdx.files.internal(imageName));
         TextureRegion[][] tmpFrames = TextureRegion.split(spriteImage, spriteImage.getWidth() / COLS,
