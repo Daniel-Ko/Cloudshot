@@ -1,5 +1,6 @@
 package view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -18,6 +19,7 @@ public abstract class CustomSprite{
 
     public CustomSprite(String imageName){
         this.imageName = imageName;
+        this.spriteImage = new Texture(Gdx.files.internal(imageName));
     }
 
     /**

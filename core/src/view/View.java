@@ -27,6 +27,10 @@ import java.util.List;
 
 public class View extends ApplicationAdapter{
 
+    //These values may get changed on a per level basis.
+    private final int WORLD_HEIGHT = 1000;
+    private final int WORLD_WIDTH = 2000;
+
     Controller controller;
     PlayerController playerController;//TODO move this into master controller class
     Player player;
@@ -41,6 +45,7 @@ public class View extends ApplicationAdapter{
     // CustomSprite animation.
     SpriteBatch batch;
     MovingSprite walkingMan;
+    StaticSprite backgroundImage;
 
     float elapsedTime;
 
@@ -68,6 +73,9 @@ public class View extends ApplicationAdapter{
         
         walkingMan = new MovingSprite("sprite-animation4.png", 5, 6);
         walkingMan.createSprite(FRAME_RATE);
+
+        backgroundImage = new StaticSprite("background.png",WORLD_WIDTH,WORLD_HEIGHT);
+        backgroundImage.createSprite(FRAME_RATE);
 
 
         groundSprites = new ArrayList<>();
@@ -108,6 +116,7 @@ public class View extends ApplicationAdapter{
 
 
         batch.begin();
+        batch.draw(backgroundImage.getFrameFromTime(elapsedTime),0,0);
 
         for(int i = 0; i < groundSprites.size(); i++){
             AbstractTerrain currentTerrain = level.getTerrain().get(i);
@@ -138,6 +147,7 @@ public class View extends ApplicationAdapter{
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             //cam.translate(10, 0, 0);
+            if(x >= WORLD_WIDTH-5) return;
             x+=speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
@@ -149,15 +159,23 @@ public class View extends ApplicationAdapter{
             y+=speed;
         }
 
+
         //cam.zoom = MathUtils.clamp(cam.zoom, 1000f, 1000/cam.viewportWidth);
 
         float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
         float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
 
 
+        int width = walkingMan.getFrameFromTime(elapsedTime).getRegionWidth();
+        if(x > WORLD_WIDTH - effectiveViewportWidth/2f-width){
+            x =(int)(WORLD_WIDTH - effectiveViewportWidth/2f- width);
+        }
+        else if(x < 0){
+            x = 0;
+        }
 
         cam.position.set(x,cam.position.y,0);
-        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, viewWidth*10 - effectiveViewportWidth / 2f);
+        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_WIDTH - effectiveViewportWidth);
         cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 1000 - effectiveViewportHeight / 2f);
 
     }
