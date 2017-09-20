@@ -3,7 +3,7 @@ package model.collectable;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
-import view.SpriteDrawer;
+import view.CustomSprite;
 
 public abstract class AbstractBuff extends AbstractCollectable {
 
@@ -21,8 +21,16 @@ public abstract class AbstractBuff extends AbstractCollectable {
         return super.getY();
     }
 
-    @Override
-    public SpriteDrawer getImage() {
-        return null;
-    }
+	/* (non-Javadoc)
+	 * @see model.collectable.AbstractCollectable#getImage()
+	 */
+	
+	
+
+	/* (non-Javadoc)
+	 * @see model.collectable.AbstractCollectable#pickedUp()
+	 */
+	
+
+   
 }

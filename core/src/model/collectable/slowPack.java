@@ -2,6 +2,8 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 
+import view.CustomSprite;
+
 public class slowPack extends AbstractBuff {
 
 	public slowPack(Vector2 position, int width, int height) {
@@ -10,8 +12,15 @@ public class slowPack extends AbstractBuff {
 	}
 
 	/* (non-Javadoc)
-	 * Slows the player down by half
+	 * @see model.collectable.AbstractCollectable#getImage()
 	 */
+	@Override
+	public CustomSprite getImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	@Override
 	public void pickedUp() {
 		Vector2 oldVelocity = this.player.getVelocity();
