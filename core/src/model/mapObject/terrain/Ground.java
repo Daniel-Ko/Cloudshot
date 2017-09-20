@@ -1,8 +1,10 @@
 package model.mapObject.terrain;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import view.CustomSprite;
 import view.MovingSprite;
+import view.StaticSprite;
 
 /**
  * AbstractTerrain implementation.
@@ -12,18 +14,18 @@ public class Ground extends AbstractTerrain {
 
     private Rectangle groundPiece;
 
-    public Ground(int startingX, int width, int height){
-        groundPiece = new Rectangle(startingX,0,width,height);
+    public Ground(int startingX, int width, int height) {
+        groundPiece = new Rectangle(startingX, 0, width, height);
     }
 
     @Override
     public int getX() {
-        return 0;
+        return (int) groundPiece.getX();
     }
 
     @Override
     public int getY() {
-        return 0;
+        return (int) groundPiece.getY();
     }
 
     @Override
@@ -33,6 +35,6 @@ public class Ground extends AbstractTerrain {
 
     @Override
     public CustomSprite getImage() {
-        return null;
+        return new StaticSprite("ground.png");
     }
 }

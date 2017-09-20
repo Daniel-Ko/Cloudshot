@@ -8,24 +8,31 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import controller.Controller;
 import controller.PlayerController;
 import model.being.Player;
+import model.mapObject.levels.AbstractLevel;
+import model.mapObject.levels.LevelOne;
+import model.mapObject.terrain.AbstractTerrain;
+
+import java.util.ArrayList;
 
 public class View extends ApplicationAdapter{
 
     Controller controller;
     PlayerController playerController;//TODO move this into master controller class
     Player player;
-    
+
     public int x = 50;
     public int y = 50;
 
     // CustomSprite animation.
     SpriteBatch batch;
     MovingSprite walkingMan;
+
     float elapsedTime;
 
     // Map
@@ -41,6 +48,10 @@ public class View extends ApplicationAdapter{
         controller = new Controller(this);
         player = new Player(new Vector2(50,50), 50, 50, 10, new Vector2(5,2));
         playerController = new PlayerController(player);
+
+
+
+
 
         Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
         Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed

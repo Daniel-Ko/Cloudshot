@@ -1,5 +1,6 @@
 package model.mapObject.levels;
 
+import model.GameObjectInterface;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
 
