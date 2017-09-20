@@ -8,8 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import controller.Controller;
 import controller.PlayerController;
 import model.being.Player;
@@ -32,6 +36,8 @@ public class View extends ApplicationAdapter{
     public int x = 50;
     public int y = 50;
 
+    private final int viewWidth = 1000;
+
     // CustomSprite animation.
     SpriteBatch batch;
     MovingSprite walkingMan;
@@ -40,11 +46,12 @@ public class View extends ApplicationAdapter{
 
     // Map
     private OrthographicCamera cam;
+    private Viewport viewport;
 
     // Ground textures.
     private List<CustomSprite> groundSprites;
 
-    private static final float FRAME_RATE = 0.25f;
+    private static final float FRAME_RATE = 0.02f;
     
 
     @Override
@@ -55,8 +62,6 @@ public class View extends ApplicationAdapter{
         playerController = new PlayerController(player);
 
         level = new LevelOne();
-
-
 
         Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
         Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
@@ -69,17 +74,23 @@ public class View extends ApplicationAdapter{
         for(AbstractTerrain t : level.getTerrain()){
             CustomSprite customSprite = t.getImage();
             customSprite.createSprite(FRAME_RATE);
-
             groundSprites.add(customSprite);
         }
 
-        float w = Gdx.graphics.getWidth()* 0.5f;
-        float h = Gdx.graphics.getHeight() * 0.5f;
+        float w = Gdx.graphics.getWidth();//* 0.5f;
+        float h = Gdx.graphics.getHeight();// * 0.5f;
 
-        // Constructs a new OrthographicCamera, using the given viewport width and height
-        // Height is multiplied by aspect ratio.
-        cam = new OrthographicCamera(30, 30 * (h / w));
-        cam.position.set(cam.viewportWidth, cam.viewportHeight, 0);
+
+
+
+        cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
+        //viewport = new FitViewport(300,300, cam);
+
+        //cam = new OrthographicCamera(30, 30 * (h / w));
+
+       cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        //cam.position.set(300f,300f,0f);
+        //cam.zoom = 1000f;
         cam.update();
     }
 
@@ -91,34 +102,12 @@ public class View extends ApplicationAdapter{
 
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+
         batch.begin();
-
-        if(controller.keyPressed) {
-            switch(controller.keycode) {
-                case Input.Keys.A: {
-                    this.x-=10;
-                    break;
-                }
-                case Input.Keys.D: {
-                    this.x+=10;
-                    break;
-                }
-                case Input.Keys.W: {
-                    this.y+=10;
-                    break;
-                }
-                case Input.Keys.S: {
-                    this.y-=10;
-                    break;
-                }
-            }
-        }
-
-//        for(AbstractTerrain t : level.getTerrain()){
-//            batch.draw(t.getImage().getFrameFromTime(elapsedTime), t.getBoundingbox().getX(),t.getBoundingbox().getY());
-//        }
 
         for(int i = 0; i < groundSprites.size(); i++){
             AbstractTerrain currentTerrain = level.getTerrain().get(i);
@@ -127,38 +116,50 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getY(),currentTerrain.getBoundingbox().getWidth(),currentTerrain.getBoundingbox().getHeight());
         }
 
-        batch.draw(walkingMan.getFrameFromTime(elapsedTime), 0, 0);
+        batch.draw(walkingMan.getFrameFromTime(elapsedTime), x, y);
         batch.end();
+
+
+
 
     }
 
     private void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+        /*if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
             cam.zoom += 0.1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             cam.zoom -= 0.1;
-        }
+        }*/
+        int speed = 5;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            cam.translate(-10, 0, 0);
+            //cam.translate(-10, 0, 0);
+            x -=speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            cam.translate(10, 0, 0);
+            //cam.translate(10, 0, 0);
+            x+=speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            cam.translate(0, -3, 0);
+            //cam.translate(0, -10, 0);
+            y-=speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            cam.translate(0, 3, 0);
+            //cam.translate(0, 10, 0);
+            y+=speed;
         }
 
-        //cam.zoom = MathUtils.clamp(cam.zoom, 0.1f, 100/cam.viewportWidth);
+        //cam.zoom = MathUtils.clamp(cam.zoom, 1000f, 1000/cam.viewportWidth);
 
         float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
         float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
 
-        //cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f);
-        //cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f);
+
+
+        cam.position.set(x,cam.position.y,0);
+        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, viewWidth*10 - effectiveViewportWidth / 2f);
+        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 1000 - effectiveViewportHeight / 2f);
+
     }
 
 

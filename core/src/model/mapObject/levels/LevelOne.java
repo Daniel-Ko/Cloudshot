@@ -30,9 +30,20 @@ public class LevelOne extends AbstractLevel {
     public ArrayList<AbstractTerrain> getTerrain() {
        addGround(1,2);
        addGround(2,4);
+       addGround(5,4);
+       addGround(5,6);
+       addGround(5,9);
+       addGround(5,10);
+       addGround(5,5);
+       addGround(5,3);
+       addGround(5,3);
        addGround(5,3);
         addPlatform(50,200);
         addPlatform(200,300);
+        addPlatform(400,350);
+        addPlatform(600,400);
+        addPlatform(800,250);
+        addPlatform(880,100);
 
 
 
