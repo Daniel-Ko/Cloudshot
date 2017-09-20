@@ -1,5 +1,5 @@
 package model.mapObject.terrain;
-
+`
 import com.badlogic.gdx.math.Rectangle;
 import model.GameObjectInterface;
 import src.model.being.AbstractPlayer;
