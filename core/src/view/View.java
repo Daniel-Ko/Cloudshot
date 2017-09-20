@@ -19,6 +19,7 @@ import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class View extends ApplicationAdapter{
 
@@ -40,7 +41,8 @@ public class View extends ApplicationAdapter{
     // Map
     private OrthographicCamera cam;
 
-    private StaticSprite mapSprite;
+    // Ground textures.
+    private List<CustomSprite> groundSprites;
 
     private static final float FRAME_RATE = 0.25f;
     
@@ -62,11 +64,12 @@ public class View extends ApplicationAdapter{
         walkingMan = new MovingSprite("sprite-animation4.png", 5, 6);
         walkingMan.createSprite(FRAME_RATE);
 
-        mapSprite = new StaticSprite("game_map.jpg");
-        mapSprite.createSprite(FRAME_RATE);
 
+        groundSprites = new ArrayList<>();
         for(AbstractTerrain t : level.getTerrain()){
-            t.getImage().createSprite(FRAME_RATE);
+            CustomSprite customSprite = t.getImage();
+            customSprite.createSprite(FRAME_RATE);
+            groundSprites.add(customSprite);
         }
 
         float w = Gdx.graphics.getWidth()* 0.5f;
@@ -112,11 +115,17 @@ public class View extends ApplicationAdapter{
             }
         }
 
-        for(AbstractTerrain t : level.getTerrain()){
-            batch.draw(t.getImage().getFrameFromTime(elapsedTime),t.getBoundingbox().getX(),t.getBoundingbox().getY());
+//        for(AbstractTerrain t : level.getTerrain()){
+//            batch.draw(t.getImage().getFrameFromTime(elapsedTime), t.getBoundingbox().getX(),t.getBoundingbox().getY());
+//        }
+
+        for(int i = 0; i < groundSprites.size(); i++){
+            AbstractTerrain currentTerrain = level.getTerrain().get(i);
+            batch.draw(groundSprites.get(i).getFrameFromTime(elapsedTime),
+                    currentTerrain.getBoundingbox().getX(),
+                    currentTerrain.getBoundingbox().getY());
         }
 
-        batch.draw(mapSprite.getFrameFromTime(elapsedTime), 0,0);
         batch.draw(walkingMan.getFrameFromTime(elapsedTime), 0, 0);
         batch.end();
 
