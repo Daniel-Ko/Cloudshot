@@ -18,6 +18,7 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	public AbstractCollectable(Vector2 position, int width, int height){
 		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 		this.pos = position;
+		
 	}
 	
 	/* (non-Javadoc)
