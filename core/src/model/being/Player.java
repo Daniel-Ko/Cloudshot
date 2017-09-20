@@ -5,7 +5,7 @@ import view.MovingSprite;
 
 
 /**
- * Reperesents the player..
+ * Reperesents the main playable character that the user controls
  * 
  * @author Jeremy Southon
  * */

@@ -1,10 +1,7 @@
 package model.being;
 
-import java.awt.Rectangle;
-
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import com.brashmonkey.spriter.Rectangle;
 
 import model.GameObjectInterface;
 
@@ -13,73 +10,90 @@ import model.GameObjectInterface;
  * 
  * @author Jeremy Southon
  */
-public abstract class AbstractPlayer implements GameObjectInterface {
-	protected Texture playerImage;
+public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface {
 
+	/**
+	 * Used to represent the different states of the player
+	 */
 	public static enum player_state {
 		ALIVE, DEAD;
 	}
-	
-	
-	protected int health;
-	protected int damage;
+
+	protected player_state playerState = player_state.ALIVE;
+
+	/* variables used in player physics */
 	protected Vector2 pos;
 	protected Vector2 velocity;
-	protected Vector2 accel = new Vector2(0,-1);//FIXME
-	protected Rectangle boundingBox;/// collision detection
+	protected Vector2 gravity;
 
-	//players of player actions
+	protected int health;
+	protected int damage;
+	protected Rectangle boundingBox;
+
+	// players of player actions
 	protected boolean canJump = false;
 	protected boolean falling = true;
-	
+
+	/** Players inventory */
+	// List<Collectables> inventory
 	public AbstractPlayer(Vector2 position, int width, int height, int hp, Vector2 vel) {
 		health = hp;
 		pos = position;
 		velocity = vel;
 		boundingBox = new Rectangle((int) pos.x, (int) pos.y, width, height);
-		
+
+		// init player constants
+		gravity = new Vector2(0, 3);
 	}
-	
+
 	/**
 	 * Updates forces acting on player, therefore updating his pos over time
-	 * */
-	public void update(){
-		falling();
+	 */
+	public void update() {
+		applyGrav();
 	}
-	
-	protected void falling(){
-		//if player is not on ground apply gravity
-		if(pos.y>= 10){
+
+	protected void applyGrav() {
+		// TODO replace this as a y == 10 will not always represent ground
+		// if player is not on ground apply gravity
+		if (pos.y >= 10) {
 			pos.add(velocity);
-			velocity.add(accel);
-		}else {
-			//on the ground
+			velocity.add(gravity);
+		} else {
+			// on the ground
 			falling = false;
 			canJump = true;
 		}
 	}
-	
+
 	public void jump() {
-		if(canJump){
-			
+		if (canJump) {
+
 		}
 	}
 
-	/* Public methods for moving player by players velocity */
+	/**
+	 * Updateds the players pos by velovity
+	 * 
+	 */
 	public void moveRight() {
 		pos.x += velocity.x;
 	}
 
+	/**
+	 * Updateds the players pos by velovity
+	 * 
+	 */
 	public void moveLeft() {
 		pos.x -= velocity.x;
 	}
 
-	public Texture getPlayerImage() {
-		return playerImage;
+	public player_state getPlayerState() {
+		return playerState;
 	}
 
-	public void setPlayerImage(Texture playerImage) {
-		this.playerImage = playerImage;
+	public void setPlayerState(player_state playerState) {
+		this.playerState = playerState;
 	}
 
 	public int getHealth() {
@@ -90,8 +104,6 @@ public abstract class AbstractPlayer implements GameObjectInterface {
 		this.health = health;
 	}
 
-	
-
 	public int getDamage() {
 		return damage;
 	}
@@ -99,7 +111,6 @@ public abstract class AbstractPlayer implements GameObjectInterface {
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-
 
 	public Vector2 getPos() {
 		return pos;
@@ -115,14 +126,6 @@ public abstract class AbstractPlayer implements GameObjectInterface {
 
 	public void setVelocity(Vector2 velocity) {
 		this.velocity = velocity;
-	}
-
-	public Vector2 getAccel() {
-		return accel;
-	}
-
-	public void setAccel(Vector2 accel) {
-		this.accel = accel;
 	}
 
 	public Rectangle getBoundingBox() {

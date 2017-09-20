@@ -1,5 +1,4 @@
 package view;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import controller.Controller;
 import controller.PlayerController;
 import model.being.Player;
 import model.mapObject.levels.AbstractLevel;
@@ -145,4 +143,5 @@ public class View extends ApplicationAdapter{
     public void dispose () {
         batch.dispose();
         //img.dispose();
-    }}
+    }
+	}
