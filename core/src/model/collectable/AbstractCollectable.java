@@ -22,6 +22,10 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	protected boolean pickedUp;
 	protected AbstractPlayer player;
 	
+	public final int COLLECTABLE_WIDTH = 10;
+	public final int COLLECTABLE_HIEGHT = 10;
+
+	
 	public AbstractCollectable(Vector2 position, int width, int height){
 		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 		this.pos = position;
