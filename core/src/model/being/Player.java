@@ -17,13 +17,13 @@ public class Player extends AbstractPlayer{
 	}
 
 	@Override
-	public int getX() {
-		return (int) getPos().x;
+	public float getX() {
+		return getPos().x;
 	}
 
 	@Override
-	public int getY() {
-		return (int) getPos().y;
+	public float getY() {
+		return getPos().y;
 	}
 
 	@Override

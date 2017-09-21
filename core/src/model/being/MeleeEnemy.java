@@ -16,7 +16,5 @@ public class MeleeEnemy extends AbstractEnemy {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
+	
 }
