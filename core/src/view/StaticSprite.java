@@ -16,10 +16,8 @@ public class StaticSprite extends CustomSprite {
 
     public StaticSprite(String imageName){
         super(imageName);
-
         this.width = spriteImage.getWidth();
         this.height = spriteImage.getHeight();
-
     }
 
     @Override

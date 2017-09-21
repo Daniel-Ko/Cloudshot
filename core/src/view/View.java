@@ -122,7 +122,9 @@ public class View extends ApplicationAdapter{
             AbstractTerrain currentTerrain = level.getTerrain().get(i);
             batch.draw(groundSprites.get(i).getFrameFromTime(elapsedTime),
                     currentTerrain.getBoundingbox().getX(),
-                    currentTerrain.getBoundingbox().getY(),currentTerrain.getBoundingbox().getWidth(),currentTerrain.getBoundingbox().getHeight());
+                    currentTerrain.getBoundingbox().getY(),
+                    currentTerrain.getBoundingbox().getWidth(),
+                    currentTerrain.getBoundingbox().getHeight());
         }
 
         batch.draw(walkingMan.getFrameFromTime(elapsedTime), x, y);
