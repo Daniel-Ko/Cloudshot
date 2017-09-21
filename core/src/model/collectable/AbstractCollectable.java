@@ -47,4 +47,6 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 
 	public abstract void pickedUp();
 
+	
+
 }
