@@ -18,7 +18,6 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
-	protected Texture image;
 	protected boolean pickedUp;
 	protected AbstractPlayer player;
 	
@@ -32,36 +31,22 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see model.GameObjectInterface#getX()
-	 */
 	@Override
 	public int getX() {
 		return (int) pos.x;
 	}
 
-	/* (non-Javadoc)
-	 * @see model.GameObjectInterface#getY()
-	 */
 	@Override
 	public int getY() {
 		return (int) pos.y;
 	}
-
-	/* (non-Javadoc)
-	 * @see model.GameObjectInterface#getImage()
-	 */
+	
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
-	/* (non-Javadoc)
-	 * abstract method that manipulates player when picked up
-	 * eg increase help if the collectable is a health pack
-	 */
 	public void pickedUp(){
 		throw new UnsupportedOperationException();
 	}

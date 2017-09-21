@@ -14,7 +14,6 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public int getDamage() {
 		return damage;
 	}
@@ -23,10 +22,6 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 		this.damage = damage;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see model.collectable.AbstractCollectable#pickedUp()
-	 */
 	@Override
 	public void pickedUp() {
 		//this.player.getInventory().add(this);

@@ -21,16 +21,6 @@ public abstract class AbstractBuff extends AbstractCollectable {
         return super.getY();
     }
 
-	/* (non-Javadoc)
-	 * @see model.collectable.AbstractCollectable#getImage()
-	 */
-	
-	
-
-	/* (non-Javadoc)
-	 * @see model.collectable.AbstractCollectable#pickedUp()
-	 */
-	
 
    
 }

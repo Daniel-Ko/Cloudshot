@@ -13,17 +13,11 @@ public class Pistol extends AbstractWeapon{
 		this.setDamage(PISTOL_DAMAGE);
 	}
 
-	/* (non-Javadoc)
-	 * @see model.collectable.AbstractWeapon#getDamage()
-	 */
 	@Override
 	public int getDamage() {
 		return super.getDamage();
 	}
 
-	/* (non-Javadoc)
-	 * @see model.collectable.AbstractCollectable#getImage()
-	 */
 	@Override
 	public CustomSprite getImage() {
 		return super.getImage();
