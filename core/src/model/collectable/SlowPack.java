@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import view.CustomSprite;
 
-public class slowPack extends AbstractBuff {
+public class SlowPack extends AbstractBuff {
 
-	public slowPack(Vector2 position, int width, int height) {
+	public SlowPack(Vector2 position, int width, int height) {
 		super(position, width, height);
 		// TODO Auto-generated constructor stub
 	}
