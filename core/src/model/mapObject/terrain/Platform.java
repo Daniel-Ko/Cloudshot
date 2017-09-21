@@ -1,7 +1,7 @@
 package model.mapObject.terrain;
 
 import com.badlogic.gdx.math.Rectangle;
-import view.MovingSprite;
+
 import view.StaticSprite;
 
 /**
@@ -17,13 +17,13 @@ public class Platform extends AbstractTerrain {
     }
 
     @Override
-    public int getX() {
-        return (int)platform.getX();
+    public float getX() {
+        return platform.getX();
     }
 
     @Override
-    public int getY() {
-        return (int)platform.getY();
+    public float getY() {
+        return platform.getY();
     }
 
     @Override
