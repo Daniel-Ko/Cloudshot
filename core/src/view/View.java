@@ -70,7 +70,7 @@ public class View extends ApplicationAdapter{
         level = new LevelOne();
 
         Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
-        Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
+        //Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
         
         walkingMan = new MovingSprite("sprite-animation4.png", 5, 6);
         walkingMan.createSprite(FRAME_RATE);
@@ -109,6 +109,8 @@ public class View extends ApplicationAdapter{
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
+        playerController.applyMovement();
+
         elapsedTime += Gdx.graphics.getDeltaTime();
 
         //Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -127,7 +129,7 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getWidth(),
                     currentTerrain.getBoundingbox().getHeight());
         }
-
+        batch.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX(),player.getY());
         batch.draw(walkingMan.getFrameFromTime(elapsedTime), x, y);
         batch.end();
 
