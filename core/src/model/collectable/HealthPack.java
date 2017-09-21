@@ -3,6 +3,7 @@ package model.collectable;
 import com.badlogic.gdx.math.Vector2;
 
 import view.CustomSprite;
+import view.StaticSprite;
 
 public class HealthPack extends AbstractBuff {
 
@@ -13,8 +14,7 @@ public class HealthPack extends AbstractBuff {
 	
 	@Override
 	public CustomSprite getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return new StaticSprite("healthpack.png");
 	}
 
 	@Override
