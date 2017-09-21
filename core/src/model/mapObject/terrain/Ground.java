@@ -19,13 +19,13 @@ public class Ground extends AbstractTerrain {
     }
 
     @Override
-    public int getX() {
-        return (int) groundPiece.getX();
+    public float getX() {
+        return groundPiece.getX();
     }
 
     @Override
-    public int getY() {
-        return (int) groundPiece.getY();
+    public float getY() {
+        return groundPiece.getY();
     }
 
     @Override
