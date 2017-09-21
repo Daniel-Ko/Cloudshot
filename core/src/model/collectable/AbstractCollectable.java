@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import model.GameObjectInterface;
+import model.GameObjectfloaterface;
 
 import model.being.AbstractPlayer;
 
@@ -13,7 +13,7 @@ import view.CustomSprite;
 import view.MovingSprite;
 
 
-public abstract class AbstractCollectable implements GameObjectInterface {
+public abstract class AbstractCollectable implements GameObjectfloaterface {
 	
 
 	protected Vector2 pos;
@@ -21,34 +21,29 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	protected boolean pickedUp;
 	protected AbstractPlayer player;
 	
-	public final int COLLECTABLE_WIDTH = 10;
-	public final int COLLECTABLE_HIEGHT = 10;
+	public final float COLLECTABLE_WIDTH = 10;
+	public final float COLLECTABLE_HIEGHT = 10;
 
 	
-	public AbstractCollectable(Vector2 position, int width, int height){
+	public AbstractCollectable(Vector2 position, float width, float height){
 		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 		this.pos = position;
 		
 	}
 	
 	@Override
-	public int getX() {
-		return (int) pos.x;
+	public float getX() {
+		return (float) pos.x;
 	}
 
 	@Override
-	public int getY() {
-		return (int) pos.y;
+	public float getY() {
+		return (float) pos.y;
 	}
 	
 	@Override
-	public CustomSprite getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract CustomSprite getImage();
 
-	public void pickedUp(){
-		throw new UnsupportedOperationException();
-	}
+	public abstract void pickedUp();
 
 }

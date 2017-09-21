@@ -20,7 +20,7 @@ public class Pistol extends AbstractWeapon{
 
 	@Override
 	public CustomSprite getImage() {
-		return super.getImage();
+		return null;
 	}
 
 	
