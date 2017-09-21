@@ -28,7 +28,9 @@ public class Player extends AbstractPlayer{
 
 	@Override
 	public MovingSprite getImage() {
+
 		return new MovingSprite("sprite-animation4.png", 5, 6);
+
 	}
 
 }
