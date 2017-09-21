@@ -6,19 +6,19 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class AbstractWeapon extends AbstractCollectable {
 	
 
-	private int damage;
+	private float damage;
 	private Texture gunImage;
 
-	public AbstractWeapon(Vector2 position, int width, int height) {
+	public AbstractWeapon(Vector2 position, float width, float height) {
 		super(position, width, height);
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
+	public void setDamage(float damage) {
 		this.damage = damage;
 	}
 

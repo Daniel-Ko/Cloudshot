@@ -6,15 +6,15 @@ import view.CustomSprite;
 
 public class Pistol extends AbstractWeapon{
 	
-	protected final int PISTOL_DAMAGE = 5;
+	protected final float PISTOL_DAMAGE = 5;
 	
-	public Pistol(Vector2 position, int width, int height) {
+	public Pistol(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.setDamage(PISTOL_DAMAGE);
 	}
 
 	@Override
-	public int getDamage() {
+	public float getDamage() {
 		return super.getDamage();
 	}
 

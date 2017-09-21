@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import model.GameObjectfloaterface;
+import model.GameObjectInterface;
+
 
 import model.being.AbstractPlayer;
 
@@ -13,7 +14,7 @@ import view.CustomSprite;
 import view.MovingSprite;
 
 
-public abstract class AbstractCollectable implements GameObjectfloaterface {
+public abstract class AbstractCollectable implements GameObjectInterface {
 	
 
 	protected Vector2 pos;
@@ -33,7 +34,7 @@ public abstract class AbstractCollectable implements GameObjectfloaterface {
 	
 	@Override
 	public float getX() {
-		return (float) pos.x;
+		return pos.x;
 	}
 
 	@Override
