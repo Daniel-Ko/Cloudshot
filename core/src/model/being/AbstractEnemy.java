@@ -16,13 +16,13 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected Vector2 velocity;
 
 	@Override
-	public int getX() {
+	public float getX() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getY() {
+	public float getY() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
 
+
 import model.being.AbstractPlayer;
 
 
@@ -18,48 +19,34 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
-	protected Texture image;
 	protected boolean pickedUp;
 	protected AbstractPlayer player;
 	
-	public AbstractCollectable(Vector2 position, int width, int height){
+	public final float COLLECTABLE_WIDTH = 10;
+	public final float COLLECTABLE_HIEGHT = 10;
+
+	
+	public AbstractCollectable(Vector2 position, float width, float height){
 		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 		this.pos = position;
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see model.GameObjectInterface#getX()
-	 */
 	@Override
-	public int getX() {
-		return (int) pos.x;
+	public float getX() {
+		return pos.x;
 	}
 
-	/* (non-Javadoc)
-	 * @see model.GameObjectInterface#getY()
-	 */
 	@Override
-	public int getY() {
-		return (int) pos.y;
+	public float getY() {
+		return (float) pos.y;
 	}
+	
+	@Override
+	public abstract CustomSprite getImage();
 
-	/* (non-Javadoc)
-	 * @see model.GameObjectInterface#getImage()
-	 */
-	@Override
-	public CustomSprite getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract void pickedUp();
 
 	
-	/* (non-Javadoc)
-	 * abstract method that manipulates player when picked up
-	 * eg increase help if the collectable is a health pack
-	 */
-	public void pickedUp(){
-		throw new UnsupportedOperationException();
-	}
 
 }

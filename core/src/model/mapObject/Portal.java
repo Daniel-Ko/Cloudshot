@@ -7,12 +7,12 @@ import view.MovingSprite;
 public class Portal implements GameObjectInterface {
 
     @Override
-    public int getX() {
+    public float getX() {
         return 0;
     }
 
     @Override
-    public int getY() {
+    public float getY() {
         return 0;
     }
 

@@ -11,15 +11,11 @@ public class slowPack extends AbstractBuff {
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see model.collectable.AbstractCollectable#getImage()
-	 */
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 	@Override
 	public void pickedUp() {

@@ -45,6 +45,7 @@ public class View extends ApplicationAdapter{
     // CustomSprite animation.
     SpriteBatch batch;
     MovingSprite walkingMan;
+    //MovingSprite player;
     StaticSprite backgroundImage;
 
     float elapsedTime;
