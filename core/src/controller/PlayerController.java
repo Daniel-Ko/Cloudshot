@@ -17,6 +17,8 @@ public class PlayerController extends InputAdapter {
 	// allow us to move in multiple directions
 	boolean right;
 	public boolean left;
+	public boolean up;
+	public boolean down;
 	private boolean jumping;
 
 	/**
@@ -39,6 +41,10 @@ public class PlayerController extends InputAdapter {
 			player.moveRight();
 		if (left)
 			player.moveLeft();
+		if(down)
+			player.moveDown();
+		if(up)
+			player.moveUp();
 		// TODO
 	}
 
@@ -52,6 +58,16 @@ public class PlayerController extends InputAdapter {
 		}
 		if (Input.Keys.D == keycode) {
 			right = true;
+			return true;
+		}
+
+		if (Input.Keys.W == keycode) {
+			up = true;
+			return true;
+		}
+
+		if (Input.Keys.S == keycode) {
+			down = true;
 			return true;
 		}
 
@@ -71,6 +87,14 @@ public class PlayerController extends InputAdapter {
 		}
 		if (Input.Keys.D == keycode) {
 			right = false;
+			return true;
+		}
+		if (Input.Keys.W == keycode) {
+			up = false;
+			return true;
+		}
+		if (Input.Keys.S == keycode) {
+			down = false;
 			return true;
 		}
 		return false;

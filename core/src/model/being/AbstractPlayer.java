@@ -87,6 +87,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void moveLeft() {
 		pos.x -= velocity.x;
 	}
+	public void moveDown() {
+		pos.y -= velocity.y;
+	}
+	public void moveUp() {
+		pos.y += velocity.y;
+	}
 
 	public player_state getPlayerState() {
 		return playerState;
