@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import controller.Controller;
 import controller.PlayerController;
+import model.being.MeleeEnemy;
 import model.being.Player;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
@@ -28,6 +29,7 @@ public class View extends ApplicationAdapter{
     Controller controller;
     PlayerController playerController;//TODO move this into master controller class
     Player player;
+    MeleeEnemy e1;
 
     AbstractLevel level;
 
@@ -41,6 +43,7 @@ public class View extends ApplicationAdapter{
 
     MovingSprite playerSprite;
     StaticSprite backgroundImage;
+    MovingSprite enemy1Sprite;
 
     float elapsedTime;
 
@@ -51,25 +54,28 @@ public class View extends ApplicationAdapter{
     // Ground textures.
     private List<CustomSprite> groundSprites;
 
-    private static final float FRAME_RATE = 0.02f;
-    
+    private static final float FRAME_RATE = 0.09f;
+
 
     @Override
     public void create () {
         batch = new SpriteBatch();
         controller = new Controller(this);
-        player = new Player(new Vector2(50,50), 50, 50, 10, new Vector2(5,2));
+        player = new Player(new Vector2(50,50), 50, 50, 100, 5);
+        e1 = new MeleeEnemy(10,player,new Vector2(600,100));
         playerController = new PlayerController(player);
 
         level = new LevelOne();
 
-        Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
+        Gdx.input.setInputProcessor(player);//set the controller to receive input when keys pressed
         //Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
-        
 
 
+        enemy1Sprite = e1.getImage();
+        enemy1Sprite.createSprite(FRAME_RATE);
         playerSprite = player.getImage();
         playerSprite.createSprite(FRAME_RATE);
+
 
         backgroundImage = new StaticSprite("background.png",WORLD_WIDTH,WORLD_HEIGHT);
         backgroundImage.createSprite(FRAME_RATE);
@@ -105,8 +111,18 @@ public class View extends ApplicationAdapter{
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
+        //Updating player model
         playerController.applyMovement();
+        player.update();
+        //for all enemies check if player is hitting them
+        player.attack(e1);
+        //re-updating players image based on state
+        playerSprite = player.getImage();
+        playerSprite.createSprite(FRAME_RATE);
+        enemy1Sprite = e1.getImage();
+        enemy1Sprite.createSprite(FRAME_RATE);
 
+        e1.update();
         elapsedTime += Gdx.graphics.getDeltaTime();
 
         //Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -126,6 +142,7 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getHeight());
         }
         batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
+        batch.draw(enemy1Sprite.getFrameFromTime(elapsedTime),e1.getX(),e1.getY());
         BitmapFont text = new BitmapFont();
 
         text.draw(batch, "Level: "+ level.getLevelNumber() + " - "+ level.getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);

@@ -1,22 +1,26 @@
 package model.being;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.brashmonkey.spriter.Rectangle;
-
 import model.GameObjectInterface;
+import model.collectable.AbstractWeapon;
+
+import com.badlogic.gdx.math.Rectangle;
+import java.util.List;
 
 /**
- * Provideds basic character structure, location, size etc.
+ * Provides basic character structure, location, size etc.
  * 
  * @author Jeremy Southon
  */
-public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface {
+public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor {
 
 	/**
 	 * Used to represent the different states of the player
 	 */
 	public static enum player_state {
-		ALIVE, DEAD;
+		ALIVE, DEAD
 	}
 
 	protected player_state playerState = player_state.ALIVE;
@@ -25,65 +29,66 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Vector2 pos;
 	protected Vector2 velocity;
 	protected Vector2 gravity;
+	protected float speed;
 
 	protected int health;
 	protected int damage;
 	protected Rectangle boundingBox;
 
-	// players of player actions
-	protected boolean canJump = false;
-	protected boolean falling = true;
+	// Variables of player actions
+	protected boolean canJump = true;
+	protected boolean attacking = false;
 
 	/** Players inventory */
-	// List<Collectables> inventory
-	public AbstractPlayer(Vector2 position, int width, int height, int hp, Vector2 vel) {
+	protected List<AbstractWeapon> inventory;
+
+	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed) {
 		health = hp;
 		pos = position;
-		velocity = vel;
-		boundingBox = new Rectangle((int) pos.x, (int) pos.y, width, height);
-
+		this.speed=speed;
+		velocity = new Vector2(0,0);
+		boundingBox = new Rectangle(pos.x,pos.y, width, height);
 		// init player constants
-		gravity = new Vector2(0, 3);
+		gravity = new Vector2(0, -1);
+
 	}
 
 	/**
 	 * Updates forces acting on player, therefore updating his pos over time
 	 */
 	public void update() {
-		applyGrav();
+		//updating player pos based on velocity
+		getPos().add(getVelocity());
+		collisionChecks();
+		//checks if dead
+		if(health<=0){
+			playerState = player_state.DEAD;
+		}
+		System.out.println(boundingBox.getX());
 	}
 
-	protected void applyGrav() {
+	protected void collisionChecks() {
 		// TODO replace this as a y == 10 will not always represent ground
 		// if player is not on ground apply gravity
-		if (pos.y >= 10) {
-			pos.add(velocity);
-			velocity.add(gravity);
-		} else {
-			// on the ground
-			falling = false;
+		if (pos.y <= 100) {
+			//on ground
 			canJump = true;
+			velocity.y=0;
+		}else if(pos.y>20){
+			//in air
+			velocity.add(gravity);
 		}
 	}
 
-	public void jump() {
-		if (canJump) {
+	public abstract boolean attack(AbstractEnemy enemy);
 
-		}
-	}
-
+	public abstract void shoot();
 	/**
-	 * Updateds the players pos by velovity
-	 * 
+	 * Updates the players pos by velocity
 	 */
 	public void moveRight() {
 		pos.x += velocity.x;
 	}
-
-	/**
-	 * Updateds the players pos by velovity
-	 * 
-	 */
 	public void moveLeft() {
 		pos.x -= velocity.x;
 	}
@@ -106,8 +111,24 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		return health;
 	}
 
+	/**
+	 * Inflicts param damage onto players current health
+	 *
+	 * @param damage to inflict on player
+	 * */
+	public void hit(int damage){
+		this.health-=damage;
+	}
+
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	/**
+	 * @return List of AbstractWeapons which the player has in inventory
+	 * */
+	public List<AbstractWeapon> getInventory() {
+		return inventory;
 	}
 
 	public int getDamage() {
@@ -141,5 +162,83 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;
 	}
+	public boolean getIsAttacking(){ return attacking; }
 
+	@Override
+	public boolean keyDown(int keycode) {
+		//Player is dead cant move
+		if(playerState == player_state.DEAD)return false;
+		switch (keycode){
+			case Input.Keys.A:
+				velocity.x = -speed;
+				break;
+			case Input.Keys.D:
+				velocity.x = speed;
+				break;
+			case Input.Keys.W:
+				if(canJump)
+					velocity.y = 50;
+					canJump =false;
+				break;
+			case Input.Keys.SPACE:
+				attacking = true;
+				break;
+			default:
+				velocity = new Vector2(0,0);
+				break;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		switch (keycode){
+			case Input.Keys.A:
+				velocity.x = 0;
+				break;
+			case Input.Keys.D:
+				velocity.x = 0;
+				break;
+			case Input.Keys.W:
+				velocity.y = 0;
+				break;
+			case Input.Keys.SPACE:
+				attacking = false;
+				break;
+			default:
+				velocity = new Vector2(0,0);
+				break;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
 }
