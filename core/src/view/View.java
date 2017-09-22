@@ -3,6 +3,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -125,6 +126,9 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getHeight());
         }
         batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
+        BitmapFont text = new BitmapFont();
+
+        text.draw(batch, "Level: "+ level.getLevelNumber() + " - "+ level.getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);
 
         batch.end();
 

@@ -18,7 +18,7 @@ public class LevelOne extends AbstractLevel {
 
     @Override
     public String getLevelName() {
-        return "Level One";
+        return "Welcome to Cloudshot";
     }
 
     @Override
