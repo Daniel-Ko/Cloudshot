@@ -41,6 +41,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	/** Players inventory */
 	protected List<AbstractWeapon> inventory;
+	/** Position of the mouse*/
+	protected Vector2 aimedAt;
 
 	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed) {
 		health = hp;
@@ -64,7 +66,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		if(health<=0){
 			playerState = player_state.DEAD;
 		}
-		System.out.println(boundingBox.getX());
+		//updating players bounding box position
+		boundingBox = new Rectangle(pos.x,pos.y,boundingBox.width,boundingBox.height);
 	}
 
 	protected void collisionChecks() {
@@ -155,6 +158,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.velocity = velocity;
 	}
 
+	public Vector2 getAimedAt(){ return aimedAt; }
+
 	public Rectangle getBoundingBox() {
 		return boundingBox;
 	}
@@ -234,7 +239,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
+		aimedAt = new Vector2(screenX,screenY);
+		return true;
 	}
 
 	@Override
