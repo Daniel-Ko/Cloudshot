@@ -9,9 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import model.GameModel;
 import model.mapObject.levels.LevelOne;
-import view.CustomSprite;
-
-import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter{
 
@@ -21,15 +18,12 @@ public class GameScreen extends ScreenAdapter{
 
     public static final float FRAME_RATE = 0.09f;
 
-
-    private final int viewWidth = 1000;
+    private final int VIEW_WIDTH = 1000;
 
     private SpriteBatch batch;
     private Game game;
 
-    ArrayList<CustomSprite> sprites;
-
-    private OrthographicCamera cam;
+    private OrthographicCamera camera;
 
     float elapsedTime;
 
@@ -37,50 +31,55 @@ public class GameScreen extends ScreenAdapter{
 
     public GameScreen(Game game){
         this.game = game;
-
         this.gameModel = new GameModel(new LevelOne());
 
         batch = new SpriteBatch();
-        sprites = new ArrayList<>();
-
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        cam.update();
-        gameModel.getTiledMapRenderer().setView(cam);
+        camera = new OrthographicCamera(VIEW_WIDTH, VIEW_WIDTH * (h / w));
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera.update();
+        gameModel.getTiledMapRenderer().setView(camera);
     }
 
     @Override
     public void render(float delta) {
-        elapsedTime += delta;
-
-        cam.update();
-        updateCamera();
-        batch.setProjectionMatrix(cam.combined);
-
-        gameModel.updateState(elapsedTime); //update game state
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(camera.combined);
 
-        gameModel.getTiledMapRenderer().render();//draw game map
+        elapsedTime += delta;
 
-        //do drawing
+        // Update the camera.
+        camera.update();
+        updateCamera();
+
+        // Update the game state.
+        gameModel.updateState(elapsedTime);
+
+        // Render the game elements.
+        gameModel.getTiledMapRenderer().render(); // Game map.
         batch.begin();
-        gameModel.draw(batch);
+        gameModel.draw(batch); // Game models.
         batch.end();
     }
 
     private void updateCamera() {
-        float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
-        float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
+        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
 
-        cam.position.set(gameModel.getPlayer().getX(),cam.position.y,0);//lock camera to player's position
-        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_WIDTH - effectiveViewportWidth);
-        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, WORLD_HEIGHT - effectiveViewportHeight / 2f);
+        camera.position.set(gameModel.getPlayer().getX(), camera.position.y,0);//lock camera to player's position
+        camera.position.x = MathUtils.clamp(camera.position.x,
+                effectiveViewportWidth / 2f,
+                WORLD_WIDTH - effectiveViewportWidth
+        );
+
+        camera.position.y = MathUtils.clamp(camera.position.y,
+                effectiveViewportHeight / 2f,
+                WORLD_HEIGHT - effectiveViewportHeight / 2f
+        );
 
     }
 
