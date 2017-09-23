@@ -25,10 +25,6 @@ public class GameModel {
     List<AbstractEnemy> enemies;
     AbstractLevel level;
 
-    private TiledMap tiledMap;
-    private TiledMapRenderer tiledMapRenderer;
-    private Array<Rectangle> tiles = new Array<>();
-
     private float elapsedTime = 0f;
 
     public GameModel(AbstractLevel level) {
@@ -36,8 +32,6 @@ public class GameModel {
         player = new Player(new Vector2(50,200), 50, 50, 100, 3);
         enemies = new ArrayList<>();
         Gdx.input.setInputProcessor(player);
-        generateLevel();
-
     }
 
     public void updateState(float elapsedTime){
@@ -48,19 +42,6 @@ public class GameModel {
         }
     }
 
-    private void generateLevel(){
-        int pixelWidth = 16;
-        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        TiledMapTileLayer layer = (TiledMapTileLayer)tiledMap.getLayers().get("Tile Layer 1");
-        for (int i = 0; i < layer.getWidth(); i++) {
-            for (int j = 0; j < layer.getHeight(); j++) {
-                TiledMapTileLayer.Cell cell = layer.getCell(i,j);
-                if(cell == null) continue;
-                tiles.add(new Rectangle(i*pixelWidth,j*pixelWidth,pixelWidth,pixelWidth));
-            }
-        }
-    }
 
     public void addEnemy(AbstractEnemy enemy){
         enemies.add(enemy);
@@ -74,14 +55,14 @@ public class GameModel {
     }
 
     private void updatePlayerModel(){
-        player.update(tiles);
+        player.update(level.getTiles());
         for(AbstractEnemy e : enemies){
             player.attack(e);
         }
     }
 
     public TiledMapRenderer getTiledMapRenderer() {
-        return tiledMapRenderer;
+        return level.getTiledMapRenderer();
     }
 
     public Player getPlayer() {
@@ -90,5 +71,9 @@ public class GameModel {
 
     public List<AbstractEnemy> getEnemies() {
         return enemies;
+    }
+
+    public AbstractLevel getLevel() {
+        return level;
     }
 }

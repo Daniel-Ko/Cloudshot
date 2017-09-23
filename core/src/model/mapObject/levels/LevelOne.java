@@ -1,5 +1,9 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
 import model.mapObject.terrain.Platform;
@@ -26,27 +30,17 @@ public class LevelOne extends AbstractLevel {
         return 1;
     }
 
-    @Override
-    public ArrayList<AbstractTerrain> getTerrain() {
-       addGround(1,2);
-       addGround(2,3);
-       addGround(5,3);
-       addGround(5,3);
-       addGround(5,3);
-       addGround(5,3);
-       addGround(5,3);
-       addGround(5,3);
-       addGround(5,3);
-       addGround(5,3);
-        addPlatform(50,200);
-        addPlatform(200,300);
-        addPlatform(400,350);
-        addPlatform(600,400);
-        addPlatform(800,250);
-        addPlatform(880,100);
-
-
-
-        return super.terrain;
+    public void generateLevel(){
+        int pixelWidth = 16;
+        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        TiledMapTileLayer layer = (TiledMapTileLayer)tiledMap.getLayers().get("Tile Layer 1");
+        for (int i = 0; i < layer.getWidth(); i++) {
+            for (int j = 0; j < layer.getHeight(); j++) {
+                TiledMapTileLayer.Cell cell = layer.getCell(i,j);
+                if(cell == null) continue;
+                tiles.add(new Rectangle(i*pixelWidth,j*pixelWidth,pixelWidth,pixelWidth));
+            }
+        }
     }
 }

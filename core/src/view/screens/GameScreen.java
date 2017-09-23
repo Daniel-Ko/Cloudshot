@@ -92,6 +92,7 @@ public class GameScreen extends ScreenAdapter{
 
         //do drawing
         batch.begin();
+        drawLevelText();
         gameModel.draw(batch);
         batch.end();
     }
@@ -104,6 +105,11 @@ public class GameScreen extends ScreenAdapter{
         cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_WIDTH - effectiveViewportWidth);
         cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, WORLD_HEIGHT - effectiveViewportHeight / 2f);
 
+    }
+
+    public void drawLevelText(){
+        BitmapFont text = new BitmapFont();
+        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);
     }
 
     @Override
