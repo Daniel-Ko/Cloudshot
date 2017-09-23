@@ -1,5 +1,8 @@
 package model.gamelogic;
 
+import com.badlogic.gdx.Gdx;
+import model.GameModel;
+import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
 import view.CustomSprite;
 
@@ -11,8 +14,16 @@ import java.util.Observable;
  * Created by Dan Ko on 9/23/2017.
  */
 public class GameStateDB extends Observable {
-    private List<CustomSprite> sprites = new ArrayList<>();
-    private AbstractPlayer player;
+    private StateQueryTransactionHandler repoScraper;
+    private GameState state;
+
+    public GameStateDB() {
+        repoScraper = new StateQueryTransactionHandler(this);
+    }
+
+    public GameState latestState() {
+        return state;
+    }
 
     /** the unit of work for saving the game state
      *
@@ -20,21 +31,48 @@ public class GameStateDB extends Observable {
      * @return
      */
     public boolean write(GameModel model) {
-        if(!updatePlayer(model.getPlayer())) {
-            return false;
-        }
-        if(!addEnemies(model.getEnemies())) {
-            return false;
-        }
-    }
+        GameState newState = new GameState(Gdx.app.getPreferences("yo")); //TODO: I have to find a way to gen a unique name
 
-    public boolean updatePlayer(AbstractPlayer p) {
-        if(p == null || ! (p instanceof AbstractPlayer)) {
+
+        if(!updatePlayer(newState, model.getPlayer())) {
             return false;
         }
-        player = p;
+        if(!updateEnemies(newState, model.getEnemies())) {
+            return false;
+        }
+        commit(newState);
         return true;
     }
+
+
+
+    private void commit(GameState newState) {
+        state = newState;
+        notifyObservers();
+    }
+
+
+    public boolean updatePlayer( GameState newState, AbstractPlayer newPlayer) {
+        if(newPlayer == null || ! (newPlayer instanceof AbstractPlayer)) {
+            return false;
+        }
+        newState.setPlayer(newPlayer);
+        return true;
+    }
+
+    private boolean updateEnemies( GameState newState, List<AbstractEnemy> newFoes) {
+        if(newFoes == null ) {
+            return false;
+        }
+        newState.setEnemies(newFoes);
+        return true;
+    }
+
+
+
+
+
+
 
 
     /** Upon invalid or missing data, this exception will be thrown to rollback all changes

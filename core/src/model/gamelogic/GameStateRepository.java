@@ -8,7 +8,7 @@ import java.util.Stack;
 /**
  * Created by Dan Ko on 9/19/2017.
  */
-public class GameStateRepository {
+public class GameStateRepository{
     private Stack<GameState> gameStates;
 
     public GameStateRepository() {

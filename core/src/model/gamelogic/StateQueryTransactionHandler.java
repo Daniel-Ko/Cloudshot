@@ -3,11 +3,14 @@ package model.gamelogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
  * Created by Dan Ko on 9/19/2017.
  */
-public class StateQueryTransactionHandler {
+public class StateQueryTransactionHandler implements Observer{
     private GameStateRepository repository;
     private GameStateDB database;
 
@@ -17,9 +20,9 @@ public class StateQueryTransactionHandler {
     }
 
     public void save() {
-        Preferences unitOfWork = Gdx.app.getPreferences("yo");
-        query();
-        //repository.save(unitOfWork);
+        GameState latest = database.latestState();
+        query(); //TODO should this even be done
+        repository.save(latest);
     }
 
     private GameState query() {
@@ -28,12 +31,11 @@ public class StateQueryTransactionHandler {
         } catch(GameStateDB.InvalidTransactionException e) {
 
         }
+        return null;
     }
 
-    /** example of game data to query */
-    public int getLivesLeft() {
-        //repository.pref.livesLeft();
-        return 0;
+    @Override
+    public void update(Observable o, Object arg) {
+        save();
     }
-
 }
