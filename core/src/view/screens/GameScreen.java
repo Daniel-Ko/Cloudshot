@@ -1,6 +1,8 @@
-package view;
+package view.screens;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,11 +22,14 @@ import model.being.Player;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
 import model.mapObject.terrain.AbstractTerrain;
+import view.CustomSprite;
+import view.MovingSprite;
+import view.StaticSprite;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class View extends ApplicationAdapter{
+public class GameScreen implements Screen{
 
     //These values may get changed on a per level basis.
     private final int WORLD_HEIGHT = 1000;
@@ -55,6 +60,8 @@ public class View extends ApplicationAdapter{
      */
     private SpriteBatch batch;
 
+    private Game game;
+
     /**
      * UI elements for the game.
      */
@@ -62,11 +69,6 @@ public class View extends ApplicationAdapter{
     private StaticSprite backgroundImage;
     private MovingSprite enemy1Sprite;
     //private List<CustomSprite> groundSprites;
-
-    /**
-     * Time elapsed so far. This is used for animation.
-     */
-    private float elapsedTime;
 
     /**
      * Camera in the view. At the moment, the camera follows the player.
@@ -83,17 +85,14 @@ public class View extends ApplicationAdapter{
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
     //END LEVEL STUFF
-    
 
+    public GameScreen(Game game){
+        this.game = game;
 
-    @Override
-    public void create () {
         //LEVEL STUFF
         tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         //END LEVEL STUFF
-
-
 
         batch = new SpriteBatch();
         controller = new Controller(this);
@@ -124,9 +123,32 @@ public class View extends ApplicationAdapter{
         cam.update();
     }
 
+    private void updateCamera(float delta) {
+        float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
+        float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
+
+        int width = playerSprite.getFrameFromTime(delta).getRegionWidth();
+        if(x > WORLD_WIDTH - effectiveViewportWidth/2f-width){
+            x =(int)(WORLD_WIDTH - effectiveViewportWidth/2f- width);
+        }
+        else if(x < 0){
+            x = 0;
+        }
+
+        cam.position.set(player.getX(),cam.position.y,0);
+        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_WIDTH - effectiveViewportWidth);
+        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, WORLD_HEIGHT - effectiveViewportHeight / 2f);
+
+    }
+
     @Override
-    public void render () {
-        updateCamera();
+    public void show() {
+
+    }
+
+    @Override
+    public void render(float delta) {
+        updateCamera(delta);
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
@@ -142,7 +164,6 @@ public class View extends ApplicationAdapter{
         enemy1Sprite = e1.getImage();
 
         e1.update();
-        elapsedTime += Gdx.graphics.getDeltaTime();
 
         //Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -165,33 +186,34 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getHeight());
 <<<<<<< HEAD
         }*/
-
-
-
-        batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
-        batch.draw(enemy1Sprite.getFrameFromTime(elapsedTime),e1.getX(),e1.getY());
+        
+        batch.draw(playerSprite.getFrameFromTime(delta),player.getX(),player.getY());
+        batch.draw(enemy1Sprite.getFrameFromTime(delta),e1.getX(),e1.getY());
         BitmapFont text = new BitmapFont();
 
         text.draw(batch, "Level: "+ level.getLevelNumber() + " - "+ level.getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);
 
         batch.end();
+
     }
 
-    private void updateCamera() {
-        float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
-        float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
+    @Override
+    public void resize(int width, int height) {
 
-        int width = playerSprite.getFrameFromTime(elapsedTime).getRegionWidth();
-        if(x > WORLD_WIDTH - effectiveViewportWidth/2f-width){
-            x =(int)(WORLD_WIDTH - effectiveViewportWidth/2f- width);
-        }
-        else if(x < 0){
-            x = 0;
-        }
+    }
 
-        cam.position.set(player.getX(),cam.position.y,0);
-        cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_WIDTH - effectiveViewportWidth);
-        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, WORLD_HEIGHT - effectiveViewportHeight / 2f);
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
 
     }
 
