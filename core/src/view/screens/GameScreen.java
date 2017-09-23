@@ -1,5 +1,5 @@
 package view.screens;
-import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,7 +13,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import controller.Controller;
 import controller.PlayerController;
@@ -86,6 +87,11 @@ public class GameScreen implements Screen{
     TiledMapRenderer tiledMapRenderer;
     //END LEVEL STUFF
 
+    //Box2D STUFF
+    World world;
+    //Debug Render
+    Box2DDebugRenderer debugRenderer;
+
     public GameScreen(Game game){
         this.game = game;
 
@@ -121,6 +127,10 @@ public class GameScreen implements Screen{
         cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
+
+        //Box2D
+        world = new World(new Vector2(0,-10),true);
+        debugRenderer = new Box2DDebugRenderer();
     }
 
     private void updateCamera(float delta) {
@@ -152,17 +162,8 @@ public class GameScreen implements Screen{
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
-        //Updating player model
-        playerController.applyMovement();
-        player.update();
-
-        //for all enemies check if player is hitting them
-        player.attack(e1);
-
-        //re-updating players image based on state
-        playerSprite = player.getImage();
+        updatePlayerModel();
         enemy1Sprite = e1.getImage();
-
         e1.update();
 
         //Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -195,6 +196,18 @@ public class GameScreen implements Screen{
 
         batch.end();
 
+        //Box2D
+        world.step(1/60f,6,2);
+    }
+
+    private void updatePlayerModel(){
+        player.update();
+
+        //for all enemies check if player is hitting them
+        player.attack(e1);
+
+        //re-updating players image based on state
+        playerSprite = player.getImage();
     }
 
     @Override
