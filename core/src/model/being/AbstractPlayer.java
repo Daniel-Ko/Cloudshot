@@ -1,5 +1,6 @@
 package model.being;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -86,7 +87,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			grounded = false;
 		}
 		//player is not on ground / or platform therefore apply gravity
-		if(!grounded)velocity.y-=0.5;
+		if(!grounded)velocity.y-=15 * Gdx.graphics.getDeltaTime();
 	}
 
 	public abstract boolean attack(AbstractEnemy enemy);
