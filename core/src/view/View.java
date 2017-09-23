@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import controller.Controller;
 import controller.PlayerController;
+import model.being.MeleeEnemy;
 import model.being.Player;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
@@ -29,10 +30,19 @@ public class View extends ApplicationAdapter{
     private final int WORLD_HEIGHT = 1000;
     private final int WORLD_WIDTH = 2000;
 
+    public static final float FRAME_RATE = 0.09f;
+
+    /**
+     * Controllers.
+     */
     Controller controller;
     PlayerController playerController;//TODO move this into master controller class
-    Player player;
 
+    /**
+     * Model of the games.
+     */
+    Player player;
+    MeleeEnemy e1;
     AbstractLevel level;
 
     public int x = 50;
@@ -40,22 +50,33 @@ public class View extends ApplicationAdapter{
 
     private final int viewWidth = 1000;
 
-    // CustomSprite animation.
-    SpriteBatch batch;
+    /**
+     * batch describes many rectangles for the same texture and send to the GPU all at once.
+     */
+    private SpriteBatch batch;
 
-    MovingSprite playerSprite;
-    StaticSprite backgroundImage;
+    /**
+     * UI elements for the game.
+     */
+    private MovingSprite playerSprite;
+    private StaticSprite backgroundImage;
+    private MovingSprite enemy1Sprite;
+    //private List<CustomSprite> groundSprites;
 
-    float elapsedTime;
+    /**
+     * Time elapsed so far. This is used for animation.
+     */
+    private float elapsedTime;
 
-    // Map
+    /**
+     * Camera in the view. At the moment, the camera follows the player.
+     */
     private OrthographicCamera cam;
+
     private Viewport viewport;
 
     // Ground textures.
     private List<CustomSprite> groundSprites;
-
-    private static final float FRAME_RATE = 0.02f;
 
 
     //LEVEL STUFF
@@ -63,6 +84,7 @@ public class View extends ApplicationAdapter{
     TiledMapRenderer tiledMapRenderer;
     //END LEVEL STUFF
     
+
 
     @Override
     public void create () {
@@ -75,44 +97,30 @@ public class View extends ApplicationAdapter{
 
         batch = new SpriteBatch();
         controller = new Controller(this);
-        player = new Player(new Vector2(50,50), 50, 50, 10, new Vector2(5,2));
+        player = new Player(new Vector2(50,200), 50, 50, 100, 3);
+        e1 = new MeleeEnemy(10,player,new Vector2(600,100));
         playerController = new PlayerController(player);
 
         level = new LevelOne();
 
-        Gdx.input.setInputProcessor(playerController);//set the controller to receive input when keys pressed
-        //Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
-        
+        // Set the controller to receive input when keys pressed.
+        Gdx.input.setInputProcessor(player);
 
-
+        // Initialise the sprites.
+        enemy1Sprite = e1.getImage();
         playerSprite = player.getImage();
-        playerSprite.createSprite(FRAME_RATE);
-
         backgroundImage = new StaticSprite("background.png",WORLD_WIDTH,WORLD_HEIGHT);
-        backgroundImage.createSprite(FRAME_RATE);
-
-
         groundSprites = new ArrayList<>();
         for(AbstractTerrain t : level.getTerrain()){
             CustomSprite customSprite = t.getImage();
-            customSprite.createSprite(FRAME_RATE);
             groundSprites.add(customSprite);
         }
 
-        float w = Gdx.graphics.getWidth();//* 0.5f;
-        float h = Gdx.graphics.getHeight();// * 0.5f;
-
-
-
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
 
         cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
-        //viewport = new FitViewport(300,300, cam);
-
-        //cam = new OrthographicCamera(30, 30 * (h / w));
-
-       cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        //cam.position.set(300f,300f,0f);
-        //cam.zoom = 1000f;
+        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         cam.update();
     }
 
@@ -122,8 +130,18 @@ public class View extends ApplicationAdapter{
         cam.update();
         batch.setProjectionMatrix(cam.combined);
 
+        //Updating player model
         playerController.applyMovement();
+        player.update();
 
+        //for all enemies check if player is hitting them
+        player.attack(e1);
+
+        //re-updating players image based on state
+        playerSprite = player.getImage();
+        enemy1Sprite = e1.getImage();
+
+        e1.update();
         elapsedTime += Gdx.graphics.getDeltaTime();
 
         //Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -145,23 +163,21 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getY(),
                     currentTerrain.getBoundingbox().getWidth(),
                     currentTerrain.getBoundingbox().getHeight());
+<<<<<<< HEAD
         }*/
+
+
+
         batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
+        batch.draw(enemy1Sprite.getFrameFromTime(elapsedTime),e1.getX(),e1.getY());
         BitmapFont text = new BitmapFont();
 
         text.draw(batch, "Level: "+ level.getLevelNumber() + " - "+ level.getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);
 
         batch.end();
-
-
-
-
     }
 
     private void updateCamera() {
-
-        //cam.zoom = MathUtils.clamp(cam.zoom, 1000f, 1000/cam.viewportWidth);
-
         float effectiveViewportWidth = cam.viewportWidth * cam.zoom;
         float effectiveViewportHeight = cam.viewportHeight * cam.zoom;
 
@@ -175,14 +191,12 @@ public class View extends ApplicationAdapter{
 
         cam.position.set(player.getX(),cam.position.y,0);
         cam.position.x = MathUtils.clamp(cam.position.x, effectiveViewportWidth / 2f, WORLD_WIDTH - effectiveViewportWidth);
-        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, 1000 - effectiveViewportHeight / 2f);
+        cam.position.y = MathUtils.clamp(cam.position.y, effectiveViewportHeight / 2f, WORLD_HEIGHT - effectiveViewportHeight / 2f);
 
     }
-
 
     @Override
     public void dispose () {
         batch.dispose();
-        //img.dispose();
     }
-	}
+}

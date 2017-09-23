@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class StaticSprite extends CustomSprite {
 
-    protected int width;
-    protected int height;
+    private int width;
+    private int height;
 
     public StaticSprite(String imageName, int width, int height){
         super(imageName);
@@ -21,15 +21,12 @@ public class StaticSprite extends CustomSprite {
     }
 
     @Override
-    public void createSprite(float frameRate) {
-        spriteImage.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
-    }
-
-    @Override
     public TextureRegion getFrameFromTime(float elapsedTime) {
+        spriteImage.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         TextureRegion r = new TextureRegion(spriteImage);
         r.setRegion(0,0,spriteImage.getWidth()*(width/spriteImage.getWidth()),
                 spriteImage.getHeight()*(height/spriteImage.getHeight()));
+        r.flip(horizontal, vertical);
         return r;
     }
 
