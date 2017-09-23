@@ -1,6 +1,7 @@
 package model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import model.being.AbstractEnemy;
 
@@ -31,7 +34,19 @@ public class GameModel {
 
     private float elapsedTime = 0f;
 
-    public GameModel(AbstractLevel level) {
+    //Box2D
+    World world;
+    Box2DDebugRenderer debugRenderer;
+    OrthographicCamera cam;
+    //End
+
+    public GameModel(AbstractLevel level, OrthographicCamera cam) {
+        //Box2D
+        this.cam = cam;
+        world = new World(new Vector2(0, -10), true);
+        debugRenderer = new Box2DDebugRenderer();
+        //End
+
         this.level = level;
         player = new Player(new Vector2(50,200), 50, 50, 100, 3);
         enemies = new ArrayList<>();
@@ -46,6 +61,10 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             ae.update();
         }
+
+        //Box2D
+        debugRenderer.render(world, cam.combined);
+        world.step(1/60f, 6, 2);
     }
 
     private void generateLevel(){
