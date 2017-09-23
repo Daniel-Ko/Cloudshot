@@ -1,22 +1,39 @@
 package model.gamelogic;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+
+
 /**
  * Created by Dan Ko on 9/19/2017.
  */
 public class StateQueryTransactionHandler {
-    private GameStateRepository statehandler;
+    private GameStateRepository repository;
+    private GameStateDB database;
 
-    public StateQueryTransactionHandler() {
-        statehandler = new GameStateRepository();
+    public StateQueryTransactionHandler(GameStateDB db) {
+        repository = new GameStateRepository();
+        database = db;
     }
 
     public void save() {
-        statehandler.save();
+        Preferences unitOfWork = Gdx.app.getPreferences("yo");
+        query();
+        //repository.save(unitOfWork);
+    }
+
+    private GameState query() {
+        try{
+
+        } catch(GameStateDB.InvalidTransactionException e) {
+
+        }
     }
 
     /** example of game data to query */
     public int getLivesLeft() {
-        //statehandler.pref.livesLeft();
+        //repository.pref.livesLeft();
         return 0;
     }
+
 }
