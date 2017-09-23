@@ -1,13 +1,12 @@
 package view;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import view.screens.GameScreen;
 
 /**
  * MovingSprite handles all the logic to create and return a TextureRegion based on the time elapsed and frame
- * rate of the animation. The TextureRegion is to be rendered by View.java
+ * rate of the animation. The TextureRegion is to be rendered by GameScreen.java
  * @author Yi Sian Lim
  */
 public class MovingSprite extends CustomSprite {
@@ -38,7 +37,7 @@ public class MovingSprite extends CustomSprite {
     /**
      * createSprite takes the single sprite image and cuts it all up so that each frame consist of one TextureRegion.
      * animation is initialised by storing all the TextureRegion frames and frame rate.
-     * The frame rate for the MovingSprite is initialised in the View class.
+     * The frame rate for the MovingSprite is initialised in the GameScreen class.
      */
     private void loadSprite(){
         // Get the sprite image and split it into TextureRegions consisting of the image during that frame.
@@ -55,7 +54,7 @@ public class MovingSprite extends CustomSprite {
         }
 
         // Create the animation.
-        animation = new Animation(View.FRAME_RATE, animationFrames);
+        animation = new Animation(GameScreen.FRAME_RATE, animationFrames);
     }
 
     /**

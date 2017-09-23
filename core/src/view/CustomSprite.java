@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
 public abstract class CustomSprite{
-
     /**
      * Image of the sprite sheet to use.
      */
@@ -17,7 +16,6 @@ public abstract class CustomSprite{
      */
     protected boolean horizontal;
     protected boolean vertical;
-
 
     public CustomSprite(String imageName){
         this.spriteImage = new Texture(Gdx.files.internal(imageName));
@@ -42,9 +40,9 @@ public abstract class CustomSprite{
     }
 
     /**
-     * Get the frame in the form of TextureRegion based on the elapsedTime of the View.
+     * Get the frame in the form of TextureRegion based on the elapsedTime of the GameScreen.
      * @param elapsedTime
-     *          time elapsed from the View.
+     *          time elapsed from the GameScreen.
      * @return
      *          TextureRegion of the frame needed to render.
      */
