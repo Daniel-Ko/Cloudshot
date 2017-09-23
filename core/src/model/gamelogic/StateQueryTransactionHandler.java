@@ -3,11 +3,11 @@ package model.gamelogic;
 /**
  * Created by Dan Ko on 9/19/2017.
  */
-public class StateQuery {
-    private GameStateHandler statehandler;
+public class StateQueryTransactionHandler {
+    private GameStateRepository statehandler;
 
-    public StateQuery() {
-        statehandler = new GameStateHandler();
+    public StateQueryTransactionHandler() {
+        statehandler = new GameStateRepository();
     }
 
     public void save() {
