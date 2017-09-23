@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import model.being.AbstractEnemy;
 
 import model.being.Player;
+import model.gamelogic.GameStateDB;
 import model.mapObject.levels.AbstractLevel;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class GameModel {
     Player player;
     List<AbstractEnemy> enemies;
     AbstractLevel level;
+    GameStateDB database;
 
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
@@ -38,6 +40,7 @@ public class GameModel {
         Gdx.input.setInputProcessor(player);
         generateLevel();
 
+        database = new GameStateDB();
     }
 
     public void updateState(float elapsedTime){
@@ -90,5 +93,21 @@ public class GameModel {
 
     public List<AbstractEnemy> getEnemies() {
         return enemies;
+    }
+
+    public void save() {
+        try {
+            database.write(this);
+        }catch(GameStateDB.InvalidTransactionException e) {
+            //TODO: SAY TRY AGAIN BUB, FAILED SAVE
+        }
+    }
+
+    public void load() {
+        try {
+            database.read();
+        }catch(GameStateDB.InvalidTransactionException e) {
+            //TODO: SAY TRY AGAIN BUB, FAILED LOAD
+        }
     }
 }

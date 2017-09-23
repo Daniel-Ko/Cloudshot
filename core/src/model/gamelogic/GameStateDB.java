@@ -44,6 +44,10 @@ public class GameStateDB extends Observable {
         return true;
     }
 
+    public boolean read() {
+        return false; //TODO FLESH THIS OUT
+    }
+
 
 
     private void commit(GameState newState) {
@@ -70,15 +74,10 @@ public class GameStateDB extends Observable {
 
 
 
-
-
-
-
-
     /** Upon invalid or missing data, this exception will be thrown to rollback all changes
      * done upon the database
      */
-    class InvalidTransactionException extends RuntimeException {
+    public class InvalidTransactionException extends RuntimeException {
         public InvalidTransactionException(String msg) {
             super(msg);
         }
