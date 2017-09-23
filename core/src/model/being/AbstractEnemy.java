@@ -22,6 +22,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected AbstractPlayer player;
 
 	protected enemy_state state = enemy_state.EALIVE;
+
 	public static enum enemy_state{
 		EALIVE,EDEAD,EATTACKING
 	}
