@@ -4,10 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import model.GameObjectInterface;
 import model.collectable.AbstractWeapon;
 
 import com.badlogic.gdx.math.Rectangle;
+import org.w3c.dom.css.Rect;
+
+
 import java.util.List;
 
 /**
@@ -63,31 +67,40 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/**
 	 * Updates forces acting on player, therefore updating his pos over time
 	 */
-	public void update() {
+	public void update(Array<Rectangle> tiles) {
 		//updating player pos based on velocity
 		getPos().add(getVelocity());
-		collisionChecks();
+		collisionChecks(tiles);
 		//checks if dead
 		if(health<=0){
 			playerState = player_state.DEAD;
 		}
 		//updating players bounding box position
-		boundingBox = new Rectangle(pos.x,pos.y,boundingBox.width,boundingBox.height);
+		boundingBox = new Rectangle(pos.x,pos.y+15,boundingBox.width,boundingBox.height);
 	}
 
-	protected void collisionChecks() {
+	protected void collisionChecks(Array<Rectangle> tiles) {
 		//if player position is less than 100 means he is on ground
-		if (pos.y <= 100) {
+		for(Rectangle r : tiles){
+			if(r.overlaps(boundingBox)){
+				canJump = true;
+				grounded = true;
+				velocity.y = 0;
+				return;
+			}
+		}
+		//grounded = false;
+		/*if (pos.y <= 100) {
 			//on ground
 			canJump = true;
 			grounded = true;
 			velocity.y=0;
-		} else if(pos.y>100){
+		} else *//*if(pos.y>100){
 			//Player is not on ground
 			grounded = false;
-		}
+		}*/
 		//player is not on ground / or platform therefore apply gravity
-		if(!grounded)velocity.y-=15 * Gdx.graphics.getDeltaTime();
+		velocity.y-=15 * Gdx.graphics.getDeltaTime();
 	}
 
 	public abstract boolean attack(AbstractEnemy enemy);

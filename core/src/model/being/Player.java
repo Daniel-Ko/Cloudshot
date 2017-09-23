@@ -59,7 +59,7 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public MovingSprite getImage() {
-		System.out.println(movingLeft +"  "+ movingRight);
+		//System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
 			return new MovingSprite("player_death.png", 1, 1);
 		}

@@ -7,13 +7,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import controller.Controller;
 import controller.PlayerController;
@@ -84,6 +87,7 @@ public class View extends ApplicationAdapter{
     //LEVEL STUFF
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
+    public Array<Rectangle> tiles = new Array<>();
     //END LEVEL STUFF
     
 
@@ -96,6 +100,17 @@ public class View extends ApplicationAdapter{
         //LEVEL STUFF
         tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        TiledMapTileLayer layer = (TiledMapTileLayer)tiledMap.getLayers().get("Tile Layer 1");
+        int count = 0;
+        for (int i = 0; i < layer.getWidth(); i++) {
+            for (int j = 0; j < layer.getHeight(); j++) {
+                TiledMapTileLayer.Cell cell = layer.getCell(i,j);
+                if(cell == null) continue;
+                tiles.add(new Rectangle(i*16,j*16,16,16));
+                //System.out.println(tiles.get(count++));
+            }
+
+        }
         //END LEVEL STUFF
 
 
@@ -140,8 +155,18 @@ public class View extends ApplicationAdapter{
         batch.setProjectionMatrix(cam.combined);
 
         updatePlayerModel();
+        //Updating player model
+        playerController.applyMovement();
+        player.update(tiles);
+
+        //for all enemies check if player is hitting them
+        player.attack(e1);
+
+
+        //re-updating players image based on state
+        playerSprite = player.getImage();
         enemy1Sprite = e1.getImage();
-        e1.update();
+        //e1.update();
 
         elapsedTime += Gdx.graphics.getDeltaTime();
 
@@ -170,9 +195,10 @@ public class View extends ApplicationAdapter{
 
 
         batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
+
         batch.draw(enemy1Sprite.getFrameFromTime(elapsedTime),e1.getX(),e1.getY());
         BitmapFont text = new BitmapFont();
-
+        text.draw(batch,"TEST",player.getX(),player.getY());
         text.draw(batch, "Level: "+ level.getLevelNumber() + " - "+ level.getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);
 
         batch.end();
@@ -181,7 +207,7 @@ public class View extends ApplicationAdapter{
     }
 
     private void updatePlayerModel(){
-        player.update();
+        player.update(tiles);
 
         //for all enemies check if player is hitting them
         player.attack(e1);
