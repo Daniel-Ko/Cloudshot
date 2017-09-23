@@ -110,7 +110,7 @@ public class GameModel {
         }
     }
 
-//    public AbstractLevel getLevel() {
-//        return level;
-//    }
+    public AbstractLevel getLevel() {
+        return level;
+    }
 }
