@@ -61,7 +61,7 @@ public class View extends ApplicationAdapter{
     public void create () {
         batch = new SpriteBatch();
         controller = new Controller(this);
-        player = new Player(new Vector2(50,50), 50, 50, 100, 5);
+        player = new Player(new Vector2(50,200), 50, 50, 100, 3);
         e1 = new MeleeEnemy(10,player,new Vector2(600,100));
         playerController = new PlayerController(player);
 
