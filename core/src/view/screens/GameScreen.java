@@ -32,6 +32,7 @@ public class GameScreen extends ScreenAdapter{
 
     public GameScreen(Game game){
         this.game = game;
+
         this.gameModel = new GameModel(new LevelOne());
 
         batch = new SpriteBatch();
@@ -39,9 +40,16 @@ public class GameScreen extends ScreenAdapter{
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(VIEW_WIDTH, VIEW_WIDTH * (h / w));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
+        cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
+        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        cam.update();
+
+        this.gameModel = new GameModel(new LevelOne(),cam);
+        gameModel.getTiledMapRenderer().setView(cam);
+
+        batch = new SpriteBatch();
+        sprites = new ArrayList<>();
+		
         gameModel.getTiledMapRenderer().setView(camera);
     }
 
