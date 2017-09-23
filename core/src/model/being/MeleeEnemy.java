@@ -21,8 +21,17 @@ public class MeleeEnemy extends AbstractEnemy {
 	private String walking = "Skeleton Walk.png";
 	private String attacking = "Skeleton Walk.png";
 
+	private CustomSprite attack;
+	private CustomSprite dead;
+	private CustomSprite idle;
+	private CustomSprite walk;
+
 	public MeleeEnemy(int hp,AbstractPlayer player,Vector2 pos){
 		super(hp,player,pos);
+		attack = new MovingSprite("Skeleton Attack.png",1,18);
+		dead = new MovingSprite("Skeleton Dead.png",1,1);
+		idle = new MovingSprite("Skeleton Idle.png",1,11);
+		walk = new MovingSprite("Skeleton Walk.png",1,13);
 	}
 
 	/**
@@ -70,18 +79,18 @@ public class MeleeEnemy extends AbstractEnemy {
 	}
 
 	@Override
-	public MovingSprite getImage() {
+	public CustomSprite getImage() {
 		if(state == enemy_state.EDEAD){
-			return new MovingSprite("Skeleton Dead.png", 1, 1);}
+			return dead;}
 
 		if(state == enemy_state.EATTACKING){
-			return new MovingSprite("Skeleton Attack.png", 1, 18);
+			return attack;
 		}
 		//IDLE STATE
 		if(velocity.x ==0 && velocity.y == 0){
-			return new MovingSprite("Skeleton idle.png", 1, 11);
+			return idle;
 		}
-		return new MovingSprite("Skeleton Walk.png", 1, 13);
+		return walk;
 	}
 
 }

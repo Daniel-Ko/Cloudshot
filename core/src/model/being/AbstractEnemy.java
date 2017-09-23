@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
+import view.CustomSprite;
+
 /**
  *  Class contains attributes which is common among all 'enemys'
  *  
@@ -60,4 +62,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public Vector2 getPosition() {
 		return position;
 	}
+
+	@Override
+	public abstract CustomSprite getImage();
 }
