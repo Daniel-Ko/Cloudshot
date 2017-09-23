@@ -40,7 +40,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected boolean canJump = true;
 	protected boolean attacking = false;
 	protected boolean grounded = false;
-
+	protected boolean movingLeft;
+	protected boolean movingRight;
 	/** Players inventory */
 	protected List<AbstractWeapon> inventory;
 	/** Position of the mouse*/
@@ -85,26 +86,32 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			grounded = false;
 		}
 		//player is not on ground / or platform therefore apply gravity
-		if(!grounded)velocity.y-=0.2;
+		if(!grounded)velocity.y-=0.5;
 	}
 
 	public abstract boolean attack(AbstractEnemy enemy);
 
+	/**
+	 *
+	 * */
 	public abstract void shoot();
 	/**
-	 * Updates the players pos by velocity
-	 */
+	 * Updates moving left and right fields appropriately
+	 * and updates the velocity by speed;
+	 * */
 	public void moveRight() {
-		pos.x += velocity.x;
+		movingLeft = false;
+		movingRight = true;
+		velocity.x += speed;
 	}
+	/**
+	 * Updates moving left and right fields appropriately
+	 * and updates the velocity by speed;
+	 * */
 	public void moveLeft() {
-		pos.x -= velocity.x;
-	}
-	public void moveDown() {
-		pos.y -= velocity.y;
-	}
-	public void moveUp() {
-		pos.y += velocity.y;
+		movingRight = false;
+		movingLeft = true;
+		velocity.x -= speed;
 	}
 
 	public player_state getPlayerState() {
@@ -180,10 +187,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		if(playerState == player_state.DEAD)return false;
 		switch (keycode){
 			case Input.Keys.A:
-				velocity.x = -speed;
+				moveLeft();
 				break;
 			case Input.Keys.D:
-				velocity.x = speed;
+				moveRight();
 				break;
 			case Input.Keys.W:
 				if(canJump)
