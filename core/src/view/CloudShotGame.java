@@ -2,9 +2,7 @@ package view;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Align;
 import view.screens.MenuScreen;
 
 public class CloudShotGame extends Game {
