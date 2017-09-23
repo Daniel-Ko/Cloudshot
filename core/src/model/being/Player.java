@@ -21,6 +21,7 @@ public class Player extends AbstractPlayer {
 		// TODO
 	}
 
+
 	/**
 	 * Expected to loop through 'enemies' and if the player is attacking
 	 * and there is a enemy within melee or attack range then we can hurt it..
@@ -72,7 +73,7 @@ public class Player extends AbstractPlayer {
 			//idle
 			return new MovingSprite("player_idle.png", 2, 2);
 		}
-		return new MovingSprite("spritesheet.png", 3, 3);
+		return new MovingSprite("player_walk.png", 3, 3);
 	}
 
 }

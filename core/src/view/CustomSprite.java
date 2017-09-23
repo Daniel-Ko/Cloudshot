@@ -4,22 +4,41 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class CustomSprite{
 
-    /**
-     * Name of the sprite image to use.
-     */
-    protected String imageName;
+public abstract class CustomSprite{
 
     /**
      * Image of the sprite sheet to use.
      */
     protected Texture spriteImage;
 
+    /**
+     * Flags to determine whether the sprites needs to be flipped or not.
+     */
+    protected boolean horizontal;
+    protected boolean vertical;
+
 
     public CustomSprite(String imageName){
-        this.imageName = imageName;
         this.spriteImage = new Texture(Gdx.files.internal(imageName));
+        this.horizontal = false;
+        this.vertical = false;
+    }
+
+    /**
+     * Set the horizontal flip to true.
+     * The sprite will be drawn such that it is flipped horizontally.
+     */
+    public void flipHorizontal(){
+        this.horizontal = true;
+    }
+
+    /**
+     * Set the vertical flip to true.
+     * The sprite will be drawn such that it is flipped vertically.
+     */
+    public void flipVertical(){
+        this.vertical = true;
     }
 
     /**

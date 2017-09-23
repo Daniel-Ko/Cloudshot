@@ -42,7 +42,6 @@ public class MovingSprite extends CustomSprite {
      */
     private void loadSprite(){
         // Get the sprite image and split it into TextureRegions consisting of the image during that frame.
-        spriteImage = new Texture(Gdx.files.internal(imageName));
         TextureRegion[][] tmpFrames = TextureRegion.split(spriteImage, spriteImage.getWidth() / COLS,
                 spriteImage.getHeight() / ROWS);
 
@@ -66,7 +65,9 @@ public class MovingSprite extends CustomSprite {
      * @return
      */
     public TextureRegion getFrameFromTime(float elapsedTime){
-        return (TextureRegion) animation.getKeyFrame(elapsedTime, true);
+        TextureRegion r = (TextureRegion) animation.getKeyFrame(elapsedTime, true);
+        r.flip(horizontal, vertical);
+        return r;
     }
 
 }
