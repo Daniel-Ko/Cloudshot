@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import model.collectable.AbstractWeapon;
+import view.CustomSprite;
 import view.MovingSprite;
 
 
@@ -15,9 +16,22 @@ import view.MovingSprite;
 public class Player extends AbstractPlayer {
 	private int meleeRange = 30;
 	protected AbstractWeapon curWeapon;
+
+	private CustomSprite idle;
+	private CustomSprite attack;
+	private CustomSprite jump;
+	private CustomSprite walk;
+	private CustomSprite death;
 	public Player(Vector2 position, int width, int height, int hp, float speed) {
 		super(position, width, height, hp, speed);
 		damage = 1;
+
+		//load sprites
+		idle = new MovingSprite("player_idle.png",2,2);
+		attack = new MovingSprite("player_attack.png",2,3);
+		jump = new MovingSprite("player_jump.png",2,3);
+		walk = new MovingSprite("player_walk.png",3,3);
+		death = new MovingSprite("player_death.png",1,1);
 		// TODO
 	}
 
@@ -58,29 +72,27 @@ public class Player extends AbstractPlayer {
 
 
 	@Override
-	public MovingSprite getImage() {
+	public CustomSprite getImage() {
 		//System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
-			return new MovingSprite("player_death.png", 1, 1);
+			return death;
 		}
 
 		if(getIsAttacking()){
-			MovingSprite attacking =  new MovingSprite("player_attack.png", 2, 3);
+
 			if(movingLeft)
-				attacking.flipHorizontal();
-			return  attacking;
+				attack.flipHorizontal();
+			return  attack;
 		}
 		//FIXME temp effect for jumping
 		//JUMPING ANIMATION
 		if(velocity.y > 0){
-			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
 			if(movingLeft)
 				jump.flipHorizontal();
 			return jump;
 		}
 		//IDLE ANIMATION
 		if(velocity.x ==0 && velocity.y ==0){
-			MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
 			//idle
 			if(movingLeft) {
 				idle.flipHorizontal();
@@ -88,10 +100,9 @@ public class Player extends AbstractPlayer {
 			}
 			return idle;
 		}
-		MovingSprite walking = new MovingSprite("player_walk.png", 3, 3);
 		if(movingLeft)
-			walking.flipHorizontal();
-		return walking;
+			walk.flipHorizontal();
+		return walk;
 	}
 
 }
