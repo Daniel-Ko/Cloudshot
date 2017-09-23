@@ -25,7 +25,7 @@ public class GameScreen extends ScreenAdapter{
 
     private OrthographicCamera camera;
 
-    float elapsedTime;
+    private float elapsedTime;
 
     private GameModel gameModel;
 
@@ -79,6 +79,7 @@ public class GameScreen extends ScreenAdapter{
         float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
 
         camera.position.set(gameModel.getPlayer().getX(), camera.position.y,0);//lock camera to player's position
+
         camera.position.x = MathUtils.clamp(camera.position.x,
                 effectiveViewportWidth / 2f,
                 WORLD_WIDTH - effectiveViewportWidth
