@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
+  <image source="textures/atlas.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztlWlSwjAYhkP7y/UebtyBTb1GQQ/SAgdxHA/C4g/Xe7iewbfTVsM3CVSktum8z8wzEyBD8zShKEUIIYQQQgghhBBCCCGELNLylWrDDuz6Za+mePRe2d71lOpp1oEAXX048BfHF3E3Gi8160CIrggO/cXxKN5vNLa9pLtTo17ZGaItggHsw0FqHdonXuIUzoRZ9zBVb3cVW6vu3NDuKrJXtsett2lvHf67ZK9pv7Nm+fx2lew3bPstf++xeK4RQgghxH0mcApncF7yWqoE7wupEqvOI8/rD0Xdizt4Dx/gI3yCzyWt5T94ga/wDb7DD/hZ6oqKZauh1DbcgbtwD+431vsu275X6TwcoO0QHsFjeAKba/ZWnVYjsQdP4Rk8F2P9M1fJOkMYwaEYjwyvx471Zo2xQWoodL3X1Cg7ZZNrvX9pHGtWoVdvsWlrNK3fZDbPND/P9TdpkMNlfbZO01zTe3muv0nlfi3bt7z7+Zte2/XLMO9Ztc3Nc7+uKuay7hvN6xVzbc/nL3KFDgc=
+  </data>
+ </layer>
+</map>
