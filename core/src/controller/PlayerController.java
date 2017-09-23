@@ -41,11 +41,7 @@ public class PlayerController extends InputAdapter {
 			player.moveRight();
 		if (left)
 			player.moveLeft();
-		if(down)
-			player.moveDown();
-		if(up)
-			player.moveUp();
-		// TODO
+
 	}
 
 	// only returns false if key pressed isnt wasd

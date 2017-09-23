@@ -30,6 +30,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Vector2 velocity;
 	protected Vector2 gravity;
 	protected float speed;
+	protected float jumpSpeed;
 
 	protected int health;
 	protected int damage;
@@ -38,7 +39,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	// Variables of player actions
 	protected boolean canJump = true;
 	protected boolean attacking = false;
-
+	protected boolean grounded = false;
+	protected boolean movingLeft;
+	protected boolean movingRight;
 	/** Players inventory */
 	protected List<AbstractWeapon> inventory;
 	/** Position of the mouse*/
@@ -48,6 +51,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		health = hp;
 		pos = position;
 		this.speed=speed;
+		jumpSpeed =8;
 		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(pos.x,pos.y, width, height);
 		// init player constants
@@ -71,35 +75,43 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 
 	protected void collisionChecks() {
-		// TODO replace this as a y == 10 will not always represent ground
-		// if player is not on ground apply gravity
+		//if player position is less than 100 means he is on ground
 		if (pos.y <= 100) {
 			//on ground
 			canJump = true;
+			grounded = true;
 			velocity.y=0;
-		}else if(pos.y>20){
-			//in air
-			velocity.add(gravity);
+		} else if(pos.y>100){
+			//Player is not on ground
+			grounded = false;
 		}
+		//player is not on ground / or platform therefore apply gravity
+		if(!grounded)velocity.y-=0.5;
 	}
 
 	public abstract boolean attack(AbstractEnemy enemy);
 
+	/**
+	 *
+	 * */
 	public abstract void shoot();
 	/**
-	 * Updates the players pos by velocity
-	 */
+	 * Updates moving left and right fields appropriately
+	 * and updates the velocity by speed;
+	 * */
 	public void moveRight() {
-		pos.x += velocity.x;
+		movingLeft = false;
+		movingRight = true;
+		velocity.x += speed;
 	}
+	/**
+	 * Updates moving left and right fields appropriately
+	 * and updates the velocity by speed;
+	 * */
 	public void moveLeft() {
-		pos.x -= velocity.x;
-	}
-	public void moveDown() {
-		pos.y -= velocity.y;
-	}
-	public void moveUp() {
-		pos.y += velocity.y;
+		movingRight = false;
+		movingLeft = true;
+		velocity.x -= speed;
 	}
 
 	public player_state getPlayerState() {
@@ -175,14 +187,14 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		if(playerState == player_state.DEAD)return false;
 		switch (keycode){
 			case Input.Keys.A:
-				velocity.x = -speed;
+				moveLeft();
 				break;
 			case Input.Keys.D:
-				velocity.x = speed;
+				moveRight();
 				break;
 			case Input.Keys.W:
 				if(canJump)
-					velocity.y = 50;
+					velocity.y = jumpSpeed;
 					canJump =false;
 				break;
 			case Input.Keys.SPACE:

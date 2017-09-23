@@ -21,6 +21,7 @@ public class Player extends AbstractPlayer {
 		// TODO
 	}
 
+
 	/**
 	 * Expected to loop through 'enemies' and if the player is attacking
 	 * and there is a enemy within melee or attack range then we can hurt it..
@@ -58,21 +59,39 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public MovingSprite getImage() {
+		System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
 			return new MovingSprite("player_death.png", 1, 1);
 		}
+
 		if(getIsAttacking()){
-			return new MovingSprite("player_attack.png", 2, 3);
+			MovingSprite attacking =  new MovingSprite("player_attack.png", 2, 3);
+			if(movingLeft)
+				attacking.flipHorizontal();
+			return  attacking;
 		}
 		//FIXME temp effect for jumping
+		//JUMPING ANIMATION
 		if(velocity.y > 0){
-			return new MovingSprite("player_jump.png", 2, 3);
+			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
+			if(movingLeft)
+				jump.flipHorizontal();
+			return jump;
 		}
+		//IDLE ANIMATION
 		if(velocity.x ==0 && velocity.y ==0){
+			MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
 			//idle
-			return new MovingSprite("player_idle.png", 2, 2);
+			if(movingLeft) {
+				idle.flipHorizontal();
+				return idle;
+			}
+			return idle;
 		}
-		return new MovingSprite("spritesheet.png", 3, 3);
+		MovingSprite walking = new MovingSprite("player_walk.png", 3, 3);
+		if(movingLeft)
+			walking.flipHorizontal();
+		return walking;
 	}
 
 }

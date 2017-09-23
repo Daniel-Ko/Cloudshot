@@ -1,7 +1,7 @@
 package model.collectable;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
+import com.brashmonkey.spriter.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
@@ -20,7 +20,6 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
 	protected boolean pickedUp;
-	protected AbstractPlayer player;
 	
 	public final float COLLECTABLE_WIDTH = 10;
 	public final float COLLECTABLE_HIEGHT = 10;
@@ -31,6 +30,23 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 		this.pos = position;
 		
 	}
+	
+	public void checkCollide(AbstractPlayer p){
+//		if(Rectangle.areIntersecting(p.getBoundingBox(), this.getBoundingBox())){
+//			this.pickedUp = true;
+//			this.pickedUp(p);
+//		}	
+	}
+			
+	public Rectangle getBoundingBox() {
+		return boundingBox;
+	}
+
+
+	public void setBoundingBox(Rectangle boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+
 	
 	@Override
 	public float getX() {
@@ -45,7 +61,7 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 	@Override
 	public abstract CustomSprite getImage();
 
-	public abstract void pickedUp();
+	public abstract void pickedUp(AbstractPlayer p);
 
 	
 

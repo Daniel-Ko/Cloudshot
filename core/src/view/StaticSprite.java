@@ -26,6 +26,7 @@ public class StaticSprite extends CustomSprite {
         TextureRegion r = new TextureRegion(spriteImage);
         r.setRegion(0,0,spriteImage.getWidth()*(width/spriteImage.getWidth()),
                 spriteImage.getHeight()*(height/spriteImage.getHeight()));
+        r.flip(horizontal, vertical);
         return r;
     }
 

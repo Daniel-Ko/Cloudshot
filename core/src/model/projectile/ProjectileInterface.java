@@ -6,5 +6,5 @@ package model.projectile;
  *
  */
 public interface ProjectileInterface  {
-
+	
 }

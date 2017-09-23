@@ -67,7 +67,6 @@ public class MeleeEnemy extends AbstractEnemy {
 		}
 		//apply velocity onto position
 		position.add(velocity);
-		System.out.println(boundingBox.getX());
 	}
 
 	@Override
