@@ -49,12 +49,11 @@ public class View extends ApplicationAdapter{
 
     // Map
     private OrthographicCamera cam;
-    private Viewport viewport;
 
     // Ground textures.
     private List<CustomSprite> groundSprites;
 
-    private static final float FRAME_RATE = 0.09f;
+    public static final float FRAME_RATE = 0.09f;
 
 
     @Override
@@ -68,23 +67,16 @@ public class View extends ApplicationAdapter{
         level = new LevelOne();
 
         Gdx.input.setInputProcessor(player);//set the controller to receive input when keys pressed
-        //Gdx.input.setInputProcessor(controller);//set the controller to receive input when keys pressed
-
 
         enemy1Sprite = e1.getImage();
-        enemy1Sprite.createSprite(FRAME_RATE);
         playerSprite = player.getImage();
-        playerSprite.createSprite(FRAME_RATE);
-
 
         backgroundImage = new StaticSprite("background.png",WORLD_WIDTH,WORLD_HEIGHT);
-        backgroundImage.createSprite(FRAME_RATE);
 
 
         groundSprites = new ArrayList<>();
         for(AbstractTerrain t : level.getTerrain()){
             CustomSprite customSprite = t.getImage();
-            customSprite.createSprite(FRAME_RATE);
             groundSprites.add(customSprite);
         }
 
@@ -93,12 +85,7 @@ public class View extends ApplicationAdapter{
 
 
 
-
         cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
-        //viewport = new FitViewport(300,300, cam);
-
-        //cam = new OrthographicCamera(30, 30 * (h / w));
-
        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
         //cam.position.set(300f,300f,0f);
         //cam.zoom = 1000f;
@@ -118,9 +105,7 @@ public class View extends ApplicationAdapter{
         player.attack(e1);
         //re-updating players image based on state
         playerSprite = player.getImage();
-        playerSprite.createSprite(FRAME_RATE);
         enemy1Sprite = e1.getImage();
-        enemy1Sprite.createSprite(FRAME_RATE);
 
         e1.update();
         elapsedTime += Gdx.graphics.getDeltaTime();
@@ -141,6 +126,7 @@ public class View extends ApplicationAdapter{
                     currentTerrain.getBoundingbox().getWidth(),
                     currentTerrain.getBoundingbox().getHeight());
         }
+
         batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
         batch.draw(enemy1Sprite.getFrameFromTime(elapsedTime),e1.getX(),e1.getY());
         BitmapFont text = new BitmapFont();
@@ -148,10 +134,6 @@ public class View extends ApplicationAdapter{
         text.draw(batch, "Level: "+ level.getLevelNumber() + " - "+ level.getLevelName(),cam.position.x + 10 - cam.viewportWidth/2,cam.viewportHeight-10);
 
         batch.end();
-
-
-
-
     }
 
     private void updateCamera() {
@@ -175,10 +157,9 @@ public class View extends ApplicationAdapter{
 
     }
 
-
     @Override
     public void dispose () {
         batch.dispose();
         //img.dispose();
     }
-	}
+}

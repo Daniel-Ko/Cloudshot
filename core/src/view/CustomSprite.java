@@ -23,13 +23,6 @@ public abstract class CustomSprite{
     }
 
     /**
-     * Create a sprite based on the frame rate of the view.
-     * @param frameRate
-     *          frame rate of the View.
-     */
-    public abstract void createSprite(float frameRate);
-
-    /**
      * Get the frame in the form of TextureRegion based on the elapsedTime of the View.
      * @param elapsedTime
      *          time elapsed from the View.

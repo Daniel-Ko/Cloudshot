@@ -32,15 +32,15 @@ public class MovingSprite extends CustomSprite {
         super(imageName);
         this.ROWS = rows;
         this.COLS = cols;
+        loadSprite();
     }
 
     /**
      * createSprite takes the single sprite image and cuts it all up so that each frame consist of one TextureRegion.
      * animation is initialised by storing all the TextureRegion frames and frame rate.
-     * @param frameRate
-     *          frameRate for the sprite animation.
+     * The frame rate for the MovingSprite is initialised in the View class.
      */
-    public void createSprite(float frameRate){
+    private void loadSprite(){
         // Get the sprite image and split it into TextureRegions consisting of the image during that frame.
         spriteImage = new Texture(Gdx.files.internal(imageName));
         TextureRegion[][] tmpFrames = TextureRegion.split(spriteImage, spriteImage.getWidth() / COLS,
@@ -56,7 +56,7 @@ public class MovingSprite extends CustomSprite {
         }
 
         // Create the animation.
-        animation = new Animation(frameRate, animationFrames);
+        animation = new Animation(View.FRAME_RATE, animationFrames);
     }
 
     /**
