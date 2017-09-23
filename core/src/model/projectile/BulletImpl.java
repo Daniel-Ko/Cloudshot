@@ -1,10 +1,116 @@
 package model.projectile;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+
+import model.GameObjectInterface;
+import view.CustomSprite;
+
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.
  * @author tomherdson
  *
  */
-public class BulletImpl implements ProjectileInterface {
+public class BulletImpl implements ProjectileInterface, GameObjectInterface {
+	protected Vector2 startingPos;
+	protected Vector2 endPos;
+	protected float x;
+	protected float y;
+	protected float damage;
+	protected float speed = 5;
+	private float xVel;
+	private float yVel;
+	private CustomSprite image;
+	
+	
+	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
+		this.startingPos = start;
+		this.endPos = end;
+		this.damage = damage;
+		this.image = t;
+		float tX = start.x - end.x;
+		float tY = start.y - end.y;
+		float mag = (float) java.lang.Math.hypot(tX, tY);
+		tX/=mag;
+	    tY/=mag;
+	    tX*=speed;
+	    tY*=speed;
+	    xVel = tX;
+	    yVel = tY;
+	}
+	
+	/* (non-Javadoc)
+	 * @see model.GameObjectInterface#getX()
+	 */
+	@Override
+	public float getX() {
+		// TODO Auto-generated method stub
+		return x;
+	}
 
+	/* (non-Javadoc)
+	 * @see model.GameObjectInterface#getY()
+	 */
+	@Override
+	public float getY() {
+		// TODO Auto-generated method stub
+		return y;
+	}
+
+	/* (non-Javadoc)
+	 * @see model.GameObjectInterface#getImage()
+	 */
+	@Override
+	public CustomSprite getImage() {
+		return this.image;
+	}
+
+	public void update(){
+		x += xVel;
+	    y += yVel;
+	}
+
+	/**
+	 * @return the startingPos
+	 */
+	public Vector2 getStartingPos() {
+		return startingPos;
+	}
+
+	/**
+	 * @param startingPos the startingPos to set
+	 */
+	public void setStartingPos(Vector2 startingPos) {
+		this.startingPos = startingPos;
+	}
+
+	/**
+	 * @return the endPos
+	 */
+	public Vector2 getEndPos() {
+		return endPos;
+	}
+
+	/**
+	 * @param endPos the endPos to set
+	 */
+	public void setEndPos(Vector2 endPos) {
+		this.endPos = endPos;
+	}
+
+	/**
+	 * @return the damage
+	 */
+	public float getDamage() {
+		return damage;
+	}
+
+	/**
+	 * @param damage the damage to set
+	 */
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+	
+	
 }

@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -57,7 +61,7 @@ public class View extends ApplicationAdapter{
     private MovingSprite playerSprite;
     private StaticSprite backgroundImage;
     private MovingSprite enemy1Sprite;
-    private List<CustomSprite> groundSprites;
+    //private List<CustomSprite> groundSprites;
 
     /**
      * Time elapsed so far. This is used for animation.
@@ -69,8 +73,28 @@ public class View extends ApplicationAdapter{
      */
     private OrthographicCamera cam;
 
+    private Viewport viewport;
+
+    // Ground textures.
+    private List<CustomSprite> groundSprites;
+
+
+    //LEVEL STUFF
+    TiledMap tiledMap;
+    TiledMapRenderer tiledMapRenderer;
+    //END LEVEL STUFF
+    
+
+
     @Override
     public void create () {
+        //LEVEL STUFF
+        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        //END LEVEL STUFF
+
+
+
         batch = new SpriteBatch();
         controller = new Controller(this);
         player = new Player(new Vector2(50,200), 50, 50, 100, 3);
@@ -123,19 +147,26 @@ public class View extends ApplicationAdapter{
         //Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        //LEVEL STUFF
+        tiledMapRenderer.setView(cam);
+        tiledMapRenderer.render();
+        //LEVEL STUFF
 
 
         batch.begin();
-        batch.draw(backgroundImage.getFrameFromTime(elapsedTime),0,0);
+        //batch.draw(backgroundImage.getFrameFromTime(elapsedTime),0,0);
 
-        for(int i = 0; i < groundSprites.size(); i++){
+        /*for(int i = 0; i < groundSprites.size(); i++){
             AbstractTerrain currentTerrain = level.getTerrain().get(i);
             batch.draw(groundSprites.get(i).getFrameFromTime(elapsedTime),
                     currentTerrain.getBoundingbox().getX(),
                     currentTerrain.getBoundingbox().getY(),
                     currentTerrain.getBoundingbox().getWidth(),
                     currentTerrain.getBoundingbox().getHeight());
-        }
+<<<<<<< HEAD
+        }*/
+
+
 
         batch.draw(playerSprite.getFrameFromTime(elapsedTime),player.getX(),player.getY());
         batch.draw(enemy1Sprite.getFrameFromTime(elapsedTime),e1.getX(),e1.getY());
