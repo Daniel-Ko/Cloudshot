@@ -1,7 +1,5 @@
 package model.being;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import model.collectable.AbstractWeapon;
 import view.CustomSprite;
@@ -17,28 +15,46 @@ public class Player extends AbstractPlayer {
 	private int meleeRange = 30;
 	protected AbstractWeapon curWeapon;
 
-	private CustomSprite idle;
-	private CustomSprite attack;
-	private CustomSprite jump;
-	private CustomSprite walk;
+	private CustomSprite current;
+
+	private CustomSprite idle_right;
+	private CustomSprite attack_right;
+	private CustomSprite jump_right;
+	private CustomSprite walk_right;
 	private CustomSprite death;
+
+
+	private CustomSprite idle_left;
+	private CustomSprite attack_left;
+	private CustomSprite jump_left;
+	private CustomSprite walk_left;
 	public Player(Vector2 position, int width, int height, int hp, float speed) {
 		super(position, width, height, hp, speed);
 		damage = 1;
 
 		//load sprites
-		idle = new MovingSprite("player_idle.png",2,2);
-		attack = new MovingSprite("player_attack.png",2,3);
-		jump = new MovingSprite("player_jump.png",2,3);
-		walk = new MovingSprite("player_walk.png",3,3);
+		current = new MovingSprite("player_idle.png",2,2);
+		idle_right = new MovingSprite("player_idle.png",2,2);
+		attack_right = new MovingSprite("player_attack.png",2,3);
+		jump_right = new MovingSprite("player_jump.png",2,3);
+		walk_right = new MovingSprite("player_walk.png",3,3);
 		death = new MovingSprite("player_death.png",1,1);
+
+		idle_left = new MovingSprite("player_idle.png",2,2);
+		attack_left = new MovingSprite("player_attack.png",2,3);
+		jump_left = new MovingSprite("player_jump.png",2,3);
+		walk_left = new MovingSprite("player_walk.png",3,3);
+		idle_left.flipHorizontal();
+		attack_left.flipHorizontal();
+		jump_left.flipHorizontal();
+		walk_left.flipHorizontal();
 		// TODO
 	}
 
 
 	/**
 	 * Expected to loop through 'enemies' and if the player is attacking
-	 * and there is a enemy within melee or attack range then we can hurt it..
+	 * and there is a enemy within melee or attack_right range then we can hurt it..
 	 *
 	 * @param enemy Enemy which we are checking against
 	 *
@@ -73,36 +89,39 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public CustomSprite getImage() {
-		//System.out.println(movingLeft +"  "+ movingRight);
+		System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
 			return death;
 		}
 
 		if(getIsAttacking()){
-
 			if(movingLeft)
-				attack.flipHorizontal();
-			return  attack;
+				return attack_left;
+			else
+				return attack_right;
 		}
 		//FIXME temp effect for jumping
 		//JUMPING ANIMATION
 		if(velocity.y > 0){
 			if(movingLeft)
-				jump.flipHorizontal();
-			return jump;
+				return attack_left;
+			else
+				return attack_right;
 		}
 		//IDLE ANIMATION
 		if(velocity.x ==0 && velocity.y ==0){
-			//idle
+			//idle_right
 			if(movingLeft) {
-				idle.flipHorizontal();
-				return idle;
+				return idle_left;
 			}
-			return idle;
+			else
+				return idle_right;
 		}
 		if(movingLeft)
-			walk.flipHorizontal();
-		return walk;
+			return walk_left;
+
+		return walk_right;
+
 	}
 
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import model.GameModel;
@@ -31,6 +32,7 @@ public class GameScreen extends ScreenAdapter{
 
     public GameScreen(Game game){
         this.game = game;
+
         this.gameModel = new GameModel(new LevelOne());
 
         batch = new SpriteBatch();
@@ -38,9 +40,16 @@ public class GameScreen extends ScreenAdapter{
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(VIEW_WIDTH, VIEW_WIDTH * (h / w));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
+        cam = new OrthographicCamera(viewWidth,viewWidth * (h / w));
+        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
+        cam.update();
+
+        this.gameModel = new GameModel(new LevelOne(),cam);
+        gameModel.getTiledMapRenderer().setView(cam);
+
+        batch = new SpriteBatch();
+        sprites = new ArrayList<>();
+		
         gameModel.getTiledMapRenderer().setView(camera);
     }
 
@@ -62,7 +71,9 @@ public class GameScreen extends ScreenAdapter{
         // Render the game elements.
         gameModel.getTiledMapRenderer().render(); // Game map.
         batch.begin();
-        gameModel.draw(batch); // Game models.
+
+        drawLevelText();
+        gameModel.draw(batch);
         batch.end();
     }
 
@@ -81,6 +92,11 @@ public class GameScreen extends ScreenAdapter{
                 WORLD_HEIGHT - effectiveViewportHeight / 2f
         );
 
+    }
+
+    public void drawLevelText(){
+        BitmapFont text = new BitmapFont();
+        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),camera.position.x + 10 - camera.viewportWidth/2,camera.viewportHeight-10);
     }
 
     @Override

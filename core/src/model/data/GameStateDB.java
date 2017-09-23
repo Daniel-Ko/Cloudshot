@@ -1,12 +1,10 @@
-package model.gamelogic;
+package model.data;
 
 import com.badlogic.gdx.Gdx;
 import model.GameModel;
 import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
-import view.CustomSprite;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 

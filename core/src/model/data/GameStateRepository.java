@@ -1,7 +1,4 @@
-package model.gamelogic;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
+package model.data;
 
 import java.util.Stack;
 
