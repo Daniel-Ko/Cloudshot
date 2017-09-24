@@ -1,7 +1,16 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import model.GameObjectInterface;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
+import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
 
@@ -20,31 +29,28 @@ public abstract class AbstractLevel {
 
     public abstract int getLevelNumber();
 
-    public abstract ArrayList<AbstractTerrain> getTerrain();
+
+
+    protected TiledMap tiledMap;
+    protected TiledMapRenderer tiledMapRenderer;
+    protected Array<Rectangle> tiles = new Array<>();
+
+    public abstract void generateLevel();
 
     public AbstractLevel() {
         terrain = new ArrayList<>();
+        generateLevel();
     }
 
-    private int xPos = 0;
-    /**
-     * Adds ground to the terrain.
-     * xPos is constantly incremented, so the user only has to pass the width and height of the new piece of ground and the
-     * xPos/yPos will be inferred.
-     * @param width width of the piece of ground
-     * @param height height of the new piece of ground
-     */
-    public void addGround(int width, int height){
-        terrain.add(new Ground(xPos, width, height));
+    public TiledMap getTiledMap() {
+        return tiledMap;
     }
 
-    public void addPlatform(){
-
+    public TiledMapRenderer getTiledMapRenderer() {
+        return tiledMapRenderer;
     }
 
-
-
-    //maybe also include an arraylist of enemies and their spawn locations?
-
-
+    public Array<Rectangle> getTiles() {
+        return tiles;
+    }
 }

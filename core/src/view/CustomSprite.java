@@ -1,36 +1,48 @@
 package view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+
 public abstract class CustomSprite{
-
-    /**
-     * Name of the sprite image to use.
-     */
-    protected String imageName;
-
     /**
      * Image of the sprite sheet to use.
      */
     protected Texture spriteImage;
 
+    /**
+     * Flags to determine whether the sprites needs to be flipped or not.
+     */
+    protected boolean horizontal;
+    protected boolean vertical;
 
     public CustomSprite(String imageName){
-        this.imageName = imageName;
+        this.spriteImage = new Texture(Gdx.files.internal(imageName));
+        this.horizontal = false;
+        this.vertical = false;
     }
 
     /**
-     * Create a sprite based on the frame rate of the view.
-     * @param frameRate
-     *          frame rate of the View.
+     * Set the horizontal flip to true.
+     * The sprite will be drawn such that it is flipped horizontally.
      */
-    public abstract void createSprite(float frameRate);
+    public void flipHorizontal(){
+        this.horizontal = true;
+    }
 
     /**
-     * Get the frame in the form of TextureRegion based on the elapsedTime of the View.
+     * Set the vertical flip to true.
+     * The sprite will be drawn such that it is flipped vertically.
+     */
+    public void flipVertical(){
+        this.vertical = true;
+    }
+
+    /**
+     * Get the frame in the form of TextureRegion based on the elapsedTime of the GameScreen.
      * @param elapsedTime
-     *          time elapsed from the View.
+     *          time elapsed from the GameScreen.
      * @return
      *          TextureRegion of the frame needed to render.
      */

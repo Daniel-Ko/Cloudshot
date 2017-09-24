@@ -1,10 +1,12 @@
 package model.mapObject.terrain;
 
-import com.badlogic.gdx.math.Rectangle;
 import model.GameObjectInterface;
+import com.badlogic.gdx.math.Rectangle;
+
 import model.being.AbstractPlayer;
 import view.CustomSprite;
-import view.MovingSprite;
+
+
 
 public abstract class AbstractTerrain implements GameObjectInterface {
 

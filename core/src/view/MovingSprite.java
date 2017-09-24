@@ -1,13 +1,12 @@
 package view;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import view.screens.GameScreen;
 
 /**
  * MovingSprite handles all the logic to create and return a TextureRegion based on the time elapsed and frame
- * rate of the animation. The TextureRegion is to be rendered by View.java
+ * rate of the animation. The TextureRegion is to be rendered by GameScreen.java
  * @author Yi Sian Lim
  */
 public class MovingSprite extends CustomSprite {
@@ -32,17 +31,16 @@ public class MovingSprite extends CustomSprite {
         super(imageName);
         this.ROWS = rows;
         this.COLS = cols;
+        loadSprite();
     }
 
     /**
      * createSprite takes the single sprite image and cuts it all up so that each frame consist of one TextureRegion.
      * animation is initialised by storing all the TextureRegion frames and frame rate.
-     * @param frameRate
-     *          frameRate for the sprite animation.
+     * The frame rate for the MovingSprite is initialised in the GameScreen class.
      */
-    public void createSprite(float frameRate){
+    private void loadSprite(){
         // Get the sprite image and split it into TextureRegions consisting of the image during that frame.
-        spriteImage = new Texture(Gdx.files.internal(imageName));
         TextureRegion[][] tmpFrames = TextureRegion.split(spriteImage, spriteImage.getWidth() / COLS,
                 spriteImage.getHeight() / ROWS);
 
@@ -56,7 +54,7 @@ public class MovingSprite extends CustomSprite {
         }
 
         // Create the animation.
-        animation = new Animation(frameRate, animationFrames);
+        animation = new Animation(GameScreen.FRAME_RATE, animationFrames);
     }
 
     /**
@@ -66,7 +64,9 @@ public class MovingSprite extends CustomSprite {
      * @return
      */
     public TextureRegion getFrameFromTime(float elapsedTime){
-        return (TextureRegion) animation.getKeyFrame(elapsedTime, true);
+        TextureRegion r = (TextureRegion) animation.getKeyFrame(elapsedTime, true);
+        r.flip(horizontal, vertical);
+        return r;
     }
 
 }
