@@ -17,6 +17,6 @@ public class StateQuery {
     /** example of game data to query */
     public int getLivesLeft() {
         //statehandler.pref.livesLeft();
-        return 0;
+        return 0;  
     }
 }
