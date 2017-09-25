@@ -1,3 +1,4 @@
+
 package model.data;
 
 import com.badlogic.gdx.Gdx;
@@ -7,50 +8,55 @@ import model.being.AbstractPlayer;
 
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
+
 
 /**
- * Created by Dan Ko on 9/23/2017.
+ * Created by Dan Ko on 9/19/2017.
  */
-public class GameStateDB extends Observable {
-    private StateQueryTransactionHandler repoScraper;
-    private GameState state;
+public class GameStateTransactionHandler implements Observer{
+    private GameStateRepository repository;
 
-    public GameStateDB() {
-        repoScraper = new StateQueryTransactionHandler(this);
+    public GameStateTransactionHandler() {
+        repository = new GameStateRepository();
     }
 
-    public GameState latestState() {
-        return state;
-    }
-
-    /** the unit of work for saving the game state
-     *
-     * @param model
-     * @return
-     */
-    public boolean write(GameModel model) {
+    public boolean save(GameModel model) {
         GameState newState = new GameState(Gdx.app.getPreferences("yo")); //TODO: I have to find a way to gen a unique name
+        if(writeQuery(model, newState)) {//TODO should this even be done
+            commit(newState);
+            return true;
+        }
+        return false;
+    }
 
-
+    private boolean writeQuery(GameModel model, GameState newState) {
         if(!updatePlayer(newState, model.getPlayer())) {
             return false;
         }
         if(!updateEnemies(newState, model.getEnemies())) {
             return false;
         }
-        commit(newState);
         return true;
     }
 
-    public boolean read() {
-        return false; //TODO FLESH THIS OUT
+    /** sends signal to repo to pull the latest state and wrap it in a StateQuery to the model
+     *
+     * @return
+     */
+    public StateQuery load() {
+        GameState latest = repository.pullSoft(); //TODO I don't thin pullSoft is neessary
+        if(!latest.containsPlayer() || !latest.containsEnemies()) {
+            repository.pullHard(); //cleanse the repo of the bad state
+            throw new InvalidTransactionException("Corrupted state");
+        }
+        repository.pullHard();
+        return new StateQuery(latest);
     }
 
 
-
     private void commit(GameState newState) {
-        state = newState;
-        notifyObservers();
+        repository.push(newState);
     }
 
 
@@ -70,6 +76,11 @@ public class GameStateDB extends Observable {
         return true;
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+//        save();
+    }
+
 
 
     /** Upon invalid or missing data, this exception will be thrown to rollback all changes
@@ -81,5 +92,3 @@ public class GameStateDB extends Observable {
         }
     }
 }
-
-

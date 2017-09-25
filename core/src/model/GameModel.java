@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import model.being.AbstractEnemy;
 
 import model.being.Player;
-import model.data.GameStateDB;
+import model.data.GameStateTransactionHandler;
+import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class GameModel {
     Player player;
     List<AbstractEnemy> enemies;
     AbstractLevel level;
-    GameStateDB database;
+    private GameStateTransactionHandler repoScraper;
 
     private float elapsedTime = 0f;
 
@@ -58,8 +58,7 @@ public class GameModel {
 
         //generateLevel();
 
-        database = new GameStateDB();
-
+        repoScraper = new GameStateTransactionHandler();
     }
 
     public void updateState(float elapsedTime){
@@ -109,17 +108,17 @@ public class GameModel {
 
 
     public void save() {
-        try {
-            database.write(this);
-        }catch(GameStateDB.InvalidTransactionException e) {
-            //TODO: SAY TRY AGAIN BUB, FAILED SAVE
+        if(!repoScraper.save(this)) {
+
         }
     }
 
     public void load() {
         try {
-            database.read();
-        } catch (GameStateDB.InvalidTransactionException e) {
+            StateQuery loader = repoScraper.load();
+            //player = loader.getPlayer();
+            //enemies = loader.getEnemies();
+        } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             //TODO: SAY TRY AGAIN BUB, FAILED LOAD
         }
     }

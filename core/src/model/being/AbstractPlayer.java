@@ -19,7 +19,7 @@ import java.util.List;
  * 
  * @author Jeremy Southon
  */
-public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor {
+public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor, java.io.Serializable{
 
 	/**
 	 * Used to represent the different states of the player
