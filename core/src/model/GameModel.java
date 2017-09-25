@@ -42,7 +42,7 @@ public class GameModel {
         world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
         BodyDef groundDef= new BodyDef();
-        groundDef.position.set(new Vector2(0,50));
+        groundDef.position.set(new Vector2(0,9*32));
         Body groundBody = world.createBody(groundDef);
 
         PolygonShape groundBox = new PolygonShape();
@@ -53,7 +53,7 @@ public class GameModel {
         //End
 
         this.level = level;
-        player = new Player(new Vector2(50,200), 50, 50, 100, 3,world);
+        player = new Player(new Vector2(50,500), 50, 50, 100, 3,world);
         enemies = new ArrayList<>();
         Gdx.input.setInputProcessor(player);
 
