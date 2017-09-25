@@ -26,9 +26,8 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 
 	
 	public AbstractCollectable(Vector2 position, float width, float height){
-		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 		this.pos = position;
-		
+		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 	}
 	
 	public void checkCollide(AbstractPlayer p){
