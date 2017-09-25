@@ -8,11 +8,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import model.GameObjectInterface;
+import model.collectable.AbstractCollectable;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
 import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tomherdson on 19/09/17.
@@ -28,6 +30,8 @@ public abstract class AbstractLevel {
     public abstract String getLevelName();
 
     public abstract int getLevelNumber();
+
+    public abstract List<AbstractCollectable> getCollectables();
 
 
 

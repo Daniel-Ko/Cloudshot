@@ -8,11 +8,15 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import model.collectable.AbstractCollectable;
+import model.collectable.HealthPack;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
 import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tomherdson on 19/09/17.
@@ -24,6 +28,7 @@ public class LevelOne extends AbstractLevel {
         super();
     }
 
+    List<AbstractCollectable> collectables;
     @Override
     public String getLevelName() {
         return "Welcome to Cloudshot";
@@ -32,6 +37,11 @@ public class LevelOne extends AbstractLevel {
     @Override
     public int getLevelNumber() {
         return 1;
+    }
+
+    @Override
+    public List<AbstractCollectable> getCollectables() {
+        return collectables;
     }
 
     public void generateLevel(){
@@ -54,6 +64,13 @@ public class LevelOne extends AbstractLevel {
             if(!(o instanceof RectangleMapObject)) continue;
             RectangleMapObject r = (RectangleMapObject) o;
             tiles.add(r.getRectangle());
+        }
+        MapLayer collectibles = tiledMap.getLayers().get("Collectibles");
+        MapObjects collectibleObjs = collectibles.getObjects();
+        for(MapObject o : collectibleObjs){
+            RectangleMapObject r = (RectangleMapObject) o;
+            collectables.add(new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),10,10));
+
         }
     }
 }

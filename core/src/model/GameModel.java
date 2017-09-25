@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import model.being.AbstractEnemy;
 
 import model.being.Player;
+import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
@@ -80,7 +81,9 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
         }
-
+        for(AbstractCollectable ac : level.getCollectables()){
+            sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY());
+        }
         //Box2D
         //debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
