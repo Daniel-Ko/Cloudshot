@@ -1,6 +1,7 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import model.collectable.AbstractWeapon;
 import view.CustomSprite;
 import view.MovingSprite;
@@ -28,8 +29,9 @@ public class Player extends AbstractPlayer {
 	private CustomSprite attack_left;
 	private CustomSprite jump_left;
 	private CustomSprite walk_left;
-	public Player(Vector2 position, int width, int height, int hp, float speed) {
-		super(position, width, height, hp, speed);
+
+	public Player(Vector2 position, int width, int height, int hp, float speed, World world) {
+		super(position, width, height, hp, speed,world);
 		damage = 1;
 
 		//load sprites
@@ -89,7 +91,7 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public CustomSprite getImage() {
-		System.out.println(movingLeft +"  "+ movingRight);
+		//System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
 			return death;
 		}
@@ -97,7 +99,7 @@ public class Player extends AbstractPlayer {
 		if(getIsAttacking()){
 			if(movingLeft)
 				return attack_left;
-			else
+
 				return attack_right;
 		}
 		//FIXME temp effect for jumping
@@ -105,7 +107,7 @@ public class Player extends AbstractPlayer {
 		if(velocity.y > 0){
 			if(movingLeft)
 				return attack_left;
-			else
+
 				return attack_right;
 		}
 		//IDLE ANIMATION
@@ -114,7 +116,7 @@ public class Player extends AbstractPlayer {
 			if(movingLeft) {
 				return idle_left;
 			}
-			else
+
 				return idle_right;
 		}
 		if(movingLeft)
