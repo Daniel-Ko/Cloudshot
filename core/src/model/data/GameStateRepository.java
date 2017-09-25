@@ -12,7 +12,7 @@ public class GameStateRepository{
         gameStates = new Stack<>();
     }
 
-    public void save(GameState savestate) {
+    public void push(GameState savestate) {
         gameStates.push(savestate);
     }
 
@@ -21,9 +21,11 @@ public class GameStateRepository{
      * in the case of a failed load, we can rollback the data and not lose this savestate.
      * @return
      */
-    public GameState load() {
+    public GameState pullSoft() {
         return gameStates.peek();
     }
 
-
+    public GameState pullHard() {
+        return gameStates.pop();
+    }
 }

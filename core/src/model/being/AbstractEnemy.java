@@ -12,7 +12,7 @@ import view.CustomSprite;
  *  @author Jeremy Southon
  * 
  * */
-public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface {
+public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface, java.io.Serializable {
 	/** Used for collisions and getting X & Y coords */
 	protected Rectangle boundingBox;
 	protected Vector2 position;
