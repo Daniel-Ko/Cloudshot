@@ -82,7 +82,7 @@ public class GameModel {
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
         }
         for(AbstractCollectable ac : level.getCollectables()){
-            sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY());
+            sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }
         //Box2D
         //debugRenderer.render(world, cam.combined);

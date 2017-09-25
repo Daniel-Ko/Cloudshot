@@ -67,6 +67,7 @@ public class LevelOne extends AbstractLevel {
         }
         MapLayer collectibles = tiledMap.getLayers().get("Collectibles");
         MapObjects collectibleObjs = collectibles.getObjects();
+        collectables = new ArrayList<>();
         for(MapObject o : collectibleObjs){
             RectangleMapObject r = (RectangleMapObject) o;
             collectables.add(new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),10,10));

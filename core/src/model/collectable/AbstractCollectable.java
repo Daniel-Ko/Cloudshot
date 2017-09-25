@@ -19,16 +19,15 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
-	protected boolean pickedUp;
+	protected boolean pickedUp = false;
 	
 	public final float COLLECTABLE_WIDTH = 10;
 	public final float COLLECTABLE_HIEGHT = 10;
 
 	
 	public AbstractCollectable(Vector2 position, float width, float height){
-		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 		this.pos = position;
-		
+		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 	}
 	
 	public void checkCollide(AbstractPlayer p){

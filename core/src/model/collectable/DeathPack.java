@@ -6,28 +6,26 @@ import model.being.AbstractPlayer;
 import view.CustomSprite;
 import view.StaticSprite;
 
-public class HealthPack extends AbstractBuff {
+public class DeathPack extends AbstractBuff {
 
-	public HealthPack(Vector2 position, int width, int height) {
+	public DeathPack(Vector2 position, float width, float height) {
 		super(position, width, height);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public CustomSprite getImage() {
-		/*if(this.pickedUp = true){
+		if(this.pickedUp = true){
 			return null;
-		}*/
-		return new StaticSprite("healthpack.png");
+		}
+		return new StaticSprite("poison.png");
 	}
 
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		int oldHealth = p.getHealth();
-		p.setHealth(oldHealth + 5);
-	}
-	
+		p.setHealth(oldHealth - 5);
 
-	
+	}
 
 }
