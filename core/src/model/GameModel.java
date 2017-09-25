@@ -29,7 +29,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    public static final float PPM = 100;//pixelPerMeter
+    //public static final float PPM = 100;//pixelPerMeter
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
@@ -41,7 +41,7 @@ public class GameModel {
         world = new World(new Vector2(0, -100), true);
         debugRenderer = new Box2DDebugRenderer();
         BodyDef groundDef= new BodyDef();
-        groundDef.position.set(new Vector2(0,10));
+        groundDef.position.set(new Vector2(0,50));
         Body groundBody = world.createBody(groundDef);
 
         PolygonShape groundBox = new PolygonShape();
@@ -83,9 +83,8 @@ public class GameModel {
         }
 
         //Box2D
-        debugRenderer.render(world, cam.combined);
+        //debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX(),player.getY());
 
     }
 

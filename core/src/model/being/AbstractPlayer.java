@@ -36,6 +36,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Vector2 gravity;
 	protected float speed;
 	protected float jumpSpeed = 100;
+	final static float MAX_VELOCITY = 7f;
 
 	protected int health;
 	protected int damage;
@@ -43,6 +44,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	// Variables of player actions
 	protected boolean canJump = true;
+	protected  boolean jumping = false;
 	protected boolean attacking = false;
 	protected boolean grounded = false;
 	protected boolean movingLeft;
@@ -56,6 +58,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	//Box2D
 	World world;
 	Body body;
+	FixtureDef playerProperties;
 	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed, World world) {
 		this.world = world;
 		health = hp;
@@ -70,23 +73,27 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(pos);
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
+
 		body = world.createBody(bodyDef);
 
-		FixtureDef f = new FixtureDef();
+		playerProperties = new FixtureDef();
+		//playerProperties.friction = 0f;
 		CircleShape circle = new CircleShape();
 		circle.setRadius(5);
 
-		f.shape = circle;
-		body.createFixture(f);
+		playerProperties.shape = circle;
+		body.createFixture(playerProperties);
 	}
 
 	/**
 	 * Updates forces acting on player, therefore updating his pos over time
 	 */
 	public void update(Array<Rectangle> tiles) {
-		//updating player pos based on velocity
-		getPos().add(getVelocity());
-		collisionChecks(tiles);
+		//updating player pos based on 2DBody
+		updateActionsPlayerDoing();
+		pos = body.getPosition();//update player pos based on body
+		//Check Collisions
+		collisionChecks(null);
 		//checks if dead
 		if(health<=0){
 			playerState = player_state.DEAD;
@@ -95,36 +102,23 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		boundingBox = new Rectangle(pos.x,pos.y+15,boundingBox.width,boundingBox.height);
 	}
 
-	protected void collisionChecks(Array<Rectangle> tiles) {
-		//if player position is less than 100 means he is on ground
-		for(Rectangle r : tiles){
-			if(r.overlaps(boundingBox)){
-				canJump = true;
-				grounded = true;
-				velocity.y = 0;
-				return;
-			}
-		}
-		//grounded = false;
-		/*if (pos.y <= 100) {
-			//on ground
-			canJump = true;
-			grounded = true;
-			velocity.y=0;
-		} else *//*if(pos.y>100){
-			//Player is not on ground
-			grounded = false;
-		}*/
-		//player is not on ground / or platform therefore apply gravity
-		velocity.y-=15 * Gdx.graphics.getDeltaTime();
+	private void updateActionsPlayerDoing(){
+		velocity = body.getLinearVelocity();
+		if(velocity.x<0) movingLeft = true;
+		else if (velocity.x>0)movingRight=true;
 	}
 
-	public abstract boolean attack(AbstractEnemy enemy);
-
-	/**
-	 *
-	 * */
-	public abstract void shoot();
+	protected void collisionChecks(Array<Rectangle> tiles) {
+		Array<Contact> contactList = world.getContactList();
+		for(int i = 0; i < contactList.size; i++) {
+			Contact contact = contactList.get(i);
+			if(contact.isTouching() && (contact.getFixtureA() == body.getFixtureList().first() ||
+					contact.getFixtureB() == body.getFixtureList().first())) {
+				//on ground
+				grounded = true;
+				jumping = false;
+			}}
+	}
 	/**
 	 * Updates moving left and right fields appropriately
 	 * and updates the velocity by speed;
@@ -146,6 +140,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		movingLeft = true;
 		//velocity.x -= speed;
 		body.applyLinearImpulse(new Vector2(-speed,0),body.getWorldCenter(),true);
+		System.out.println("left");
+
 	}
 
 	public void jump(){
@@ -217,7 +213,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;
 	}
+
 	public boolean getIsAttacking(){ return attacking; }
+
+	public abstract boolean attack(AbstractEnemy enemy);
+
+	public abstract void shoot();
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -231,10 +232,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				moveRight();
 				break;
 			case Input.Keys.W:
-				if(canJump)
-					//velocity.y = jumpSpeed;
+				if(grounded)
 					jump();
-					canJump =false;
+					grounded = false;
+					jumping = true;
 				break;
 			case Input.Keys.SPACE:
 				attacking = true;

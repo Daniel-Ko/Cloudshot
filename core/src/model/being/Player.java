@@ -91,39 +91,40 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public CustomSprite getImage() {
-		//System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
-			return death;
+			return new MovingSprite("player_death.png", 1, 1);
 		}
 
 		if(getIsAttacking()){
+			MovingSprite attacking =  new MovingSprite("player_attack.png", 2, 3);
 			if(movingLeft)
-				return attack_left;
-
-				return attack_right;
+				attacking.flipHorizontal();
+			return  attacking;
 		}
 		//FIXME temp effect for jumping
 		//JUMPING ANIMATION
-		if(velocity.y > 0){
+		if(jumping){
+			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
 			if(movingLeft)
-				return attack_left;
-
-				return attack_right;
+				jump.flipHorizontal();
+			return jump;
 		}
 		//IDLE ANIMATION
 		if(velocity.x ==0 && velocity.y ==0){
-			//idle_right
+			MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
+			//idle
 			if(movingLeft) {
-				return idle_left;
+				idle.flipHorizontal();
+				return idle;
 			}
-
-				return idle_right;
+			return idle;
 		}
+		MovingSprite walking = new MovingSprite("player_walk.png", 3, 3);
 		if(movingLeft)
-			return walk_left;
+			walking.flipHorizontal();
+		return walking;
 
-		return walk_right;
 
-	}
+}
 
 }
