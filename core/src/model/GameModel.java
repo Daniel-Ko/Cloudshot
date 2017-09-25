@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import model.being.AbstractEnemy;
 
 import model.being.Player;
-import model.data.GameStateDB;
+import model.collectable.AbstractCollectable;
+import model.data.GameStateTransactionHandler;
+import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
 
 import java.util.ArrayList;
@@ -22,11 +25,12 @@ public class GameModel {
     Player player;
     List<AbstractEnemy> enemies;
     AbstractLevel level;
-    GameStateDB database;
+    private GameStateTransactionHandler repoScraper;
 
     private float elapsedTime = 0f;
 
     //Box2D
+    private int GRAVITY = -150;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
@@ -35,19 +39,27 @@ public class GameModel {
     public GameModel(AbstractLevel level, OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
+        BodyDef groundDef= new BodyDef();
+        groundDef.position.set(new Vector2(0,9*32));
+        Body groundBody = world.createBody(groundDef);
+
+        PolygonShape groundBox = new PolygonShape();
+        groundBox.setAsBox(cam.viewportWidth, 10.0f);
+        groundBody.createFixture(groundBox, 0.0f);
+        groundBox.dispose();
+        //ground.
         //End
 
         this.level = level;
-        player = new Player(new Vector2(50,200), 50, 50, 100, 3);
+        player = new Player(new Vector2(50,500), 50, 50, 100, 3,world);
         enemies = new ArrayList<>();
         Gdx.input.setInputProcessor(player);
 
         //generateLevel();
 
-        database = new GameStateDB();
-
+        repoScraper = new GameStateTransactionHandler();
     }
 
     public void updateState(float elapsedTime){
@@ -56,10 +68,7 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             ae.update();
         }
-
-        //Box2D
-        debugRenderer.render(world, cam.combined);
-        world.step(1/60f, 6, 2);
+        world.step(1/60f,6,2);
     }
 
 
@@ -72,6 +81,13 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
         }
+        for(AbstractCollectable ac : level.getCollectables()){
+            sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
+        }
+        //Box2D
+        //debugRenderer.render(world, cam.combined);
+        world.step(1/60f, 6, 2);
+
     }
 
     private void updatePlayerModel(){
@@ -95,17 +111,17 @@ public class GameModel {
 
 
     public void save() {
-        try {
-            database.write(this);
-        }catch(GameStateDB.InvalidTransactionException e) {
-            //TODO: SAY TRY AGAIN BUB, FAILED SAVE
+        if(!repoScraper.save(this)) {
+
         }
     }
 
     public void load() {
         try {
-            database.read();
-        } catch (GameStateDB.InvalidTransactionException e) {
+            StateQuery loader = repoScraper.load();
+            //player = loader.getPlayer();
+            //enemies = loader.getEnemies();
+        } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             //TODO: SAY TRY AGAIN BUB, FAILED LOAD
         }
     }

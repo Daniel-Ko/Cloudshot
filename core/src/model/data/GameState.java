@@ -19,11 +19,11 @@ public class GameState{
         state = pref;
     }
 
-    public void setState(Preferences state) {
+    public void getPref(Preferences state) {
         this.state = state;
     }
 
-    public Preferences getState() {
+    public Preferences getPref() {
         return state;
     }
 
@@ -32,5 +32,21 @@ public class GameState{
     }
     public void setEnemies(List<AbstractEnemy> enemies) {
         //TODO: serialise enemies and ass as string to pref
+    }
+
+    /** As the model will load this value in, assure the TransactionHandler
+     * that this value exists inside the GameState
+     * @return assurance.
+     */
+    public boolean containsPlayer() {
+        return state.contains("Player");
+    }
+
+    /** As the model will load this value in, assure the TransactionHandler
+     * that this value exists inside the GameState
+     * @return assurance.
+     */
+    public boolean containsEnemies() {
+        return state.contains("Enemies");
     }
 }

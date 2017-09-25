@@ -14,8 +14,8 @@ import view.CustomSprite;
 public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected Vector2 startingPos;
 	protected Vector2 endPos;
-	protected float x;
-	protected float y;
+	protected Vector2 pos;
+	
 	protected float damage;
 	protected float speed = 5;
 	private float xVel;
@@ -45,7 +45,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	@Override
 	public float getX() {
 		// TODO Auto-generated method stub
-		return x;
+		return pos.x;
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +54,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	@Override
 	public float getY() {
 		// TODO Auto-generated method stub
-		return y;
+		return pos.y;
 	}
 
 	/* (non-Javadoc)
@@ -66,8 +66,13 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	}
 
 	public void update(){
-		x += xVel;
-	    y += yVel;
+		checkCollide();
+		pos.x += xVel;
+	    pos.y += yVel;
+	}
+
+	private void checkCollide() {
+		
 	}
 
 	/**

@@ -14,7 +14,7 @@ import model.mapObject.levels.LevelOne;
 public class GameScreen extends ScreenAdapter{
 
     //These values may get changed on a per level basis.
-    private final int WORLD_HEIGHT = 1000;
+    private final int WORLD_HEIGHT = 2000;
     private final int WORLD_WIDTH = 2000;
 
     public static final float FRAME_RATE = 0.09f;
@@ -78,7 +78,7 @@ public class GameScreen extends ScreenAdapter{
         float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
         float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
 
-        camera.position.set(gameModel.getPlayer().getX(), camera.position.y,0);//lock camera to player's position
+        camera.position.set(gameModel.getPlayer().getX(), /*camera.position.y*/gameModel.getPlayer().getY(),0);//lock camera to player's position
 
         camera.position.x = MathUtils.clamp(camera.position.x,
                 effectiveViewportWidth / 2f,

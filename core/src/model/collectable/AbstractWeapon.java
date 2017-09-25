@@ -30,6 +30,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	public void pickedUp(AbstractPlayer p) {
 		//adds the weapon to the players inventory.
 		p.getInventory().add(this);
+		
 	}
 	
 	public abstract CustomSprite getBulletImage();

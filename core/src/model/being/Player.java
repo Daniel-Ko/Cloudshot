@@ -1,6 +1,7 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import model.collectable.AbstractWeapon;
 import view.CustomSprite;
 import view.MovingSprite;
@@ -28,8 +29,9 @@ public class Player extends AbstractPlayer {
 	private CustomSprite attack_left;
 	private CustomSprite jump_left;
 	private CustomSprite walk_left;
-	public Player(Vector2 position, int width, int height, int hp, float speed) {
-		super(position, width, height, hp, speed);
+
+	public Player(Vector2 position, int width, int height, int hp, float speed, World world) {
+		super(position, width, height, hp, speed,world);
 		damage = 1;
 
 		//load sprites
@@ -89,39 +91,40 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public CustomSprite getImage() {
-		System.out.println(movingLeft +"  "+ movingRight);
 		if(playerState == player_state.DEAD){
-			return death;
+			return new MovingSprite("player_death.png", 1, 1);
 		}
 
 		if(getIsAttacking()){
+			MovingSprite attacking =  new MovingSprite("player_attack.png", 2, 3);
 			if(movingLeft)
-				return attack_left;
-			else
-				return attack_right;
+				attacking.flipHorizontal();
+			return  attacking;
 		}
 		//FIXME temp effect for jumping
 		//JUMPING ANIMATION
-		if(velocity.y > 0){
+		if(this.jumping){
+			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
 			if(movingLeft)
-				return attack_left;
-			else
-				return attack_right;
+				jump.flipHorizontal();
+			return jump;
 		}
 		//IDLE ANIMATION
 		if(velocity.x ==0 && velocity.y ==0){
-			//idle_right
+			MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
+			//idle
 			if(movingLeft) {
-				return idle_left;
+				idle.flipHorizontal();
+				return idle;
 			}
-			else
-				return idle_right;
+			return idle;
 		}
+		MovingSprite walking = new MovingSprite("player_walk.png", 3, 3);
 		if(movingLeft)
-			return walk_left;
+			walking.flipHorizontal();
+		return walking;
 
-		return walk_right;
 
-	}
+}
 
 }
