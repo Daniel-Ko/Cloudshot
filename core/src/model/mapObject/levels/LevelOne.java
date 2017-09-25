@@ -1,5 +1,9 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -31,7 +35,7 @@ public class LevelOne extends AbstractLevel {
     }
 
     public void generateLevel(){
-        int pixelWidth = 16;
+        /*int pixelWidth = 16;
         tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         TiledMapTileLayer layer = (TiledMapTileLayer)tiledMap.getLayers().get("Tile Layer 1");
@@ -41,6 +45,15 @@ public class LevelOne extends AbstractLevel {
                 if(cell == null) continue;
                 tiles.add(new Rectangle(i*pixelWidth,j*pixelWidth,pixelWidth,pixelWidth));
             }
+        }*/
+        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        MapLayer layer = tiledMap.getLayers().get("Object Layer 1");
+        MapObjects objects = layer.getObjects();
+        for(MapObject o : objects){
+            if(!(o instanceof RectangleMapObject)) continue;
+            RectangleMapObject r = (RectangleMapObject) o;
+            tiles.add(r.getRectangle());
         }
     }
 }

@@ -1,9 +1,8 @@
-package model.gamelogic;
+package model.data;
 
 import com.badlogic.gdx.Preferences;
 import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
-import model.being.Player;
 
 import java.util.List;
 

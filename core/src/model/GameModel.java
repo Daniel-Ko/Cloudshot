@@ -3,18 +3,16 @@ package model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import model.being.AbstractEnemy;
 
 import model.being.Player;
+import model.data.GameStateDB;
 import model.mapObject.levels.AbstractLevel;
 
 import java.util.ArrayList;
@@ -26,6 +24,7 @@ public class GameModel {
     Player player;
     List<AbstractEnemy> enemies;
     AbstractLevel level;
+    GameStateDB database;
 
     private float elapsedTime = 0f;
 
@@ -56,6 +55,11 @@ public class GameModel {
         player = new Player(new Vector2(50,200), 50, 50, 100, 40,world);
         enemies = new ArrayList<>();
         Gdx.input.setInputProcessor(player);
+
+        //generateLevel();
+
+        database = new GameStateDB();
+
     }
 
     public void updateState(float elapsedTime){
@@ -102,6 +106,23 @@ public class GameModel {
 
     public List<AbstractEnemy> getEnemies() {
         return enemies;
+    }
+
+
+    public void save() {
+        try {
+            database.write(this);
+        }catch(GameStateDB.InvalidTransactionException e) {
+            //TODO: SAY TRY AGAIN BUB, FAILED SAVE
+        }
+    }
+
+    public void load() {
+        try {
+            database.read();
+        } catch (GameStateDB.InvalidTransactionException e) {
+            //TODO: SAY TRY AGAIN BUB, FAILED LOAD
+        }
     }
 
     public AbstractLevel getLevel() {
