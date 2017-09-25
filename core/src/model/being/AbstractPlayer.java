@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import model.GameObjectInterface;
 import model.collectable.AbstractWeapon;
 
 import com.badlogic.gdx.math.Rectangle;
-import org.w3c.dom.css.Rect;
 
 
 import java.util.List;
@@ -35,7 +35,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Vector2 velocity;
 	protected Vector2 gravity;
 	protected float speed;
-	protected float jumpSpeed;
+	protected float jumpSpeed = 100;
 
 	protected int health;
 	protected int damage;
@@ -52,16 +52,32 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/** Position of the mouse*/
 	protected Vector2 aimedAt;
 
-	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed) {
+
+	//Box2D
+	World world;
+	Body body;
+	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed, World world) {
+		this.world = world;
 		health = hp;
 		pos = position;
 		this.speed=speed;
-		jumpSpeed =8;
 		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(pos.x,pos.y, width, height);
 		// init player constants
 		gravity = new Vector2(0, -1);
+		//Box2D
+		this.world = world;
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(pos);
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		body = world.createBody(bodyDef);
 
+		FixtureDef f = new FixtureDef();
+		CircleShape circle = new CircleShape();
+		circle.setRadius(5);
+
+		f.shape = circle;
+		body.createFixture(f);
 	}
 
 	/**
@@ -114,9 +130,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * and updates the velocity by speed;
 	 * */
 	public void moveRight() {
+		//if(body.getLinearVelocity().x <= speed)
+		//	return;//player at max speed so stop...
 		movingLeft = false;
 		movingRight = true;
-		velocity.x += speed;
+		//velocity.x += speed;
+		body.applyLinearImpulse(new Vector2(speed,0),body.getWorldCenter(),true);
 	}
 	/**
 	 * Updates moving left and right fields appropriately
@@ -125,7 +144,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void moveLeft() {
 		movingRight = false;
 		movingLeft = true;
-		velocity.x -= speed;
+		//velocity.x -= speed;
+		body.applyLinearImpulse(new Vector2(-speed,0),body.getWorldCenter(),true);
+	}
+
+	public void jump(){
+		body.applyLinearImpulse(new Vector2(0,jumpSpeed),body.getWorldCenter(),true);
 	}
 
 	public player_state getPlayerState() {
@@ -208,7 +232,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				break;
 			case Input.Keys.W:
 				if(canJump)
-					velocity.y = jumpSpeed;
+					//velocity.y = jumpSpeed;
+					jump();
 					canJump =false;
 				break;
 			case Input.Keys.SPACE:
