@@ -103,7 +103,7 @@ public class Player extends AbstractPlayer {
 		}
 		//FIXME temp effect for jumping
 		//JUMPING ANIMATION
-		if(jumping){
+		if(this.jumping){
 			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
 			if(movingLeft)
 				jump.flipHorizontal();

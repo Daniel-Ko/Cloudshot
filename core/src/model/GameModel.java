@@ -29,7 +29,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    //public static final float PPM = 100;//pixelPerMeter
+    private int GRAVITY = -150;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
@@ -38,7 +38,7 @@ public class GameModel {
     public GameModel(AbstractLevel level, OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
-        world = new World(new Vector2(0, -100), true);
+        world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
         BodyDef groundDef= new BodyDef();
         groundDef.position.set(new Vector2(0,50));
@@ -52,7 +52,7 @@ public class GameModel {
         //End
 
         this.level = level;
-        player = new Player(new Vector2(50,200), 50, 50, 100, 40,world);
+        player = new Player(new Vector2(50,200), 50, 50, 100, 3,world);
         enemies = new ArrayList<>();
         Gdx.input.setInputProcessor(player);
 

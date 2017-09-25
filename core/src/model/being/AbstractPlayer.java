@@ -1,6 +1,5 @@
 package model.being;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -54,11 +53,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/** Position of the mouse*/
 	protected Vector2 aimedAt;
 
-
 	//Box2D
 	World world;
 	Body body;
 	FixtureDef playerProperties;
+
 	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed, World world) {
 		this.world = world;
 		health = hp;
@@ -87,27 +86,39 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	/**
 	 * Updates forces acting on player, therefore updating his pos over time
+	 *
+	 * If the player has a velocity we add this to his position
+	 * Update player y to that of the Box2D body (for the gravity effect).
 	 */
 	public void update(Array<Rectangle> tiles) {
-		//updating player pos based on 2DBody
-		updateActionsPlayerDoing();
-		pos = body.getPosition();//update player pos based on body
-		//Check Collisions
 		collisionChecks(null);
-		//checks if dead
-		if(health<=0){
-			playerState = player_state.DEAD;
-		}
+		updateActionsPlayerDoing();
+		//Updating Player Position
+		pos.add(velocity);
+		pos.y = body.getPosition().y;//Box2D body y cause gravity
+
+		//Moving(Translating) the x by players
+		body.setTransform(pos,0);
 		//updating players bounding box position
 		boundingBox = new Rectangle(pos.x,pos.y+15,boundingBox.width,boundingBox.height);
 	}
 
+	/**
+	 * Method constantly updates the fields which indicate the actions the player is
+	 * preforming such as moving left,right..
+	 * */
 	private void updateActionsPlayerDoing(){
-		velocity = body.getLinearVelocity();
+		//checks if dead
+		if(health<=0){
+			playerState = player_state.DEAD;
+		}
 		if(velocity.x<0) movingLeft = true;
 		else if (velocity.x>0)movingRight=true;
 	}
 
+	/***
+	 * Loops ..
+	 */
 	protected void collisionChecks(Array<Rectangle> tiles) {
 		Array<Contact> contactList = world.getContactList();
 		for(int i = 0; i < contactList.size; i++) {
@@ -124,12 +135,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * and updates the velocity by speed;
 	 * */
 	public void moveRight() {
-		//if(body.getLinearVelocity().x <= speed)
-		//	return;//player at max speed so stop...
 		movingLeft = false;
 		movingRight = true;
-		//velocity.x += speed;
-		body.applyLinearImpulse(new Vector2(speed,0),body.getWorldCenter(),true);
+		velocity.x += speed;
 	}
 	/**
 	 * Updates moving left and right fields appropriately
@@ -138,26 +146,16 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void moveLeft() {
 		movingRight = false;
 		movingLeft = true;
-		//velocity.x -= speed;
-		body.applyLinearImpulse(new Vector2(-speed,0),body.getWorldCenter(),true);
-		System.out.println("left");
-
+		velocity.x -= speed;
 	}
 
+	/**
+	 * applies players jump speed onto Box2D body
+	 * */
 	public void jump(){
 		body.applyLinearImpulse(new Vector2(0,jumpSpeed),body.getWorldCenter(),true);
-	}
-
-	public player_state getPlayerState() {
-		return playerState;
-	}
-
-	public void setPlayerState(player_state playerState) {
-		this.playerState = playerState;
-	}
-
-	public int getHealth() {
-		return health;
+		this.grounded = false;
+		jumping = true;
 	}
 
 	/**
@@ -169,15 +167,19 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.health-=damage;
 	}
 
-	public void setHealth(int health) {
-		this.health = health;
-	}
-
 	/**
 	 * @return List of AbstractWeapons which the player has in inventory
 	 * */
 	public List<AbstractWeapon> getInventory() {
 		return inventory;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 
 	public int getDamage() {
@@ -186,6 +188,14 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	public void setDamage(int damage) {
 		this.damage = damage;
+	}
+
+	public player_state getPlayerState() {
+		return playerState;
+	}
+
+	public void setPlayerState(player_state playerState) {
+		this.playerState = playerState;
 	}
 
 	public Vector2 getPos() {
@@ -234,8 +244,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.W:
 				if(grounded)
 					jump();
-					grounded = false;
-					jumping = true;
 				break;
 			case Input.Keys.SPACE:
 				attacking = true;
