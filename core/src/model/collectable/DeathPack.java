@@ -15,9 +15,9 @@ public class DeathPack extends AbstractBuff {
 
 	@Override
 	public CustomSprite getImage() {
-		if(this.pickedUp = true){
-			return null;
-		}
+//		if(this.pickedUp = true){
+//			return null;
+//		}
 		return new StaticSprite("poison.png");
 	}
 
