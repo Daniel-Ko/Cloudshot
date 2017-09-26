@@ -1,7 +1,7 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import model.collectable.AbstractWeapon;
 import model.collectable.Pistol;
 import view.CustomSprite;
@@ -60,6 +60,34 @@ public class Player extends AbstractPlayer {
 		pistol = new Pistol(pos,10,10);
 	}
 
+	protected void definePlayer(Vector2 pos){
+		//body def
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		bodyDef.fixedRotation = true;
+
+		//shape def for main fixture
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(1,2);
+
+		//fixture def
+		playerProperties = new FixtureDef();
+		playerProperties.shape = shape;
+		playerProperties.density = 1;
+
+		bodyDef.position.set(pos);
+		body = world.createBody(bodyDef);
+
+		body.createFixture(playerProperties);
+		//add foot sensor fixture
+		shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
+		playerProperties.isSensor = true;
+		Fixture footSensorFixture = body.createFixture(playerProperties);
+		footSensorFixture.setUserData(3);
+	}
+
+
+
 
 	/**
 	 * Expected to loop through 'enemies' and if the player is attacking
@@ -82,6 +110,29 @@ public class Player extends AbstractPlayer {
 	@Override
 	public void shoot() {
 		pistol.shoot(this);
+	}
+
+	/**
+	 * Defined what happens when moving right
+	 * */
+	public void moveRight() {
+		body.applyLinearImpulse(new Vector2(1000,0),body.getWorldCenter(),true);
+	}
+
+	/**
+	 * Defined what happens when moving left
+	 * */
+	public void moveLeft() {
+		body.applyLinearImpulse(new Vector2(-1000,0),body.getWorldCenter(),true);
+	}
+
+	/**
+	 * applies players jump speed onto Box2D body
+	 * */
+	public void jump(){
+		body.applyLinearImpulse(new Vector2(0,jumpSpeed),body.getWorldCenter(),true);
+		this.grounded = false;
+		jumping = true;
 	}
 
 	@Override

@@ -60,8 +60,8 @@ public class GameModel {
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox(r.width/2,r.height/2);
-
-            groundBody.createFixture(groundBox,0.0f);
+            //userdata to tell us which things are colliding
+            groundBody.createFixture(groundBox,0.0f).setUserData("platform");
             groundBox.dispose();
         }
 

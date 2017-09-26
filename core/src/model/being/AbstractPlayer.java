@@ -65,38 +65,21 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.speed=speed;
 		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(pos.x,pos.y, width, height);
-		// init player constants
-		gravity = new Vector2(0, -1);
-		//Box2D
-		this.world = world;
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.set(pos);
-		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.linearDamping = 10;
-
-		body = world.createBody(bodyDef);
-
-		playerProperties = new FixtureDef();
-		playerProperties.friction = 10f;
-		CircleShape circle = new CircleShape();
-		circle.setRadius(5);
-
-		playerProperties.shape = circle;
-		body.createFixture(playerProperties);
-	}
+		definePlayer(pos);
+}
+	protected abstract void definePlayer(Vector2 pos);
 
 	/**
-	 * Updates forces acting on player, therefore updating his pos over time
+	 * Applies player movement if they are moving
 	 *
-	 * If the player has a velocity we add this to his position
-	 * Update player y to that of the Box2D body (for the gravity effect).
+	 * Update the players action fields & check for collisions with platforms...
 	 */
-	public void update(Array<Rectangle> tiles) {
+	public  void update(Array<Rectangle> tiles) {
 		if(movingLeft){
-			body.applyLinearImpulse(new Vector2(-1000,0),body.getWorldCenter(),true);
+			moveLeft();
 		}
-		if(movingRight){
-			body.applyLinearImpulse(new Vector2(1000,0),body.getWorldCenter(),true);
+		else if(movingRight){
+			moveRight();
 		}
 		collisionChecks(null);
 		updateActionsPlayerDoing();
@@ -115,8 +98,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		if(health<=0){
 			playerState = player_state.DEAD;
 		}
-		if(velocity.x<0) movingLeft = true;
-		else if (velocity.x>0)movingRight=true;
 	}
 
 	/***
@@ -131,8 +112,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				//on ground
 				grounded = true;
 				jumping = false;
-			}else {
-				grounded = false;
 			}
 		}
 	}
@@ -140,30 +119,17 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * Updates moving left and right fields appropriately
 	 * and updates the velocity by speed;
 	 * */
-	public void moveRight() {
-		movingLeft = false;
-		movingRight = true;
-		//velocity.x += speed;
-		body.applyLinearImpulse(new Vector2(1000,0),body.getWorldCenter(),true);
-	}
+	public abstract void moveRight();
 	/**
 	 * Updates moving left and right fields appropriately
 	 * and updates the velocity by speed;
 	 * */
-	public void moveLeft() {
-		movingRight = false;
-		movingLeft = true;
-		body.applyLinearImpulse(new Vector2(-1000,0),body.getWorldCenter(),true);
-	}
+	public abstract void moveLeft();
 
 	/**
-	 * applies players jump speed onto Box2D body
+	 * applies players jump height onto Box2D body
 	 * */
-	public void jump(){
-		body.applyLinearImpulse(new Vector2(0,jumpSpeed),body.getWorldCenter(),true);
-		this.grounded = false;
-		jumping = true;
-	}
+	public abstract void jump();
 
 	/**
 	 * Inflicts param damage onto players current health
@@ -243,11 +209,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		if(playerState == player_state.DEAD)return false;
 		switch (keycode){
 			case Input.Keys.A:
-				moveLeft();
-
+				movingLeft = true;
+				movingRight = false;
 				break;
 			case Input.Keys.D:
-				moveRight();
+				movingRight = true;
+				movingLeft = false;
 				break;
 			case Input.Keys.W:
 				if(grounded)
@@ -259,7 +226,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.F:
 				shoot();
 			default:
-				velocity = new Vector2(0,0);
 				break;
 		}
 		return true;
@@ -281,7 +247,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				attacking = false;
 				break;
 			default:
-				velocity = new Vector2(0,0);
 				break;
 		}
 		return true;
@@ -317,4 +282,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public boolean scrolled(int amount) {
 		return false;
 	}
+
+
 }
