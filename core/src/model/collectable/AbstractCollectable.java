@@ -30,13 +30,30 @@ public abstract class AbstractCollectable implements GameObjectInterface {
 		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
 	}
 	
-	public void checkCollide(AbstractPlayer p){
+	public boolean checkCollide(AbstractPlayer p){
+		if(this.isPickedUp()){return false;}
 		if(p.getBoundingBox().overlaps(this.getBoundingBox())){
 			this.pickedUp = true;
 			this.pickedUp(p);
-		}	
+			return true;
+		}
+		return false;
 	}
 			
+	/**
+	 * @return the pickedUp
+	 */
+	public boolean isPickedUp() {
+		return pickedUp;
+	}
+
+	/**
+	 * @param pickedUp the pickedUp to set
+	 */
+	public void setPickedUp(boolean pickedUp) {
+		this.pickedUp = pickedUp;
+	}
+
 	public Rectangle getBoundingBox() {
 		return boundingBox;
 	}

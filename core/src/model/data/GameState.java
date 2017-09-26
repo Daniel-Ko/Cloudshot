@@ -4,6 +4,10 @@ import com.badlogic.gdx.Preferences;
 import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 
 /**
@@ -27,11 +31,21 @@ public class GameState{
         return state;
     }
 
-    public void setPlayer(AbstractPlayer player) {
-        //TODO: serialise player and add as string to pref
+    
+    /** puts the bytecode of a AbstractPlayer
+     *  into the Preference
+     *  @param player as bytecode
+     */
+    public void setPlayer(String player) {
+        state.putString("Player", player);
     }
-    public void setEnemies(List<AbstractEnemy> enemies) {
-        //TODO: serialise enemies and ass as string to pref
+    
+    /** puts the bytecode of a List<AbstractEnemies>
+     *  into the Preference
+     * @param enemies
+     */
+    public void setEnemies(String enemies) {
+        state.putString("Enemies", enemies);
     }
 
     /** As the model will load this value in, assure the TransactionHandler
