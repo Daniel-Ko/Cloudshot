@@ -14,6 +14,9 @@ import view.MovingSprite;
  * @author Jeremy Southon
  * */
 public class Player extends AbstractPlayer {
+	public static final int WIDTH = 32;
+	public static final int HEIGHT = 32;
+
 	private int meleeRange = 30;
 	protected AbstractWeapon curWeapon;
 
@@ -78,7 +81,6 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		System.out.println("shootfff");
 		pistol.shoot(this);
 	}
 

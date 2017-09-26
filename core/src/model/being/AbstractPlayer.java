@@ -34,7 +34,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Vector2 velocity;
 	protected Vector2 gravity;
 	protected float speed;
-	protected float jumpSpeed = 100;
+	protected float jumpSpeed = 700;
 	final static float MAX_VELOCITY = 7f;
 
 	protected int health;
@@ -72,11 +72,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set(pos);
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		bodyDef.linearDamping = 10;
 
 		body = world.createBody(bodyDef);
 
 		playerProperties = new FixtureDef();
-		//playerProperties.friction = 0f;
+		playerProperties.friction = 10f;
 		CircleShape circle = new CircleShape();
 		circle.setRadius(5);
 
@@ -91,14 +92,16 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * Update player y to that of the Box2D body (for the gravity effect).
 	 */
 	public void update(Array<Rectangle> tiles) {
+		if(movingLeft){
+			body.applyLinearImpulse(new Vector2(-1000,0),body.getWorldCenter(),true);
+		}
+		if(movingRight){
+			body.applyLinearImpulse(new Vector2(1000,0),body.getWorldCenter(),true);
+		}
 		collisionChecks(null);
 		updateActionsPlayerDoing();
 		//Updating Player Position
-		pos.add(velocity);
-		pos.y = body.getPosition().y;//Box2D body y cause gravity
-
-		//Moving(Translating) the x by players
-		body.setTransform(pos,0);
+		pos.set(body.getPosition());
 		//updating players bounding box position
 		boundingBox = new Rectangle(pos.x,pos.y+15,boundingBox.width,boundingBox.height);
 	}
@@ -140,7 +143,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void moveRight() {
 		movingLeft = false;
 		movingRight = true;
-		velocity.x += speed;
+		//velocity.x += speed;
+		body.applyLinearImpulse(new Vector2(1000,0),body.getWorldCenter(),true);
 	}
 	/**
 	 * Updates moving left and right fields appropriately
@@ -149,7 +153,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void moveLeft() {
 		movingRight = false;
 		movingLeft = true;
-		velocity.x -= speed;
+		body.applyLinearImpulse(new Vector2(-1000,0),body.getWorldCenter(),true);
 	}
 
 	/**
@@ -240,6 +244,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		switch (keycode){
 			case Input.Keys.A:
 				moveLeft();
+
 				break;
 			case Input.Keys.D:
 				moveRight();
@@ -264,13 +269,13 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public boolean keyUp(int keycode) {
 		switch (keycode){
 			case Input.Keys.A:
-				velocity.x = 0;
+				movingLeft = false;
 				break;
 			case Input.Keys.D:
-				velocity.x = 0;
+				movingRight = false;
 				break;
 			case Input.Keys.W:
-				velocity.y = 0;
+				jumping = false;
 				break;
 			case Input.Keys.SPACE:
 				attacking = false;

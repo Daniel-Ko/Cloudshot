@@ -33,7 +33,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    private int GRAVITY = -110;
+    private int GRAVITY = -100;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
@@ -106,7 +106,7 @@ public class GameModel {
     }
 
     public void draw(SpriteBatch sb){
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX(),player.getY());
+        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-player.WIDTH,player.getY()-player.HEIGHT+10);
         for(AbstractEnemy ae : enemies){
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
         }
