@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import model.collectable.AbstractCollectable;
+import model.collectable.DeathPack;
 import model.collectable.HealthPack;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
@@ -70,7 +71,16 @@ public class LevelOne extends AbstractLevel {
         collectables = new ArrayList<>();
         for(MapObject o : collectibleObjs){
             RectangleMapObject r = (RectangleMapObject) o;
-            collectables.add(new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),10,10));
+
+            AbstractCollectable collectable;
+            if(Math.random() > 0.7){
+                collectable = new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
+            }
+            else{
+                collectable = new DeathPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
+            }
+
+            collectables.add(collectable);
 
         }
     }

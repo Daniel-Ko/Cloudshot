@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="42">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="44">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="textures/atlas.png" width="512" height="512"/>
  </tileset>
@@ -30,6 +30,8 @@
   <object id="40" x="1375.34" y="1154.9" width="95.5911" height="29.2626"/>
  </objectgroup>
  <objectgroup name="Collectibles">
-  <object id="41" name="HealthPack" type="Collectible" x="736.594" y="1568.95" width="30.4459" height="30.9369"/>
+  <object id="41" x="735.088" y="1568.95" width="30.4459" height="30.9369"/>
+  <object id="42" x="552.377" y="1350.08" width="30.4459" height="30.9369"/>
+  <object id="43" x="1216.33" y="1467.52" width="30.4459" height="30.9369"/>
  </objectgroup>
 </map>

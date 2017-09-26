@@ -15,7 +15,7 @@ public class GameScreen extends ScreenAdapter{
 
     //These values may get changed on a per level basis.
     private final int WORLD_HEIGHT = 2000;
-    private final int WORLD_WIDTH = 2000;
+    private final int WORLD_WIDTH = 3000;
 
     public static final float FRAME_RATE = 0.09f;
 
