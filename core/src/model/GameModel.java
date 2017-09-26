@@ -56,12 +56,14 @@ public class GameModel {
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
             BodyDef terrainPiece = new BodyDef();
+            terrainPiece.type = BodyDef.BodyType.StaticBody;
             terrainPiece.position.set(new Vector2(r.x+r.width/2,r.y+r.height/2));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox(r.width/2,r.height/2);
 
-            groundBody.createFixture(groundBox,0.0f);
+            groundBody.createFixture(groundBox,0f);
+
             groundBox.dispose();
         }
 
