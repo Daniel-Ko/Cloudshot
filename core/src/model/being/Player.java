@@ -117,7 +117,7 @@ public class Player extends AbstractPlayer {
 			return jump;
 		}
 		//IDLE ANIMATION
-		if(velocity.x ==0 && velocity.y ==0){
+		if(body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0){
 			MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
 			//idle
 			if(movingLeft) {

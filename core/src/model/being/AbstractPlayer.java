@@ -51,7 +51,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/** Players inventory */
 	protected List<AbstractWeapon> inventory;
 	/** Position of the mouse*/
-	protected Vector2 aimedAt;
+	protected Vector2 aimedAt = new Vector2(50,50);
 
 	//Box2D
 	World world;
