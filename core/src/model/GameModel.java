@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import model.being.AbstractEnemy;
 
 import model.being.Player;
@@ -41,7 +43,7 @@ public class GameModel {
         this.cam = cam;
         world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
-        BodyDef groundDef= new BodyDef();
+        /*BodyDef groundDef= new BodyDef();
         groundDef.position.set(new Vector2(0,9*32));
         Body groundBody = world.createBody(groundDef);
         
@@ -49,7 +51,21 @@ public class GameModel {
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(10000, 10.0f);
         groundBody.createFixture(groundBox, 0.0f);
-        groundBox.dispose();
+        groundBox.dispose();*/
+
+        Array<Rectangle> terrain = level.getTiles();
+        for(Rectangle r : terrain){
+            BodyDef terrainPiece = new BodyDef();
+            terrainPiece.position.set(new Vector2(r.x+r.width/2,r.y+r.height/2));
+            Body groundBody = world.createBody(terrainPiece);
+            PolygonShape groundBox = new PolygonShape();
+            groundBox.setAsBox(r.width/2,r.height/2);
+
+            groundBody.createFixture(groundBox,0.0f);
+            groundBox.dispose();
+        }
+
+
         //ground.
         //End
 
@@ -98,7 +114,7 @@ public class GameModel {
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }
         //Box2D
-        //debugRenderer.render(world, cam.combined);
+        debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
 
     }
