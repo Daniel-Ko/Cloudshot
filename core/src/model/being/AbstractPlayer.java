@@ -117,7 +117,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 
 	/***
-	 * Loops ..
+	 * Loops ..a
 	 */
 	protected void collisionChecks(Array<Rectangle> tiles) {
 		Array<Contact> contactList = world.getContactList();

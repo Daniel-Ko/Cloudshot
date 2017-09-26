@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import model.being.AbstractEnemy;
 
+import model.being.MeleeEnemy;
 import model.being.Player;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
@@ -30,7 +31,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    private int GRAVITY = -150;
+    private int GRAVITY = -110;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
