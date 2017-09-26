@@ -127,7 +127,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 					contact.getFixtureB() == body.getFixtureList().first())) {
 				//on ground
 				grounded = true;
-				jumping = false;
+				jumping = false; 
 			}}
 	}
 	/**

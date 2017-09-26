@@ -1,9 +1,12 @@
 package model.projectile;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameObjectInterface;
+import model.being.AbstractEnemy;
 import view.CustomSprite;
 
 /**
@@ -65,14 +68,18 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		return this.image;
 	}
 
-	public void update(){
-		checkCollide();
+	public void update(ArrayList<AbstractEnemy> enemies){
+		doCollide(enemies);
 		pos.x += xVel;
 	    pos.y += yVel;
 	}
 
-	private void checkCollide() {
-		
+	private void doCollide(ArrayList<AbstractEnemy> enemies) {
+		for (AbstractEnemy e: enemies){
+			// check bounding box of enemies compared to pos of buttons.
+			// remove button from world
+			// do damage to enemy
+		}
 	}
 
 	/**

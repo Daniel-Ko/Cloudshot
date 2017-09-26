@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.Player;
 import model.projectile.BulletImpl;
 import view.CustomSprite;
+import view.StaticSprite;
 
 public class Pistol extends AbstractWeapon{
 	
@@ -18,11 +19,11 @@ public class Pistol extends AbstractWeapon{
 
 	@Override
 	public CustomSprite getImage() {
-		return null;
+		return new StaticSprite("bullet.png");
 	}
 	
 	public CustomSprite getBulletImage() {
-		return null;
+		return new StaticSprite("bullet.png");
 	}
 	
 
