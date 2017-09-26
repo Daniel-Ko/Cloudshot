@@ -78,6 +78,7 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
+		System.out.println("shootfff");
 		pistol.shoot(this);
 	}
 

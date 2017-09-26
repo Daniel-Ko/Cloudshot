@@ -128,7 +128,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				//on ground
 				grounded = true;
 				jumping = false;
-			}}
+			}else {
+				grounded = false;
+			}
+		}
 	}
 	/**
 	 * Updates moving left and right fields appropriately
@@ -248,6 +251,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.SPACE:
 				attacking = true;
 				break;
+			case Input.Keys.F:
+				shoot();
 			default:
 				velocity = new Vector2(0,0);
 				break;

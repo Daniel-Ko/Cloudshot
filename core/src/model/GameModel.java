@@ -45,7 +45,6 @@ public class GameModel {
         BodyDef groundDef= new BodyDef();
         groundDef.position.set(new Vector2(0,9*32));
         Body groundBody = world.createBody(groundDef);
-        
 
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(10000, 10.0f);
