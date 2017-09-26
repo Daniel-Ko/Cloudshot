@@ -8,8 +8,11 @@ import view.StaticSprite;
 
 public class HealthPack extends AbstractBuff {
 
+	CustomSprite image;
+
 	public HealthPack(Vector2 position, int width, int height) {
 		super(position, width, height);
+		image = new StaticSprite("healthpack.png");
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -18,7 +21,7 @@ public class HealthPack extends AbstractBuff {
 		/*if(this.pickedUp = true){
 			return null;
 		}*/
-		return new StaticSprite("healthpack.png");
+		return image;
 	}
 
 	@Override
