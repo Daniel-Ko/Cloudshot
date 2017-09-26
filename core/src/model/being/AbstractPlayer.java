@@ -20,6 +20,8 @@ import java.util.List;
  */
 public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor, java.io.Serializable{
 
+	private static final long serialVersionUID = 1313414442696252302L;
+
 	/**
 	 * Used to represent the different states of the player
 	 */
