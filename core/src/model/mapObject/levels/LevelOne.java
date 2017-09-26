@@ -73,7 +73,7 @@ public class LevelOne extends AbstractLevel {
             RectangleMapObject r = (RectangleMapObject) o;
 
             AbstractCollectable collectable;
-            if(Math.random() > 0.3){
+            if(Math.random() > 0.7){
                 collectable = new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
             }
             else{

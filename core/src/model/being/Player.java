@@ -3,6 +3,7 @@ package model.being;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import model.collectable.AbstractWeapon;
+import model.collectable.Pistol;
 import view.CustomSprite;
 import view.MovingSprite;
 
@@ -13,6 +14,9 @@ import view.MovingSprite;
  * @author Jeremy Southon
  * */
 public class Player extends AbstractPlayer {
+	public static final int WIDTH = 32;
+	public static final int HEIGHT = 32;
+
 	private int meleeRange = 30;
 	protected AbstractWeapon curWeapon;
 
@@ -30,6 +34,7 @@ public class Player extends AbstractPlayer {
 	private CustomSprite jump_left;
 	private CustomSprite walk_left;
 
+	Pistol pistol;
 	public Player(Vector2 position, int width, int height, int hp, float speed, World world) {
 		super(position, width, height, hp, speed,world);
 		damage = 1;
@@ -51,13 +56,15 @@ public class Player extends AbstractPlayer {
 		jump_left.flipHorizontal();
 		walk_left.flipHorizontal();
 		// TODO
+
+		pistol = new Pistol(pos,10,10);
 	}
 
 
 	/**
 	 * Expected to loop through 'enemies' and if the player is attacking
-	 * and there is a enemy within melee or attack_right range then we can hurt it..
-	 *
+	 * and there is a enemy within melee or attack_range then we can hurt it..
+
 	 * @param enemy Enemy which we are checking against
 	 *
 	 * @return true if the player attacked a enemy, o.w false
@@ -74,7 +81,7 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-
+		pistol.shoot(this);
 	}
 
 	@Override
@@ -110,7 +117,7 @@ public class Player extends AbstractPlayer {
 			return jump;
 		}
 		//IDLE ANIMATION
-		if(velocity.x ==0 && velocity.y ==0){
+		if(body.getLinearVelocity().x == 0 && body.getLinearVelocity().y == 0){
 			MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
 			//idle
 			if(movingLeft) {
