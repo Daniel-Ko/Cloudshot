@@ -8,15 +8,18 @@ import view.StaticSprite;
 
 public class DeathPack extends AbstractBuff {
 
+	CustomSprite image;
+
 	public DeathPack(Vector2 position, float width, float height) {
 		super(position, width, height);
+		image = new StaticSprite("ant.png");
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public CustomSprite getImage() {
 
-		return new StaticSprite("ant.png");
+		return image;
 	}
 
 	@Override
