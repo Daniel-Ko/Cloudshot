@@ -68,11 +68,23 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             ae.update();
         }
+        updateCollectables();
         world.step(1/60f,6,2);
     }
 
 
-    public void addEnemy(AbstractEnemy enemy){
+    public void updateCollectables() {
+    	AbstractCollectable remove = null;
+        for(AbstractCollectable ac : level.getCollectables()){
+           if(ac.checkCollide(getPlayer()) == true){
+        	   remove = ac;
+        	   break;
+           } 
+        }
+        if(remove != null){level.getCollectables().remove(remove);} 
+	}
+
+	public void addEnemy(AbstractEnemy enemy){
         enemies.add(enemy);
     }
 
