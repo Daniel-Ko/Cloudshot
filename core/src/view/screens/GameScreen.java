@@ -47,7 +47,7 @@ public class GameScreen extends ScreenAdapter{
 
         batch = new SpriteBatch();
 		
-        gameModel.getTiledMapRenderer().setView(camera);
+        //gameModel.getTiledMapRenderer().setView(camera);
     }
 
     @Override
@@ -58,15 +58,19 @@ public class GameScreen extends ScreenAdapter{
 
         elapsedTime += delta;
 
+        gameModel.getTiledMapRenderer().setView(camera); // Game map.
+        gameModel.getTiledMapRenderer().render();
+
         // Update the camera.
-        camera.update();
         updateCamera();
+        camera.update();
+
 
         // Update the game state.
         gameModel.updateState(elapsedTime);
 
         // Render the game elements.
-        gameModel.getTiledMapRenderer().render(); // Game map.
+
         batch.begin();
 
         drawLevelText();
@@ -94,7 +98,7 @@ public class GameScreen extends ScreenAdapter{
 
     public void drawLevelText(){
         BitmapFont text = new BitmapFont();
-        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),camera.position.x + 10 - camera.viewportWidth/2,camera.viewportHeight-10);
+        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),camera.position.x + 10 - camera.viewportWidth/2,camera.position.y + camera.viewportHeight/2);
     }
 
     @Override
