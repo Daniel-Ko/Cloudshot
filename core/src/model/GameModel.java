@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import model.being.AbstractEnemy;
 
+import model.being.MeleeEnemy;
 import model.being.Player;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
@@ -32,7 +33,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    private int GRAVITY = -150;
+    private int GRAVITY = -100;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
@@ -46,7 +47,6 @@ public class GameModel {
         /*BodyDef groundDef= new BodyDef();
         groundDef.position.set(new Vector2(0,9*32));
         Body groundBody = world.createBody(groundDef);
-        
 
         PolygonShape groundBox = new PolygonShape();
         groundBox.setAsBox(10000, 10.0f);
@@ -106,7 +106,7 @@ public class GameModel {
     }
 
     public void draw(SpriteBatch sb){
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX(),player.getY());
+        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-player.WIDTH,player.getY()-player.HEIGHT+10);
         for(AbstractEnemy ae : enemies){
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
         }
