@@ -34,17 +34,14 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/* variables used in player physics */
 	protected Vector2 pos;
 	protected Vector2 velocity;
-	protected Vector2 gravity;
 	protected float speed;
 	protected float jumpSpeed = 700;
-	final static float MAX_VELOCITY = 7f;
 
 	protected int health;
 	protected int damage;
 	protected Rectangle boundingBox;
 
 	// Variables of player actions
-	protected boolean canJump = true;
 	protected  boolean jumping = false;
 	protected boolean attacking = false;
 	protected boolean grounded = false;
@@ -77,12 +74,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * Update the players action fields & check for collisions with platforms...
 	 */
 	public  void update(Array<Rectangle> tiles) {
-		if(movingLeft){
-			moveLeft();
-		}
-		else if(movingRight){
-			moveRight();
-		}
+		handleInput();
 		collisionChecks(null);
 		updateActionsPlayerDoing();
 		//Updating Player Position
@@ -91,6 +83,14 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		boundingBox = new Rectangle(pos.x,pos.y+15,boundingBox.width,boundingBox.height);
 	}
 
+	protected void handleInput(){
+		if(movingLeft){
+			moveLeft();
+		}
+		else if(movingRight){
+			moveRight();
+		}
+	}
 	/**
 	 * Method constantly updates the fields which indicate the actions the player is
 	 * preforming such as moving left,right..

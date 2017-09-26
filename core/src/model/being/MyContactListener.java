@@ -10,7 +10,7 @@ public class MyContactListener implements ContactListener {
     public void beginContact(Contact contact) {
         String id = (String) contact.getFixtureA().getUserData();
         if(id.equals("user_foot")){
-//
+
         }
     }
 

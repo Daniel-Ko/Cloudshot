@@ -68,22 +68,23 @@ public class Player extends AbstractPlayer {
 
 		//shape def for main fixture
 		PolygonShape shape = new PolygonShape();
+		shape.setRadius(10);
 		shape.setAsBox(1,2);
 
 		//fixture def
 		playerProperties = new FixtureDef();
 		playerProperties.shape = shape;
 		playerProperties.density = 1;
-
+		//
 		bodyDef.position.set(pos);
 		body = world.createBody(bodyDef);
 
 		body.createFixture(playerProperties);
-		//add foot sensor fixture
-		shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
-		playerProperties.isSensor = true;
-		Fixture footSensorFixture = body.createFixture(playerProperties);
-		footSensorFixture.setUserData(3);
+//		//add foot sensor fixture
+//		shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
+//		playerProperties.isSensor = true;
+//		Fixture footSensorFixture = body.createFixture(playerProperties);
+//		footSensorFixture.setUserData(3);
 	}
 
 
@@ -130,7 +131,7 @@ public class Player extends AbstractPlayer {
 	 * applies players jump speed onto Box2D body
 	 * */
 	public void jump(){
-		body.applyLinearImpulse(new Vector2(0,jumpSpeed),body.getWorldCenter(),true);
+		body.applyLinearImpulse(new Vector2(0,500f),body.getWorldCenter(),true);
 		this.grounded = false;
 		jumping = true;
 	}
