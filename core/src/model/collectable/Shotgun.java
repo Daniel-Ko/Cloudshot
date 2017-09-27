@@ -14,15 +14,15 @@ public class Shotgun extends AbstractWeapon {
 	}
 
 	@Override
-	public void shoot(Player p) {
+	public BulletImpl shoot(Player p) {
 		
 		Vector2 aim = p.getAimedAt();
 		Vector2 aimAbove = aim.set(aim.x, aim.y + 5);
 		Vector2 aimBelow = aim.set(aim.x, aim.y - 5);
 		
-		new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage());
-		new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage());
-		new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage());
+//		new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage());
+//		new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage());
+		return new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage());
 	}
 
 	@Override

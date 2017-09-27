@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.being.AbstractPlayer;
 import model.being.Player;
+import model.projectile.BulletImpl;
 import view.CustomSprite;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
@@ -35,7 +36,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	
 	public abstract CustomSprite getBulletImage();
 	
-	public abstract void shoot(Player p);
+	public abstract BulletImpl shoot(Player p);
 
 	
 	

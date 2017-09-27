@@ -28,9 +28,9 @@ public class Pistol extends AbstractWeapon{
 	
 
 	@Override
-	public void shoot(Player p) {
+	public BulletImpl shoot(Player p) {
 		//shoots single pistol bullet.
-		new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage());
+		return new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage());
 		
 	}
 

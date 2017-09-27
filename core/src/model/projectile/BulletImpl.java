@@ -27,8 +27,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	
 	
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
-		this.startingPos = start;
-		this.endPos = end;
+		this.pos = new Vector2(start.x, start.y);
+		this.startingPos = pos;
+		this.endPos = new Vector2(end.x, end.y);
 		this.damage = damage;
 		this.image = t;
 		float tX = start.x - end.x;
@@ -69,9 +70,10 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	}
 
 	public void update(ArrayList<AbstractEnemy> enemies){
-		doCollide(enemies);
-		pos.x += xVel;
-	    pos.y += yVel;
+		//doCollide(enemies);
+		pos.set(pos.x-xVel,pos.y+yVel);
+		System.out.println("posX = "+ this.pos.x);
+		System.out.println("PosY = "+ this.pos.y);
 	}
 
 	private void doCollide(ArrayList<AbstractEnemy> enemies) {

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
 import model.being.AbstractEnemy;
 
@@ -18,6 +19,7 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
+import model.projectile.BulletImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +46,6 @@ public class GameModel {
         this.cam = cam;
         world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
-        /*BodyDef groundDef= new BodyDef();
-        groundDef.position.set(new Vector2(0,9*32));
-        Body groundBody = world.createBody(groundDef);
-
-        PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(10000, 10.0f);
-        groundBody.createFixture(groundBox, 0.0f);
-        groundBox.dispose();*/
 
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
@@ -102,12 +96,17 @@ public class GameModel {
         if(remove != null){level.getCollectables().remove(remove);} 
 	}
 
+
 	public void addEnemy(AbstractEnemy enemy){
         enemies.add(enemy);
     }
 
     public void draw(SpriteBatch sb){
         sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-player.WIDTH,player.getY()-player.HEIGHT+10);
+        //drawing player bullets
+        for(BulletImpl b : player.getBullets()){
+            sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX(),b.getY());
+        }
         for(AbstractEnemy ae : enemies){
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
         }

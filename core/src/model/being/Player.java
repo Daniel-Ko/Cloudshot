@@ -6,8 +6,12 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import model.collectable.AbstractWeapon;
 import model.collectable.Pistol;
+import model.projectile.BulletImpl;
 import view.CustomSprite;
 import view.MovingSprite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -37,7 +41,7 @@ public class Player extends AbstractPlayer {
 	private CustomSprite walk_left;
 
 	Pistol pistol;
-
+	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
 	int numFootContact = 0;
 	public Player(Vector2 position, int width, int height, int hp, float speed, World world) {
@@ -103,6 +107,10 @@ public class Player extends AbstractPlayer {
 
 		if(numFootContact< 1)inAir = true;
 		if(numFootContact >= 1)inAir = false;
+		//updating players bullets
+		for(BulletImpl b: bullets )
+			b.update(new ArrayList<>());
+		//FIXME ^^
 	}
 
 	/**
@@ -125,7 +133,7 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		pistol.shoot(this);
+		bullets.add(pistol.shoot(this));
 	}
 
 	/**
@@ -175,7 +183,9 @@ public class Player extends AbstractPlayer {
 			return getPos().y;
 		}
 
+	public List<BulletImpl> getBullets(){ return this.bullets; }
 
+	public AbstractWeapon getCurWeapon(){ return this.pistol; }
 
 	@Override
 	public CustomSprite getImage() {
