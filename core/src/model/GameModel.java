@@ -35,7 +35,8 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    private int GRAVITY = -50;
+    public static final int PPM = 50;
+    private int GRAVITY = -8;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;
@@ -51,10 +52,10 @@ public class GameModel {
         for(Rectangle r : terrain){
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
-            terrainPiece.position.set(new Vector2(r.x+r.width/2,r.y+r.height/2));
+            terrainPiece.position.set(new Vector2((r.x+r.width/2)/PPM,(r.y+r.height/2)/PPM));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
-            groundBox.setAsBox(r.width/2,r.height/2);
+            groundBox.setAsBox((r.width/2)/GameModel.PPM,(r.height/2)/GameModel.PPM);
             //userdata to tell us which things are colliding
             groundBody.createFixture(groundBox,0.0f).setUserData("platform");
             groundBox.dispose();
@@ -102,7 +103,7 @@ public class GameModel {
     }
 
     public void draw(SpriteBatch sb){
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-player.WIDTH,player.getY()-player.HEIGHT+10);
+        //sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-player.WIDTH,player.getY()-player.HEIGHT+10);
         //drawing player bullets
         for(BulletImpl b : player.getBullets()){
             sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX(),b.getY());

@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter{
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(VIEW_WIDTH,VIEW_WIDTH * (h / w));
+        camera = new OrthographicCamera(VIEW_WIDTH/GameModel.PPM,(VIEW_WIDTH * (h / w)/GameModel.PPM));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
