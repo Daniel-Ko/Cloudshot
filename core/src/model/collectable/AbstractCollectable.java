@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import model.GameModel;
 import model.GameObjectInterface;
 
 
@@ -26,8 +27,8 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 
 	
 	public AbstractCollectable(Vector2 position, float width, float height){
-		this.pos = position;
-		this.boundingBox = new Rectangle(pos.x, pos.y, width, height);
+		this.pos = new Vector2(position.x/GameModel.PPM, position.y/GameModel.PPM);
+		this.boundingBox = new Rectangle(pos.x, pos.y, width/GameModel.PPM, height/GameModel.PPM);
 	}
 	
 	public boolean checkCollide(AbstractPlayer p){
@@ -66,12 +67,12 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 	
 	@Override
 	public float getX() {
-		return pos.x;
+		return (float)pos.x;
 	}
 
 	@Override
 	public float getY() {
-		return (float) pos.y;
+		return (float)pos.y;
 	}
 	
 	@Override

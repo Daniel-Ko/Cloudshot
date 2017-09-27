@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+import model.GameModel;
 import model.GameObjectInterface;
 import model.being.AbstractEnemy;
 import view.CustomSprite;
@@ -27,13 +28,13 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	
 	
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
-		this.pos = new Vector2(start.x, start.y);
+		this.pos = new Vector2(start.x/GameModel.PPM, start.y/GameModel.PPM);
 		this.startingPos = pos;
-		this.endPos = new Vector2(end.x, end.y);
+		this.endPos = new Vector2(end.x/GameModel.PPM, end.y/GameModel.PPM);
 		this.damage = damage;
 		this.image = t;
-		float tX = start.x - end.x;
-		float tY = start.y - end.y;
+		float tX = startingPos.x - endPos.x;
+		float tY = startingPos.y - endPos.y;
 		float mag = (float) java.lang.Math.hypot(tX, tY);
 		tX/=mag;
 	    tY/=mag;
@@ -49,7 +50,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	@Override
 	public float getX() {
 		// TODO Auto-generated method stub
-		return pos.x;
+		return this.pos.x;
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +59,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	@Override
 	public float getY() {
 		// TODO Auto-generated method stub
-		return pos.y;
+		return this.pos.y;
 	}
 
 	/* (non-Javadoc)
