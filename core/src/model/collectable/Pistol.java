@@ -19,6 +19,7 @@ public class Pistol extends AbstractWeapon{
 		super(position, width, height);
 		this.setDamage(PISTOL_DAMAGE);
 		image = new MovingSprite("bullet.png", 3, 2);
+		image.setResize(true);
 	}
 
 	@Override
