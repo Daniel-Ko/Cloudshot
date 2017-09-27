@@ -187,12 +187,12 @@ public class Player extends AbstractPlayer {
 
 	@Override
 		public float getX() {
-			return getPos().x/GameModel.PPM;
+			return getPos().x;
 		}
 
 		@Override
 		public float getY() {
-			return getPos().y/GameModel.PPM;
+			return getPos().y;
 		}
 
 	public List<BulletImpl> getBullets(){ return this.bullets; }
