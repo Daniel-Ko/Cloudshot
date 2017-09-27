@@ -34,8 +34,6 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
-    apply plugin: 'java'
-
 }
 
 project(":desktop") {
@@ -58,7 +56,7 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java"
 
-    sourceSets.test.java.srcDirs = ["src/test"]
+    sourceSets.test.java.srcDirs = ["test/"]
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -70,7 +68,6 @@ project(":core") {
         compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0"
         compile "com.kotcrab.vis:vis-ui:1.3.0"
         compile "com.github.czyzby:gdx-kiwi:1.9.1.9.6"
-
         testCompile 'junit:junit:4.12'
         testCompile "org.mockito:mockito-core:2.2.7"
     }
