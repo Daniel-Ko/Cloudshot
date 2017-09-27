@@ -36,7 +36,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    public static final int PPM = 50;
+    public static final float PPM = 50;
     private int GRAVITY = -8;
     World world;
     Box2DDebugRenderer debugRenderer;

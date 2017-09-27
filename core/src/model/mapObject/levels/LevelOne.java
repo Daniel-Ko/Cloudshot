@@ -1,5 +1,6 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import model.GameModel;
 import model.collectable.AbstractCollectable;
 import model.collectable.DeathPack;
 import model.collectable.HealthPack;
@@ -58,7 +60,7 @@ public class LevelOne extends AbstractLevel {
             }
         }*/
         tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
         MapLayer layer = tiledMap.getLayers().get("Object Layer 1");
         MapObjects objects = layer.getObjects();
         for(MapObject o : objects){

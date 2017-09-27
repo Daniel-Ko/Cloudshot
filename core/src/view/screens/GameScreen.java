@@ -3,10 +3,13 @@ package view.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import model.GameModel;
 import model.mapObject.levels.LevelOne;
@@ -38,7 +41,7 @@ public class GameScreen extends ScreenAdapter{
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(VIEW_WIDTH/GameModel.PPM,(VIEW_WIDTH * (h / w)/GameModel.PPM));
+        camera = new OrthographicCamera(VIEW_WIDTH/GameModel.PPM,((VIEW_WIDTH * (h / w))/GameModel.PPM));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
@@ -97,8 +100,24 @@ public class GameScreen extends ScreenAdapter{
     }
 
     public void drawLevelText(){
-        BitmapFont text = new BitmapFont();
-        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),(camera.position.x + 10 - camera.viewportWidth/2)/GameModel.PPM,(camera.position.y + camera.viewportHeight/2)/GameModel.PPM);
+        /*BitmapFont text = new BitmapFont();
+        //text.getData().setScale(1/GameModel.PPM,1/GameModel.PPM);
+        text.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        text.getData().setScale(1.0f/50f);
+        //text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),(camera.position.x + 10 - camera.viewportWidth/2)/GameModel.PPM,(camera.position.y + camera.viewportHeight/2)/GameModel.PPM);
+        text.draw(batch,"Hello",camera.position.x,camera.position.y);*/
+/*
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/open-sans/OpenSans-Bold.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 8;
+       // generator.dispose();
+
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+        font.getData().setScale(1f/10f);
+        font.draw(batch,"Hello",camera.position.x-camera.viewportWidth/2,camera.position.y+camera.viewportHeight/2);*/
+
     }
 
     @Override
