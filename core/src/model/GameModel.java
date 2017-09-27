@@ -104,7 +104,7 @@ public class GameModel {
     }
 
     public void draw(SpriteBatch sb){
-        //sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-player.WIDTH,player.getY()-player.HEIGHT+10);
+        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-0.75f,player.getY()-0.75f,1.5f,1.5f);
         //drawing player bullets
         for(BulletImpl b : player.getBullets()){
             sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX(),b.getY());
