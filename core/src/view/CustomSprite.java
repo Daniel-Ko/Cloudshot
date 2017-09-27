@@ -17,7 +17,12 @@ public abstract class CustomSprite{
     protected boolean horizontal;
     protected boolean vertical;
 
+    protected boolean resize;
+
+    protected String name;
+
     public CustomSprite(String imageName){
+        this.name = imageName;
         this.spriteImage = new Texture(Gdx.files.internal(imageName));
         this.horizontal = false;
         this.vertical = false;
@@ -29,6 +34,10 @@ public abstract class CustomSprite{
      */
     public void flipHorizontal(){
         this.horizontal = true;
+    }
+
+    public void setResize(boolean resize){
+        this.resize = resize;
     }
 
     /**
