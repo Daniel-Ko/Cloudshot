@@ -19,6 +19,11 @@ public class ShootingEnemy extends AbstractEnemy{
 
 	}
 
+	protected void movement(){
+
+
+	}
+
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub

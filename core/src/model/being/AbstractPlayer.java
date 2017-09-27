@@ -42,7 +42,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Rectangle boundingBox;
 
 	// Variables of player actions
-	protected  boolean jumping = false;
+	protected  boolean inAir = false;
 	protected boolean attacking = false;
 	protected boolean grounded = false;
 	protected boolean movingLeft;
@@ -73,7 +73,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 *
 	 * Update the players action fields & check for collisions with platforms...
 	 */
-	public  void update(Array<Rectangle> tiles) {
+	public void update(Array<Rectangle> tiles) {
 		handleInput();
 		collisionChecks(null);
 		updateActionsPlayerDoing();
@@ -85,6 +85,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	protected void handleInput(){
 		if(movingLeft){
+			//only want to move left
 			moveLeft();
 		}
 		else if(movingRight){
@@ -113,7 +114,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 					contact.getFixtureB() == body.getFixtureList().first())) {
 				//on ground
 				grounded = true;
-				jumping = false;
+				//inAir = false;
 			}
 		}
 	}
@@ -219,7 +220,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				movingLeft = false;
 				break;
 			case Input.Keys.W:
-				if(grounded)
+				//if(grounded)
 					jump();
 				break;
 			case Input.Keys.SPACE:
@@ -243,7 +244,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				movingRight = false;
 				break;
 			case Input.Keys.W:
-				jumping = false;
 				break;
 			case Input.Keys.SPACE:
 				attacking = false;

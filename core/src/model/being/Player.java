@@ -1,7 +1,9 @@
 package model.being;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import model.collectable.AbstractWeapon;
 import model.collectable.Pistol;
 import view.CustomSprite;
@@ -35,6 +37,9 @@ public class Player extends AbstractPlayer {
 	private CustomSprite walk_left;
 
 	Pistol pistol;
+
+	//Box2D
+	int numFootContact = 0;
 	public Player(Vector2 position, int width, int height, int hp, float speed, World world) {
 		super(position, width, height, hp, speed,world);
 		damage = 1;
@@ -58,6 +63,9 @@ public class Player extends AbstractPlayer {
 		// TODO
 
 		pistol = new Pistol(pos,10,10);
+
+		//Box2D
+		world.setContactListener(new MyContactListener());
 	}
 
 	protected void definePlayer(Vector2 pos){
@@ -68,27 +76,34 @@ public class Player extends AbstractPlayer {
 
 		//shape def for main fixture
 		PolygonShape shape = new PolygonShape();
-		shape.setRadius(10);
+		//shape.setRadius;
 		shape.setAsBox(1,2);
 
 		//fixture def
 		playerProperties = new FixtureDef();
 		playerProperties.shape = shape;
 		playerProperties.density = 1;
+		playerProperties.friction = 18;
 		//
 		bodyDef.position.set(pos);
 		body = world.createBody(bodyDef);
-
+		//adding main fixture
 		body.createFixture(playerProperties);
-//		//add foot sensor fixture
-//		shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
-//		playerProperties.isSensor = true;
-//		Fixture footSensorFixture = body.createFixture(playerProperties);
-//		footSensorFixture.setUserData(3);
+
+		//add foot sensor fixture
+		shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
+		playerProperties.isSensor = true;
+		Fixture footSensorFixture = body.createFixture(playerProperties);
+		footSensorFixture.setUserData("user_feet");
 	}
 
+	@Override
+	public void update(Array<Rectangle> tiles){
+		super.update(null);
 
-
+		if(numFootContact< 1)inAir = true;
+		if(numFootContact >= 1)inAir = false;
+	}
 
 	/**
 	 * Expected to loop through 'enemies' and if the player is attacking
@@ -117,23 +132,37 @@ public class Player extends AbstractPlayer {
 	 * Defined what happens when moving right
 	 * */
 	public void moveRight() {
-		body.applyLinearImpulse(new Vector2(1000,0),body.getWorldCenter(),true);
+		if(inAir){
+			body.applyForce(new Vector2(1000,0),body.getWorldCenter(),true);
+		}
+		else
+			body.applyLinearImpulse(new Vector2(500,0),body.getWorldCenter(),true);
 	}
 
 	/**
 	 * Defined what happens when moving left
 	 * */
-	public void moveLeft() {
-		body.applyLinearImpulse(new Vector2(-1000,0),body.getWorldCenter(),true);
+	public void moveLeft()
+	{
+		if(inAir)
+			body.applyForce(new Vector2(-1000,0),body.getWorldCenter(),true);
+
+		else
+			body.applyLinearImpulse(new Vector2(-200,0),body.getWorldCenter(),true);
 	}
 
 	/**
 	 * applies players jump speed onto Box2D body
 	 * */
 	public void jump(){
+		//players feet is not in contact with ground therefore cant jump
+		if(numFootContact<1){
+			inAir =true;
+			return;
+		}
 		body.applyLinearImpulse(new Vector2(0,500f),body.getWorldCenter(),true);
 		this.grounded = false;
-		jumping = true;
+		inAir = true;
 	}
 
 	@Override
@@ -160,9 +189,9 @@ public class Player extends AbstractPlayer {
 				attacking.flipHorizontal();
 			return  attacking;
 		}
-		//FIXME temp effect for jumping
+		//FIXME temp effect for inAir
 		//JUMPING ANIMATION
-		if(this.jumping){
+		if(this.inAir){
 			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
 			if(movingLeft)
 				jump.flipHorizontal();
@@ -185,5 +214,46 @@ public class Player extends AbstractPlayer {
 
 
 }
+
+	class MyContactListener implements ContactListener{
+		//http://www.iforce2d.net/b2dtut/jumpability
+
+		@Override
+		public void beginContact(Contact contact) {
+
+			String id = (String) contact.getFixtureA().getUserData();
+			if(id.equals("user_feet")){
+				numFootContact++;
+			}
+			String id2 = (String) contact.getFixtureB().getUserData();
+			if(id2 == null)return;
+			if(id2.equals("user_feet")){
+				numFootContact++;
+			}
+		}
+
+		@Override
+		public void endContact(Contact contact) {
+			String id = (String) contact.getFixtureA().getUserData();
+			if(id.equals("user_feet")){
+				numFootContact--;
+			}
+			String id2 = (String) contact.getFixtureB().getUserData();
+			if(id2 == null)return;
+			if(id2.equals("user_feet")){
+				numFootContact--;
+			}
+		}
+
+		@Override
+		public void preSolve(Contact contact, Manifold oldManifold) {
+
+		}
+
+		@Override
+		public void postSolve(Contact contact, ContactImpulse impulse) {
+
+		}
+	}
 
 }

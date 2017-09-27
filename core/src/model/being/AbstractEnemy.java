@@ -22,6 +22,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected Vector2 velocity;
 	protected int speed;
 	protected int health;
+	protected int damage;
 	protected AbstractPlayer player;
 
 	protected enemy_state state = enemy_state.EALIVE;
@@ -33,6 +34,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public AbstractEnemy(int hp,AbstractPlayer player,Vector2 pos){
 		health = hp;
 		speed = 2;//TODO
+		damage = 1;
 		position = pos;
 		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(position.x,position.y,50,50);//FIXME
@@ -41,6 +43,11 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	protected abstract boolean attack();
 
+
+	/**
+	 * Method used to define this enemy's movement patterns
+	 * */
+	protected abstract void movement();
 
 	/**
 	 * Classic update method which should be called each 'frame'/update

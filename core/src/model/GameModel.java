@@ -33,7 +33,7 @@ public class GameModel {
     private float elapsedTime = 0f;
 
     //Box2D
-    private int GRAVITY = -100;
+    private int GRAVITY = -50;
     World world;
     Box2DDebugRenderer debugRenderer;
     OrthographicCamera cam;

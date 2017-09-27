@@ -14,7 +14,6 @@ import view.MovingSprite;
 public class MeleeEnemy extends AbstractEnemy {
 	int detectionRadius = 200;
 	int attackRadius = 36;
-	int damage =1;
 	boolean canAttack;
 
 	//DIFFERENT IMAGES FOR DIFFERENT STATES
@@ -32,6 +31,7 @@ public class MeleeEnemy extends AbstractEnemy {
 		dead = new MovingSprite("Skeleton Dead.png",1,1);
 		idle = new MovingSprite("Skeleton Idle.png",1,11);
 		walk = new MovingSprite("Skeleton Walk.png",1,13);
+		damage = 1;
 	}
 
 	/**
@@ -61,6 +61,11 @@ public class MeleeEnemy extends AbstractEnemy {
 		velocity.x=0;
 		velocity.y=0;
 		state = enemy_state.EALIVE;
+		movement();
+	}
+
+	@Override
+	public void movement(){
 		if(position.dst(player.pos)<detectionRadius){
 			if(position.dst(player.pos)<attackRadius){
 				if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
