@@ -31,7 +31,7 @@ public class LevelOne extends AbstractLevel {
         super();
     }
 
-    List<AbstractCollectable> collectables;
+
     @Override
     public String getLevelName() {
         return "Welcome to Cloudshot";
@@ -47,43 +47,5 @@ public class LevelOne extends AbstractLevel {
         return collectables;
     }
 
-    public void generateLevel(){
-        /*int pixelWidth = 16;
-        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        TiledMapTileLayer layer = (TiledMapTileLayer)tiledMap.getLayers().get("Tile Layer 1");
-        for (int i = 0; i < layer.getWidth(); i++) {
-            for (int j = 0; j < layer.getHeight(); j++) {
-                TiledMapTileLayer.Cell cell = layer.getCell(i,j);
-                if(cell == null) continue;
-                tiles.add(new Rectangle(i*pixelWidth,j*pixelWidth,pixelWidth,pixelWidth));
-            }
-        }*/
-        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
-        MapLayer layer = tiledMap.getLayers().get("Object Layer 1");
-        MapObjects objects = layer.getObjects();
-        for(MapObject o : objects){
-            if(!(o instanceof RectangleMapObject)) continue;
-            RectangleMapObject r = (RectangleMapObject) o;
-            tiles.add(r.getRectangle());
-        }
-        MapLayer collectibles = tiledMap.getLayers().get("Collectibles");
-        MapObjects collectibleObjs = collectibles.getObjects();
-        collectables = new ArrayList<>();
-        for(MapObject o : collectibleObjs){
-            RectangleMapObject r = (RectangleMapObject) o;
 
-            AbstractCollectable collectable;
-            if(Math.random() > 0.7){
-                collectable = new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
-            }
-            else{
-                collectable = new DeathPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
-            }
-
-            collectables.add(collectable);
-
-        }
-    }
 }

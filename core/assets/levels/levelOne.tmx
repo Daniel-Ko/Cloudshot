@@ -29,7 +29,7 @@
   <object id="39" x="1218.3" y="1153.92" width="92.6648" height="93.6403"/>
   <object id="40" x="1375.34" y="1154.9" width="95.5911" height="29.2626"/>
  </objectgroup>
- <objectgroup name="Collectibles">
+ <objectgroup color="#000000" name="Collectibles">
   <object id="41" x="735.088" y="1568.95" width="30.4459" height="30.9369"/>
   <object id="42" x="552.377" y="1350.08" width="30.4459" height="30.9369"/>
   <object id="43" x="1216.33" y="1467.52" width="30.4459" height="30.9369"/>
