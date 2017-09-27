@@ -12,13 +12,12 @@ public class DeathPack extends AbstractBuff {
 
 	public DeathPack(Vector2 position, float width, float height) {
 		super(position, width, height);
-		image = new StaticSprite("ant.png");
+		image = new StaticSprite("deathpack.png");
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public CustomSprite getImage() {
-
 		return image;
 	}
 
