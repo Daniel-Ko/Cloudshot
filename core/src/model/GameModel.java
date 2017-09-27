@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
 import model.being.AbstractEnemy;
 
+import model.being.AbstractPlayer;
 import model.being.MeleeEnemy;
 import model.being.Player;
 import model.collectable.AbstractCollectable;
@@ -130,6 +131,7 @@ public class GameModel {
         return level.getTiledMapRenderer();
     }
 
+    //TODO: these should be deep-cloned, @Jeremy, @Jake
     public Player getPlayer() {
         return player;
     }
@@ -138,20 +140,29 @@ public class GameModel {
         return enemies;
     }
 
+    public List<AbstractCollectable> getCollectables() {
+        return level.getCollectables();
+    }
+
 
     public void save() {
         if(!repoScraper.save(this)) {
-
+            //TODO: msg dialog: save failed
         }
     }
 
     public void load() {
         try {
             StateQuery loader = repoScraper.load();
-            //player = loader.getPlayer();
-            //enemies = loader.getEnemies();
+
+            //beautiful waterfall design of method calls into assignments
+            AbstractPlayer player = loader.loadPlayer();
+            List<AbstractEnemy> enemies = loader.loadEnemies();
+            List<AbstractCollectable> collectables = loader.loadCollectables();
+
+            //TODO: jerem + jake need to use these values to replace their own...guaranteed to be valid data so dw about checking before you replace your data...I hope
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
-            //TODO: SAY TRY AGAIN BUB, FAILED LOAD
+            //TODO: msg dialog: load failed
         }
     }
 

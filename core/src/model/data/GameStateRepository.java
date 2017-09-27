@@ -28,4 +28,8 @@ public class GameStateRepository{
     public GameState pullHard() {
         return gameStates.pop();
     }
+
+    public int latestSaveNum() {
+        return gameStates.size();
+    }
 }

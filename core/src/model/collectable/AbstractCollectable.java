@@ -14,7 +14,7 @@ import view.CustomSprite;
 import view.MovingSprite;
 
 
-public abstract class AbstractCollectable implements GameObjectInterface {
+public abstract class AbstractCollectable implements GameObjectInterface, java.io.Serializable{
 	
 
 	protected Vector2 pos;

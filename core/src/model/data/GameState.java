@@ -36,7 +36,7 @@ public class GameState{
      *  into the Preference
      *  @param player as bytecode
      */
-    public void setPlayer(String player) {
+    public void setPlayerInPref(String player) {
         state.putString("Player", player);
     }
     
@@ -44,7 +44,7 @@ public class GameState{
      *  into the Preference
      * @param enemies
      */
-    public void setEnemies(String enemies) {
+    public void setEnemiesInPref(String enemies) {
         state.putString("Enemies", enemies);
     }
 

@@ -1,29 +1,36 @@
 package model.data;
 
 import model.being.AbstractEnemy;
+import model.being.AbstractPlayer;
 import model.being.Player;
+import model.collectable.AbstractCollectable;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Dan Ko on 9/25/2017.
  */
 public class StateQuery {
-    private GameState state;
+    private AbstractPlayer player;
+    private List<AbstractEnemy> enemies;
+    private List<AbstractCollectable> collectables;
 
-    public StateQuery(GameState s) {
-        state = s;
+    public StateQuery(AbstractPlayer p, List<AbstractEnemy> e, List<AbstractCollectable> c) {
+        player = p;
+        enemies = e;
+        collectables = c;
     }
 
-    public Player loadPlayer() { //should this be AbstractPlayer?
-        String player = state.getPref().getString("Player");
-        //todo unserialise
-        return null;
+    public AbstractPlayer loadPlayer() {
+        return player; //todo: player.clone()
     }
 
     public List<AbstractEnemy> loadEnemies() {
-        String enemies = state.getPref().getString("Enemies");
-        //todo unserialise
-        return null;
+        return Collections.unmodifiableList(enemies);
+    }
+
+    public List<AbstractCollectable> loadCollectables() {
+        return Collections.unmodifiableList(collectables);
     }
 }
