@@ -1,9 +1,11 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import model.GameModel;
 import model.collectable.AbstractWeapon;
 import model.collectable.Pistol;
 import model.projectile.BulletImpl;
@@ -79,23 +81,25 @@ public class Player extends AbstractPlayer {
 		bodyDef.fixedRotation = true;
 
 		//shape def for main fixture
-		PolygonShape shape = new PolygonShape();
-		//shape.setRadius;
-		shape.setAsBox(1,2);
+		//PolygonShape shape = new PolygonShape();
+		CircleShape shape = new CircleShape();
+		shape.setRadius(5f/ GameModel.PPM);
+		//shape.setAsBox(1,2);
 
 		//fixture def
 		playerProperties = new FixtureDef();
 		playerProperties.shape = shape;
-		playerProperties.density = 1;
-		playerProperties.friction = 18;
+		playerProperties.density = 0.7f;
+		playerProperties.friction = 15;
+
 		//
-		bodyDef.position.set(pos);
+		bodyDef.position.set(pos.x / GameModel.PPM,pos.y/GameModel.PPM);
 		body = world.createBody(bodyDef);
 		//adding main fixture
 		body.createFixture(playerProperties);
 
 		//add foot sensor fixture
-		shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
+		//shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
 		playerProperties.isSensor = true;
 		Fixture footSensorFixture = body.createFixture(playerProperties);
 		footSensorFixture.setUserData("user_feet");
@@ -140,11 +144,14 @@ public class Player extends AbstractPlayer {
 	 * Defined what happens when moving right
 	 * */
 	public void moveRight() {
-		if(inAir){
-			body.applyForce(new Vector2(1000,0),body.getWorldCenter(),true);
+		//TODO add min and max speed variables
+		if(body.getLinearVelocity().x > 2 )return;
+		if(inAir &&  body.getLinearVelocity().x<0.5){
+			System.out.println("In air move right");
+			body.applyLinearImpulse(new Vector2(0.07f,0),body.getWorldCenter(),true);
 		}
-		else
-			body.applyLinearImpulse(new Vector2(500,0),body.getWorldCenter(),true);
+		else if(!inAir)
+			body.applyLinearImpulse(new Vector2(0.1f,0),body.getWorldCenter(),true);
 	}
 
 	/**
@@ -152,11 +159,14 @@ public class Player extends AbstractPlayer {
 	 * */
 	public void moveLeft()
 	{
-		if(inAir)
-			body.applyForce(new Vector2(-1000,0),body.getWorldCenter(),true);
-
-		else
-			body.applyLinearImpulse(new Vector2(-200,0),body.getWorldCenter(),true);
+		//TODO create min and max speed variables
+		//Limits speed
+		if(body.getLinearVelocity().x < -1 )return;//TODO MOVE THIS
+		if(inAir && body.getLinearVelocity().x>-0.5) {
+			body.applyLinearImpulse(new Vector2(-0.07f, 0), body.getWorldCenter(), true);
+		}
+		else if(!inAir)//TODO HERE
+			body.applyLinearImpulse(new Vector2(-0.1f,0),body.getWorldCenter(),true);
 	}
 
 	/**
@@ -168,7 +178,7 @@ public class Player extends AbstractPlayer {
 			inAir =true;
 			return;
 		}
-		body.applyLinearImpulse(new Vector2(0,500f),body.getWorldCenter(),true);
+		body.applyLinearImpulse(new Vector2(0,0.3f),body.getWorldCenter(),true);
 		this.grounded = false;
 		inAir = true;
 	}

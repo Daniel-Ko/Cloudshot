@@ -226,8 +226,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.SPACE:
 				attacking = true;
 				break;
-			case Input.Keys.F:
-				shoot();
 			default:
 				break;
 		}
@@ -261,7 +259,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
+		shoot();
+		return true;
 	}
 
 	@Override
