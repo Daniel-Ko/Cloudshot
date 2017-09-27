@@ -6,7 +6,9 @@ import view.CustomSprite;
 
 public abstract class AbstractBuff extends AbstractCollectable {
 
-    public AbstractBuff(Vector2 position, float width, float height) {
+    
+
+	public AbstractBuff(Vector2 position, float width, float height) {
 		super(position, width, height);
 	}
 

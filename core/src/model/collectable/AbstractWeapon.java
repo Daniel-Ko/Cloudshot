@@ -3,6 +3,11 @@ package model.collectable;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+import model.being.AbstractPlayer;
+import model.being.Player;
+import model.projectile.BulletImpl;
+import view.CustomSprite;
+
 public abstract class AbstractWeapon extends AbstractCollectable {
 	
 
@@ -23,9 +28,17 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	}
 
 	@Override
-	public void pickedUp() {
-		//this.player.getInventory().add(this);
+	public void pickedUp(AbstractPlayer p) {
+		//adds the weapon to the players inventory.
+		p.getInventory().add(this);
+		
 	}
+	
+	public abstract CustomSprite getBulletImage();
+	
+	public abstract BulletImpl shoot(Player p);
+
+	
 	
 	
 

@@ -2,25 +2,41 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.being.Player;
+import model.projectile.BulletImpl;
 import view.CustomSprite;
+import view.MovingSprite;
+import view.StaticSprite;
 
 public class Pistol extends AbstractWeapon{
 	
 	protected final float PISTOL_DAMAGE = 5;
+
+	private CustomSprite image;
+	
 	
 	public Pistol(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.setDamage(PISTOL_DAMAGE);
-	}
-
-	@Override
-	public float getDamage() {
-		return super.getDamage();
+		image = new MovingSprite("bullet.png", 3, 2);
+		image.setResize(true);
 	}
 
 	@Override
 	public CustomSprite getImage() {
-		return null;
+		return this.image;
+	}
+	
+	public CustomSprite getBulletImage() {
+		return this.image;
+	}
+	
+
+	@Override
+	public BulletImpl shoot(Player p) {
+		//shoots single pistol bullet.
+		return new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage());
+		
 	}
 
 	

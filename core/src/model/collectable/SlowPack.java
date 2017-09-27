@@ -2,6 +2,7 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.being.AbstractPlayer;
 import view.CustomSprite;
 
 public class SlowPack extends AbstractBuff {
@@ -17,9 +18,9 @@ public class SlowPack extends AbstractBuff {
 	}
 
 	@Override
-	public void pickedUp() {
-		Vector2 oldVelocity = this.player.getVelocity();
-		this.player.setVelocity(oldVelocity.scl((float) 0.5));
+	public void pickedUp(AbstractPlayer p) {
+		Vector2 oldVelocity = p.getVelocity();
+		p.setVelocity(oldVelocity.scl((float) 0.5));
 	}
 
 }
