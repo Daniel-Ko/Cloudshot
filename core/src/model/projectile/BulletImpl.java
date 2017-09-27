@@ -73,8 +73,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	public void update(ArrayList<AbstractEnemy> enemies){
 		//doCollide(enemies);
 		pos.set(pos.x-xVel,pos.y+yVel);
-		System.out.println("posX = "+ this.pos.x);
-		System.out.println("PosY = "+ this.pos.y);
+//		System.out.println("posX = "+ this.pos.x);
+//		System.out.println("PosY = "+ this.pos.y);
 	}
 
 	private void doCollide(ArrayList<AbstractEnemy> enemies) {

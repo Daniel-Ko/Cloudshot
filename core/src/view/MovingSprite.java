@@ -72,8 +72,8 @@ public class MovingSprite extends CustomSprite {
             r.setRegionWidth((int) ((float)spriteImage.getWidth() / GameModel.PPM));
         }
 
-        System.out.println("NAME: " + name);
-        System.out.println("WIDTH: " +  r.getRegionWidth());
+//        System.out.println("NAME: " + name);
+//        System.out.println("WIDTH: " +  r.getRegionWidth());
 
         r.flip(horizontal, vertical);
         return r;
