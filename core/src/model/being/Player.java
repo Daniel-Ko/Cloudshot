@@ -24,6 +24,8 @@ import java.util.List;
 public class Player extends AbstractPlayer {
 	public static final int WIDTH = 32;
 	public static final int HEIGHT = 32;
+	private float maxSpeed = 1;
+	private float maxSpeedInAir = 0.5f;
 
 	private int meleeRange = 30;
 	protected AbstractWeapon curWeapon;
@@ -99,6 +101,7 @@ public class Player extends AbstractPlayer {
 		body.createFixture(playerProperties);
 
 		//add foot sensor fixture
+
 		//shape.setAsBox(0.3f, 0.3f, new Vector2(0,-2), 0);
 		playerProperties.isSensor = true;
 		Fixture footSensorFixture = body.createFixture(playerProperties);
@@ -144,13 +147,10 @@ public class Player extends AbstractPlayer {
 	 * Defined what happens when moving right
 	 * */
 	public void moveRight() {
-		//TODO add min and max speed variables
-		if(body.getLinearVelocity().x > 2 )return;
-		if(inAir &&  body.getLinearVelocity().x<0.5){
-			System.out.println("In air move right");
+		if(inAir &&  body.getLinearVelocity().x < maxSpeedInAir){
 			body.applyLinearImpulse(new Vector2(0.07f,0),body.getWorldCenter(),true);
 		}
-		else if(!inAir)
+		else if(!inAir && body.getLinearVelocity().x < maxSpeed)
 			body.applyLinearImpulse(new Vector2(0.1f,0),body.getWorldCenter(),true);
 	}
 
@@ -159,13 +159,12 @@ public class Player extends AbstractPlayer {
 	 * */
 	public void moveLeft()
 	{
-		//TODO create min and max speed variables
-		//Limits speed
-		if(body.getLinearVelocity().x < -1 )return;//TODO MOVE THIS
-		if(inAir && body.getLinearVelocity().x>-0.5) {
+		//restrict movement speed in air
+		if(inAir && body.getLinearVelocity().x>-maxSpeedInAir) {
 			body.applyLinearImpulse(new Vector2(-0.07f, 0), body.getWorldCenter(), true);
 		}
-		else if(!inAir)//TODO HERE
+		//On ground and not yet at max speed
+		else if(!inAir && body.getLinearVelocity().x >= -maxSpeed)
 			body.applyLinearImpulse(new Vector2(-0.1f,0),body.getWorldCenter(),true);
 	}
 
@@ -178,19 +177,22 @@ public class Player extends AbstractPlayer {
 			inAir =true;
 			return;
 		}
-		body.applyLinearImpulse(new Vector2(0,0.3f),body.getWorldCenter(),true);
-		this.grounded = false;
-		inAir = true;
+		//limiting jump speed
+		if(body.getLinearVelocity().y<maxSpeed){
+			body.applyLinearImpulse(new Vector2(0,0.3f),body.getWorldCenter(),true);
+			this.grounded = false;
+			inAir = true;
+		}
 	}
 
 	@Override
 		public float getX() {
-			return getPos().x;
+			return getPos().x/GameModel.PPM;
 		}
 
 		@Override
 		public float getY() {
-			return getPos().y;
+			return getPos().y/GameModel.PPM;
 		}
 
 	public List<BulletImpl> getBullets(){ return this.bullets; }

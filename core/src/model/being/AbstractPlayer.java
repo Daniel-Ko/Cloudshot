@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import model.GameModel;
 import model.GameObjectInterface;
 import model.collectable.AbstractWeapon;
 
@@ -75,12 +76,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 */
 	public void update(Array<Rectangle> tiles) {
 		handleInput();
-		collisionChecks(null);
 		updateActionsPlayerDoing();
 		//Updating Player Position
 		pos.set(body.getPosition());
 		//updating players bounding box position
-		boundingBox = new Rectangle(pos.x,pos.y+15,boundingBox.width,boundingBox.height);
+		boundingBox = new Rectangle(getPos().x,getPos().y,boundingBox.width,boundingBox.height);
 	}
 
 	protected void handleInput(){
@@ -103,21 +103,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		}
 	}
 
-	/***
-	 * Loops ..a
-	 */
-	protected void collisionChecks(Array<Rectangle> tiles) {
-		Array<Contact> contactList = world.getContactList();
-		for(int i = 0; i < contactList.size; i++) {
-			Contact contact = contactList.get(i);
-			if(contact.isTouching() && (contact.getFixtureA() == body.getFixtureList().first() ||
-					contact.getFixtureB() == body.getFixtureList().first())) {
-				//on ground
-				grounded = true;
-				//inAir = false;
-			}
-		}
-	}
 	/**
 	 * Updates moving left and right fields appropriately
 	 * and updates the velocity by speed;
@@ -175,12 +160,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 
 	public Vector2 getPos() {
+		//Vector2 scaled = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
 		return pos;
 	}
 
-	public void setPos(Vector2 pos) {
-		this.pos = pos;
-	}
 
 	public Vector2 getVelocity() {
 		return velocity;
@@ -192,7 +175,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	public Vector2 getAimedAt(){ return aimedAt; }
 
-	public Rectangle getBoundingBox() {
+	public Rectangle getBoundingBox()
+	{
 		return boundingBox;
 	}
 
