@@ -98,7 +98,7 @@ public class GameScreen extends ScreenAdapter{
 
     public void drawLevelText(){
         BitmapFont text = new BitmapFont();
-        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),camera.position.x + 10 - camera.viewportWidth/2,camera.position.y + camera.viewportHeight/2);
+        text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),(camera.position.x + 10 - camera.viewportWidth/2)/GameModel.PPM,(camera.position.y + camera.viewportHeight/2)/GameModel.PPM);
     }
 
     @Override
