@@ -55,7 +55,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	//Box2D
 	World world;
-	Body body;
+	public Body body;
 	FixtureDef playerProperties;
 
 	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed, World world) {
@@ -160,7 +160,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 
 	public Vector2 getPos() {
-		//Vector2 scaled = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
 		return pos;
 	}
 
@@ -203,13 +202,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				movingRight = true;
 				movingLeft = false;
 				break;
-			case Input.Keys.W:
-				//if(grounded)
-					jump();
-				break;
-			case Input.Keys.SPACE:
+			case Input.Keys.F:
 				attacking = true;
 				break;
+			case Input.Keys.SPACE:
+				jump();
+
 			default:
 				break;
 		}
@@ -227,7 +225,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 				break;
 			case Input.Keys.W:
 				break;
-			case Input.Keys.SPACE:
+			case Input.Keys.F:
 				attacking = false;
 				break;
 			default:
@@ -259,7 +257,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		aimedAt = new Vector2(screenX,screenY);
+		aimedAt = new Vector2(screenX/GameModel.PPM,screenY/GameModel.PPM);
 		return true;
 	}
 

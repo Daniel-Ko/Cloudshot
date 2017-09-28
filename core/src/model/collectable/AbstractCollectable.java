@@ -27,7 +27,7 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 
 	
 	public AbstractCollectable(Vector2 position, float width, float height){
-		this.pos = new Vector2(position.x/GameModel.PPM, position.y/GameModel.PPM);
+		this.pos = position;
 		this.boundingBox = new Rectangle(pos.x, pos.y, width/GameModel.PPM, height/GameModel.PPM);
 	}
 	
@@ -67,12 +67,12 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 	
 	@Override
 	public float getX() {
-		return (float)pos.x;
+		return pos.x;
 	}
 
 	@Override
 	public float getY() {
-		return (float)pos.y;
+		return pos.y;
 	}
 	
 	@Override

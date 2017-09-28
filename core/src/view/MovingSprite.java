@@ -66,15 +66,6 @@ public class MovingSprite extends CustomSprite {
      */
     public TextureRegion getFrameFromTime(float elapsedTime){
         TextureRegion r = (TextureRegion) animation.getKeyFrame(elapsedTime, true);
-
-        if(resize) {
-            r.setRegionHeight((int) ((float)spriteImage.getHeight() / GameModel.PPM));
-            r.setRegionWidth((int) ((float)spriteImage.getWidth() / GameModel.PPM));
-        }
-
-//        System.out.println("NAME: " + name);
-//        System.out.println("WIDTH: " +  r.getRegionWidth());
-
         r.flip(horizontal, vertical);
         return r;
     }

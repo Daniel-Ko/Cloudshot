@@ -25,12 +25,6 @@ public class StaticSprite extends CustomSprite {
     public TextureRegion getFrameFromTime(float elapsedTime) {
         spriteImage.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         TextureRegion r = new TextureRegion(spriteImage);
-
-        if(resize) {
-            r.setRegionHeight((int) ((float)spriteImage.getHeight() / GameModel.PPM));
-            r.setRegionWidth((int) ((float)spriteImage.getWidth() / GameModel.PPM));
-        }
-
         r.setRegion(0,0,spriteImage.getWidth()*(width/spriteImage.getWidth()),
                 spriteImage.getHeight()*(height/spriteImage.getHeight()));
         r.flip(horizontal, vertical);

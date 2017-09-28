@@ -17,8 +17,6 @@ public abstract class CustomSprite{
     protected boolean horizontal;
     protected boolean vertical;
 
-    protected boolean resize;
-
     protected String name;
 
     public CustomSprite(String imageName){
@@ -34,10 +32,6 @@ public abstract class CustomSprite{
      */
     public void flipHorizontal(){
         this.horizontal = true;
-    }
-
-    public void setResize(boolean resize){
-        this.resize = resize;
     }
 
     /**

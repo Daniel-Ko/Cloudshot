@@ -24,7 +24,7 @@ import java.util.List;
 public class Player extends AbstractPlayer {
 	public static final float WIDTH = 32;
 	public static final float HEIGHT = 32;
-	private float maxSpeed = 2;
+	private float maxSpeed = 2.5f;
 	private float maxSpeedInAir = 0.5f;
 
 	private float meleeRange = 30;
@@ -70,7 +70,7 @@ public class Player extends AbstractPlayer {
 		walk_left.flipHorizontal();
 		// TODO
 
-		pistol = new Pistol(pos,10,10);
+		pistol = new Pistol(pos,10/GameModel.PPM,10/GameModel.PPM);
 
 		//Box2D
 		world.setContactListener(new MyContactListener());
@@ -193,9 +193,7 @@ public class Player extends AbstractPlayer {
 		}
 
 		@Override
-		public float getY() {
-			return getPos().y;
-		}
+		public float getY(){ return getPos().y; }
 
 	public List<BulletImpl> getBullets(){ return this.bullets; }
 
