@@ -8,13 +8,20 @@ import view.CustomSprite;
 
 public class Shotgun extends AbstractWeapon {
 
+	public static final int MAX_AMMO = 50;
+	
+	
+
 	public Shotgun(Vector2 position, float width, float height) {
 		super(position, width, height);
-		// TODO Auto-generated constructor stub
+		this.ammo = MAX_AMMO;
 	}
 
 	@Override
 	public BulletImpl shoot(Player p) {
+		if(this.ammo <= 0){return null;}
+				
+		this.ammo --;
 		
 		Vector2 aim = p.getAimedAt();
 		Vector2 aimAbove = aim.set(aim.x, aim.y + 5);
@@ -35,6 +42,20 @@ public class Shotgun extends AbstractWeapon {
 	public CustomSprite getBulletImage() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void setAmmo(int i) {
+		this.ammo  = i;
+	}
+
+	@Override
+	public int getAmmo() {
+		return this.ammo ;
+	}
+	@Override
+	public int getMaxAmmo() {
+		return this.MAX_AMMO;
 	}
 
 }

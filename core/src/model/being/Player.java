@@ -140,7 +140,11 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		bullets.add(pistol.shoot(this));
+		BulletImpl bul = pistol.shoot(this);
+		if(bul != null){
+			bullets.add(bul);
+		}
+		
 	}
 
 	/**

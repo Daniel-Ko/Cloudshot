@@ -21,7 +21,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected Vector2 pos;
 	
 	protected float damage;
-	protected float speed = 5;
+	protected float speed = 100;
 	private float xVel;
 	private float yVel;
 	private CustomSprite image;
@@ -35,7 +35,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		this.image = t;
 		float tX = startingPos.x - endPos.x;
 		float tY = startingPos.y - endPos.y;
-		float mag = (float) java.lang.Math.hypot(tX, tY);
+		float mag = (float) java.lang.Math.hypot(tX, tY)*1000;
 		tX/=mag;
 	    tY/=mag;
 	    //scaling speed
@@ -73,7 +73,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 
 	public void update(ArrayList<AbstractEnemy> enemies){
 		//doCollide(enemies);
-		pos.set(pos.x-xVel,pos.y+yVel);
+		pos.set(pos.x-xVel*speed,pos.y+yVel*speed);
 	}
 
 	private void doCollide(ArrayList<AbstractEnemy> enemies) {

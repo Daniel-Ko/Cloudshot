@@ -10,7 +10,7 @@ import view.CustomSprite;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
 	
-
+	protected int ammo;
 	private float damage;
 	private Texture gunImage;
 
@@ -37,9 +37,12 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	public abstract CustomSprite getBulletImage();
 	
 	public abstract BulletImpl shoot(Player p);
-
 	
+	public abstract void setAmmo(int i);
 	
+	public abstract int getAmmo();
+	
+	public abstract int getMaxAmmo();
 	
 
 }
