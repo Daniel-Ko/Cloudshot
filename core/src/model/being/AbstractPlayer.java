@@ -76,9 +76,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 */
 	public void update(Array<Rectangle> tiles) {
 		handleInput();
+		pos.set(body.getPosition());
 		updateActionsPlayerDoing();
 		//Updating Player Position
-		pos.set(body.getPosition());
 		//updating players bounding box position
 		boundingBox = new Rectangle(getPos().x,getPos().y,boundingBox.width,boundingBox.height);
 	}

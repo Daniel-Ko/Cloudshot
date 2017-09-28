@@ -1,6 +1,11 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
 import view.CustomSprite;
 import view.MovingSprite;
 
@@ -25,13 +30,40 @@ public class MeleeEnemy extends AbstractEnemy {
 	private CustomSprite idle;
 	private CustomSprite walk;
 
-	public MeleeEnemy(int hp,AbstractPlayer player,Vector2 pos){
-		super(hp,player,pos);
+	public MeleeEnemy(int hp,AbstractPlayer player,Vector2 pos,World world){
+		super(hp,player,pos,world);
+		defineBody();
 		attack = new MovingSprite("Skeleton Attack.png",1,18);
 		dead = new MovingSprite("Skeleton Dead.png",1,1);
 		idle = new MovingSprite("Skeleton Idle.png",1,11);
 		walk = new MovingSprite("Skeleton Walk.png",1,13);
 		damage = 1;
+	}
+
+	protected void defineBody(){
+		//body def
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		bodyDef.fixedRotation = true;
+
+		//shape def for main fixture
+		//PolygonShape shape = new PolygonShape();
+		CircleShape shape = new CircleShape();
+		shape.setRadius(10f/ GameModel.PPM);
+		//shape.setAsBox(1,2);
+
+		//fixture def
+		fDef = new FixtureDef();
+		fDef.shape = shape;
+		fDef.density = 0.7f;
+		fDef.friction = 15;
+
+		//
+		bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
+		body = world.createBody(bodyDef);
+		//adding main fixture
+		body.createFixture(fDef);
+
 	}
 
 	/**
