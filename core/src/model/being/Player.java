@@ -22,12 +22,12 @@ import java.util.List;
  * @author Jeremy Southon
  * */
 public class Player extends AbstractPlayer {
-	public static final int WIDTH = 32;
-	public static final int HEIGHT = 32;
-	private float maxSpeed = 1;
+	public static final float WIDTH = 32;
+	public static final float HEIGHT = 32;
+	private float maxSpeed = 2;
 	private float maxSpeedInAir = 0.5f;
 
-	private int meleeRange = 30;
+	private float meleeRange = 30;
 	protected AbstractWeapon curWeapon;
 
 	private CustomSprite current;
@@ -147,11 +147,13 @@ public class Player extends AbstractPlayer {
 	 * Defined what happens when moving right
 	 * */
 	public void moveRight() {
+
 		if(inAir &&  body.getLinearVelocity().x < maxSpeedInAir){
 			body.applyLinearImpulse(new Vector2(0.07f,0),body.getWorldCenter(),true);
 		}
-		else if(!inAir && body.getLinearVelocity().x < maxSpeed)
-			body.applyLinearImpulse(new Vector2(0.1f,0),body.getWorldCenter(),true);
+		else if(!inAir){
+			body.setLinearVelocity(maxSpeed,body.getLinearVelocity().y);
+		}
 	}
 
 	/**
@@ -164,8 +166,8 @@ public class Player extends AbstractPlayer {
 			body.applyLinearImpulse(new Vector2(-0.07f, 0), body.getWorldCenter(), true);
 		}
 		//On ground and not yet at max speed
-		else if(!inAir && body.getLinearVelocity().x >= -maxSpeed)
-			body.applyLinearImpulse(new Vector2(-0.1f,0),body.getWorldCenter(),true);
+		else if(!inAir)
+			body.setLinearVelocity(-maxSpeed,body.getLinearVelocity().y);
 	}
 
 	/**

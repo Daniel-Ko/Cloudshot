@@ -1,14 +1,16 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import view.CustomSprite;
 
 public class ShootingEnemy extends AbstractEnemy{
 
-	public ShootingEnemy(int hp,AbstractPlayer player,Vector2 pos){
-		super(hp,player,pos);
+	public ShootingEnemy(int hp,AbstractPlayer player,Vector2 pos,World world){
+		super(hp,player,pos,world);
 	}
 
+	protected void defineBody(){}
 	@Override
 	protected boolean attack() {
 		return false;

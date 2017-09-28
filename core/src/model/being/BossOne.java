@@ -1,6 +1,7 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import model.projectile.BulletImpl;
 import view.CustomSprite;
 import view.MovingSprite;
@@ -18,10 +19,14 @@ public class BossOne extends AbstractEnemy{
 
     //TESTING
     List<BulletImpl> huh = new ArrayList<>();
-    public BossOne(int hp,AbstractPlayer player,Vector2 pos){
-        super(hp,player,pos);
+    public BossOne(int hp,AbstractPlayer player,Vector2 pos,World world){
+        super(hp,player,pos,world);
         speed = 6;
         damage = 10;
+    }
+
+    protected void defineBody(){
+
     }
 
     @Override

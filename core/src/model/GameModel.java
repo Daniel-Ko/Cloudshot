@@ -69,6 +69,7 @@ public class GameModel {
         this.level = level;
         player = new Player(new Vector2(50,500), 8, 8, 100, 3,world);
         enemies = new ArrayList<>();
+        //enemies.add(new MeleeEnemy(20,player,new VE,world));
         Gdx.input.setInputProcessor(player);
 
         //generateLevel();

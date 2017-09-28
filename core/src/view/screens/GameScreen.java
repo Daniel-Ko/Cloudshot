@@ -68,7 +68,6 @@ public class GameScreen extends ScreenAdapter{
         updateCamera();
         camera.update();
 
-
         // Update the game state.
         gameModel.updateState(elapsedTime);
 

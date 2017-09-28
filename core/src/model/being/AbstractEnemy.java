@@ -3,6 +3,9 @@ package model.being;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameObjectInterface;
 import view.CustomSprite;
 
@@ -31,11 +34,17 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		EALIVE,EDEAD,EATTACKING
 	}
 
-	public AbstractEnemy(int hp,AbstractPlayer player,Vector2 pos){
+	//Box2D
+	protected World world;
+	protected Body body;
+	protected FixtureDef fDef;
+
+	public AbstractEnemy(int hp, AbstractPlayer player, Vector2 pos, World world){
 		health = hp;
 		speed = 2;//TODO
 		damage = 1;
 		position = pos;
+		this.world = world;
 		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(position.x,position.y,50,50);//FIXME
 		this.player = player;
@@ -43,7 +52,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	protected abstract boolean attack();
 
-
+	protected abstract void defineBody();
 	/**
 	 * Method used to define this enemy's movement patterns
 	 * */
