@@ -92,7 +92,7 @@ public class GameStateTransactionHandler {
      */
     @SuppressWarnings("Duplicates")
     public boolean validateAndUpdatePlayer(GameState newState, AbstractPlayer newPlayer) {
-        if(newPlayer == null || ! (newPlayer instanceof AbstractPlayer)) {
+        if(newPlayer == null) {
             return false;
         }
         
