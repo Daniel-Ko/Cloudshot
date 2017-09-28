@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class ViewTest {
+public class ViewTest extends GameTest{
 
     @Test
     public void testPlayerSprite(){
