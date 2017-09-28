@@ -132,7 +132,7 @@ public class GameModel {
         return level.getTiledMapRenderer();
     }
 
-    //TODO: these should be deep-cloned, @Jeremy, @Jake
+
     public Player getPlayer() {
         return player;
     }
@@ -161,7 +161,7 @@ public class GameModel {
             List<AbstractEnemy> enemies = loader.loadEnemies();
             List<AbstractCollectable> collectables = loader.loadCollectables();
 
-            //TODO: jerem + jake need to use these values to replace their own...guaranteed to be valid data so dw about checking before you replace your data...I hope
+            //TODO: Jerem + jake, you can replace your data with my loaded data
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             //TODO: msg dialog: load failed
         }
