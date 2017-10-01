@@ -11,11 +11,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
-import model.being.AbstractEnemy;
+import model.being.*;
 
-import model.being.AbstractPlayer;
-import model.being.MeleeEnemy;
-import model.being.Player;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
@@ -24,12 +21,15 @@ import model.projectile.BulletImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 
 public class GameModel {
 
     Player player;
     List<AbstractEnemy> enemies;
+    Stack<AbstractEnemy> enemiesToAdd;
+    List<AbstractEnemy> enemiesToRemove;
     AbstractLevel level;
     private GameStateTransactionHandler repoScraper;
 
@@ -49,11 +49,18 @@ public class GameModel {
         world = new World(new Vector2(0, GRAVITY), true);
         debugRenderer = new Box2DDebugRenderer();
 
+        enemies = new ArrayList<>();
+        enemiesToRemove = new ArrayList<>();
+        enemiesToAdd = new Stack<>();
+        this.level = level;
+        player = new Player(this,new Vector2(50,500));
+
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
             terrainPiece.position.set(new Vector2((r.x+r.width/2)/PPM,(r.y+r.height/2)/PPM));
+            enemies.add(new MeleeEnemy(this, new Vector2(r.x,r.y)));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width/2)/GameModel.PPM,(r.height/2)/GameModel.PPM);
@@ -61,15 +68,17 @@ public class GameModel {
             groundBody.createFixture(groundBox,0.0f).setUserData("platform");
             groundBox.dispose();
         }
+        //boss
+        enemies.add(new BossTwo(this,new Vector2(300,500)));
+        //enemies.add(new BossOne(this,new Vector2(300,500)));
 
+        //enemies.add(new MeleeEnemy(this,new Vector2(300,500)));
 
         //ground.
         //End
 
-        this.level = level;
-        player = new Player(new Vector2(50,500), 8, 8, 100, 3,world);
-        enemies = new ArrayList<>();
-        //enemies.add(new MeleeEnemy(20,player,new VE,world));
+
+        //enemies.add(new MeleeEnemy(20,player, new Vector2(70,500),world));
         Gdx.input.setInputProcessor(player);
 
         //generateLevel();
@@ -80,11 +89,22 @@ public class GameModel {
     public void updateState(float elapsedTime){
         this.elapsedTime = elapsedTime;
         updatePlayerModel();
-        for(AbstractEnemy ae : enemies){
-            ae.update();
-        }
+        updateEnemies();
         updateCollectables();
         world.step(1/60f,6,2);
+    }
+    public void updateEnemies(){
+        //First Clean up all dead enemies
+        for(AbstractEnemy ae:enemiesToRemove)
+            enemies.remove(ae);
+        for(AbstractEnemy ae : enemies){
+            ae.update();
+            //added dead enemies to be removed
+            if(ae.getState() == AbstractEnemy.enemy_state.EDEAD)enemiesToRemove.add(ae);
+        }
+        for(int i = 0;i< enemiesToAdd.size();i++){
+            enemies.add(enemiesToAdd.pop());
+        }
     }
 
 
@@ -99,9 +119,11 @@ public class GameModel {
         if(remove != null){level.getCollectables().remove(remove);} 
 	}
 
-
+    /**
+     * Used to add to enemies at runtime, to avoid concurrentModification
+     * */
 	public void addEnemy(AbstractEnemy enemy){
-        enemies.add(enemy);
+        enemiesToAdd.push(enemy);
     }
 
     public void draw(SpriteBatch sb){
@@ -111,13 +133,24 @@ public class GameModel {
             sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
         }
         for(AbstractEnemy ae : enemies){
-            sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX(),ae.getY());
+            sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX()-ae.getDrawingWidth()/2,ae.getY()-ae.getDrawingHeight()/4,ae.getDrawingWidth(),ae.getDrawingHeight());
+            if(ae instanceof ShootingEnemy){
+                ShootingEnemy s = (ShootingEnemy)ae;
+                for(BulletImpl b : s.bullets)
+                    sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+            }
+            if(ae instanceof BossOne){
+                BossOne s = (BossOne)ae;
+                for(BulletImpl b : s.bullets)
+                    sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+            }
         }
         for(AbstractCollectable ac : level.getCollectables()){
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }
+
         //Box2D
-        debugRenderer.render(world, cam.combined);
+        //debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
 
     }
@@ -146,6 +179,7 @@ public class GameModel {
         return level.getCollectables();
     }
 
+    public World getWorld(){ return this.world; }
 
     public void save() {
         if(!repoScraper.save(this)) {

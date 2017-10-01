@@ -10,7 +10,7 @@ public class ViewTest extends GameTest{
     @Test
     public void testPlayerSprite(){
         World world = new World(new Vector2(0, -10), true);
-        Player player = new Player(new Vector2(50,500), 8, 8, 100, 3,world);
+       // Player player = new Player(new Vector2(50,500), 8, 8, 100, 3,world);
 
         assertTrue(true);
     }

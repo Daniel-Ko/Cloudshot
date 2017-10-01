@@ -1,5 +1,6 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -9,6 +10,8 @@ import model.GameModel;
 import view.CustomSprite;
 import view.MovingSprite;
 
+import java.util.Random;
+
 /**
  * Class has the basic structure of a basic melee attacking enemy to get a more
  * unqiue melee enemy think about extending from this class
@@ -17,9 +20,9 @@ import view.MovingSprite;
  * 
  */
 public class MeleeEnemy extends AbstractEnemy {
-	int detectionRadius = 200;
-	int attackRadius = 36;
-	boolean canAttack;
+	int detectionRadius = 3;
+	int attackRadius = 1;
+	private int splitID = 0;//0 = original smile,1 = second gen..
 
 	//DIFFERENT IMAGES FOR DIFFERENT STATES
 	private String walking = "Skeleton Walk.png";
@@ -29,14 +32,17 @@ public class MeleeEnemy extends AbstractEnemy {
 	private CustomSprite dead;
 	private CustomSprite idle;
 	private CustomSprite walk;
+	private CustomSprite walk_l;
 
-	public MeleeEnemy(int hp,AbstractPlayer player,Vector2 pos,World world){
-		super(hp,player,pos,world);
-		defineBody();
-		attack = new MovingSprite("Skeleton Attack.png",1,18);
+	public MeleeEnemy(GameModel gameModel,Vector2 pos){
+		super(gameModel,pos);
+		health = 20;
+		attack =  new MovingSprite("slime_attack.png",1,7);
 		dead = new MovingSprite("Skeleton Dead.png",1,1);
-		idle = new MovingSprite("Skeleton Idle.png",1,11);
-		walk = new MovingSprite("Skeleton Walk.png",1,13);
+		idle = new MovingSprite("slime_walk.png",1, 9);
+		walk = new MovingSprite("slime_walk.png",1, 9);
+		walk_l = new MovingSprite("slime_walk.png",1, 9);
+		walk_l.flipHorizontal();
 		damage = 1;
 	}
 
@@ -62,7 +68,7 @@ public class MeleeEnemy extends AbstractEnemy {
 		bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
 		body = world.createBody(bodyDef);
 		//adding main fixture
-		body.createFixture(fDef);
+		body.createFixture(fDef).setUserData("mob1");
 
 	}
 
@@ -86,46 +92,92 @@ public class MeleeEnemy extends AbstractEnemy {
 	 * */
 	@Override
 	public void update() {
-		if(state == enemy_state.EDEAD)return;
-		if(health <= 0 )state = enemy_state.EDEAD;
+		if(state == enemy_state.EDEAD || player.getPlayerState() == AbstractPlayer.player_state.DEAD)return;
+		if(health <= 0 ){
+			state = enemy_state.EDEAD;
+			if(splitID < 1 ){
+				//split slime into 2 but half that stats
+				MeleeEnemy e1 = new MeleeEnemy(game,new Vector2((body.getPosition().x* GameModel.PPM)-10,body.getPosition().y * GameModel.PPM));
+				MeleeEnemy e2 = new MeleeEnemy(game,new Vector2((body.getPosition().x* GameModel.PPM)+10,body.getPosition().y * GameModel.PPM));
+				e1.drawingWidth = drawingWidth/2;
+				e1.drawingHeight = drawingHeight/2;
+				e2.drawingWidth = drawingWidth/2;
+				e2.drawingHeight = drawingHeight/2;
+				e1.splitID=splitID+1;
+				e2.splitID=splitID+1;
+				e1.damage = damage/2;
+				e2.damage = damage/2;
+				game.addEnemy(e1);
+				game.addEnemy(e2);
+			}
+			world.destroyBody(body);
+		}
 		if(state == enemy_state.EDEAD)return;
 
-		velocity.x=0;
-		velocity.y=0;
+		position.set(body.getPosition());
+		boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
 		state = enemy_state.EALIVE;
 		movement();
 	}
 
 	@Override
 	public void movement(){
-		if(position.dst(player.pos)<detectionRadius){
-			if(position.dst(player.pos)<attackRadius){
-				if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
-			}
-			if(getX()<player.getX())
-				velocity.x = speed;
-			if(getX()>player.getX())
-				velocity.x = -speed;
-			if(getY()<player.getY()+24)//FIXME replace 24 with image height
-				velocity.y = speed;
-			if(getY()>player.getY()+24)
-				velocity.y = -speed;
+		if(position.dst(player.getPos())>detectionRadius)state = enemy_state.EIDLE;
+		if(position.dst(player.pos)<attackRadius){
+			if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
 		}
-		//apply velocity onto position
-		position.add(velocity);
+		//MOVEMENT
+		if(state == enemy_state.EIDLE){
+			idleMovement();
+		}else {
+			foundPlayerMovement();
+		}
+		//if not within attacking range
+		if(position.dst(player.pos)>attackRadius){ state = enemy_state.EIDLE;}
 	}
 
+	private void foundPlayerMovement(){
+		if(state == enemy_state.EDEAD)return;
+		if(position.dst(player.getPos())< detectionRadius){
+			if(getX()<player.getX())
+				body.setLinearVelocity(1f,body.getLinearVelocity().y);
+			if(getX()>player.getX())
+				body.setLinearVelocity(-1f,body.getLinearVelocity().y);
+		}
+	}
+	private void idleMovement() {
+		Random r = new Random();
+		int i = r.nextInt(10 - 1 + 1) + 1;
+		if(i<8){
+			body.setLinearVelocity(1f,body.getLinearVelocity().y);
+
+		}else {
+			body.setLinearVelocity(-1f,body.getLinearVelocity().y);
+
+		}
+	}
 	@Override
 	public CustomSprite getImage() {
 		if(state == enemy_state.EDEAD){
-			return dead;}
+			return dead;
+		}
 
 		if(state == enemy_state.EATTACKING){
+			if(body.getLinearVelocity().x<0){
+				MovingSprite m = new MovingSprite("slime_attack.png",1,7);
+				m.flipHorizontal();
+				return m;
+			}
 			return attack;
 		}
 		//IDLE STATE
-		if(velocity.x ==0 && velocity.y == 0){
+		if(state == enemy_state.EIDLE){
 			return idle;
+		}
+		if(body.getLinearVelocity().x<0){
+			walk_l = new MovingSprite("slime_walk.png",1, 9);
+			walk_l.flipHorizontal();
+			return walk_l;
 		}
 		return walk;
 	}

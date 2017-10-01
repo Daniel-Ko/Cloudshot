@@ -1,74 +1,159 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
 import model.projectile.BulletImpl;
 import view.CustomSprite;
 import view.MovingSprite;
 import view.StaticSprite;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BossOne extends AbstractEnemy{
     //Fields for
-    private int detectionRadius = 200;
-    private int attackRadius = 100;
+    private int detectionRadius = 10;
+    private int attackRadius = 9;
 
 
+    //bullet and attacking fields
+    private long lastBulletFired;
+    public Queue<BulletImpl> bullets = new LinkedList<>();
 
     //TESTING
-    List<BulletImpl> huh = new ArrayList<>();
-    public BossOne(int hp,AbstractPlayer player,Vector2 pos,World world){
-        super(hp,player,pos,world);
+    public List<BulletImpl> huh = new ArrayList<>();
+    public BossOne(GameModel game, Vector2 pos){
+        super(game,pos);
         speed = 6;
         damage = 10;
+        drawingWidth = 4;
+        drawingHeight =4;
     }
 
     protected void defineBody(){
+        //body def
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.fixedRotation = true;
+
+        //shape def for main fixture
+        //PolygonShape shape = new PolygonShape();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(60f/ GameModel.PPM);
+        //shape.setAsBox(1,2);
+
+        //fixture def
+        fDef = new FixtureDef();
+        fDef.shape = shape;
+        fDef.density = 0.7f;
+        fDef.friction = 15;
+
+        //
+        bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
+        body = world.createBody(bodyDef);
+        //adding main fixture
+        body.createFixture(fDef).setUserData("mob1");
 
     }
 
-    @Override
-    public void update() {
-        movement();
-        //FIXME
-        for (BulletImpl b:huh) {
-            //temp
-            b.update(new ArrayList<AbstractEnemy>());
-        }
-    }
-
-    @Override
-    protected void movement() {
-        if(position.dst(player.pos)<detectionRadius){
-            if(position.dst(player.pos)<attackRadius){
-                if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
-            }
-            if(getX()<player.getX())
-                velocity.x = speed;
-            if(getX()>player.getX())
-                velocity.x = -speed;
-            if(getY()<player.getY()+24)//FIXME replace 24 with image height
-                velocity.y = speed;
-            if(getY()>player.getY()+24)
-                velocity.y = -speed;
-        }
-        //apply velocity onto position
-        position.add(velocity);
-    }
-
+    /**
+     * DESC
+     *
+     * @return true if landed and attack o.w false
+     * */
     @Override
     protected boolean attack() {
-        player.hit(damage);
-        //adds a bullet from this enemy location to the player location
-        huh.add(new BulletImpl(getPosition(),player.getPos(),5,new StaticSprite("Skeleton Attack.png",1,18)));
-        return true;
+        int secondsBetweenShots = 0;
+        if(lastBulletFired+secondsBetweenShots<System.currentTimeMillis()/1000){
+            lastBulletFired = System.currentTimeMillis()/1000;
+            bullets.add(new BulletImpl(position,player.getPos(),2,new StaticSprite("player_jump.png")));
+            return true;
+        }
+        return false;
+    }
+
+    private void attackIfPossible(){
+        if(state == enemy_state.EDEAD)return;
+        if(position.dst(player.pos)<attackRadius){
+            state = enemy_state.EATTACKING;
+            if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
+        }
+    }
+    /**
+     * if the player is within this enemys detection radius then it follows the player
+     * if the player is also in hitting range it damages the player
+     *
+     * finally updates the players position by the velocity
+     * */
+    @Override
+    public void update() {
+        updateBullets();
+        if(state == enemy_state.EDEAD)return;
+        if(health <= 0 ){
+            state = enemy_state.EDEAD;
+            world.destroyBody(body);
+        }
+        if(state == enemy_state.EDEAD)return;
+
+        position.set(body.getPosition());
+        boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
+        movement();
+        attackIfPossible();
+    }
+
+    @Override
+    public void movement(){
+        if(position.dst(player.getPos())>attackRadius)state = enemy_state.EIDLE;
+        if(position.dst(player.pos)<attackRadius){
+            if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
+        }
+        //MOVEMENT
+        if(state == enemy_state.EIDLE){
+            idleMovement();
+        }else {
+            foundPlayerMovement();
+        }
+        //if not within attacking range
+        if(position.dst(player.pos)>attackRadius){ state = enemy_state.EIDLE;}
+    }
+
+    private void updateBullets(){
+        //updating bullets enemy has fired
+        for(BulletImpl b : bullets)
+            b.update(new ArrayList<AbstractEnemy>());//FIXME
+        //Cleans up bullets
+        if(bullets.size() > 50){
+            bullets.poll();//remove the oldest 1st
+        }
+    }
+
+    private void foundPlayerMovement(){
+        if(state == enemy_state.EDEAD)return;
+        if(position.dst(player.getPos())< detectionRadius){
+            if(getX()<player.getX())
+                body.setLinearVelocity(1f,body.getLinearVelocity().y);
+            if(getX()>player.getX())
+                body.setLinearVelocity(-1f,body.getLinearVelocity().y);
+        }
+    }
+    private void idleMovement() {
+        Random r = new Random();
+        int i = r.nextInt(10 - 1 + 1) + 1;
+        if(i<8){
+            body.setLinearVelocity(1f,body.getLinearVelocity().y);
+
+        }else {
+            body.setLinearVelocity(-1f,body.getLinearVelocity().y);
+
+        }
     }
 
     @Override
     public CustomSprite getImage() {
         //FIXME TEMP IMAGE
-        return new MovingSprite("Skeleton Attack.png",1,18);
+        return new MovingSprite("slime_walk.png",1, 9);
     }
 }

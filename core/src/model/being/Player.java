@@ -27,7 +27,7 @@ public class Player extends AbstractPlayer {
 	private float maxSpeed = 2.5f;
 	private float maxSpeedInAir = 0.5f;
 
-	private float meleeRange = 30;
+	private float meleeRange = 1;
 	protected AbstractWeapon curWeapon;
 
 	private CustomSprite current;
@@ -48,10 +48,10 @@ public class Player extends AbstractPlayer {
 	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
 	int numFootContact = 0;
-	public Player(Vector2 position, int width, int height, int hp, float speed, World world) {
-		super(position, width, height, hp, speed,world);
+	public Player(GameModel gameModel, Vector2 position) {
+		super(gameModel,position);
 		damage = 1;
-
+		health = 200;
 		//load sprites
 		current = new MovingSprite("player_idle.png",2,2);
 		idle_right = new MovingSprite("player_idle.png",2,2);
@@ -246,8 +246,8 @@ public class Player extends AbstractPlayer {
 
 		@Override
 		public void beginContact(Contact contact) {
-
 			String id = (String) contact.getFixtureA().getUserData();
+			if(id == null)return;
 			if(id.equals("user_feet")){
 				numFootContact++;
 			}
@@ -261,6 +261,7 @@ public class Player extends AbstractPlayer {
 		@Override
 		public void endContact(Contact contact) {
 			String id = (String) contact.getFixtureA().getUserData();
+			if(id == null)return;
 			if(id.equals("user_feet")){
 				numFootContact--;
 			}

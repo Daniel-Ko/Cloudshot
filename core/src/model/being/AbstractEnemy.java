@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
 import model.GameObjectInterface;
 import view.CustomSprite;
 
@@ -31,7 +32,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected enemy_state state = enemy_state.EALIVE;
 
 	public static enum enemy_state{
-		EALIVE,EDEAD,EATTACKING
+		EALIVE,EDEAD,EATTACKING,EIDLE
 	}
 
 	//Box2D
@@ -39,15 +40,22 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected Body body;
 	protected FixtureDef fDef;
 
-	public AbstractEnemy(int hp, AbstractPlayer player, Vector2 pos, World world){
-		health = hp;
+	protected  GameModel game;
+
+	//for drawing using sprite batch
+	protected float drawingWidth =0.6f;
+	protected float drawingHeight = 0.8f;
+	public AbstractEnemy(GameModel gameModel, Vector2 pos){
+		this.game = gameModel;
+		this.world = gameModel.getWorld();
+		this.player = gameModel.getPlayer();
+
+		position = pos;
+		boundingBox = new Rectangle(position.x,position.y,50/ GameModel.PPM,50/ GameModel.PPM);//FIXME
+		health = 10;
 		speed = 2;//TODO
 		damage = 1;
-		position = pos;
-		this.world = world;
-		velocity = new Vector2(0,0);
-		boundingBox = new Rectangle(position.x,position.y,50,50);//FIXME
-		this.player = player;
+		defineBody();
 	}
 
 	protected abstract boolean attack();
@@ -82,7 +90,9 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public Vector2 getPosition() {
 		return position;
 	}
-
+	public enemy_state getState(){return this.state; }
+	public float getDrawingWidth(){ return  drawingWidth;}
+	public float getDrawingHeight(){return  drawingHeight;}
 	@Override
 	public abstract CustomSprite getImage();
 }

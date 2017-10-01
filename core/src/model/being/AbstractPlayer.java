@@ -35,8 +35,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/* variables used in player physics */
 	protected Vector2 pos;
 	protected Vector2 velocity;
-	protected float speed;
-	protected float jumpSpeed = 700;
 
 	protected int health;
 	protected int damage;
@@ -58,13 +56,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public Body body;
 	FixtureDef playerProperties;
 
-	public AbstractPlayer(Vector2 position, int width, int height, int hp, float speed, World world) {
-		this.world = world;
-		health = hp;
-		pos = position;
-		this.speed=speed;
+	public AbstractPlayer(GameModel gameModel,Vector2 pos) {
+		this.world = gameModel.getWorld();
+		health = 10;
+		this.pos = pos;
 		velocity = new Vector2(0,0);
-		boundingBox = new Rectangle(pos.x,pos.y, width/GameModel.PPM, height/GameModel.PPM);
+		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
 		definePlayer(pos);
 }
 	protected abstract void definePlayer(Vector2 pos);
