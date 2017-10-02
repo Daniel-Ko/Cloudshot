@@ -21,7 +21,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected Vector2 pos;
 	
 	protected float damage;
-	protected float speed = 100;
+	protected float speed = 4;
 	private float xVel;
 	private float yVel;
 	private CustomSprite image;
@@ -29,18 +29,20 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
 		this.pos = new Vector2(start.x,start.y);
-		this.startingPos = start;
-		this.endPos = end;
+		this.startingPos = new Vector2(start.x,start.y);;
+		this.endPos = new Vector2(end.x, end.y);
+		System.out.println("start pos = " + startingPos);
+		System.out.println("end pos = " + endPos);
 		this.damage = damage;
 		this.image = t;
-		float tX = startingPos.x - endPos.x;
-		float tY = startingPos.y - endPos.y;
-		float mag = (float) java.lang.Math.hypot(tX, tY)*1000;
+		float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
+		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;
+		float mag = (float) java.lang.Math.hypot(tX, tY);
 		tX/=mag;
 	    tY/=mag;
 	    //scaling speed
-	    tX*=speed/GameModel.PPM;
-	    tY*=speed/GameModel.PPM;
+	    tX*=speed/GameModel.PPM;;
+	    tY*=speed/GameModel.PPM;;
 	    xVel = tX;
 	    yVel = tY;
 	}
@@ -72,16 +74,20 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	}
 
 	public void update(ArrayList<AbstractEnemy> enemies){
-		//doCollide(enemies);
+		doCollide(enemies);
 		pos.set(pos.x-xVel*speed,pos.y+yVel*speed);
 	}
 
 	private void doCollide(ArrayList<AbstractEnemy> enemies) {
-		for (AbstractEnemy e: enemies){
-			// check bounding box of enemies compared to pos of buttons.
-			// remove button from world
-			// do damage to enemy
-		}
+//		for (AbstractEnemy e: enemies){
+//			System.out.println("x = " + e.getX());
+//			System.out.println("y = " + e.getY());
+//			if (e.getBoundingBox().contains(this.getX(),this.getY())){
+//				e.hit(2000);
+//				System.out.println(222);
+//			
+//			}
+//		}
 	}
 
 	/**
