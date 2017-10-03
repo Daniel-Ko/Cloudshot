@@ -2,6 +2,7 @@ package view.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,8 +12,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.mapObject.levels.LevelOne;
+import view.CloudShotGame;
+import view.HealthBar;
+
+import java.util.concurrent.TimeUnit;
 
 public class GameScreen extends ScreenAdapter{
 
@@ -20,7 +30,11 @@ public class GameScreen extends ScreenAdapter{
     private final int WORLD_HEIGHT = 2000;
     private final int WORLD_WIDTH = 3000;
 
+    private static final float PADDING = 10;
+
     public static final float FRAME_RATE = 0.09f;
+
+    public static InputMultiplexer inputMultiplexer;
 
     private final int VIEW_WIDTH = 1000;
 
@@ -30,12 +44,24 @@ public class GameScreen extends ScreenAdapter{
     private OrthographicCamera camera;
 
     private float elapsedTime;
-
+    private HealthBar healthBar;
     private GameModel gameModel;
+    private Stage stage;
+
 
     public GameScreen(Game game){
         this.game = game;
-        
+        this.stage = new Stage(new ScreenViewport());
+
+        TextButton startButton = createSaveButton();
+        stage.addActor(startButton);
+
+        healthBar = new HealthBar(100, 10);
+        healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
+        stage.addActor(healthBar);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+
         batch = new SpriteBatch();
 
         float w = Gdx.graphics.getWidth();
@@ -47,10 +73,29 @@ public class GameScreen extends ScreenAdapter{
 
         this.gameModel = new GameModel(new LevelOne(),camera);
         gameModel.getTiledMapRenderer().setView(camera);
+    }
 
-        batch = new SpriteBatch();
-		
-        //gameModel.getTiledMapRenderer().setView(camera);
+    private TextButton createSaveButton() {
+        TextButton saveButton = new TextButton("Save", CloudShotGame.gameSkin);
+        saveButton.setWidth(Gdx.graphics.getWidth()/8);
+        saveButton.setPosition(
+                Gdx.graphics.getWidth() - saveButton.getWidth() - PADDING,
+                PADDING
+
+        );
+        saveButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // Save game here.
+                System.out.println("SAVE GAME");
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return saveButton;
     }
 
     @Override
@@ -78,6 +123,11 @@ public class GameScreen extends ScreenAdapter{
         drawLevelText();
         gameModel.draw(batch);
         batch.end();
+
+        healthBar.setValue(gameModel.getPlayer().getHealth()/10);
+
+        stage.act();
+        stage.draw();
     }
 
     private void updateCamera() {
@@ -122,5 +172,11 @@ public class GameScreen extends ScreenAdapter{
     @Override
     public void dispose () {
         batch.dispose();
+        stage.dispose();
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 }
