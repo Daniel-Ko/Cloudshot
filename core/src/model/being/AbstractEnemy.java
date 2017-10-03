@@ -87,6 +87,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		return position.y;
 	}
 
+	public Rectangle getBoundingBox(){return boundingBox;}
+
 	public Vector2 getPosition() {
 		return position;
 	}

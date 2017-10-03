@@ -18,6 +18,7 @@ import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
 import model.projectile.BulletImpl;
+import view.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class GameModel {
 
 
         //enemies.add(new MeleeEnemy(20,player, new Vector2(70,500),world));
-        Gdx.input.setInputProcessor(player);
+        GameScreen.inputMultiplexer.addProcessor(player);
 
         //generateLevel();
 

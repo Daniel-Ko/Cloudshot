@@ -202,11 +202,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.F:
 				attacking = true;
 				break;
-
-			case Input.Keys.S:
-				System.out.println("SAVE GAME");
-				break;
-
+			
 			case Input.Keys.SPACE:
 				jump();
 				break;
