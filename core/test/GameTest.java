@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.mockito.Mockito;
+//import org.mockito.Mockito;
 
 /**
  * Created by kodani on 28/09/17.
@@ -28,8 +28,8 @@ public class GameTest {
         });
 
         // Use Mockito to mock the OpenGL methods since we are running headlessly
-        Gdx.gl20 = Mockito.mock(GL20.class);
-        Gdx.gl = Gdx.gl20;
+//        Gdx.gl20 = Mockito.mock(GL20.class);
+//        Gdx.gl = Gdx.gl20;
     }
 
     // After we are done, clean up the application

@@ -51,7 +51,7 @@ public class Player extends AbstractPlayer {
 	public Player(GameModel gameModel, Vector2 position) {
 		super(gameModel,position);
 		damage = 1;
-		health = 200;
+		health = 400;
 		//load sprites
 		current = new MovingSprite("player_idle.png",2,2);
 		idle_right = new MovingSprite("player_idle.png",2,2);
