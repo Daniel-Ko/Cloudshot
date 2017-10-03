@@ -39,7 +39,6 @@ public class Pistol extends AbstractWeapon{
 	@Override
 	public BulletImpl shoot(Player p) {
 		//shoots single pistol bullet.
-		System.out.println(this.ammo);
 		//dont shoot if theres no ammo
 		if(this.ammo <= 0){return null;}
 		
