@@ -27,7 +27,8 @@ public class HealthPack extends AbstractBuff {
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		int oldHealth = p.getHealth();
-		p.setHealth(oldHealth + 5);
+		p.setHealth(oldHealth + 50);
+		System.out.println(p.getHealth());
 	}
 	
 
