@@ -70,7 +70,7 @@ public class GameModel {
             groundBox.dispose();
         }
         //boss
-        enemies.add(new BossTwo(this,new Vector2(300,500)));
+        //enemies.add(new BossTwo(this,new Vector2(300,500)));
         //enemies.add(new BossOne(this,new Vector2(300,500)));
 
         //enemies.add(new MeleeEnemy(this,new Vector2(300,500)));
