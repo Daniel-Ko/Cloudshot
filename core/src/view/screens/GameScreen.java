@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.mapObject.levels.LevelOne;
 import view.CloudShotGame;
+import view.HealthBar;
+
+import java.util.concurrent.TimeUnit;
 
 public class GameScreen extends ScreenAdapter{
 
@@ -38,15 +41,21 @@ public class GameScreen extends ScreenAdapter{
     private OrthographicCamera camera;
 
     private float elapsedTime;
-
+    private HealthBar healthBar;
     private GameModel gameModel;
     private Stage stage;
+
+    private long lastUpdate = 0L;
 
     public GameScreen(Game game){
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
         TextButton startButton = createSaveButton();
         stage.addActor(startButton);
+
+        healthBar = new HealthBar(100, 10);
+        healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
+        stage.addActor(healthBar);
 
         batch = new SpriteBatch();
 
@@ -110,6 +119,8 @@ public class GameScreen extends ScreenAdapter{
         gameModel.draw(batch);
         batch.end();
 
+        healthBar.setValue(gameModel.getPlayer().getHealth()/10);
+
         stage.act();
         stage.draw();
     }
@@ -161,6 +172,6 @@ public class GameScreen extends ScreenAdapter{
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
     }
 }
