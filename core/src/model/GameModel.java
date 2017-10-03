@@ -28,7 +28,7 @@ import java.util.Stack;
 public class GameModel {
 
     Player player;
-    List<AbstractEnemy> enemies;
+    ArrayList<AbstractEnemy> enemies;
     Stack<AbstractEnemy> enemiesToAdd;
     List<AbstractEnemy> enemiesToRemove;
     AbstractLevel level;
@@ -157,7 +157,7 @@ public class GameModel {
     }
 
     private void updatePlayerModel(){
-        player.update(level.getTiles());
+        player.update(enemies);
         for(AbstractEnemy e : enemies){
             player.attack(e);
         }
