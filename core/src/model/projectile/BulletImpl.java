@@ -1,6 +1,7 @@
 package model.projectile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -73,12 +74,12 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		return this.image;
 	}
 
-	public void update(ArrayList<AbstractEnemy> enemies){
+	public void update(List<AbstractEnemy> enemies){
 		doCollide(enemies);
 		pos.set(pos.x-xVel*speed,pos.y+yVel*speed);
 	}
 
-	private void doCollide(ArrayList<AbstractEnemy> enemies) {
+	private void doCollide(List<AbstractEnemy> enemies) {
 		for (AbstractEnemy e: enemies){
 			System.out.println("x = " + e.getX());
 			System.out.println("y = " + e.getY());

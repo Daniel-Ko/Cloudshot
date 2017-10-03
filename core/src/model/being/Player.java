@@ -109,7 +109,7 @@ public class Player extends AbstractPlayer {
 	}
 
 	@Override
-	public void update(ArrayList<AbstractEnemy> enemies){
+	public void update(List<AbstractEnemy> enemies){
 		super.update(null);
 
 		if(numFootContact< 1)inAir = true;
