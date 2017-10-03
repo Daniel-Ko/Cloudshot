@@ -27,7 +27,7 @@ import java.util.Stack;
 
 public class GameModel {
 
-    Player player;
+    AbstractPlayer player;
     List<AbstractEnemy> enemies;
     Stack<AbstractEnemy> enemiesToAdd;
     List<AbstractEnemy> enemiesToRemove;
@@ -128,22 +128,24 @@ public class GameModel {
     }
 
     public void draw(SpriteBatch sb){
+	    Player play = (Player) player;
+	    
         sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-0.9f,player.getY()-0.6f,1.80f,1.80f);
         //drawing player bullets
-        for(BulletImpl b : player.getBullets()){
-            sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+        for(BulletImpl b : play.getBullets()){
+            sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
         }
         for(AbstractEnemy ae : enemies){
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX()-ae.getDrawingWidth()/2,ae.getY()-ae.getDrawingHeight()/4,ae.getDrawingWidth(),ae.getDrawingHeight());
             if(ae instanceof ShootingEnemy){
                 ShootingEnemy s = (ShootingEnemy)ae;
                 for(BulletImpl b : s.bullets)
-                    sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                    sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
             if(ae instanceof BossOne){
                 BossOne s = (BossOne)ae;
                 for(BulletImpl b : s.bullets)
-                    sb.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                    sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
         }
         for(AbstractCollectable ac : level.getCollectables()){
@@ -168,7 +170,7 @@ public class GameModel {
     }
 
 
-    public Player getPlayer() {
+    public AbstractPlayer getPlayer() {
         return player;
     }
 
@@ -193,14 +195,14 @@ public class GameModel {
             StateQuery loader = repoScraper.load();
 
             //beautiful waterfall design of method calls into assignments
-            AbstractPlayer loadedPlayer = loader.loadPlayer();
+            PlayerData loadedPlayerData = loader.loadPlayerData();
             List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
             List<AbstractCollectable> loadedCollectables = loader.loadCollectables();
             
             
-            this.player = loadedPlayer;
+            loadPlayer(loadedPlayerData);
             this.enemies = loadedEnemies;
-            this.
+            //this.
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
@@ -210,5 +212,32 @@ public class GameModel {
 
     public AbstractLevel getLevel() {
         return level;
+    }
+    
+    private void loadPlayer(PlayerData pdata) {
+        AbstractPlayer newPlayer = new Player(this, pdata.getPos());
+        
+        if(pdata.isLiving())
+            newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
+        else
+            newPlayer.setPlayerState(AbstractPlayer.player_state.DEAD);
+        
+        newPlayer.setHealth(pdata.getHealth());
+        newPlayer.setDamage(pdata.getDamage());
+        newPlayer.setBoundingBox(pdata.getBoundingBox());
+        
+        //TODO set inventory  newPlayer.setInventory(pdata.getInventory());
+    
+        newPlayer.setInAir(pdata.isInAir());
+        newPlayer.setAttacking(pdata.isAttacking());
+        newPlayer.setGrounded(pdata.isGrounded());
+        newPlayer.setMovingLeft(pdata.isMovingLeft());
+        newPlayer.setMovingRight(pdata.isMovingRight());
+        
+        newPlayer.setVelocity(pdata.getVelocity());
+        //TODO REPLACE BODY newPlayer.getBody().setTransform();
+        //TODO REPLACE FIXTURE
+        
+        this.player = newPlayer;
     }
 }

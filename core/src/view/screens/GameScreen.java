@@ -86,8 +86,7 @@ public class GameScreen extends ScreenAdapter{
         saveButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // Save game here.
-                System.out.println("SAVE GAME");
+                gameModel.save();
             }
 
             @Override

@@ -39,16 +39,18 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected int health;
 	protected int damage;
 	protected Rectangle boundingBox;
-
+	
 	// Variables of player actions
 	protected  boolean inAir = false;
 	protected boolean attacking = false;
 	protected boolean grounded = false;
 	protected boolean movingLeft;
 	protected boolean movingRight;
-	/** Players inventory */
+	
+	// Players inventory
 	protected List<AbstractWeapon> inventory;
-	/** Position of the mouse*/
+	
+	// Position of the mouse
 	protected Vector2 aimedAt = new Vector2(50,50);
 
 	//Box2D
@@ -131,56 +133,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public List<AbstractWeapon> getInventory() {
 		return inventory;
 	}
-
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
-	}
-
-	public int getDamage() {
-		return damage;
-	}
-
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
-
-	public player_state getPlayerState() {
-		return playerState;
-	}
-
-	public void setPlayerState(player_state playerState) {
-		this.playerState = playerState;
-	}
-
-	public Vector2 getPos() {
-		return pos;
-	}
-
-
-	public Vector2 getVelocity() {
-		return velocity;
-	}
-
-	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
-	}
-
-	public Vector2 getAimedAt(){ return aimedAt; }
-
-	public Rectangle getBoundingBox()
-	{
-		return boundingBox;
-	}
-
-	public void setBoundingBox(Rectangle boundingBox) {
-		this.boundingBox = boundingBox;
-	}
-
-	public boolean getIsAttacking(){ return attacking; }
+	
 
 	public abstract boolean attack(AbstractEnemy enemy);
 
@@ -264,6 +217,119 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public boolean scrolled(int amount) {
 		return false;
 	}
-
-
+	
+	//
+	/* GETTERS + SETTERS */
+	//
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+	public player_state getPlayerState() {
+		return playerState;
+	}
+	
+	public void setPlayerState(player_state playerState) {
+		this.playerState = playerState;
+	}
+	
+	public Vector2 getPos() {
+		return pos;
+	}
+	
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+	
+	public Vector2 getAimedAt(){ return aimedAt; }
+	
+	public Rectangle getBoundingBox()
+	{
+		return boundingBox;
+	}
+	
+	public boolean getIsAttacking(){ return attacking; }
+	
+	public boolean isInAir() {
+		return inAir;
+	}
+	
+	public boolean isAttacking() {
+		return attacking;
+	}
+	
+	public boolean isGrounded() {
+		return grounded;
+	}
+	
+	public boolean isMovingLeft() {
+		return movingLeft;
+	}
+	
+	public boolean isMovingRight() {
+		return movingRight;
+	}
+	
+	public World getWorld() {
+		return world;
+	}
+	
+	public Body getBody() {
+		return body;
+	}
+	
+	public FixtureDef getPlayerProperties() {
+		return playerProperties;
+	}
+	
+	//==========================================
+	
+	public void setVelocity(Vector2 velocity) {
+		this.velocity = velocity;
+	}
+	
+	public void setBoundingBox(Rectangle boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+	
+	public void setInAir(boolean inAir) {
+		this.inAir = inAir;
+	}
+	
+	public void setAttacking(boolean attacking) {
+		this.attacking = attacking;
+	}
+	
+	public void setGrounded(boolean grounded) {
+		this.grounded = grounded;
+	}
+	
+	public void setMovingLeft(boolean movingLeft) {
+		this.movingLeft = movingLeft;
+	}
+	
+	public void setMovingRight(boolean movingRight) {
+		this.movingRight = movingRight;
+	}
+	
+	public void setInventory(List<AbstractWeapon> inventory) {
+		this.inventory = inventory;
+	}
+	
+	public void setAimedAt(Vector2 aimedAt) {
+		this.aimedAt = aimedAt;
+	}
 }

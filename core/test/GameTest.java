@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-//import org.mockito.Mockito;
+import org.mockito.Mockito;
 
 /**
  * Created by kodani on 28/09/17.

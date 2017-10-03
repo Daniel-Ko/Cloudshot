@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import model.GameModel;
 import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
+import model.being.PlayerData;
 import model.collectable.AbstractCollectable;
 
 import java.io.*;
@@ -27,9 +28,11 @@ public class GameStateTransactionHandler {
                 Gdx.app.getPreferences(
                         "save" + repository.latestSaveNum() //always a unique name and should stay dynamic + consistent throughout repo operations
                 ));
-
+        
         if(writeQuery(model, newState)) {
             commit(newState);
+            File f = new File(".");
+            System.out.println(f.getAbsolutePath());
             return true;
         }
         return false;
@@ -39,12 +42,15 @@ public class GameStateTransactionHandler {
 
         /* update the newState with validated data, otherwise signal failed save */
         if(!validateAndUpdatePlayer(newState, model.getPlayer())) {
+            System.out.println("bad player");
             return false;
         }
         if(!validateAndUpdateEnemies(newState, model.getEnemies())) {
+            System.out.println("bad enemies");
             return false;
         }
         if(!validateAndUpdateCollectables(newState, model.getCollectables())) {
+            System.out.println("bad items");
             return false;
         }
         return true;
@@ -63,13 +69,13 @@ public class GameStateTransactionHandler {
         }
 
         try {
-            AbstractPlayer validatedPlayer = validateAndReturnPlayer(latest);
+            PlayerData validatedPlayerData = validateAndReturnPlayerData(latest);
             List<AbstractEnemy> validatedEnemies = validateAndReturnEnemies(latest);
             List<AbstractCollectable> validatedCollectables = validateAndReturnCollectables(latest);
 
             //if all data is valid, remove it from stack finally
             repository.pullHard();
-            return new StateQuery(validatedPlayer, validatedEnemies, validatedCollectables); //give the model a loader object to directly call validated data
+            return new StateQuery(validatedPlayerData, validatedEnemies, validatedCollectables); //give the model a loader object to directly call validated data
 
         } catch (InvalidTransactionException e) {
             repository.pullHard(); //remove corrupted data
@@ -83,7 +89,7 @@ public class GameStateTransactionHandler {
     }
     
     
-    /** Serialise the AbstractPlayer obtained from the model and store it
+    /** Convert the AbstractPlayer obtained from the model into a serialisable PlayerData object and store it
      * into the buffer GameState. Checks if the data to be stored exists in the right type
      * and can be stored correctly
      * @param newState
@@ -96,16 +102,21 @@ public class GameStateTransactionHandler {
             return false;
         }
         
-        //now serialise the Player object and add to Preferences
+        //create a PlayerData object that makes serializable objects out of a not-entirely serializable AbstractPlayer
+        //, particularly Box2D.
+        PlayerData playerProps = new PlayerData(newPlayer);
+        
+        //now serialise the PlayerData object and add to Preferences
 
         String playerSer = "";
         try {
-            playerSer = serializeInBase64(newPlayer);
+            playerSer = serializeInBase64(playerProps);
         
-            newState.setEnemiesInPref(playerSer);
+            newState.setPlayerInPref(playerSer);
             return true;
         
         } catch(IOException e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -154,7 +165,7 @@ public class GameStateTransactionHandler {
         try {
             itemsSer = serializeInBase64(newItems);
 
-            newState.setEnemiesInPref(itemsSer);
+            newState.setCollectablesInPref(itemsSer);
             return true;
 
         } catch(IOException e) {
@@ -162,20 +173,21 @@ public class GameStateTransactionHandler {
         }
     }
 
-    /** Deserialize the Player from the GameState and validate that the data is correct
+    /** Deserialize the Player's data from the GameState and validate that the data is correct
      *
      * @param latest
-     * @return validated AbstractPlayer to be loaded into model
+     * @return validated PlayerData to be loaded into a StateQuery and transferred into a new
+     * AbstractPlayer instance
      */
-    private AbstractPlayer validateAndReturnPlayer(GameState latest) throws InvalidTransactionException{
+    private PlayerData validateAndReturnPlayerData(GameState latest) throws InvalidTransactionException{
         try {
             Object p = deserializeFromBase64(latest.getPref().getString("Player"));
-            if(!(p instanceof AbstractPlayer))
-                throw new InvalidTransactionException("Deserialized player object isn't an AbstractPlayer");
+            if(!(p instanceof PlayerData))
+                throw new InvalidTransactionException("Deserialized player object isn't a PlayerData");
+    
+            PlayerData playerdata = (PlayerData) p; //TODO any more checks on this player?
 
-            AbstractPlayer player = (AbstractPlayer) p; //TODO any more checks on this player?
-
-            return player;
+            return playerdata;
         } catch(IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }

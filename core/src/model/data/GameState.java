@@ -32,7 +32,7 @@ public class GameState{
     }
 
     
-    /** puts the bytecode of a AbstractPlayer
+    /** puts the bytecode of a PlayerData
      *  into the Preference
      *  @param player as bytecode
      */
@@ -46,6 +46,14 @@ public class GameState{
      */
     public void setEnemiesInPref(String enemies) {
         state.putString("Enemies", enemies);
+    }
+    
+    /** puts the bytecode of a List<AbstractCollectable>
+     *  into the Preference
+     * @param collectables
+     */
+    public void setCollectablesInPref(String collectables) {
+        state.putString("Collectables", collectables);
     }
 
     /** As the model will load this value in, assure the TransactionHandler
