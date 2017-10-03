@@ -109,15 +109,14 @@ public class Player extends AbstractPlayer {
 	}
 
 	@Override
-	public void update(Array<Rectangle> tiles){
+	public void update(ArrayList<AbstractEnemy> enemies){
 		super.update(null);
 
 		if(numFootContact< 1)inAir = true;
 		if(numFootContact >= 1)inAir = false;
 		//updating players bullets
 		for(BulletImpl b: bullets )
-			b.update(new ArrayList<>());
-		//FIXME ^^
+			b.update(enemies);
 	}
 
 	/**
