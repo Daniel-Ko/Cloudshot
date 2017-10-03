@@ -2,6 +2,7 @@ package view.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -33,6 +34,8 @@ public class GameScreen extends ScreenAdapter{
 
     public static final float FRAME_RATE = 0.09f;
 
+    public static InputMultiplexer inputMultiplexer;
+
     private final int VIEW_WIDTH = 1000;
 
     private SpriteBatch batch;
@@ -50,9 +53,14 @@ public class GameScreen extends ScreenAdapter{
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
 
+        TextButton startButton = createSaveButton();
+        stage.addActor(startButton);
+
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
         stage.addActor(healthBar);
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
 
         batch = new SpriteBatch();
 
@@ -65,6 +73,29 @@ public class GameScreen extends ScreenAdapter{
 
         this.gameModel = new GameModel(new LevelOne(),camera);
         gameModel.getTiledMapRenderer().setView(camera);
+    }
+
+    private TextButton createSaveButton() {
+        TextButton saveButton = new TextButton("Save", CloudShotGame.gameSkin);
+        saveButton.setWidth(Gdx.graphics.getWidth()/8);
+        saveButton.setPosition(
+                Gdx.graphics.getWidth() - saveButton.getWidth() - PADDING,
+                PADDING
+
+        );
+        saveButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // Save game here.
+                System.out.println("SAVE GAME");
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return saveButton;
     }
 
     @Override
@@ -144,4 +175,8 @@ public class GameScreen extends ScreenAdapter{
         stage.dispose();
     }
 
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
 }
