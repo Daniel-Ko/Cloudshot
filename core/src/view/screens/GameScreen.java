@@ -45,13 +45,10 @@ public class GameScreen extends ScreenAdapter{
     private GameModel gameModel;
     private Stage stage;
 
-    private long lastUpdate = 0L;
 
     public GameScreen(Game game){
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
-        TextButton startButton = createSaveButton();
-        stage.addActor(startButton);
 
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
@@ -68,29 +65,6 @@ public class GameScreen extends ScreenAdapter{
 
         this.gameModel = new GameModel(new LevelOne(),camera);
         gameModel.getTiledMapRenderer().setView(camera);
-    }
-
-    private TextButton createSaveButton() {
-        TextButton saveButton = new TextButton("Save", CloudShotGame.gameSkin);
-        saveButton.setWidth(Gdx.graphics.getWidth()/8);
-        saveButton.setPosition(
-                Gdx.graphics.getWidth() - saveButton.getWidth() - PADDING,
-                PADDING
-
-        );
-        saveButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // Save game here.
-                System.out.println("SAVE GAME");
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return saveButton;
     }
 
     @Override
@@ -170,8 +144,4 @@ public class GameScreen extends ScreenAdapter{
         stage.dispose();
     }
 
-    @Override
-    public void show() {
-        //Gdx.input.setInputProcessor(stage);
-    }
 }
