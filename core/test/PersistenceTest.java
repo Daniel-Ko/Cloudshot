@@ -25,7 +25,7 @@ public class PersistenceTest extends GameTest{
     @Test
     public void testValidSavePerson() {
         GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
-
+        
         //assertFalse(nullCatcher.validateAndUpdatePlayer(null
     }
 }

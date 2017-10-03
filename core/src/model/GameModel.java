@@ -192,9 +192,14 @@ public class GameModel {
             StateQuery loader = repoScraper.load();
 
             //beautiful waterfall design of method calls into assignments
-            AbstractPlayer player = loader.loadPlayer();
-            List<AbstractEnemy> enemies = loader.loadEnemies();
-            List<AbstractCollectable> collectables = loader.loadCollectables();
+            AbstractPlayer loadedPlayer = loader.loadPlayer();
+            List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
+            List<AbstractCollectable> loadedCollectables = loader.loadCollectables();
+            
+            
+            this.player = loadedPlayer;
+            this.enemies = loadedEnemies;
+            this.
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
