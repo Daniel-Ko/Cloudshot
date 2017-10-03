@@ -12,6 +12,7 @@ import model.collectable.AbstractWeapon;
 import com.badlogic.gdx.math.Rectangle;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,7 +74,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 *
 	 * Update the players action fields & check for collisions with platforms...
 	 */
-	public void update(Array<Rectangle> tiles) {
+	public void update(List<AbstractEnemy> enemies) {
 		handleInput();
 		pos.set(body.getPosition());
 		updateActionsPlayerDoing();

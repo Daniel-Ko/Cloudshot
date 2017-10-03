@@ -79,15 +79,13 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	}
 
 	private void doCollide(ArrayList<AbstractEnemy> enemies) {
-//		for (AbstractEnemy e: enemies){
-//			System.out.println("x = " + e.getX());
-//			System.out.println("y = " + e.getY());
-//			if (e.getBoundingBox().contains(this.getX(),this.getY())){
-//				e.hit(2000);
-//				System.out.println(222);
-//			
-//			}
-//		}
+		for (AbstractEnemy e: enemies){
+			System.out.println("x = " + e.getX());
+			System.out.println("y = " + e.getY());
+			if (e.getBoundingBox().contains(this.getX(),this.getY())){
+				e.hit(2000);
+			}
+		}
 	}
 
 	/**
