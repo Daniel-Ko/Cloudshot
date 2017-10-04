@@ -33,7 +33,7 @@ public class FlyingAggroMovement implements EnemyState {
 
     @Override
     public void damage(AbstractEnemy e, int damage) {
-        e.hit(damage);
+        e.internalDamage(damage);
         if(e.health <= 0){
             e.enemyState = new Death();
         }

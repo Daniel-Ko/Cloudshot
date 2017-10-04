@@ -15,17 +15,17 @@ import static org.junit.Assert.fail;
  */
 public class PersistenceTest extends GameTest{
 
-    @Test
-    public void testSavingPlayerNull() {
-        GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
-
-        assertFalse(nullCatcher.validateAndUpdatePlayer(null, null));
-    }
-
-    @Test
-    public void testValidSavePerson() {
-        GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
-        
-        //assertFalse(nullCatcher.validateAndUpdatePlayer(null
-    }
+//    @Test
+//    public void testSavingPlayerNull() {
+//        GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
+//
+//        assertFalse(nullCatcher.validateAndUpdatePlayer(null, null));
+//    }
+//
+//    @Test
+//    public void testValidSavePerson() {
+//        GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
+//
+//        //assertFalse(nullCatcher.validateAndUpdatePlayer(null
+//    }
 }

@@ -3,7 +3,6 @@ package model.being;
 public class Death implements EnemyState {
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
-        System.out.println("DEATH UPDATE");
         e.world.destroyBody(e.body);//DOESN'T WORK
     }
 

@@ -52,7 +52,7 @@ public class Player extends AbstractPlayer {
 	public Player(GameModel gameModel, Vector2 position) {
 		super(gameModel,position);
 		damage = 1;
-		health = 100;
+		health = 150;
 		//LOAD SPRITES
 
 		pistol = new Shotgun(pos,10/GameModel.PPM,10/GameModel.PPM);

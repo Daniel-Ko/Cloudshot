@@ -126,7 +126,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 *
 	 * @param damage to inflict on player
 	 * */
-	public void hit(int damage){
+	public void hit(float damage){
 		this.health-=damage;
 	}
 

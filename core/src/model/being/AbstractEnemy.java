@@ -26,7 +26,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected Vector2 velocity;
 	protected int speed;
 	protected int health;
-	protected int damage;
+	protected float damage;
 	protected AbstractPlayer player;
 
 	protected enemy_state state = enemy_state.EALIVE;
@@ -73,9 +73,18 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	 * */
 	public abstract void update();
 
+	/**
+	 * For external use for hurting the enemy
+	 * */
 	public void hit(int damage){
 		assert damage > 0 : "Damage should be a positive number";
-		if(state == enemy_state.EDEAD)return;
+		enemyState.damage(this,damage);
+	}
+	/**
+	 * Used internally by being package members
+	 * */
+	public void internalDamage(int damage){
+		assert damage > 0 : "Damage should be a positive number";
 		health-=damage;
 	}
 
