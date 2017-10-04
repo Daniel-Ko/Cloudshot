@@ -149,7 +149,9 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
+		
 		ArrayList<BulletImpl> bul = pistol.shoot(this);
+		if(bul == null){return;}
 		for(BulletImpl b: bul){
 			if(bul != null){
 				this.bullets.add(b);
