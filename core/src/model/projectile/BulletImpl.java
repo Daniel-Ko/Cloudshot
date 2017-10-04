@@ -21,8 +21,10 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected Vector2 endPos;
 	protected Vector2 pos;
 	
+	
+
 	protected float damage;
-	protected float speed = 4;
+	protected float speed = 3;
 	private float xVel;
 	private float yVel;
 	private CustomSprite image;
@@ -80,6 +82,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	}
 
 	public void update(List<AbstractEnemy> enemies){
+		if(pos.dst2(this.getStartingPos()) > 1000){
+			this.setToRemove(true);
+		}
 		doCollide(enemies);
 		pos.set(pos.x-xVel*speed,pos.y+yVel*speed);
 	}
@@ -155,6 +160,18 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	public boolean isPlayerBullet() {
 		return playerBullet;
 	}
-	
+	/**
+	 * @return the pos
+	 */
+	public Vector2 getPos() {
+		return pos;
+	}
+
+	/**
+	 * @param pos the pos to set
+	 */
+	public void setPos(Vector2 pos) {
+		this.pos = pos;
+	}
 	
 }

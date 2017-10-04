@@ -1,47 +1,58 @@
 package model.collectable;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 
+import model.GameModel;
 import model.being.Player;
 import model.projectile.BulletImpl;
 import view.CustomSprite;
+import view.MovingSprite;
+import view.StaticSprite;
 
 public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 50;
-	
+	private MovingSprite bulImage;
+	private StaticSprite image;
 	
 
 	public Shotgun(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.ammo = MAX_AMMO;
+		bulImage = new MovingSprite("bullet.png", 3, 2);
+		image = new StaticSprite("shotgun.png");
 	}
 
 	@Override
-	public BulletImpl shoot(Player p) {
+	public ArrayList<BulletImpl> shoot(Player p) {
 		if(this.ammo <= 0){return null;}
-				
+		ArrayList<BulletImpl> bullets = new ArrayList<>();		
 		this.ammo --;
 		
 		Vector2 aim = p.getAimedAt();
-		Vector2 aimAbove = aim.set(aim.x, aim.y + 5);
-		Vector2 aimBelow = aim.set(aim.x, aim.y - 5);
+		Vector2 aimAbove = new Vector2(aim.x,  (float) (aim.y + 0.5));
+		Vector2 aimBelow =  new Vector2(aim.x, (float) (aim.y - 0.5));
 		
-//		new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage());
-//		new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage());
-		return new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage());
+		bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage()));
+		bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage()));
+		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage()));
+		System.out.println(bullets.size());
+		return bullets;
+		
 	}
 
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.image;
 	}
 
 	
 	public CustomSprite getBulletImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.bulImage;
 	}
 	
 	@Override

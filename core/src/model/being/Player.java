@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.collectable.AbstractWeapon;
 import model.collectable.Pistol;
+import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
 import view.CustomSprite;
 import view.MovingSprite;
@@ -44,7 +45,7 @@ public class Player extends AbstractPlayer {
 	private CustomSprite jump_left;
 	private CustomSprite walk_left;
 
-	Pistol pistol;
+	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
 	int numFootContact = 0;
@@ -70,7 +71,7 @@ public class Player extends AbstractPlayer {
 		walk_left.flipHorizontal();
 		// TODO
 
-		pistol = new Pistol(pos,10/GameModel.PPM,10/GameModel.PPM);
+		pistol = new Shotgun(pos,10/GameModel.PPM,10/GameModel.PPM);
 
 		//Box2D
 		world.setContactListener(new MyContactListener());
@@ -148,9 +149,11 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		BulletImpl bul = pistol.shoot(this);
-		if(bul != null){
-			bullets.add(bul);
+		ArrayList<BulletImpl> bul = pistol.shoot(this);
+		for(BulletImpl b: bul){
+			if(bul != null){
+				this.bullets.add(b);
+			}
 		}
 		
 	}
