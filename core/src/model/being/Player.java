@@ -114,9 +114,18 @@ public class Player extends AbstractPlayer {
 
 		if(numFootContact< 1)inAir = true;
 		if(numFootContact >= 1)inAir = false;
+		ArrayList<BulletImpl> toRemove = new ArrayList<>();
 		//updating players bullets
-		for(BulletImpl b: bullets )
+		for(BulletImpl b: bullets ){
 			b.update(enemies);
+			if (b.isToRemove()) {
+				toRemove.add(b);
+			}
+		}
+		for(BulletImpl b: toRemove){
+			bullets.remove(b);
+		}
+			
 	}
 
 	/**

@@ -26,8 +26,11 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	private float xVel;
 	private float yVel;
 	private CustomSprite image;
+	private boolean toRemove = false;
+	private boolean playerBullet;
 	
-	
+
+
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
 		this.pos = new Vector2(start.x,start.y);
 		this.startingPos = new Vector2(start.x,start.y);;
@@ -36,6 +39,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		System.out.println("end pos = " + endPos);
 		this.damage = damage;
 		this.image = t;
+		///this.playerBullet = owner;
+		
 		float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
 		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;
 		float mag = (float) java.lang.Math.hypot(tX, tY);
@@ -81,10 +86,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 
 	private void doCollide(List<AbstractEnemy> enemies) {
 		for (AbstractEnemy e: enemies){
-			System.out.println("x = " + e.getX());
-			System.out.println("y = " + e.getY());
 			if (e.getBoundingBox().contains(this.getX(),this.getY())){
 				e.hit(2000);
+				this.setToRemove(true);
 			}
 		}
 	}
@@ -129,6 +133,27 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	 */
 	public void setDamage(float damage) {
 		this.damage = damage;
+	}
+	
+	/**
+	 * @return the toRemove
+	 */
+	public boolean isToRemove() {
+		return toRemove;
+	}
+
+	/**
+	 * @param toRemove the toRemove to set
+	 */
+	public void setToRemove(boolean toRemove) {
+		this.toRemove = toRemove;
+	}
+
+	/**
+	 * @return the playerBullet
+	 */
+	public boolean isPlayerBullet() {
+		return playerBullet;
 	}
 	
 	
