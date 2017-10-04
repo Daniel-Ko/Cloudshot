@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 public class GameScreen extends ScreenAdapter{
 
     //These values may get changed on a per level basis.
-    private final int WORLD_HEIGHT = 2000;
-    private final int WORLD_WIDTH = 3000;
+    public final int WORLD_HEIGHT = 2000;
+    public final int WORLD_WIDTH = 3000;
 
     private static final float PADDING = 10;
 
@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter{
 
     public static InputMultiplexer inputMultiplexer;
 
-    private final int VIEW_WIDTH = 1000;
+    public static final int VIEW_WIDTH = 1000;
 
     private SpriteBatch batch;
     private Game game;
@@ -86,8 +86,7 @@ public class GameScreen extends ScreenAdapter{
         saveButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // Save game here.
-                System.out.println("SAVE GAME");
+                gameModel.save();
             }
 
             @Override

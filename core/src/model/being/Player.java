@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.collectable.AbstractWeapon;
 import model.collectable.Pistol;
+import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
 import view.CustomSprite;
 import view.MovingSprite;
@@ -30,7 +31,21 @@ public class Player extends AbstractPlayer {
 	private float meleeRange = 1;
 	protected AbstractWeapon curWeapon;
 
-	Pistol pistol;
+	private CustomSprite current;
+
+	private CustomSprite idle_right;
+	private CustomSprite attack_right;
+	private CustomSprite jump_right;
+	private CustomSprite walk_right;
+	private CustomSprite death;
+
+
+	private CustomSprite idle_left;
+	private CustomSprite attack_left;
+	private CustomSprite jump_left;
+	private CustomSprite walk_left;
+
+	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
 	int numFootContact = 0;
@@ -40,7 +55,8 @@ public class Player extends AbstractPlayer {
 		health = 100;
 		//LOAD SPRITES
 
-		pistol = new Pistol(pos,10/GameModel.PPM,10/GameModel.PPM);
+		pistol = new Shotgun(pos,10/GameModel.PPM,10/GameModel.PPM);
+
 		//Box2D
 		world.setContactListener(new MyContactListener());
 	}
@@ -78,7 +94,7 @@ public class Player extends AbstractPlayer {
 	}
 
 	@Override
-	public void update(ArrayList<AbstractEnemy> enemies){
+	public void update(List<AbstractEnemy> enemies){
 		super.update(null);
 
 		if(numFootContact< 1)inAir = true;
@@ -86,9 +102,18 @@ public class Player extends AbstractPlayer {
 			inAir = false;
 			doubleJump = 0;
 		}
+		ArrayList<BulletImpl> toRemove = new ArrayList<>();
 		//updating players bullets
-		for(BulletImpl b: bullets )
+		for(BulletImpl b: bullets ){
 			b.update(enemies);
+			if (b.isToRemove()) {
+				toRemove.add(b);
+			}
+		}
+		for(BulletImpl b: toRemove){
+			bullets.remove(b);
+		}
+			
 	}
 
 	/**
@@ -112,9 +137,13 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		BulletImpl bul = pistol.shoot(this);
-		if(bul != null){
-			bullets.add(bul);
+		
+		ArrayList<BulletImpl> bul = pistol.shoot(this);
+		if(bul == null){return;}
+		for(BulletImpl b: bul){
+			if(bul != null){
+				this.bullets.add(b);
+			}
 		}
 		
 	}

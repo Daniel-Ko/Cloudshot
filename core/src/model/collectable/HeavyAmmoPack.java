@@ -4,18 +4,19 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.being.AbstractPlayer;
 import view.CustomSprite;
+import view.StaticSprite;
 
 public class HeavyAmmoPack extends AbstractBuff {
-
+	CustomSprite image;
 	public HeavyAmmoPack(Vector2 position, float width, float height) {
 		super(position, width, height);
-		// TODO Auto-generated constructor stub
+		image = new StaticSprite("ammo.png");
 	}
 
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.image;
 	}
 
 	@Override

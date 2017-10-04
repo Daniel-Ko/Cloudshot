@@ -1,5 +1,8 @@
 package model.collectable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.math.Vector2;
 
 import model.being.Player;
@@ -16,13 +19,16 @@ public class Pistol extends AbstractWeapon{
 
 	private CustomSprite image;
 
+	private CustomSprite bulImage;
+
 	
 	
 	
 	public Pistol(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.setDamage(PISTOL_DAMAGE);
-		image = new MovingSprite("bullet.png", 3, 2);
+		bulImage = new MovingSprite("bullet.png", 3, 2);
+		this.image = new StaticSprite("pistol.png");
 		this.ammo = MAX_AMMO;
 	}
 
@@ -32,18 +38,19 @@ public class Pistol extends AbstractWeapon{
 	}
 	
 	public CustomSprite getBulletImage() {
-		return this.image;
+		return this.bulImage;
 	}
 	
 
 	@Override
-	public BulletImpl shoot(Player p) {
+	public ArrayList<BulletImpl> shoot(Player p) {
 		//shoots single pistol bullet.
 		//dont shoot if theres no ammo
 		if(this.ammo <= 0){return null;}
-		
+		ArrayList<BulletImpl> bullets = new ArrayList<>();
 		this.ammo --;
-		return new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage());
+		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage()));
+		return bullets;
 	}
 
 	@Override

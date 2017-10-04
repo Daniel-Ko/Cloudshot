@@ -1,6 +1,7 @@
 package model.projectile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -20,13 +21,18 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected Vector2 endPos;
 	protected Vector2 pos;
 	
+	
+
 	protected float damage;
-	protected float speed = 4;
+	protected float speed = 3;
 	private float xVel;
 	private float yVel;
 	private CustomSprite image;
+	private boolean toRemove = false;
+	private boolean playerBullet;
 	
-	
+
+
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
 		this.pos = new Vector2(start.x,start.y);
 		this.startingPos = new Vector2(start.x,start.y);;
@@ -35,6 +41,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		System.out.println("end pos = " + endPos);
 		this.damage = damage;
 		this.image = t;
+		///this.playerBullet = owner;
+		
 		float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
 		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;
 		float mag = (float) java.lang.Math.hypot(tX, tY);
@@ -73,17 +81,19 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		return this.image;
 	}
 
-	public void update(ArrayList<AbstractEnemy> enemies){
+	public void update(List<AbstractEnemy> enemies){
+		if(pos.dst2(this.getStartingPos()) > 1000){
+			this.setToRemove(true);
+		}
 		doCollide(enemies);
 		pos.set(pos.x-xVel*speed,pos.y+yVel*speed);
 	}
 
-	private void doCollide(ArrayList<AbstractEnemy> enemies) {
+	private void doCollide(List<AbstractEnemy> enemies) {
 		for (AbstractEnemy e: enemies){
-			System.out.println("x = " + e.getX());
-			System.out.println("y = " + e.getY());
 			if (e.getBoundingBox().contains(this.getX(),this.getY())){
 				e.hit(2000);
+				this.setToRemove(true);
 			}
 		}
 	}
@@ -130,5 +140,38 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		this.damage = damage;
 	}
 	
+	/**
+	 * @return the toRemove
+	 */
+	public boolean isToRemove() {
+		return toRemove;
+	}
+
+	/**
+	 * @param toRemove the toRemove to set
+	 */
+	public void setToRemove(boolean toRemove) {
+		this.toRemove = toRemove;
+	}
+
+	/**
+	 * @return the playerBullet
+	 */
+	public boolean isPlayerBullet() {
+		return playerBullet;
+	}
+	/**
+	 * @return the pos
+	 */
+	public Vector2 getPos() {
+		return pos;
+	}
+
+	/**
+	 * @param pos the pos to set
+	 */
+	public void setPos(Vector2 pos) {
+		this.pos = pos;
+	}
 	
 }

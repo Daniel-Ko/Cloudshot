@@ -1,5 +1,7 @@
 package model.collectable;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -36,7 +38,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	
 	public abstract CustomSprite getBulletImage();
 	
-	public abstract BulletImpl shoot(Player p);
+	public abstract ArrayList<BulletImpl> shoot(Player p);
 	
 	public abstract void setAmmo(int i);
 	
