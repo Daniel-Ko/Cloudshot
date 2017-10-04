@@ -26,23 +26,9 @@ public class Player extends AbstractPlayer {
 	public static final float HEIGHT = 32;
 	private float maxSpeed = 2.5f;
 	private float maxSpeedInAir = 0.5f;
-
+	private int doubleJump = 0;
 	private float meleeRange = 1;
 	protected AbstractWeapon curWeapon;
-
-	private CustomSprite current;
-
-	private CustomSprite idle_right;
-	private CustomSprite attack_right;
-	private CustomSprite jump_right;
-	private CustomSprite walk_right;
-	private CustomSprite death;
-
-
-	private CustomSprite idle_left;
-	private CustomSprite attack_left;
-	private CustomSprite jump_left;
-	private CustomSprite walk_left;
 
 	Pistol pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
@@ -51,27 +37,10 @@ public class Player extends AbstractPlayer {
 	public Player(GameModel gameModel, Vector2 position) {
 		super(gameModel,position);
 		damage = 1;
-		health = 400;
-		//load sprites
-		current = new MovingSprite("player_idle.png",2,2);
-		idle_right = new MovingSprite("player_idle.png",2,2);
-		attack_right = new MovingSprite("player_attack.png",2,3);
-		jump_right = new MovingSprite("player_jump.png",2,3);
-		walk_right = new MovingSprite("player_walk.png",3,3);
-		death = new MovingSprite("player_death.png",1,1);
-
-		idle_left = new MovingSprite("player_idle.png",2,2);
-		attack_left = new MovingSprite("player_attack.png",2,3);
-		jump_left = new MovingSprite("player_jump.png",2,3);
-		walk_left = new MovingSprite("player_walk.png",3,3);
-		idle_left.flipHorizontal();
-		attack_left.flipHorizontal();
-		jump_left.flipHorizontal();
-		walk_left.flipHorizontal();
-		// TODO
+		health = 100;
+		//LOAD SPRITES
 
 		pistol = new Pistol(pos,10/GameModel.PPM,10/GameModel.PPM);
-
 		//Box2D
 		world.setContactListener(new MyContactListener());
 	}
@@ -113,7 +82,10 @@ public class Player extends AbstractPlayer {
 		super.update(null);
 
 		if(numFootContact< 1)inAir = true;
-		if(numFootContact >= 1)inAir = false;
+		if(numFootContact >= 1){
+			inAir = false;
+			doubleJump = 0;
+		}
 		//updating players bullets
 		for(BulletImpl b: bullets )
 			b.update(enemies);
@@ -131,7 +103,8 @@ public class Player extends AbstractPlayer {
 		//Enemy is within range of melee
 		if(getPos().dst(enemy.getPosition())<meleeRange){
 			if(getIsAttacking()){
-				enemy.hit(damage);
+				//enemy.hit(damage);
+				enemy.enemyState.damage(enemy,damage);
 			}
 		}
 		return false;
@@ -180,12 +153,12 @@ public class Player extends AbstractPlayer {
 		//players feet is not in contact with ground therefore cant jump
 		if(numFootContact<1){
 			inAir =true;
-			return;
 		}
 		//limiting jump speed
-		if(body.getLinearVelocity().y<maxSpeed){
+		if(body.getLinearVelocity().y<maxSpeed && !inAir || doubleJump <= 1){
 			body.applyLinearImpulse(new Vector2(0,0.3f),body.getWorldCenter(),true);
 			this.grounded = false;
+			doubleJump++;
 			inAir = true;
 		}
 	}

@@ -11,8 +11,8 @@ import view.MovingSprite;
 import view.StaticSprite;
 
 public class BossTwo extends AbstractEnemy{
-    private int detectionRadius = 60;
-    private int attackRadius = 5;
+    private int detectionRadius = 100;
+    private int attackRadius = 2;
     public BossTwo(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
         drawingWidth = 4;
@@ -50,34 +50,36 @@ public class BossTwo extends AbstractEnemy{
 
     @Override
     protected boolean attack() {
-        return false;
+        enemyState.attack(this,player);
+        return true;
     }
 
     @Override
     protected void movement() {
-        if(position.dst(player.getPos())< detectionRadius){
-            if(getX()<player.getX())
-                body.setLinearVelocity(1f,body.getLinearVelocity().y);
-            if(getX()>player.getX())
-                body.setLinearVelocity(-1f,body.getLinearVelocity().y);
-            if(getY()<player.getY())
-                body.setLinearVelocity(body.getLinearVelocity().x,1f);
-            if(getY ()>player.getY())
-                body.setLinearVelocity(body.getLinearVelocity().x,-1f);
-        }
+
     }
 
     @Override
     public void update() {
-        if(state == enemy_state.EDEAD)return;
-        if(health <= 0 ){
-            state = enemy_state.EDEAD;
-            world.destroyBody(body);
-        }
+
+        if(enemyState instanceof Death)return;
 
         position.set(body.getPosition());
         boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
-        movement();
+        //UPDATING STATES
+        if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
+            enemyState = new FlyingAggroMovement();
+        }
+        else{
+            enemyState = new IdleMovement();
+        }
+        if(position.dst(player.getPos())<attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
+            //attackState
+            enemyState = new MeleeAttack();
+            attack();
+        }
+        System.out.println(enemyState);
+        enemyState.update(this,player);
     }
 
     @Override

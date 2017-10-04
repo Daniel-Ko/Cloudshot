@@ -52,6 +52,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/** Position of the mouse*/
 	protected Vector2 aimedAt = new Vector2(50,50);
 
+
+	protected EnemyState state;
 	//Box2D
 	World world;
 	public Body body;

@@ -31,7 +31,7 @@ public class EnemyFactory {
 			// ..
 			// return new ShootingEnemy(..)
 		} else if (enemyType == enemy_type.melee) {
-			//return new MeleeEnemy(hp, player,pos);
+			//return new Slime(hp, player,pos);
 		}
 		return null;
 	}

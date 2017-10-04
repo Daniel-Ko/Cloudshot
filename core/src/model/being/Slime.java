@@ -1,11 +1,9 @@
 package model.being;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import view.CustomSprite;
 import view.MovingSprite;
@@ -13,13 +11,10 @@ import view.MovingSprite;
 import java.util.Random;
 
 /**
- * Class has the basic structure of a basic melee attacking enemy to get a more
- * unqiue melee enemy think about extending from this class
- * 
- * @author Jeremy Southon
+ * deprecated TO REMOVE
  * 
  */
-public class MeleeEnemy extends AbstractEnemy {
+public class Slime extends AbstractEnemy {
 	int detectionRadius = 3;
 	int attackRadius = 1;
 	private int splitID = 0;//0 = original smile,1 = second gen..
@@ -34,7 +29,7 @@ public class MeleeEnemy extends AbstractEnemy {
 	private CustomSprite walk;
 	private CustomSprite walk_l;
 
-	public MeleeEnemy(GameModel gameModel,Vector2 pos){
+	public Slime(GameModel gameModel, Vector2 pos){
 		super(gameModel,pos);
 		health = 20;
 		attack =  new MovingSprite("slime_attack.png",1,7);
@@ -97,12 +92,12 @@ public class MeleeEnemy extends AbstractEnemy {
 			state = enemy_state.EDEAD;
 			if(splitID < 1 ){
 				//split slime into 2 but half that stats
-				MeleeEnemy e1 = new MeleeEnemy(game,new Vector2((body.getPosition().x* GameModel.PPM)-10,body.getPosition().y * GameModel.PPM));
-				MeleeEnemy e2 = new MeleeEnemy(game,new Vector2((body.getPosition().x* GameModel.PPM)+10,body.getPosition().y * GameModel.PPM));
-				e1.drawingWidth = drawingWidth/2;
-				e1.drawingHeight = drawingHeight/2;
-				e2.drawingWidth = drawingWidth/2;
-				e2.drawingHeight = drawingHeight/2;
+				Slime e1 = new Slime(game,new Vector2((body.getPosition().x* GameModel.PPM)-10,body.getPosition().y * GameModel.PPM));
+				Slime e2 = new Slime(game,new Vector2((body.getPosition().x* GameModel.PPM)+10,body.getPosition().y * GameModel.PPM));
+				e1.drawingWidth = drawingWidth/1.5f;
+				e1.drawingHeight = drawingHeight/1.5f;
+				e2.drawingWidth = drawingWidth/1.5f;
+				e2.drawingHeight = drawingHeight/1.5f;
 				e1.splitID=splitID+1;
 				e2.splitID=splitID+1;
 				e1.damage = damage/2;

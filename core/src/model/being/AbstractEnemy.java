@@ -42,6 +42,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	protected  GameModel game;
 
+	public EnemyState enemyState;
 	//for drawing using sprite batch
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;
@@ -56,6 +57,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		speed = 2;//TODO
 		damage = 1;
 		defineBody();
+		enemyState = new IdleMovement();
 	}
 
 	protected abstract boolean attack();
