@@ -81,7 +81,6 @@ public class PlayerData implements Serializable{
     
     private void setPhysicsProperties(AbstractPlayer player) {
         this.pos = player.getPos();
-        this.velocity = player.getVelocity();
     }
     
     private void setBox2DProperties(AbstractPlayer player) {

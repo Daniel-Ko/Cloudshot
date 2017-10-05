@@ -19,8 +19,8 @@ public class SlowPack extends AbstractBuff {
 
 	@Override
 	public void pickedUp(AbstractPlayer p) {
-		Vector2 oldVelocity = p.getVelocity();
-		p.setVelocity(oldVelocity.scl((float) 0.5));
+//		Vector2 oldVelocity = p.getVelocity();
+//		p.setVelocity(oldVelocity.scl((float) 0.5)); //TODO FIXME hmu on what variables to use.
 	}
 
 }
