@@ -1,6 +1,6 @@
 package model.being;
 
-import com.sun.jmx.snmp.EnumRowStatus;
+//import com.sun.jmx.snmp.EnumRowStatus;
 
 import java.util.Random;
 
