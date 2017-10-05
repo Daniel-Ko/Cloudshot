@@ -1,9 +1,13 @@
-//import model.being.AbstractPlayer;
-//import model.collectable.*;
-//import org.junit.Test;import com.brashmonkey.spriter.Player;
-//
-//public class CollectableTests extends GameTest {
-//
+
+import com.badlogic.gdx.math.Vector2;
+import model.being.AbstractPlayer;
+import model.collectable.*;
+import org.junit.Test;import com.brashmonkey.spriter.Player;
+
+import static org.junit.Assert.assertEquals;
+
+public class CollectableTests extends GameTest {
+
 //	public CollectableTests() {
 //		// TODO Auto-generated constructor stub
 //	}
@@ -58,10 +62,10 @@
 ////		AbstractCollectable = new AmmoPack(p.getPos());
 //
 ////	}
-//
-//
-//
-//
-//
-//
-//}
+
+	
+	
+	
+
+	
+}
