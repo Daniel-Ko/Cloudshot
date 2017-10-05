@@ -7,23 +7,21 @@ import model.being.Player;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
 import org.junit.Test;
+import view.HealthBar;
 import view.screens.GameScreen;
 
 import static org.junit.Assert.assertTrue;
 
 public class ViewTest extends GameTest{
 
+
     @Test
-    public void testPlayerSprite(){
-
-        OrthographicCamera camera = new OrthographicCamera(1000/GameModel.PPM,((1000 * (Gdx.graphics.getHeight() / Gdx.graphics.getWidth()))/GameModel.PPM));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
-        GameModel gameModel = new GameModel(new LevelOne(),camera);
-
-       Player player = new Player(gameModel, new Vector2(0,0));
-
-        assertTrue(true);
+    public void testHealthBar_Full(){
+        int fullHP = 150;
+        int currentHP = 150;
+        HealthBar healthBar = new HealthBar(100, 10);
+        healthBar.setValue(currentHP/fullHP);
+        assertTrue(healthBar.getWidth() == 100);
     }
 
 }
