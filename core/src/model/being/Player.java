@@ -31,6 +31,8 @@ public class Player extends AbstractPlayer {
 	private float meleeRange = 1;
 	protected AbstractWeapon curWeapon;
 
+	
+
 	private CustomSprite current;
 
 	private CustomSprite idle_right;
@@ -55,11 +57,21 @@ public class Player extends AbstractPlayer {
 		health = 150;
 		//LOAD SPRITES
 
-		pistol = new Shotgun(pos,10/GameModel.PPM,10/GameModel.PPM);
+		curWeapon = null;
 
 		//Box2D
 		world.setContactListener(new MyContactListener());
 	}
+	/**
+	 * @param curWeapon the curWeapon to set
+	 */
+	public void setCurWeapon(AbstractWeapon curWeapon) {
+		this.curWeapon = curWeapon;
+	}
+	public AbstractWeapon getCurWeapon(AbstractWeapon curWeapon) {
+		return this.curWeapon;
+	}
+	
 
 	protected void definePlayer(Vector2 pos){
 		//body def
@@ -138,15 +150,16 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		
-		ArrayList<BulletImpl> bul = pistol.shoot(this);
+		if(this.getCurWeapon()== null){return;}
+		ArrayList<BulletImpl> bul = this.getCurWeapon().shoot(this);
 		if(bul == null){return;}
 		for(BulletImpl b: bul){
 			if(bul != null){
 				this.bullets.add(b);
 			}
 		}
-		
+		System.out.println("gets here");
+
 	}
 
 	/**
@@ -211,7 +224,7 @@ public class Player extends AbstractPlayer {
 		this.meleeRange = meleeRange;
 	}
 
-	public AbstractWeapon getCurWeapon(){ return this.pistol; }
+	public AbstractWeapon getCurWeapon(){ return this.curWeapon; }
 
 	@Override
 	public CustomSprite getImage() {

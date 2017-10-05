@@ -68,6 +68,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
 		definePlayer(pos);
+		this.inventory = new ArrayList<AbstractWeapon>();
 }
 	protected abstract void definePlayer(Vector2 pos);
 

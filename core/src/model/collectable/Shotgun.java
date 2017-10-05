@@ -27,6 +27,7 @@ public class Shotgun extends AbstractWeapon {
 
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
+		//System.out.println("gets here");
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();		
 		this.ammo --;

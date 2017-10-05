@@ -46,6 +46,8 @@ public class Pistol extends AbstractWeapon{
 	public ArrayList<BulletImpl> shoot(Player p) {
 		//shoots single pistol bullet.
 		//dont shoot if theres no ammo
+		System.out.println("gets here");
+
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();
 		this.ammo --;
