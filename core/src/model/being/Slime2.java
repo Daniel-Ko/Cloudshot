@@ -65,7 +65,6 @@ public class Slime2 extends AbstractEnemy{
 
     /**
      * DESC
-     *
      * @return true if landed and attack o.w false
      * */
     @Override

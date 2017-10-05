@@ -1,3 +1,4 @@
+
 import com.badlogic.gdx.math.Vector2;
 import model.being.AbstractPlayer;
 import model.collectable.*;
@@ -61,7 +62,7 @@ public class CollectableTests extends GameTest {
 ////		AbstractCollectable = new AmmoPack(p.getPos());
 //
 ////	}
-	
+
 	
 	
 	
