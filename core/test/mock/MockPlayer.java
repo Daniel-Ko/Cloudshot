@@ -91,16 +91,17 @@ public class MockPlayer {
 
 
 
-    public MockPlayer(Vector2 pos) {
+    public MockPlayer() {
         health = 10;
-        this.pos = pos;
         velocity = new Vector2(0,0);
-        boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-
+//        boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
+        bullets = new ArrayList<>();
         this.inventory = new ArrayList<AbstractWeapon>();
 
 //        body = new Body();
     }
+
+
 
 
     public void update(List<AbstractEnemy> enemies){
@@ -145,15 +146,8 @@ public class MockPlayer {
     }
 
     public void shoot() {
-//        if(this.getCurWeapon()== null){return;}
-//        //ArrayList<BulletImpl> bul = this.getCurWeapon().shoot(this);
-//        if(bul == null){return;}
-//        for(BulletImpl b: bul){
-//            if(bul != null){
-//                this.bullets.add(b);
-//            }
-//        }
-//        System.out.println("gets here");
+        if(this.getCurWeapon()== null){return;}
+
 
     }
 
@@ -366,12 +360,18 @@ public class MockPlayer {
         this.playerState = playerState;
     }
 
+    public void setPos(Vector2 newPos) {pos = newPos;}
+
     public Vector2 getPos() {
         return pos;
     }
 
     public Vector2 getVelocity() {
         return velocity;
+    }
+
+    public void setBullets(List<BulletImpl> newBullets) {
+        bullets = newBullets;
     }
 
     public Vector2 getAimedAt(){ return aimedAt; }
