@@ -10,10 +10,10 @@ import org.junit.Test;
 import view.HealthBar;
 import view.screens.GameScreen;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ViewTest extends GameTest{
-
 
     @Test
     public void testHealthBar_Full(){
@@ -21,7 +21,15 @@ public class ViewTest extends GameTest{
         int currentHP = 150;
         HealthBar healthBar = new HealthBar(100, 10);
         healthBar.setValue(currentHP/fullHP);
-        assertTrue(healthBar.getWidth() == 100);
+        assertTrue(healthBar.getPercent()*100 == 100);
     }
 
+    @Test
+    public void testHealthBar_Half(){
+        int halfHP = 75;
+        int fullHP = 150;
+        HealthBar healthBar = new HealthBar(100, 10);
+        healthBar.setValue((float)halfHP/(float)fullHP);
+        assertTrue(healthBar.getPercent()*100 == 50);
+    }
 }
