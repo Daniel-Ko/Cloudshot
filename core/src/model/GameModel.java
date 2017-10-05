@@ -183,6 +183,8 @@ public class GameModel {
         return level.getCollectables();
     }
 
+    public OrthographicCamera getCamera(){ return cam;}
+
     public World getWorld(){ return this.world; }
 
     public void save() {

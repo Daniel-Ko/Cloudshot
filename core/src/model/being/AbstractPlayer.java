@@ -3,6 +3,7 @@ package model.being;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
@@ -61,7 +62,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public Body body;
 	FixtureDef playerProperties;
 
+	GameModel game;
 	public AbstractPlayer(GameModel gameModel,Vector2 pos) {
+		game =  gameModel;
 		this.world = gameModel.getWorld();
 		health = 10;
 		this.pos = pos;
@@ -298,8 +301,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public FixtureDef getPlayerProperties() {
 		return playerProperties;
 	}
-	
-	//==========================================
 	
 	public void setVelocity(Vector2 velocity) {
 		this.velocity = velocity;
