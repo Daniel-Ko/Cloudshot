@@ -53,7 +53,10 @@ public class GameModel {
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
         this.level = level;
-        player = new Player(this,new Vector2(50,500));
+        //Player setup
+        player = new Player();
+        player.initBox2D(world,new Vector2(50,500));
+        //end
 
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
@@ -218,7 +221,7 @@ public class GameModel {
     }
     
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player(this, pdata.getPos());
+        AbstractPlayer newPlayer = new Player();
         
         if(pdata.isLiving())
             newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
