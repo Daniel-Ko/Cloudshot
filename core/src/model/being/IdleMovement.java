@@ -14,6 +14,7 @@ public class IdleMovement implements EnemyState{
         }else {
             e.body.setLinearVelocity(-1f,e.body.getLinearVelocity().y);
         }
+
     }
 
     @Override

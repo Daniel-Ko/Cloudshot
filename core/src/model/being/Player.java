@@ -102,6 +102,7 @@ public class Player extends AbstractPlayer {
 			inAir = false;
 			doubleJump = 0;
 		}
+
 		ArrayList<BulletImpl> toRemove = new ArrayList<>();
 		//updating players bullets
 		for(BulletImpl b: bullets ){
@@ -201,6 +202,14 @@ public class Player extends AbstractPlayer {
 		public float getY(){ return getPos().y; }
 
 	public List<BulletImpl> getBullets(){ return this.bullets; }
+
+	public float getMeleeRange() {
+		return meleeRange;
+	}
+
+	public void setMeleeRange(float meleeRange) {
+		this.meleeRange = meleeRange;
+	}
 
 	public AbstractWeapon getCurWeapon(){ return this.pistol; }
 

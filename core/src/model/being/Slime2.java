@@ -10,8 +10,6 @@ import view.MovingSprite;
 
 public class Slime2 extends AbstractEnemy{
 
-    int detectionRadius = 3;
-    float attackRadius = 0.5f;
     private int splitID = 0;//0 = original smile,1 = second gen..
 
     //DIFFERENT IMAGES FOR DIFFERENT STATES
@@ -34,6 +32,9 @@ public class Slime2 extends AbstractEnemy{
         walk_l = new MovingSprite("slime_walk.png",1, 9);
         walk_l.flipHorizontal();
         damage = 1;
+
+        detectionRadius = 3;
+        attackRadius = 0.5f;
     }
 
     protected void defineBody(){
@@ -107,7 +108,9 @@ public class Slime2 extends AbstractEnemy{
 
         //UPDATING STATES
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
-            enemyState = new AggroMovement();
+            if(enemyState instanceof IdleMovement){
+                enemyState = new AggroDash();
+            }
         }
         else{
             enemyState = new IdleMovement();

@@ -21,6 +21,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	private static final long serialVersionUID = -5230554639550482142L;
 	/** Used for collisions and getting X & Y coords */
 	protected Rectangle boundingBox;
+	public int detectionRadius = 3;
+	public float attackRadius = 0.5f;
 
 	protected Vector2 position;
 	protected Vector2 velocity;
