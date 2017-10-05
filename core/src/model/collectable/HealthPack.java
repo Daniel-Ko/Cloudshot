@@ -10,7 +10,7 @@ public class HealthPack extends AbstractBuff {
 
 	CustomSprite image;
 
-	public HealthPack(Vector2 position, int width, int height) {
+	public HealthPack(Vector2 position, float width, float height) {
 		super(position, width, height);
 		image = new StaticSprite("healthpack.png");
 		// TODO Auto-generated constructor stub
