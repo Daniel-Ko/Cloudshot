@@ -36,7 +36,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	/* variables used in player physics */
 	protected Vector2 pos;
-	protected Vector2 velocity;
 
 	protected int health;
 	protected int damage;
@@ -68,11 +67,27 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.world = gameModel.getWorld();
 		health = 10;
 		this.pos = pos;
-		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
 		definePlayer(pos);
 		this.inventory = new ArrayList<AbstractWeapon>();
-}
+	}
+
+	/**For Testing purposes
+	 *
+	 *
+	 * */
+	public AbstractPlayer(){
+		//No game model
+		//no box2D physics world
+		//Cannot define player box2D body
+
+		this.health = 10;
+		this.pos = new Vector2(0,0);
+		this.inventory = new ArrayList<AbstractWeapon>();
+		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
+
+
+	}
 	protected abstract void definePlayer(Vector2 pos);
 
 	/**
@@ -256,10 +271,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public Vector2 getPos() {
 		return pos;
 	}
-	
-	public Vector2 getVelocity() {
-		return velocity;
-	}
+
 	
 	public Vector2 getAimedAt(){ return aimedAt; }
 	
@@ -301,10 +313,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public FixtureDef getPlayerProperties() {
 		return playerProperties;
 	}
-	
-	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
-	}
+
 	
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;

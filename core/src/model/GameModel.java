@@ -236,8 +236,7 @@ public class GameModel {
         newPlayer.setGrounded(pdata.isGrounded());
         newPlayer.setMovingLeft(pdata.isMovingLeft());
         newPlayer.setMovingRight(pdata.isMovingRight());
-        
-        newPlayer.setVelocity(pdata.getVelocity());
+
         //TODO REPLACE BODY newPlayer.getBody().setTransform();
         //TODO REPLACE FIXTURE
         
