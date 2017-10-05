@@ -19,6 +19,7 @@ import model.mapObject.terrain.Ground;
 import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,6 +41,26 @@ public class LevelOne extends AbstractLevel {
     @Override
     public int getLevelNumber() {
         return 1;
+    }
+
+    @Override
+    public HashMap<Integer, String> getSpawnRates() {
+        HashMap<Integer,String> spawnRates = new HashMap<>();
+        spawnRates.put(0,"HealthPack");
+        spawnRates.put(1,"HealthPack");
+        spawnRates.put(2,"HealthPack");
+        spawnRates.put(3,"DeathPack");
+        spawnRates.put(4,"Pistol");
+        spawnRates.put(5,"Pistol");
+        spawnRates.put(6,"HeavyAmmoPack");
+        spawnRates.put(7,"LightAmmoPack");
+        spawnRates.put(8,"Shotgun");
+        spawnRates.put(9,"Shotgun");
+        spawnRates.put(10,"LightAmmoPack");
+
+
+
+        return spawnRates;
     }
 
     @Override

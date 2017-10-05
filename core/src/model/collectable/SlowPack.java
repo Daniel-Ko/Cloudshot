@@ -7,7 +7,7 @@ import view.CustomSprite;
 
 public class SlowPack extends AbstractBuff {
 
-	public SlowPack(Vector2 position, int width, int height) {
+	public SlowPack(Vector2 position, float width, float height) {
 		super(position, width, height);
 	}
 

@@ -14,14 +14,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.GameObjectInterface;
-import model.collectable.AbstractCollectable;
-import model.collectable.DeathPack;
-import model.collectable.HealthPack;
+import model.collectable.*;
 import model.mapObject.terrain.AbstractTerrain;
 import model.mapObject.terrain.Ground;
 import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -49,7 +48,7 @@ public abstract class AbstractLevel {
      */
     public void generateLevel(){
 
-        tiledMap = new TmxMapLoader().load("levels/levelOne.tmx");
+        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
         MapLayer layer = tiledMap.getLayers().get("Object Layer 1");
         MapObjects objects = layer.getObjects();
@@ -68,23 +67,57 @@ public abstract class AbstractLevel {
         collectables = new ArrayList<>();
         for(MapObject o : collectibleObjs){
             RectangleMapObject r = (RectangleMapObject) o;
-
             AbstractCollectable collectable;
-            if(Math.random() > 0.7){
-                collectable = new HealthPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
-            }
-            else{
-                collectable = new DeathPack(new Vector2(r.getRectangle().x,r.getRectangle().y),(int)r.getRectangle().width,(int)r.getRectangle().height);
-            }
-
+            int rand = (int)(Math.random()*10);
+            collectable = getCollectableFromRand(rand, r);
             collectables.add(collectable);
-
         }
+    }
+
+    private AbstractCollectable getCollectableFromRand(int rand,RectangleMapObject r){
+        AbstractCollectable collectable;
+        switch (getSpawnRates().get(rand)) {
+            case "DeathPack": {
+                collectable = new DeathPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                break;
+            }
+            case "HealthPack": {
+                collectable = new HealthPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                break;
+            }
+            case "HeavyAmmoPack": {
+                collectable = new HeavyAmmoPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+
+                break;
+            }
+            case "LightAmmoPack": {
+                collectable = new LightAmmoPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                break;
+            }
+            case "Pistol": {
+                collectable = new Pistol(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                break;
+            }
+            case "Shotgun": {
+                collectable = new Shotgun(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                break;
+            }
+            case "SlowPack": {
+                collectable = new SlowPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                break;
+            }
+            default: {
+                collectable = new HealthPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+            }
+        }
+        return collectable;
     }
 
     public abstract String getLevelName();
 
     public abstract int getLevelNumber();
+
+    public abstract HashMap<Integer, String> getSpawnRates();
 
     /**
      * A list of all the collectible objects on the map.
