@@ -122,7 +122,7 @@ public class GameScreen extends ScreenAdapter{
         drawLevelText();
         gameModel.draw(batch);
         batch.end();
-        
+
         healthBar.setValue(gameModel.getPlayer().getHealth()/150.0f);
 
         stage.act();
