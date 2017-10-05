@@ -51,6 +51,7 @@ public class Player extends AbstractPlayer {
 	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
 	int numFootContact = 0;
+
 	public Player(GameModel gameModel, Vector2 position) {
 		super(gameModel,position);
 		damage = 1;
@@ -71,7 +72,7 @@ public class Player extends AbstractPlayer {
 	public AbstractWeapon getCurWeapon(AbstractWeapon curWeapon) {
 		return this.curWeapon;
 	}
-	
+
 
 	protected void definePlayer(Vector2 pos){
 		//body def
