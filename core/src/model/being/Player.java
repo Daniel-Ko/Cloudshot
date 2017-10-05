@@ -31,6 +31,22 @@ public class Player extends AbstractPlayer {
 	private float meleeRange = 1;
 	protected AbstractWeapon curWeapon;
 
+
+
+	private CustomSprite current;
+
+	private CustomSprite idle_right;
+	private CustomSprite attack_right;
+	private CustomSprite jump_right;
+	private CustomSprite walk_right;
+	private CustomSprite death;
+
+
+	private CustomSprite idle_left;
+	private CustomSprite attack_left;
+	private CustomSprite jump_left;
+	private CustomSprite walk_left;
+
 	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
@@ -50,6 +66,7 @@ public class Player extends AbstractPlayer {
 
 	public Player() {
 		super();
+
 	}
 
 	/**
@@ -116,7 +133,7 @@ public class Player extends AbstractPlayer {
 		for(BulletImpl b: toRemove){
 			bullets.remove(b);
 		}
-			
+
 	}
 
 	/**
@@ -148,8 +165,6 @@ public class Player extends AbstractPlayer {
 				this.bullets.add(b);
 			}
 		}
-		System.out.println("gets here");
-
 	}
 
 	/**

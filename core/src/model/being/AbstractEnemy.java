@@ -1,6 +1,7 @@
 package model.being;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,7 +26,6 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public float attackRadius = 0.5f;
 
 	protected Vector2 position;
-	protected Vector2 velocity;
 	protected int speed;
 	protected int health;
 	protected float damage;
@@ -61,6 +61,18 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		defineBody();
 		enemyState = new IdleMovement();
 	}
+
+	public AbstractEnemy() {
+		position = new Vector2(0,0);
+		boundingBox = new Rectangle(position.x,position.y,50/ GameModel.PPM,50/ GameModel.PPM);//FIXME
+		health = 10;
+		speed = 2;
+		damage = 1;
+		enemyState = new IdleMovement();
+	}
+
+	/**For testing*/
+
 
 	protected abstract boolean attack();
 
@@ -99,7 +111,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public float getY() {
 		return position.y;
 	}
-
+	public int getHealth(){return this.health;}
+	public void setPosition(Vector2 pos){this.position = pos;}
 	public Rectangle getBoundingBox(){return boundingBox;}
 
 	public Vector2 getPosition() {

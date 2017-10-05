@@ -37,6 +37,9 @@ public class Slime2 extends AbstractEnemy{
         attackRadius = 0.5f;
     }
 
+    public Slime2(){
+        super();
+    }
     protected void defineBody(){
         //body def
         BodyDef bodyDef = new BodyDef();

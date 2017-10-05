@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Provides basic character structure, location, size etc.
@@ -36,6 +37,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	/* variables used in player physics */
 	protected Vector2 pos;
+	protected Vector2 velocity;
 
 	protected int health;
 	protected int damage;
@@ -67,25 +69,20 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.world = gameModel.getWorld();
 		health = 10;
 		this.pos = pos;
+		velocity = new Vector2(0,0);
 		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
 		definePlayer(pos);
 		this.inventory = new ArrayList<AbstractWeapon>();
 	}
 
-	/**For Testing purposes
-	 *
-	 *
-	 * */
+	/**For Testing purposes*/
 	public AbstractPlayer(){
 		//No game model
 		//no box2D physics world
-		//Cannot define player box2D body
-
 		this.health = 10;
 		this.pos = new Vector2(0,0);
-		this.inventory = new ArrayList<AbstractWeapon>();
-		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-
+		damage = 1;
+		inventory = new ArrayList<>();
 
 	}
 	protected abstract void definePlayer(Vector2 pos);
@@ -243,7 +240,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	//
 	/* GETTERS + SETTERS */
 	//
-	
+
 	public int getHealth() {
 		return health;
 	}
@@ -270,6 +267,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	public Vector2 getPos() {
 		return pos;
+	}
+	public void setPos(Vector2 pos) {
+		this.pos = pos;
 	}
 
 	
