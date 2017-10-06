@@ -96,6 +96,15 @@ public class GameModel {
         updateEnemies();
         updateCollectables();
         world.step(1/60f,6,2);
+
+        checkIfGameOver();
+    }
+
+    private void checkIfGameOver() {
+        //TODO: Change this once the game over condition is more or less confirmed.
+        if(player.getHealth() <= 0){
+            GameScreen.displayGameOverScreen();
+        }
     }
 
 
