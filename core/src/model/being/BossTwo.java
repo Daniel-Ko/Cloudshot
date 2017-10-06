@@ -3,12 +3,10 @@ package model.being;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.StaticSprite;
 
 public class BossTwo extends AbstractEnemy{
     private int detectionRadius = 100;

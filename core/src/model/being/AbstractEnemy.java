@@ -1,7 +1,6 @@
 package model.being;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameObjectInterface;
-import view.CustomSprite;
+import view.sprites.CustomSprite;
 
 /**
  *  Class contains attributes which is common among all 'enemys'

@@ -1,15 +1,14 @@
 package model.collectable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
 import model.being.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
+import view.sprites.StaticSprite;
 
 public class Pistol extends AbstractWeapon{
 	

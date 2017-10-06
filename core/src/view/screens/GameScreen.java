@@ -39,7 +39,7 @@ public class GameScreen extends ScreenAdapter{
     public static final int VIEW_WIDTH = 1000;
 
     private SpriteBatch batch;
-    private Game game;
+    private static Game game;
 
     private OrthographicCamera camera;
 
@@ -177,5 +177,9 @@ public class GameScreen extends ScreenAdapter{
     @Override
     public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+    public static void displayGameOverScreen(){
+        game.setScreen(new GameOverScreen(game));
     }
 }

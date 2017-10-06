@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.AbstractPlayer;
 import model.being.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
+import view.sprites.CustomSprite;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
 	

@@ -1,10 +1,8 @@
 package model.mapObject.terrain;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.StaticSprite;
 
 /**
  * AbstractTerrain implementation.

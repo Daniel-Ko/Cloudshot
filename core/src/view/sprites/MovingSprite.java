@@ -1,8 +1,7 @@
-package view;
+package view.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import model.GameModel;
 import view.screens.GameScreen;
 
 /**

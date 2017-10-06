@@ -1,13 +1,11 @@
 package mock;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import model.being.AbstractPlayer;
 import model.being.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
+import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 
