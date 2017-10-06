@@ -1,5 +1,7 @@
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
 import model.being.AbstractPlayer;
 import model.being.Player;
 import model.being.Slime2;
@@ -104,6 +106,16 @@ public class PlayerTest extends GameTest{
         assertNull(p.getCurWeapon());
         gun.pickedUp(p);//player picks up shot gun
         assertNotNull(p.getCurWeapon());
+    }
+
+    @Test
+    public void TestInitBox2D(){
+        Player p = new Player();
+        World world = new World(new Vector2(0, -50), true);
+        Vector2 pos = new Vector2(0,0);
+        p.initBox2D(world,pos);
+        assertNotNull(p.getWorld());
+        assertNotNull(p.getBody());
     }
 
 }

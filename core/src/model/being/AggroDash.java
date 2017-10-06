@@ -8,7 +8,7 @@ public class AggroDash implements EnemyState {
     public AggroDash() {
     }
     /**
-     *  target_pos will be null we enter or re-enter this enemys detection radius.
+     *  target_pos will be null when we enter or re-enter this enemy's detection radius.
      *  therefore set a target location to move to.
      *
      *  if this enemy is at the target location then wait n seconds then dash again...

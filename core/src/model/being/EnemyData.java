@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
-import view.CustomSprite;
+//import view.CustomSprite;
 
 /**
  * Created by kodani on 6/10/17.

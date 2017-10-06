@@ -12,9 +12,9 @@ import view.sprites.CustomSprite;
 
 /**
  *  Class contains attributes which is common among all 'enemys'
- *  
+ *
  *  @author Jeremy Southon
- * 
+ *
  * */
 public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface, java.io.Serializable {
 
@@ -120,6 +120,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public enemy_state getState(){return this.state; }
 	public float getDrawingWidth(){ return  drawingWidth;}
 	public float getDrawingHeight(){return  drawingHeight;}
+	public void setPlayer(AbstractPlayer p){this.player = p; }
 	@Override
 	public abstract CustomSprite getImage();
 }
