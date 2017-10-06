@@ -4,12 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
+import view.sprites.StaticSprite;
 
 import java.util.*;
 

@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.being.AbstractPlayer;
 import model.being.Player;
-import view.CustomSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.StaticSprite;
 
 public class LightAmmoPack extends AbstractBuff {
 

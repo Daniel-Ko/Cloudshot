@@ -1,15 +1,13 @@
 package model.projectile;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import model.GameModel;
 import model.GameObjectInterface;
 import model.being.AbstractEnemy;
-import view.CustomSprite;
+import view.sprites.CustomSprite;
 
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.

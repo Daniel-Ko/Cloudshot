@@ -2,7 +2,7 @@ package model.mapObject.terrain;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import view.StaticSprite;
+import view.sprites.StaticSprite;
 
 /**
  * AbstractTerrain implementation.

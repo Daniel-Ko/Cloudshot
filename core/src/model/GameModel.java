@@ -97,6 +97,8 @@ public class GameModel {
         updateCollectables();
         world.step(1/60f,6,2);
     }
+
+
     public void updateEnemies(){
         //First Clean up all dead enemies
         for(AbstractEnemy ae:enemiesToRemove)

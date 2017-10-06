@@ -1,17 +1,13 @@
 package model.being;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.collectable.AbstractWeapon;
-import model.collectable.Pistol;
 import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
 
 import java.util.ArrayList;
 import java.util.List;

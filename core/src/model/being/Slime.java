@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
-import view.CustomSprite;
-import view.MovingSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
 
 import java.util.Random;
 
