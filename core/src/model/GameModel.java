@@ -173,7 +173,7 @@ public class GameModel {
         }
 
         //Box2D
-        debugRenderer.render(world, cam.combined);
+        //debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
 
     }
