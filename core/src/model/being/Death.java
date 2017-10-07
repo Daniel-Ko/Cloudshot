@@ -3,12 +3,12 @@ package model.being;
 public class Death implements EnemyState {
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
-        e.world.destroyBody(e.body);//DOESN'T WORK
+        e.world.destroyBody(e.body);
     }
 
     @Override
     public int attack(AbstractEnemy e, AbstractPlayer p) {
-        throw new Error("Shouldnt be Called");
+        return 0;
     }
 
     @Override
