@@ -82,7 +82,7 @@ public class GameModel {
         //enemies.add(new Slime(20,player, new Vector2(70,500),world));
         GameScreen.inputMultiplexer.addProcessor(player);
 
-        //generateLevel();
+        //generateCollidablePolygons();
 
         repoScraper = new GameStateTransactionHandler();
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="51">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="54">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="textures/atlas.png" width="512" height="512"/>
  </tileset>
@@ -9,12 +9,12 @@
    eJzt0rsJACAQREEDSxP7L8kGFD8oXjDBwEXCWyw5pQIAAAAAAAAAAAAAAAAsqQdm7/XuKE56dzeI5FbvaINom7zsjfgffvX+6m8is/Wk
   </data>
  </layer>
- <layer name="Tile Layer 2" width="60" height="60">
+ <layer name="Terrain" width="60" height="60">
   <data encoding="base64" compression="zlib">
    eJztlkFOwkAYRmusga2yMxEjnkA4AUdAV+hKiRp0pUQIcBI0ylo5AXA5vyY0NuPQdCINrX0veemknc4/X/8uxvMAAAAAAAAAAAAAAAAAAAAAAH7T9j3vUl75P/feNf6QU3/9e3nAlq2r8YN8zHm2pmX/tmxDjUdynNG8R9pXVR46GJL1bEUi7OMxvSgM9Dz/bKOHt6p1J+8L8t+8KGdfDjKSd5M9b2mN8xgv/lAjC+fQ8qp2SdddeS1vYuys2avtvBbiW57tGPei7+85fI9ygrlBrn15YFiRT/I5xl5k/YnGrwl9M/Zlq5+WQa4TWTM8dfzPPjX/K6EzY21b/bQMcp3JumHDMe9c8xcJXRpr2+qnpWsuAACA/8o31v1Ezg==
   </data>
  </layer>
- <objectgroup name="Object Layer 1">
+ <objectgroup name="Collisions">
   <object id="25" x="7.14924" y="1603.22" width="890.08" height="225.201"/>
   <object id="26" x="900.804" y="1574.62" width="191.242" height="248.436"/>
   <object id="27" x="1092.05" y="1508.49" width="280.608" height="382.484"/>
@@ -40,5 +40,8 @@
   <object id="48" x="1605.82" y="1539.61" width="30.4459" height="30.9369"/>
   <object id="49" x="1853.18" y="1470.35" width="30.4459" height="30.9369"/>
   <object id="50" x="1437.61" y="1124.04" width="30.4459" height="30.9369"/>
+ </objectgroup>
+ <objectgroup name="End Zone">
+  <object id="53" x="1860.16" y="1404.11" width="57.5457" height="100.705"/>
  </objectgroup>
 </map>

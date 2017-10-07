@@ -6,18 +6,15 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
-import model.GameObjectInterface;
+import model.being.AbstractPlayer;
 import model.collectable.*;
 import model.mapObject.terrain.AbstractTerrain;
-import model.mapObject.terrain.Ground;
-import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,21 +33,24 @@ public abstract class AbstractLevel {
     protected Array<Rectangle> tiles = new Array<>();
     protected List<AbstractCollectable> collectables;
 
+    protected Rectangle endZone;
+
 
     public AbstractLevel() {
         terrain = new ArrayList<>();
-        generateLevel();
+        generateCollidablePolygons();
         loadCollectibles();
+        loadEndPoint();
     }
 
     /**
      * Initialises level.
      */
-    public void generateLevel(){
+    public void generateCollidablePolygons(){
 
         tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
-        MapLayer layer = tiledMap.getLayers().get("Object Layer 1");
+        MapLayer layer = tiledMap.getLayers().get("Collisions");
         MapObjects objects = layer.getObjects();
         //add terrain to map.
         for(MapObject o : objects){
@@ -111,6 +111,19 @@ public abstract class AbstractLevel {
             }
         }
         return collectable;
+    }
+
+    public void loadEndPoint(){
+        MapLayer endLayer = tiledMap.getLayers().get("End Zone");
+        RectangleMapObject r = (RectangleMapObject)endLayer.getObjects().get(0);//assuming only one endzone
+        endZone = r.getRectangle();
+    }
+
+    public boolean hasPlayerWon(AbstractPlayer p){
+        if(endZone.contains(p.getPos())){
+            return true;
+        }
+        return false;
     }
 
     public abstract String getLevelName();
