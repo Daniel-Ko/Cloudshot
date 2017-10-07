@@ -73,8 +73,11 @@ public class GameModel {
         }
         //boss
        // enemies.add(new BossTwo(this,new Vector2(300,500)));
-        //enemies.add(new BossOne(this,new Vector2(300,500)));
-        enemies.add(new Slime2(this,new Vector2(300,500)));
+        enemies.add(new Rouge(this,new Vector2(300,800)));
+        enemies.add(new Rouge(this,new Vector2(700,800)));
+        enemies.add(new ShootingEnemy(this,new Vector2(400,900)));
+        enemies.add(new ShootingEnemy(this,new Vector2(800,900)));
+
 
         //enemies.add(new Slime(this,new Vector2(300,500)));
 
@@ -155,7 +158,7 @@ public class GameModel {
             if(ae instanceof ShootingEnemy){
                 ShootingEnemy s = (ShootingEnemy)ae;
                 for(BulletImpl b : s.bullets)
-                    sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                    sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
             if(ae instanceof BossOne){
                 BossOne s = (BossOne)ae;

@@ -15,14 +15,24 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class ShootingEnemy extends AbstractEnemy{
-	private float detectionRadius = 4;
-	private float attackRadius =3;
 
 	//bullet and attacking fields
+	public StaticSprite bulletSprite;
 	public Queue<BulletImpl> bullets = new LinkedList<>();
-	private long lastBulletFired;
+
+	//Archer sprites
+	MovingSprite attacking;
+	MovingSprite attack_left;
+	MovingSprite walk;
+	MovingSprite idle;
+
 	public ShootingEnemy(GameModel gameModel,Vector2 pos){
 		super(gameModel,pos);
+		loadImages();
+		IdleMovement movement =  new IdleMovement();
+		movement.setIdleMovementSpeed(0);
+		enemyState = movement;
+		attackRadius = 5;
 	}
 
 	protected void defineBody(){
@@ -42,6 +52,7 @@ public class ShootingEnemy extends AbstractEnemy{
 		fDef.shape = shape;
 		fDef.density = 0.7f;
 		fDef.friction = 15;
+		fDef.filter.groupIndex = -1;
 
 		//
 		bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
@@ -50,27 +61,26 @@ public class ShootingEnemy extends AbstractEnemy{
 		body.createFixture(fDef).setUserData("mob2");
 	}
 
+	private void loadImages(){
+		this.bulletSprite =  new StaticSprite("magic.png");
+		this.attacking = new MovingSprite("archer_attack.png",1,10);
+		this.attack_left = new MovingSprite("archer_attack_left.png",1,10);
 
+		this.walk = new MovingSprite("archer_walk.png",1,10);
+		this.idle = new MovingSprite("archer_idle.png",1,10);
+	}
 	@Override
 	public void update() {
 		updateBullets();
-		if(state == enemy_state.EDEAD )return;
+		enemyState.update(this,player);
+		if(enemyState instanceof Death)return;
 		updateAndCheckFields();
-		if(player.getPlayerState() == AbstractPlayer.player_state.DEAD)return;
-
-		movement();
-
-		//ATTACK
-		attackIfPossible();
+		checkForStateChange();
+		attack();
 
 	}
 	protected void movement(){
-		//MOVEMENT
-		if(state == enemy_state.EIDLE){
-			idleMovement();
-		}else {
-			foundPlayerMovement();
-		}
+		//Depre to remove
 	}
 
 	private void updateBullets(){
@@ -83,19 +93,25 @@ public class ShootingEnemy extends AbstractEnemy{
 		}
 	}
 	private void updateAndCheckFields(){
-		if(health <= 0 ){
-			state = enemy_state.EDEAD;
-			world.destroyBody(body);
-		}
 		position = body.getPosition();
-		if(position.dst(player.getPos())>attackRadius)state = enemy_state.EIDLE;
+		boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());
 	}
 
-	private void attackIfPossible(){
+	/**
+	 *	Method is used to update the state of the enemy based on it and the player.
+	 * */
+	private void checkForStateChange(){
 		if(state == enemy_state.EDEAD)return;
 		if(position.dst(player.pos)<attackRadius){
-			state = enemy_state.EATTACKING;
-			if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
+			if(enemyState instanceof ShooterAttack)return;
+			ShooterAttack shootState = new ShooterAttack();
+			shootState.setSecondsBetweenShots(0);
+			enemyState = shootState;
+		}else {
+			if(enemyState instanceof IdleMovement)return;
+			IdleMovement movement =  new IdleMovement();
+			movement.setIdleMovementSpeed(0);
+			enemyState = movement;
 		}
 	}
 	/**
@@ -105,48 +121,27 @@ public class ShootingEnemy extends AbstractEnemy{
 	 * */
 	@Override
 	protected boolean attack() {
-		int secondsBetweenShots = 1;
-		if(lastBulletFired+secondsBetweenShots<System.currentTimeMillis()/1000){
-			lastBulletFired = System.currentTimeMillis()/1000;
-			bullets.add(new BulletImpl(position,player.getPos(),2,new StaticSprite("player_jump.png")));
+		if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE
+				&& enemyState instanceof ShooterAttack){
+			enemyState.attack(this,player);
 			return true;
 		}
 		return false;
 	}
-	/**
-	 *
-	 * //# precondition
-	 * */
-	private void foundPlayerMovement(){
-		if(state == enemy_state.EDEAD)return;
-		if(position.dst(player.getPos())< detectionRadius){
-			if(getX()<player.getX())
-				body.setLinearVelocity(1f,body.getLinearVelocity().y);
-			if(getX()>player.getX())
-				body.setLinearVelocity(-1f,body.getLinearVelocity().y);
-		}
-	}
-	private void idleMovement(){
-		//TODO
-	}
+
 
 	@Override
 	public CustomSprite getImage() {
-		// TODO Auto-generated method stub
-		if(state == enemy_state.EATTACKING){
-			if(body.getLinearVelocity().x>0){
-				MovingSprite m = new MovingSprite("slime_attack.png",1,7);
-				m.flipHorizontal();
-				return m;
+		if(enemyState instanceof ShooterAttack){
+			if(player.getX()<this.getX()){
+				return attack_left;
 			}
-			return new MovingSprite("slime_attack.png",1,7);
+			return attacking;
 		}
-		if(body.getLinearVelocity().x>0){
-			MovingSprite m = new MovingSprite("slime_walk.png",1, 9);
-			m.flipHorizontal();
-			return m;
-		}
-		return new MovingSprite("slime_walk.png",1, 9);
+		return idle;
 	}
+
+
+	public Queue<BulletImpl> getBullets (){return this.bullets;}
 
 }

@@ -16,7 +16,8 @@ public class Slime2 extends AbstractEnemy{
     private String walking = "Skeleton Walk.png";
     private String attacking = "Skeleton Walk.png";
 
-    private CustomSprite attack;
+    private CustomSprite attack_left;
+    private CustomSprite attack_right;
     private CustomSprite dead;
     private CustomSprite idle;
     private CustomSprite walk;
@@ -25,12 +26,12 @@ public class Slime2 extends AbstractEnemy{
     public Slime2(GameModel gameModel, Vector2 pos){
         super(gameModel,pos);
         health = 20;
-        attack =  new MovingSprite("slime_attack.png",1,7);
+        attack_left =  new MovingSprite("slime_attack.png",1,7);
+        attack_right =  new MovingSprite("slime_attack_right.png",1,7);
         dead = new MovingSprite("Skeleton Dead.png",1,1);
         idle = new MovingSprite("slime_walk.png",1, 9);
         walk = new MovingSprite("slime_walk.png",1, 9);
-        walk_l = new MovingSprite("slime_walk.png",1, 9);
-        walk_l.flipHorizontal();
+        walk_l = new MovingSprite("slime_walk_left.png",1, 9);
         damage = 1;
 
         detectionRadius = 3;
@@ -57,7 +58,7 @@ public class Slime2 extends AbstractEnemy{
         fDef.shape = shape;
         fDef.density = 0.7f;
         fDef.friction = 15;
-
+        fDef.filter.groupIndex = -1;
         //
         bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
         body = world.createBody(bodyDef);
@@ -74,7 +75,7 @@ public class Slime2 extends AbstractEnemy{
     protected boolean attack() {
         if(position.dst(player.getPos())<attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             //attackState
-            enemyState = new MeleeAttack();
+            if(!(enemyState instanceof  MeleeAttack))enemyState = new MeleeAttack();
             enemyState.attack(this,player);
             return true;
         }
@@ -117,7 +118,7 @@ public class Slime2 extends AbstractEnemy{
         //UPDATING STATES
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             if(enemyState instanceof IdleMovement){
-                enemyState = new AggroDash();
+                enemyState = new AggroMovement();
             }
         }
         else{
@@ -142,20 +143,16 @@ public class Slime2 extends AbstractEnemy{
         }
 
         if(enemyState instanceof MeleeAttack){
-            if(body.getLinearVelocity().x<0){
-                MovingSprite m = new MovingSprite("slime_attack.png",1,7);
-                m.flipHorizontal();
-                return m;
+            if(getPosition().dst(player.getPos())<0){
+               return attack_left;
             }
-            return attack;
+            return attack_right;
         }
         //IDLE STATE
         if(enemyState instanceof IdleMovement){
             return idle;
         }
         if(body.getLinearVelocity().x<0){
-            walk_l = new MovingSprite("slime_walk.png",1, 9);
-            walk_l.flipHorizontal();
             return walk_l;
         }
         return walk;
