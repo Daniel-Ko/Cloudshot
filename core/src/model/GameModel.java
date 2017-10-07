@@ -63,7 +63,7 @@ public class GameModel {
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
             terrainPiece.position.set(new Vector2((r.x+r.width/2)/PPM,(r.y+r.height/2)/PPM));
-            enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
+            //enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width/2)/GameModel.PPM,(r.height/2)/GameModel.PPM);
@@ -79,6 +79,7 @@ public class GameModel {
         enemies.add(new ShootingEnemy(this,new Vector2(800,900)));
 
 
+
         //enemies.add(new Slime(this,new Vector2(300,500)));
 
         //ground.
@@ -88,7 +89,7 @@ public class GameModel {
         //enemies.add(new Slime(20,player, new Vector2(70,500),world));
         GameScreen.inputMultiplexer.addProcessor(player);
 
-        //generateLevel();
+        //generateCollidablePolygons();
 
         repoScraper = new GameStateTransactionHandler();
     }
@@ -98,6 +99,7 @@ public class GameModel {
         updatePlayerModel();
         updateEnemies();
         updateCollectables();
+        level.spawnEnemies(player, this);
         world.step(1/60f,6,2);
 
         checkIfGameOver();
@@ -118,7 +120,7 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             ae.update();
             //added dead enemies to be removed
-            if(ae.enemyState instanceof Death)enemiesToRemove.add(ae);
+            if(ae.enemyState instanceof Death) enemiesToRemove.add(ae);
         }
         for(int i = 0;i< enemiesToAdd.size();i++){
             enemies.add(enemiesToAdd.pop());

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="6">
+ <tileset firstgid="1" source="levelOne.tsx"/>
+ <layer name="Tile Layer 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRQA0gCMRCQCxMJb4iECsBsTKV+IZAbATExlTiAwBU/gX7
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="1" x="0" y="546.01" width="94.6418" height="91.7298"/>
+  <object id="2" x="132.499" y="547.467" width="88.8177" height="84.4496"/>
+  <object id="3" x="262.085" y="543.098" width="82.9936" height="85.9056"/>
+  <object id="4" x="385.847" y="548.923" width="93.1858" height="80.0815"/>
+  <object id="5" x="516.89" y="546.01" width="80.0815" height="91.7298"/>
+ </objectgroup>
+</map>

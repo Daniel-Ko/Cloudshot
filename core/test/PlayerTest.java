@@ -52,8 +52,8 @@ public class PlayerTest extends GameTest{
     public void TestPlayerDeath(){
         Player p = new Player();
         int initHP = p.getHealth();
-        p.hit(initHP);//TODO update check and update for death state in hit
-        //TODO update player state method
+        p.hit(initHP);//TODO spawnEnemies check and spawnEnemies for death state in hit
+        //TODO spawnEnemies player state method
         assertEquals(AbstractPlayer.player_state.DEAD,p.getPlayerState());
     }
 

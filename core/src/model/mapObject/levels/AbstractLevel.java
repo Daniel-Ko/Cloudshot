@@ -6,18 +6,15 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
-import model.GameObjectInterface;
+import model.being.AbstractPlayer;
+import model.being.Slime2;
 import model.collectable.*;
-import model.mapObject.terrain.AbstractTerrain;
-import model.mapObject.terrain.Ground;
-import model.mapObject.terrain.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,27 +27,36 @@ import java.util.List;
  */
 public abstract class AbstractLevel {
 
-    protected ArrayList<AbstractTerrain> terrain;
+
     protected TiledMap tiledMap;
     protected TiledMapRenderer tiledMapRenderer;
     protected Array<Rectangle> tiles = new Array<>();
     protected List<AbstractCollectable> collectables;
 
+    protected Rectangle endZone;
+    protected  Array<Rectangle> spawnTriggers;
+   // protected  Array<Rectangle> spawns;
+    protected Array<Spawn> spawns;
+
 
     public AbstractLevel() {
-        terrain = new ArrayList<>();
-        generateLevel();
+
+        //load information from .tmx file.
+        generateCollidablePolygons();
         loadCollectibles();
+        loadEndPoint();
+        loadSpawnTriggerPoints();
+        loadSpawns();
     }
 
     /**
      * Initialises level.
      */
-    public void generateLevel(){
+    public void generateCollidablePolygons(){
 
         tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
-        MapLayer layer = tiledMap.getLayers().get("Object Layer 1");
+        MapLayer layer = tiledMap.getLayers().get("Collisions");
         MapObjects objects = layer.getObjects();
         //add terrain to map.
         for(MapObject o : objects){
@@ -112,6 +118,54 @@ public abstract class AbstractLevel {
         }
         return collectable;
     }
+
+    public void loadEndPoint(){
+        MapLayer endLayer = tiledMap.getLayers().get("End Zone");
+        RectangleMapObject r = (RectangleMapObject)endLayer.getObjects().get(0);//assuming only one endzone
+        endZone = r.getRectangle();
+    }
+
+    public boolean hasPlayerWon(AbstractPlayer p){
+        if(endZone.contains(p.getPos())){
+            return true;
+        }
+        return false;
+    }
+
+    public void loadSpawnTriggerPoints(){
+        spawnTriggers = new Array<>();
+        MapLayer spawns = tiledMap.getLayers().get("SpawnTrigger");
+        for(MapObject r : spawns.getObjects()){
+            RectangleMapObject rmo = (RectangleMapObject) r;
+            Rectangle rect = rmo.getRectangle();
+            spawnTriggers.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
+        }
+    }
+
+    public void loadSpawns(){
+       // spawns = new Array<>();
+        spawns = new Array<>();
+        MapLayer layer = tiledMap.getLayers().get("Spawn Location");
+        for(MapObject r : layer.getObjects()){
+            RectangleMapObject rmo = (RectangleMapObject) r;
+            Rectangle rect = rmo.getRectangle();
+           //spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
+            spawns.add(new Spawn(Spawn.EnemyType.SLIME, 2, rect.x, rect.y));
+        }
+    }
+
+    public void spawnEnemies(AbstractPlayer p, GameModel gm){
+        for(int i = 0; i < spawnTriggers.size; i++){
+            if(spawnTriggers.get(i).contains(p.getPos())){
+
+                //currently just spawn slime but this will be changed.
+                gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
+                spawnTriggers.removeIndex(i);
+                spawns.removeIndex(i);
+            }
+        }
+    }
+
 
     public abstract String getLevelName();
 
