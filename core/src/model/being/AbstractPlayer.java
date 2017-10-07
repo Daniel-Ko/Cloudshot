@@ -33,6 +33,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public static enum player_state {
 		ALIVE, DEAD
 	}
+	/**
+	 * used in applyKnockBack() direction in which the knock back is being applied form
+	 * */
+	public static enum knock_back {
+		NORTH, EAST,WEST;
+	}
 
 	protected int health;
 	protected int damage;
@@ -154,7 +160,23 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public List<AbstractWeapon> getInventory() {
 		return inventory;
 	}
-	
+
+	/**
+	 * Method used to apply a simple bounce back on the players body, to simulate it being hurt.
+	 *
+	 * @param fromDirection
+	 * */
+	public void applyKnockBack(knock_back fromDirection){
+		if(fromDirection == knock_back.EAST){
+			//apply velocity..
+		}
+		else if (fromDirection == knock_back.NORTH){
+			//apply vel in pos y
+		}
+		else if (fromDirection == knock_back.WEST){
+			//apply vel..
+		}
+	}
 
 	public abstract boolean attack(AbstractEnemy enemy);
 
