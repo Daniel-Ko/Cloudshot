@@ -11,14 +11,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.sun.org.apache.regexp.internal.RE;
 import model.GameModel;
-import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
-import model.being.Slime;
 import model.being.Slime2;
 import model.collectable.*;
-import model.mapObject.terrain.AbstractTerrain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +27,7 @@ import java.util.List;
  */
 public abstract class AbstractLevel {
 
-    protected ArrayList<AbstractTerrain> terrain;
+
     protected TiledMap tiledMap;
     protected TiledMapRenderer tiledMapRenderer;
     protected Array<Rectangle> tiles = new Array<>();
@@ -39,11 +35,11 @@ public abstract class AbstractLevel {
 
     protected Rectangle endZone;
     protected  Array<Rectangle> spawnTriggers;
-    protected  Array<Rectangle> spawns;
+   // protected  Array<Rectangle> spawns;
+    protected Array<Spawn> spawns;
 
 
     public AbstractLevel() {
-        terrain = new ArrayList<>();
 
         //load information from .tmx file.
         generateCollidablePolygons();
@@ -147,23 +143,23 @@ public abstract class AbstractLevel {
     }
 
     public void loadSpawns(){
+       // spawns = new Array<>();
         spawns = new Array<>();
         MapLayer layer = tiledMap.getLayers().get("Spawn Location");
         for(MapObject r : layer.getObjects()){
             RectangleMapObject rmo = (RectangleMapObject) r;
             Rectangle rect = rmo.getRectangle();
-            spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
-
+           //spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
+            spawns.add(new Spawn(Spawn.EnemyType.SLIME, 2, rect.x, rect.y));
         }
     }
 
     public void spawnEnemies(AbstractPlayer p, GameModel gm){
         for(int i = 0; i < spawnTriggers.size; i++){
             if(spawnTriggers.get(i).contains(p.getPos())){
-                float x = spawns.get(i).x;
-                float y = spawns.get(i).y;
+
                 //currently just spawn slime but this will be changed.
-                gm.getEnemies().add(new Slime2(gm,new Vector2(x*GameModel.PPM,y*GameModel.PPM)));
+                gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
                 spawnTriggers.removeIndex(i);
                 spawns.removeIndex(i);
             }

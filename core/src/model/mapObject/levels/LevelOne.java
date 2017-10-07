@@ -14,9 +14,7 @@ import model.GameModel;
 import model.collectable.AbstractCollectable;
 import model.collectable.DeathPack;
 import model.collectable.HealthPack;
-import model.mapObject.terrain.AbstractTerrain;
-import model.mapObject.terrain.Ground;
-import model.mapObject.terrain.Platform;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
