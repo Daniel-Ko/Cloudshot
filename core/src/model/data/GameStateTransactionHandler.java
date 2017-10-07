@@ -40,7 +40,7 @@ public class GameStateTransactionHandler {
 
     private boolean writeQuery(GameModel model, GameState newState) {
 
-        /* update the newState with validated data, otherwise signal failed save */
+        /* spawnEnemies the newState with validated data, otherwise signal failed save */
         if(!validateAndUpdatePlayer(newState, model.getPlayer())) {
             System.out.println("bad player");
             return false;

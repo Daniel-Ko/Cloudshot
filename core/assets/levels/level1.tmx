@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="54">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="66">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="textures/atlas.png" width="512" height="512"/>
  </tileset>
@@ -43,5 +43,17 @@
  </objectgroup>
  <objectgroup name="End Zone">
   <object id="53" x="1860.16" y="1404.11" width="57.5457" height="100.705"/>
+ </objectgroup>
+ <objectgroup name="SpawnTrigger">
+  <object id="56" x="217.235" y="1527.84" width="48.9138" height="74.8094"/>
+  <object id="60" x="407.136" y="1523.52" width="48.9138" height="74.8094"/>
+  <object id="61" x="595.598" y="1526.4" width="48.9138" height="74.8094"/>
+  <object id="64" x="932.24" y="1493.31" width="48.9138" height="74.8094"/>
+ </objectgroup>
+ <objectgroup name="Spawn Location">
+  <object id="59" x="371.17" y="1583.94" width="5.75457" height="11.5091"/>
+  <object id="62" x="572.579" y="1588.26" width="5.75457" height="11.5091"/>
+  <object id="63" x="660.337" y="1585.38" width="5.75457" height="11.5091"/>
+  <object id="65" x="1150.91" y="1491.87" width="5.75457" height="11.5091"/>
  </objectgroup>
 </map>

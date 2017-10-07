@@ -95,7 +95,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		//if we have a body and world to move around in
 		if(body.isPresent()){
 			handleInput();
-			//update pos based on body
+			//spawnEnemies pos based on body
 			pos.set(body.get().getPosition());
 		}
 		updateActionsPlayerDoing();

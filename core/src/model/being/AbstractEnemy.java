@@ -82,7 +82,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected abstract void movement();
 
 	/**
-	 * Classic update method which should be called each 'frame'/update
+	 * Classic spawnEnemies method which should be called each 'frame'/spawnEnemies
 	 * */
 	public abstract void update();
 

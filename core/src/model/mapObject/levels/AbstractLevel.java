@@ -11,8 +11,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.sun.org.apache.regexp.internal.RE;
 import model.GameModel;
+import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
+import model.being.Slime;
+import model.being.Slime2;
 import model.collectable.*;
 import model.mapObject.terrain.AbstractTerrain;
 
@@ -34,13 +38,19 @@ public abstract class AbstractLevel {
     protected List<AbstractCollectable> collectables;
 
     protected Rectangle endZone;
+    protected  Array<Rectangle> spawnTriggers;
+    protected  Array<Rectangle> spawns;
 
 
     public AbstractLevel() {
         terrain = new ArrayList<>();
+
+        //load information from .tmx file.
         generateCollidablePolygons();
         loadCollectibles();
         loadEndPoint();
+        loadSpawnTriggerPoints();
+        loadSpawns();
     }
 
     /**
@@ -125,6 +135,41 @@ public abstract class AbstractLevel {
         }
         return false;
     }
+
+    public void loadSpawnTriggerPoints(){
+        spawnTriggers = new Array<>();
+        MapLayer spawns = tiledMap.getLayers().get("SpawnTrigger");
+        for(MapObject r : spawns.getObjects()){
+            RectangleMapObject rmo = (RectangleMapObject) r;
+            Rectangle rect = rmo.getRectangle();
+            spawnTriggers.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
+        }
+    }
+
+    public void loadSpawns(){
+        spawns = new Array<>();
+        MapLayer layer = tiledMap.getLayers().get("Spawn Location");
+        for(MapObject r : layer.getObjects()){
+            RectangleMapObject rmo = (RectangleMapObject) r;
+            Rectangle rect = rmo.getRectangle();
+            spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
+
+        }
+    }
+
+    public void spawnEnemies(AbstractPlayer p, GameModel gm){
+        for(int i = 0; i < spawnTriggers.size; i++){
+            if(spawnTriggers.get(i).contains(p.getPos())){
+                float x = spawns.get(i).x;
+                float y = spawns.get(i).y;
+                //currently just spawn slime but this will be changed.
+                gm.getEnemies().add(new Slime2(gm,new Vector2(x*GameModel.PPM,y*GameModel.PPM)));
+                spawnTriggers.removeIndex(i);
+                spawns.removeIndex(i);
+            }
+        }
+    }
+
 
     public abstract String getLevelName();
 
