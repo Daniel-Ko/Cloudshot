@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="66">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="68">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="textures/atlas.png" width="512" height="512"/>
  </tileset>
@@ -55,5 +55,8 @@
   <object id="62" x="572.579" y="1588.26" width="5.75457" height="11.5091"/>
   <object id="63" x="660.337" y="1585.38" width="5.75457" height="11.5091"/>
   <object id="65" x="1150.91" y="1491.87" width="5.75457" height="11.5091"/>
+ </objectgroup>
+ <objectgroup name="Hurty Tiles">
+  <object id="66" x="1339.08" y="1427.45" width="94.3698" height="117.152" rotation="92.491"/>
  </objectgroup>
 </map>

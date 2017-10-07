@@ -37,6 +37,7 @@ public abstract class AbstractLevel {
     protected  Array<Rectangle> spawnTriggers;
    // protected  Array<Rectangle> spawns;
     protected Array<Spawn> spawns;
+    protected Array<Rectangle> hurtyTiles;
 
 
     public AbstractLevel() {
@@ -47,6 +48,7 @@ public abstract class AbstractLevel {
         loadEndPoint();
         loadSpawnTriggerPoints();
         loadSpawns();
+        loadHurtyTiles();
     }
 
     /**
@@ -163,6 +165,25 @@ public abstract class AbstractLevel {
                 spawnTriggers.removeIndex(i);
                 spawns.removeIndex(i);
             }
+        }
+        for(int i = 0; i < hurtyTiles.size; i++){
+            Rectangle rect = hurtyTiles.get(i);
+            System.out.println(i);
+            if(rect.contains(p.getPos())){
+                System.out.println("Contains");
+                p.hit(10);
+                p.setPos(new Vector2(p.getX(),p.getY()+p.getY()+0.1f));
+            }
+        }
+    }
+
+    public void loadHurtyTiles(){
+        hurtyTiles = new Array<>();
+        MapLayer mp = tiledMap.getLayers().get("Hurty Tiles");
+        for(MapObject mo : mp.getObjects()){
+            RectangleMapObject rmo = (RectangleMapObject) mo;
+            Rectangle rect = rmo.getRectangle();
+            hurtyTiles.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
         }
     }
 
