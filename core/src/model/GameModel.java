@@ -53,14 +53,17 @@ public class GameModel {
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
         this.level = level;
-        player = new Player(this,new Vector2(50,500));
+        //Player setup
+        player = new Player();
+        player.initBox2D(world,new Vector2(50,500));
+        //end
 
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
             terrainPiece.position.set(new Vector2((r.x+r.width/2)/PPM,(r.y+r.height/2)/PPM));
-            //enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
+            enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width/2)/GameModel.PPM,(r.height/2)/GameModel.PPM);
@@ -93,7 +96,18 @@ public class GameModel {
         updateEnemies();
         updateCollectables();
         world.step(1/60f,6,2);
+
+        checkIfGameOver();
     }
+
+    private void checkIfGameOver() {
+        //TODO: Change this once the game over condition is more or less confirmed.
+        if(player.getHealth() <= 0){
+            GameScreen.displayGameOverScreen();
+        }
+    }
+
+
     public void updateEnemies(){
         //First Clean up all dead enemies
         for(AbstractEnemy ae:enemiesToRemove)
@@ -218,7 +232,7 @@ public class GameModel {
     }
     
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player(this, pdata.getPos());
+        AbstractPlayer newPlayer = new Player();
         
         if(pdata.isLiving())
             newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);

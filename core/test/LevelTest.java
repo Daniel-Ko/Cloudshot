@@ -7,6 +7,10 @@ import model.mapObject.levels.LevelOne;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import org.junit.Test;
+
+
 import static org.junit.Assert.*;
 
 public class LevelTest extends GameTest{
@@ -45,4 +49,7 @@ public class LevelTest extends GameTest{
     public void testLevel04(){
         //AbstractLevel level = new LevelOne();
     }
+
+
+
 }

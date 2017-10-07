@@ -1,6 +1,5 @@
 package model.collectable;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -11,8 +10,7 @@ import model.GameObjectInterface;
 import model.being.AbstractPlayer;
 
 
-import view.CustomSprite;
-import view.MovingSprite;
+import view.sprites.CustomSprite;
 
 
 public abstract class AbstractCollectable implements GameObjectInterface, java.io.Serializable{

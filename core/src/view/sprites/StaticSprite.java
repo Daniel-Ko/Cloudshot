@@ -1,8 +1,7 @@
-package view;
+package view.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import model.GameModel;
 
 public class StaticSprite extends CustomSprite {
 

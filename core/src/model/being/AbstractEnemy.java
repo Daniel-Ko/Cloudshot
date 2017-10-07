@@ -8,13 +8,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameObjectInterface;
-import view.CustomSprite;
+import view.sprites.CustomSprite;
 
 /**
  *  Class contains attributes which is common among all 'enemys'
- *  
+ *
  *  @author Jeremy Southon
- * 
+ *
  * */
 public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface, java.io.Serializable {
 
@@ -25,7 +25,6 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public float attackRadius = 0.5f;
 
 	protected Vector2 position;
-	protected Vector2 velocity;
 	protected int speed;
 	protected int health;
 	protected float damage;
@@ -61,6 +60,18 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		defineBody();
 		enemyState = new IdleMovement();
 	}
+
+	public AbstractEnemy() {
+		position = new Vector2(0,0);
+		boundingBox = new Rectangle(position.x,position.y,50/ GameModel.PPM,50/ GameModel.PPM);//FIXME
+		health = 10;
+		speed = 2;
+		damage = 1;
+		enemyState = new IdleMovement();
+	}
+
+	/**For testing*/
+
 
 	protected abstract boolean attack();
 
@@ -99,7 +110,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public float getY() {
 		return position.y;
 	}
-
+	public int getHealth(){return this.health;}
+	public void setPosition(Vector2 pos){this.position = pos;}
 	public Rectangle getBoundingBox(){return boundingBox;}
 
 	public Vector2 getPosition() {
@@ -108,6 +120,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public enemy_state getState(){return this.state; }
 	public float getDrawingWidth(){ return  drawingWidth;}
 	public float getDrawingHeight(){return  drawingHeight;}
+	public void setPlayer(AbstractPlayer p){this.player = p; }
 	@Override
 	public abstract CustomSprite getImage();
 }

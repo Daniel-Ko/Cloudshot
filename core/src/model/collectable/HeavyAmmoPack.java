@@ -3,8 +3,8 @@ package model.collectable;
 import com.badlogic.gdx.math.Vector2;
 
 import model.being.AbstractPlayer;
-import view.CustomSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.StaticSprite;
 
 public class HeavyAmmoPack extends AbstractBuff {
 	CustomSprite image;

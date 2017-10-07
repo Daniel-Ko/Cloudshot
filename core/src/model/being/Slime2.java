@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
-import view.CustomSprite;
-import view.MovingSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
 
 public class Slime2 extends AbstractEnemy{
 
@@ -37,6 +37,9 @@ public class Slime2 extends AbstractEnemy{
         attackRadius = 0.5f;
     }
 
+    public Slime2(){
+        super();
+    }
     protected void defineBody(){
         //body def
         BodyDef bodyDef = new BodyDef();
@@ -69,8 +72,13 @@ public class Slime2 extends AbstractEnemy{
      * */
     @Override
     protected boolean attack() {
-        player.hit(damage);
-        return true;
+        if(position.dst(player.getPos())<attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
+            //attackState
+            enemyState = new MeleeAttack();
+            enemyState.attack(this,player);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -81,30 +89,31 @@ public class Slime2 extends AbstractEnemy{
      * */
     @Override
     public void update() {
-        enemyState.update(this,player);
-        if(enemyState instanceof Death){
-            if(splitID < 1 ){
-                //split slime into 2 but half that stats
-                Slime2 e1 = new Slime2(game,new Vector2((body.getPosition().x* GameModel.PPM)-10,body.getPosition().y * GameModel.PPM));
-                Slime2 e2 = new Slime2(game,new Vector2((body.getPosition().x* GameModel.PPM)+10,body.getPosition().y * GameModel.PPM));
-                e1.drawingWidth = drawingWidth/1.5f;
-                e1.drawingHeight = drawingHeight/1.5f;
-                e2.drawingWidth = drawingWidth/1.5f;
-                e2.drawingHeight = drawingHeight/1.5f;
-                e1.splitID=splitID+1;
-                e2.splitID=splitID+1;
-                e1.damage = damage/2;
-                e2.damage = damage/2;
-                game.addEnemy(e1);
-                game.addEnemy(e2);
+        if(world != null || body != null) {
+            enemyState.update(this, player);
+            if (enemyState instanceof Death) {
+                if (splitID < 1) {
+                    //split slime into 2 but half that stats
+                    Slime2 e1 = new Slime2(game, new Vector2((body.getPosition().x * GameModel.PPM) - 10, body.getPosition().y * GameModel.PPM));
+                    Slime2 e2 = new Slime2(game, new Vector2((body.getPosition().x * GameModel.PPM) + 10, body.getPosition().y * GameModel.PPM));
+                    e1.drawingWidth = drawingWidth / 1.5f;
+                    e1.drawingHeight = drawingHeight / 1.5f;
+                    e2.drawingWidth = drawingWidth / 1.5f;
+                    e2.drawingHeight = drawingHeight / 1.5f;
+                    e1.splitID = splitID + 1;
+                    e2.splitID = splitID + 1;
+                    e1.damage = damage / 2;
+                    e2.damage = damage / 2;
+                    game.addEnemy(e1);
+                    game.addEnemy(e2);
+                }
+                //world.destroyBody(body);
             }
-            //world.destroyBody(body);
+            if (enemyState instanceof Death) return;
+
+            position.set(body.getPosition());
+            boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());
         }
-        if(enemyState instanceof Death)return;
-
-        position.set(body.getPosition());
-        boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
-
         //UPDATING STATES
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             if(enemyState instanceof IdleMovement){
@@ -114,11 +123,9 @@ public class Slime2 extends AbstractEnemy{
         else{
             enemyState = new IdleMovement();
         }
-        if(position.dst(player.getPos())<attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
-            //attackState
-            enemyState = new MeleeAttack();
-            attack();
-        }
+
+        attack();
+
     }
 
     @Override

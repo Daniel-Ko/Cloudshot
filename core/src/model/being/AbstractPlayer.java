@@ -15,6 +15,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Vector;
 
 /**
  * Provides basic character structure, location, size etc.
@@ -32,19 +34,18 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		ALIVE, DEAD
 	}
 
+	protected int health;
+	protected int damage;
 	protected player_state playerState = player_state.ALIVE;
 
 	/* variables used in player physics */
 	protected Vector2 pos;
-
-	protected int health;
-	protected int damage;
 	protected Rectangle boundingBox;
 	
 	// Variables of player actions
-	protected  boolean inAir = false;
-	protected boolean attacking = false;
-	protected boolean grounded = false;
+	protected boolean inAir;
+	protected boolean grounded;
+	protected boolean attacking;
 	protected boolean movingLeft;
 	protected boolean movingRight;
 	
@@ -54,40 +55,35 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	// Position of the mouse
 	protected Vector2 aimedAt = new Vector2(50,50);
 
-
-	protected EnemyState state;
 	//Box2D
-	World world;
-	public Body body;
-	FixtureDef playerProperties;
+	protected Optional<World> world;
+	protected Optional<Body> body;
+	protected FixtureDef playerProperties;
 
-	GameModel game;
-	public AbstractPlayer(GameModel gameModel,Vector2 pos) {
-		game =  gameModel;
-		this.world = gameModel.getWorld();
-		health = 10;
-		this.pos = pos;
-		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-		definePlayer(pos);
+	public AbstractPlayer() {
+		world = Optional.empty();
+		body = Optional.empty();
+		this.health = 10;
+		this.damage = 1;
+		this.pos = new Vector2(0,0);
+		this.boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
 		this.inventory = new ArrayList<AbstractWeapon>();
 	}
 
-	/**For Testing purposes
+	/**
+	 * Used to init the variables involved in Box2D, creating and adding a box2D body and placing it in the provided world.
 	 *
+	 * @param world Box2D physics world to put our player body in.
+	 * @param position Position in our world to place our newly created body, note: this takes
+	 *                 normal pixel coords and will scale them my PPM.
 	 *
 	 * */
-	public AbstractPlayer(){
-		//No game model
-		//no box2D physics world
-		//Cannot define player box2D body
-
-		this.health = 10;
-		this.pos = new Vector2(0,0);
-		this.inventory = new ArrayList<AbstractWeapon>();
-		boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-
-
+	public void initBox2D(World world,Vector2 position){
+		this.world = Optional.of(world);
+		//defining an creating Box2D body for world
+		definePlayer(position);
 	}
+
 	protected abstract void definePlayer(Vector2 pos);
 
 	/**
@@ -96,10 +92,13 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * Update the players action fields & check for collisions with platforms...
 	 */
 	public void update(List<AbstractEnemy> enemies) {
-		handleInput();
-		pos.set(body.getPosition());
+		//if we have a body and world to move around in
+		if(body.isPresent()){
+			handleInput();
+			//update pos based on body
+			pos.set(body.get().getPosition());
+		}
 		updateActionsPlayerDoing();
-		//Updating Player Position
 		//updating players bounding box position
 		boundingBox = new Rectangle(getPos().x,getPos().y,boundingBox.width,boundingBox.height);
 	}
@@ -243,7 +242,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	//
 	/* GETTERS + SETTERS */
 	//
-	
+
 	public int getHealth() {
 		return health;
 	}
@@ -270,6 +269,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	public Vector2 getPos() {
 		return pos;
+	}
+	public void setPos(Vector2 pos) {
+		this.pos = pos;
 	}
 
 	
@@ -301,13 +303,23 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public boolean isMovingRight() {
 		return movingRight;
 	}
-	
+
+	/**
+	 * @return World if present, is present if initBox2D has been called o.w return null
+	 * */
 	public World getWorld() {
-		return world;
+		if(world.isPresent())
+			return world.get();
+		return null;
 	}
-	
+
+	/**
+	 * @return body if present, is present if initBox2D has been called o.w return null
+	 * */
 	public Body getBody() {
-		return body;
+		if(body.isPresent())
+			return body.get();
+		return null;
 	}
 	
 	public FixtureDef getPlayerProperties() {

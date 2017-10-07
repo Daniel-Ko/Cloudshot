@@ -1,6 +1,6 @@
 package model;
 
-import view.CustomSprite;
+import view.sprites.CustomSprite;
 
 public interface GameObjectInterface {
 

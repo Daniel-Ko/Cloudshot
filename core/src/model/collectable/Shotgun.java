@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.GameModel;
 import model.being.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
+import view.sprites.StaticSprite;
 
 public class Shotgun extends AbstractWeapon {
 

@@ -4,7 +4,7 @@ import model.GameObjectInterface;
 import com.badlogic.gdx.math.Rectangle;
 
 import model.being.AbstractPlayer;
-import view.CustomSprite;
+import view.sprites.CustomSprite;
 
 
 
