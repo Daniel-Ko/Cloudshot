@@ -110,6 +110,7 @@ public class GameModel {
         //TODO: Change this once the game over condition is more or less confirmed.
         if(player.getHealth() <= 0){
             GameScreen.displayGameOverScreen();
+            music.dispose();
         }
     }
 
@@ -266,21 +267,22 @@ public class GameModel {
 
     private void loadMusic(){
         music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
-        music.setVolume(0f);
+        music.setVolume(0.6f);
         music.setLooping(true);
-        music.play();
+        //music.play();
     }
 
     public void setMuted(){
-        if(music.getVolume() == 0.5f){
-            music.setVolume(0f);
+        if(music.isPlaying()){
+            music.pause();
         }
         else{
-            music.setVolume(0.5f);
+            music.play();
         }
     }
 
     public void setLevel(AbstractLevel level){
+        // reload all the fields.
         enemies = new ArrayList<>();
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
@@ -296,7 +298,6 @@ public class GameModel {
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
         //end
-
 
         GameScreen.inputMultiplexer.addProcessor(player);
 
