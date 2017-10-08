@@ -168,13 +168,13 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * */
 	public void applyKnockBack(knock_back direction){
 		if(direction == knock_back.EAST){
-			//apply velocity..
+			body.get().applyLinearImpulse(new Vector2(0.1f,0),body.get().getWorldCenter(),true);
 		}
 		else if (direction == knock_back.NORTH){
-			body.get().applyLinearImpulse(new Vector2(0,0.3f),body.get().getWorldCenter(),true);
+			body.get().applyLinearImpulse(new Vector2(0,0.1f),body.get().getWorldCenter(),true);
 		}
 		else if (direction == knock_back.WEST){
-			//apply vel..
+			body.get().applyLinearImpulse(new Vector2(-0.1f,0),body.get().getWorldCenter(),true);
 		}
 	}
 
