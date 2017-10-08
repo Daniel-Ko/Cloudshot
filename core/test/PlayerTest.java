@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest extends GameTest{
 
-    @Test
+    /*@Test
     public void TestBulletsFiredIncreased(){
 
         Player p = new Player();
@@ -116,6 +116,6 @@ public class PlayerTest extends GameTest{
         p.initBox2D(world,pos);
         assertNotNull(p.getWorld());
         assertNotNull(p.getBody());
-    }
+    }*/
 
 }

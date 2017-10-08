@@ -49,8 +49,8 @@ public class Player extends AbstractPlayer {
 	//Box2D
 	int numFootContact = 0;
 
-	public Player() {
-		super();
+	public Player(GameModel gm) {
+		super(gm);
 		damage = 1;
 		health = 150;
 		//LOAD SPRITES

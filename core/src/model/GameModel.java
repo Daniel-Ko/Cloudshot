@@ -63,7 +63,7 @@ public class GameModel {
         loadTerrain();
 
         //Player setup
-        player = new Player();
+        player = new Player(this);
         player.initBox2D(world,new Vector2(50,500));
         //end
 
@@ -185,6 +185,7 @@ public class GameModel {
         for(AbstractEnemy e : enemies){
             player.attack(e);
         }
+
     }
 
     public TiledMapRenderer getTiledMapRenderer() {
@@ -239,7 +240,7 @@ public class GameModel {
     }
     
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player();
+        AbstractPlayer newPlayer = new Player(this);
         
         if(pdata.isLiving())
             newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
@@ -295,7 +296,7 @@ public class GameModel {
 
         GameScreen.inputMultiplexer.removeProcessor(player);
 
-        player = new Player();
+        player = new Player(this);
         player.initBox2D(world,new Vector2(50,500));
         //end
 
