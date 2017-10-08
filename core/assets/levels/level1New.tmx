@@ -88,11 +88,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Text">
-  <object id="52" x="15.3693" y="1595.06" width="187.406" height="20.8825">
-   <text wrap="1">Welcome to Cloudshot!</text>
-  </object>
- </objectgroup>
+ <objectgroup name="Text"/>
  <objectgroup name="Hurty Tiles">
   <object id="31" x="2142.67" y="1110.82" width="32.4251" height="11.5057"/>
   <object id="32" x="1984.88" y="1494.63" width="62.0772" height="15.9172"/>
