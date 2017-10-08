@@ -101,7 +101,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		//if we have a body and world to move around in
 		if(body.isPresent()){
 			handleInput();
-			//spawnEnemies pos based on body
 			pos.set(body.get().getPosition());
 		}
 		updateActionsPlayerDoing();
@@ -194,6 +193,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.D:
 				movingRight = true;
 				movingLeft = false;
+				setPos(new Vector2(4,10));
 				break;
 			case Input.Keys.F:
 				attacking = true;
