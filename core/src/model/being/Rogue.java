@@ -9,13 +9,13 @@ import model.GameModel;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
-public class Rouge extends AbstractEnemy {
+public class Rogue extends AbstractEnemy {
     MovingSprite attack_right;
     MovingSprite attack_left;
     MovingSprite walk_right;
     MovingSprite walk_left;
     MovingSprite idle;
-    public Rouge(GameModel gameModel, Vector2 pos) {
+    public Rogue(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
         this.detectionRadius = 4;
         this.attackRadius = 0.4f;
@@ -35,7 +35,7 @@ public class Rouge extends AbstractEnemy {
     /**
      * For Testing
      * */
-    public Rouge(){
+    public Rogue(){
         super();
     }
 
@@ -72,7 +72,7 @@ public class Rouge extends AbstractEnemy {
         bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
         body = world.createBody(bodyDef);
         //adding main fixture
-        body.createFixture(fDef).setUserData("Rouge");
+        body.createFixture(fDef).setUserData("Rogue");
     }
 
     @Override

@@ -164,16 +164,16 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/**
 	 * Method used to apply a simple bounce back on the players body, to simulate it being hurt.
 	 *
-	 * @param fromDirection
+	 * @param direction direction in which to knock the player in.
 	 * */
-	public void applyKnockBack(knock_back fromDirection){
-		if(fromDirection == knock_back.EAST){
+	public void applyKnockBack(knock_back direction){
+		if(direction == knock_back.EAST){
 			//apply velocity..
 		}
-		else if (fromDirection == knock_back.NORTH){
-			//apply vel in pos y
+		else if (direction == knock_back.NORTH){
+			body.get().applyLinearImpulse(new Vector2(0,0.3f),body.get().getWorldCenter(),true);
 		}
-		else if (fromDirection == knock_back.WEST){
+		else if (direction == knock_back.WEST){
 			//apply vel..
 		}
 	}
