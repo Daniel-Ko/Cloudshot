@@ -193,7 +193,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.D:
 				movingRight = true;
 				movingLeft = false;
-				setPos(new Vector2(4,10));
 				break;
 			case Input.Keys.F:
 				attacking = true;
@@ -294,7 +293,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 	public void setPos(Vector2 pos) {
 		this.pos = pos;
-		body.get().getPosition().set(pos);
+		if(body.isPresent())body.get().setTransform(pos,0);
 	}
 
 	
