@@ -1,5 +1,6 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
+import model.being.AbstractEnemy;
 import model.being.AbstractPlayer;
 import model.being.Slime2;
 import model.collectable.*;
@@ -37,7 +39,9 @@ public abstract class AbstractLevel {
     protected  Array<Rectangle> spawnTriggers;
    // protected  Array<Rectangle> spawns;
     protected Array<Spawn> spawns;
+    protected Array<Portal> portals;
     protected Array<Rectangle> hurtyTiles;
+
 
 
     public AbstractLevel() {
@@ -49,6 +53,7 @@ public abstract class AbstractLevel {
         loadSpawnTriggerPoints();
         loadSpawns();
         loadHurtyTiles();
+        loadPortals();
     }
 
     /**
@@ -56,7 +61,7 @@ public abstract class AbstractLevel {
      */
     public void generateCollidablePolygons(){
 
-        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
+        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+"New.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
         MapLayer layer = tiledMap.getLayers().get("Collisions");
         MapObjects objects = layer.getObjects();
@@ -159,20 +164,34 @@ public abstract class AbstractLevel {
     public void spawnEnemies(AbstractPlayer p, GameModel gm){
         for(int i = 0; i < spawnTriggers.size; i++){
             if(spawnTriggers.get(i).contains(p.getPos())){
-
                 //currently just spawn slime but this will be changed.
-               // gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
+                gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
                 spawnTriggers.removeIndex(i);
                 spawns.removeIndex(i);
             }
         }
         for(int i = 0; i < hurtyTiles.size; i++){//spike tiles
             Rectangle rect = hurtyTiles.get(i);
-            System.out.println(i);
-            if(rect.contains(p.getPos())){
+            if(rect.contains(p.getPos())){//affect player
                 p.hit(10);
                 p.applyKnockBack(AbstractPlayer.knock_back.NORTH);
             }
+            for(AbstractEnemy ae : gm.getEnemies()){//affect enemies
+                if(rect.contains(ae.getPosition())){
+                    ae.hit(10);
+                }
+            }
+        }
+
+        for(int i = 0; i < portals.size; i++){
+            if(portals.get(i).isActive() == false) continue;
+            Rectangle rect = portals.get(i).getEntry();
+            if(rect.contains(p.getPos())){
+                portals.get(i).setActive(false);
+                p.setPos(new Vector2(portals.get(i).getExit().x,portals.get(i).getExit().y));
+                //p.setPos(new Vector2(1.0f,4.59999f));
+            }
+
         }
     }
 
@@ -183,6 +202,17 @@ public abstract class AbstractLevel {
             RectangleMapObject rmo = (RectangleMapObject) mo;
             Rectangle rect = rmo.getRectangle();
             hurtyTiles.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
+        }
+    }
+
+    public void loadPortals(){
+        portals = new Array<>();
+        MapLayer ml = tiledMap.getLayers().get("Portals");
+        for(int i = 0; i < ml.getObjects().getCount(); i+=2){
+            RectangleMapObject rmo1 = (RectangleMapObject) ml.getObjects().get(i);
+            RectangleMapObject rmo2 = (RectangleMapObject) ml.getObjects().get(i+1);
+            portals.add(new Portal(new Rectangle(rmo1.getRectangle().x/GameModel.PPM,rmo1.getRectangle().y/GameModel.PPM,rmo1.getRectangle().getWidth()/GameModel.PPM,rmo1.getRectangle().getHeight()/GameModel.PPM),
+                    new Rectangle(rmo2.getRectangle().x/GameModel.PPM,rmo2.getRectangle().y/GameModel.PPM,rmo2.getRectangle().getWidth()/GameModel.PPM,rmo2.getRectangle().getHeight()/GameModel.PPM)));
         }
     }
 
