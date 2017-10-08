@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="53">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="54">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
@@ -54,7 +54,7 @@
   <object id="29" x="32.346" y="1664.87" width="31.0776" height="29.8091"/>
  </objectgroup>
  <objectgroup name="End Zone">
-  <object id="30" x="251.187" y="1609.12" width="64.8004" height="97.6326"/>
+  <object id="53" x="2975.82" y="1021.12" width="64.8004" height="97.6326"/>
  </objectgroup>
  <objectgroup name="SpawnTrigger">
   <object id="38" x="179.436" y="1502.42" width="35.6024" height="190.829"/>
