@@ -294,6 +294,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 	public void setPos(Vector2 pos) {
 		this.pos = pos;
+		body.get().getPosition().set(pos);
 	}
 
 	
