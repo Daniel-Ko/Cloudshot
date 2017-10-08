@@ -73,10 +73,10 @@ public class GameModel {
         }
         //boss
        // enemies.add(new BossTwo(this,new Vector2(300,500)));
-        enemies.add(new Rouge(this,new Vector2(300,800)));
-        enemies.add(new Rouge(this,new Vector2(700,800)));
-        enemies.add(new ShootingEnemy(this,new Vector2(400,900)));
-        enemies.add(new ShootingEnemy(this,new Vector2(800,900)));
+        //enemies.add(new Rouge(this,new Vector2(300,800)));
+        //enemies.add(new Rouge(this,new Vector2(700,800)));
+        //enemies.add(new ShootingEnemy(this,new Vector2(400,900)));
+        //enemies.add(new ShootingEnemy(this,new Vector2(800,900)));
 
 
 

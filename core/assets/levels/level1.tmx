@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="68">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" nextobjectid="70">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="textures/atlas.png" width="512" height="512"/>
  </tileset>
@@ -11,7 +11,7 @@
  </layer>
  <layer name="Terrain" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   eJztlkFOwkAYRmusga2yMxEjnkA4AUdAV+hKiRp0pUQIcBI0ylo5AXA5vyY0NuPQdCINrX0veemknc4/X/8uxvMAAAAAAAAAAAAAAAAAAAAAAH7T9j3vUl75P/feNf6QU3/9e3nAlq2r8YN8zHm2pmX/tmxDjUdynNG8R9pXVR46GJL1bEUi7OMxvSgM9Dz/bKOHt6p1J+8L8t+8KGdfDjKSd5M9b2mN8xgv/lAjC+fQ8qp2SdddeS1vYuys2avtvBbiW57tGPei7+85fI9ygrlBrn15YFiRT/I5xl5k/YnGrwl9M/Zlq5+WQa4TWTM8dfzPPjX/K6EzY21b/bQMcp3JumHDMe9c8xcJXRpr2+qnpWsuAACA/8o31v1Ezg==
+   eJztlkFOwkAYRksoka24I0GDnkA8AUdAV8IKjRp1pUYNcgzYoBHW4AnUy/k1oZGMQ9MJJbT2veSlk3Y6/3z9uxjPAwAAAAAAAAAAAAAAAAAAAAD4y6nveW3Z8X/vvWs8lhN/+XtZwJbtWuMbeZvxbE3L/m3Zehq/yH5K89a0r11ZdTAk7dnyRNjHPXqRG+h59tlEDy9U61Je5eS/eVTOJ/mckrxJ9rylNY4jPFmhRhrOoeV57S1di7IrzyI8X7JX23ktxLc8Kxj3Ft8vOXyPcoy5Qa5tWTHckXfyPsKHhfVHGr/G9M3Yl61+0g7kcJ6rLvcNDxz/s6nmz2L6Yaxtq78ug1yHsmF45Jj3U/O/YvptrG2rvy5dcwEAAPxXfgDscEXR
   </data>
  </layer>
  <objectgroup name="Collisions">
@@ -57,6 +57,6 @@
   <object id="65" x="1150.91" y="1491.87" width="5.75457" height="11.5091"/>
  </objectgroup>
  <objectgroup name="Hurty Tiles">
-  <object id="66" x="1339.08" y="1427.45" width="94.3698" height="117.152" rotation="92.491"/>
+  <object id="69" x="800.284" y="1592.29" width="63.2425" height="18.9136"/>
  </objectgroup>
 </map>

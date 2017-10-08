@@ -166,13 +166,12 @@ public abstract class AbstractLevel {
                 spawns.removeIndex(i);
             }
         }
-        for(int i = 0; i < hurtyTiles.size; i++){
+        for(int i = 0; i < hurtyTiles.size; i++){//spike tiles
             Rectangle rect = hurtyTiles.get(i);
             System.out.println(i);
             if(rect.contains(p.getPos())){
-                System.out.println("Contains");
                 p.hit(10);
-                p.setPos(new Vector2(p.getX(),p.getY()+p.getY()+0.1f));
+                p.applyKnockBack(AbstractPlayer.knock_back.NORTH);
             }
         }
     }
