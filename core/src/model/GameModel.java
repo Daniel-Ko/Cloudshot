@@ -17,6 +17,7 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
+import model.mapObject.levels.LevelOne;
 import model.projectile.BulletImpl;
 import view.screens.GameScreen;
 
@@ -47,7 +48,7 @@ public class GameModel {
 
     private Music music;
 
-    public GameModel(AbstractLevel level, OrthographicCamera cam) {
+    public GameModel(/*AbstractLevel level, */OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
         world = new World(new Vector2(0, GRAVITY), true);
@@ -56,11 +57,28 @@ public class GameModel {
         enemies = new ArrayList<>();
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
-        this.level = level;
+
+        //level setup
+        this.level = new LevelOne();
+        loadTerrain();
+
         //Player setup
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
         //end
+
+
+
+        loadMusic();
+
+        GameScreen.inputMultiplexer.addProcessor(player);
+
+        //generateCollidablePolygons();
+
+        repoScraper = new GameStateTransactionHandler();
+    }
+
+    private void loadTerrain(){
 
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
@@ -284,5 +302,29 @@ public class GameModel {
         else{
             music.setVolume(0.5f);
         }
+    }
+
+    public void setLevel(AbstractLevel level){
+        enemies = new ArrayList<>();
+        enemiesToRemove = new ArrayList<>();
+        enemiesToAdd = new Stack<>();
+
+        world = new World(new Vector2(0, GRAVITY), true);
+
+
+        this.level = level;
+        loadTerrain();
+
+        GameScreen.inputMultiplexer.removeProcessor(player);
+
+        player = new Player();
+        player.initBox2D(world,new Vector2(50,500));
+        //end
+
+
+        GameScreen.inputMultiplexer.addProcessor(player);
+
+
+
     }
 }

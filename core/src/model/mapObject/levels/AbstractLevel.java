@@ -37,7 +37,6 @@ public abstract class AbstractLevel {
 
     protected Rectangle endZone;
     protected  Array<Rectangle> spawnTriggers;
-   // protected  Array<Rectangle> spawns;
     protected Array<Spawn> spawns;
     protected Array<Portal> portals;
     protected Array<Rectangle> hurtyTiles;
@@ -61,7 +60,7 @@ public abstract class AbstractLevel {
      */
     public void generateCollidablePolygons(){
 
-        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+"New.tmx");
+        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
         MapLayer layer = tiledMap.getLayers().get("Collisions");
         MapObjects objects = layer.getObjects();
@@ -129,7 +128,7 @@ public abstract class AbstractLevel {
     public void loadEndPoint(){
         MapLayer endLayer = tiledMap.getLayers().get("End Zone");
         RectangleMapObject r = (RectangleMapObject)endLayer.getObjects().get(0);//assuming only one endzone
-        endZone = r.getRectangle();
+        endZone = new Rectangle(r.getRectangle().x/GameModel.PPM, r.getRectangle().y/GameModel.PPM, r.getRectangle().width/GameModel.PPM,r.getRectangle().height/GameModel.PPM);
     }
 
     public boolean hasPlayerWon(AbstractPlayer p){
@@ -176,6 +175,10 @@ public abstract class AbstractLevel {
     public void spawnEnemies(AbstractPlayer p, GameModel gm){
         if(p.getPos().y < 0){//falling off map kills
             p.hit(p.getHealth());
+        }
+        if(endZone.contains(p.getPos())){
+            gm.setLevel(new LevelTwo());
+            System.out.println("next level");
         }
         for(int i = 0; i < spawnTriggers.size; i++){
             if(spawnTriggers.get(i).contains(p.getPos())){

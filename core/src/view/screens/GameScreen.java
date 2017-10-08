@@ -73,7 +73,7 @@ public class GameScreen extends ScreenAdapter{
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        this.gameModel = new GameModel(new LevelOne(),camera);
+        this.gameModel = new GameModel(/*new LevelOne(),*/camera);
         gameModel.getTiledMapRenderer().setView(camera);
     }
 
