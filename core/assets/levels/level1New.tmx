@@ -11,16 +11,16 @@
  </layer>
  <layer name="Terrain" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2VtqAjEUANAIxf8+rN9tV9B2Be5/UwbqMBrmEZM6juQcuEiEaPAmYbw3BAAAAAAAAAAAAAAAWNbrvRfAha97L4AL8rEu8rEu8jFts1nme55Or/IRwi7Ge4z92XvPMV5C/7wzN07nlYZ8DPuI8Rn632dunM4rjRbzMXQeUt8xfmL8Zo7TeaWRfh6U6vZ5bkydB3h0Ofc+tMJ5gJ7zQGcb/mpVS9WrWlBTN+pCf67c+X5+C3V1o5brR9fIrZf+Ry7kY15tvVQ+yg31FGrrpeqr5cZ6Cq2r7XHlPLcM/dcY6ym07hZ3tj1f7hZ3tj0PMO1QOG+slrWtWg3X9tjX2IM/AnnSKng=
+   eJzt2UtuwjAQAFCzYV/awhp6gpYT9P6XqqUqClj5GLuEUL8nzcJIBitjW2EmBAAAAAAAAAAAAAAAWNbroxfAlY9HL4Ar8rEu8rEu8jFts1n29+QjhPcY+xiHi89eYuxC/74zN07nlYZ8DDvGOIX++cyN03ml0WI+hs5D6jPGV4xz5jidVxrp90Gpbp/nxtR5gGeXc+9DK5wH6DkPdLbht1a1dL3qP6upG3WhP1fucj+/hbq6Ucv1o1vk1kv/IhfyMa+2Xiof5YZ6CrX1UvXVcmM9hdbV9rhy3luG/muM9RRad487254vd487254HmPZdOG+slrWtWg239tjX2IP/Ad0TKnQ=
   </data>
  </layer>
  <layer name="Decoration" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2UEKgCAQBVAXBV20OoF1/eYAmQTTwngP/kIZZiUjYikAAAAAAAAAAAAAAAAAjGT5uNeU2B+AHE+zP/NeAAAA6PEG4c+cb4CxzDd7b2a5PzEAINsa2SJ7Y92rJ1eNHJGzse7VwwX2lwgC
+   eJzt2kEKgCAQAEAPBf2sl1QvqL6f3VM7GFbMwB6URUVkRTAEAAAAAAAAAAAAAAAAgHfrWi/gZYaHxyrt91hxfgDuydX+mvcCAABAiTcIf+Z8A3xLf9GnlgMALU0x5hhLol3Kp641xhZjT7Rz+f6rcToATZMITQ==
   </data>
  </layer>
  <objectgroup name="Portals">
-  <object id="35" x="607.473" y="1630.71" width="32.5468" height="62.3813"/>
+  <object id="35" x="2240.64" y="1824.04" width="32.5468" height="62.3813"/>
   <object id="36" x="2752.92" y="1055.06" width="32.5468" height="65.0936"/>
  </objectgroup>
  <objectgroup name="Collisions">
