@@ -161,7 +161,7 @@ public abstract class AbstractLevel {
             if(spawnTriggers.get(i).contains(p.getPos())){
 
                 //currently just spawn slime but this will be changed.
-                gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
+               // gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
                 spawnTriggers.removeIndex(i);
                 spawns.removeIndex(i);
             }

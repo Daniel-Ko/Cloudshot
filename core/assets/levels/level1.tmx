@@ -4,6 +4,9 @@
   <image source="textures/atlas.png" width="512" height="512"/>
  </tileset>
  <tileset firstgid="1025" source="levelOne.tsx"/>
+ <tileset firstgid="1281" name="juan" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="textures/spikes.png" width="32" height="32"/>
+ </tileset>
  <layer name="Background" width="60" height="60">
   <data encoding="base64" compression="zlib">
    eJzt0rsJACAQREEDSxP7L8kGFD8oXjDBwEXCWyw5pQIAAAAAAAAAAAAAAAAsqQdm7/XuKE56dzeI5FbvaINom7zsjfgffvX+6m8is/Wk
@@ -11,7 +14,7 @@
  </layer>
  <layer name="Terrain" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   eJztlkFOwkAYRksoka24I0GDnkA8AUdAV8IKjRp1pUYNcgzYoBHW4AnUy/k1oZGMQ9MJJbT2veSlk3Y6/3z9uxjPAwAAAAAAAAAAAAAAAAAAAAD4y6nveW3Z8X/vvWs8lhN/+XtZwJbtWuMbeZvxbE3L/m3Zehq/yH5K89a0r11ZdTAk7dnyRNjHPXqRG+h59tlEDy9U61Je5eS/eVTOJ/mckrxJ9rylNY4jPFmhRhrOoeV57S1di7IrzyI8X7JX23ktxLc8Kxj3Ft8vOXyPcoy5Qa5tWTHckXfyPsKHhfVHGr/G9M3Yl61+0g7kcJ6rLvcNDxz/s6nmz2L6Yaxtq78ug1yHsmF45Jj3U/O/YvptrG2rvy5dcwEAAPxXfgDscEXR
+   eJztlkFOwkAYRktoI1tlR6IGPAF6Ao+grpQVGiHKCgwY8SRI1LV6AvVyfI02kHHadIKNrX0veemknc4/X/8uxvMAAAAAAAAAAAAAAAAAAAAAAH5y6nvemez4y3uPGj/JZz/+vSJgy3al8bUcFDzboWX/tmx3Gk/lfU7zbmtfO7LhYETes5WJqI+79KI00PPi8xc9vFStnuyX5L8ZK+dE3uYk72/2/EhrHCd4skaNPJxDa9+1N3Styq48T/AiZq+281qEb3lWMe6tvh84fI9awtxK8GWYa1NuGdblUI4SvFlZf6bxQ0rnxr5s9bMyzNWULcM9x//sRfNfU/pmrG2rn5VhrrbcNzxwzPuu+R8p/TTWttXPStdcAAAA/5UFTfpE2g==
   </data>
  </layer>
  <objectgroup name="Collisions">
