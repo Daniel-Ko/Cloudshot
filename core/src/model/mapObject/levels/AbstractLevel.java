@@ -157,7 +157,19 @@ public abstract class AbstractLevel {
             RectangleMapObject rmo = (RectangleMapObject) r;
             Rectangle rect = rmo.getRectangle();
            //spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
-            spawns.add(new Spawn(Spawn.EnemyType.SLIME, 2, rect.x, rect.y));
+            Spawn.EnemyType enemyType;
+            String type = (String)rmo.getProperties().get("Type");
+            if(type.equals("Rogue")){
+                enemyType = Spawn.EnemyType.ROGUE;
+            }
+            else if(type.equals("Shooter")){
+                enemyType = Spawn.EnemyType.SHOOTER;
+            }
+            else
+            {
+                enemyType = Spawn.EnemyType.SLIME;
+            }
+            spawns.add(new Spawn(enemyType, (int)rmo.getProperties().get("Number"), rect.x, rect.y));
         }
     }
 
@@ -165,7 +177,9 @@ public abstract class AbstractLevel {
         for(int i = 0; i < spawnTriggers.size; i++){
             if(spawnTriggers.get(i).contains(p.getPos())){
                 //currently just spawn slime but this will be changed.
-                gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
+
+                //gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
+                spawns.get(i).spawn(gm.getEnemies(),gm);
                 spawnTriggers.removeIndex(i);
                 spawns.removeIndex(i);
             }
