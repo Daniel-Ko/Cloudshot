@@ -174,7 +174,7 @@ public abstract class AbstractLevel {
     }
 
     public void spawnEnemies(AbstractPlayer p, GameModel gm){
-        if(p.getPos().y < 0){
+        if(p.getPos().y < 0){//falling off map kills
             p.hit(p.getHealth());
         }
         for(int i = 0; i < spawnTriggers.size; i++){

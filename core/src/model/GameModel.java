@@ -1,5 +1,7 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -43,6 +45,8 @@ public class GameModel {
     OrthographicCamera cam;
     //End
 
+    private Music music;
+
     public GameModel(AbstractLevel level, OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
@@ -71,6 +75,8 @@ public class GameModel {
             groundBody.createFixture(groundBox,0.0f).setUserData("platform");
             groundBox.dispose();
         }
+
+        loadMusic();
         //boss
        // enemies.add(new BossTwo(this,new Vector2(300,500)));
 
@@ -261,5 +267,22 @@ public class GameModel {
         //TODO REPLACE FIXTURE
         
         this.player = newPlayer;
+    }
+
+
+    private void loadMusic(){
+        music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
+        music.setVolume(0f);
+        music.setLooping(true);
+        music.play();
+    }
+
+    public void setMuted(){
+        if(music.getVolume() == 0.5f){
+            music.setVolume(0f);
+        }
+        else{
+            music.setVolume(0.5f);
+        }
     }
 }
