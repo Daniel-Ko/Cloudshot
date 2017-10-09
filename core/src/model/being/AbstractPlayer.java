@@ -1,5 +1,7 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -66,7 +68,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Optional<Body> body;
 	protected FixtureDef playerProperties;
 
-	public AbstractPlayer() {
+	protected GameModel gm;
+
+	public AbstractPlayer(GameModel gm) {
+		this.gm = gm;
 		world = Optional.empty();
 		body = Optional.empty();
 		this.health = 10;
@@ -239,6 +244,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		//screenY = Gdx.graphics.getHeight()-screenY;
+		Vector3 v3 = new Vector3(gm.getCamera().unproject(new Vector3(screenX,screenY,0)));
+		aimedAt = new Vector2(v3.x,v3.y);
+		System.out.println("Player:"+pos);
+		System.out.println("Click:"+aimedAt);
 		shoot();
 		return true;
 	}
@@ -255,8 +265,15 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		aimedAt = new Vector2(screenX/GameModel.PPM,screenY/GameModel.PPM);
-		return true;
+	/*	System.out.println("x:" + screenX);
+		System.out.println("y:" + screenY);
+		screenY = Gdx.graphics.getHeight() - screenY;
+		Vector3 v3 = new Vector3(gm.getCamera().unproject(new Vector3(screenX,screenY,0)));
+		Vector2 v2 = new Vector2(v3.x,v3.y);
+		//aimedAt = new Vector2(screenX/GameModel.PPM,screenY/GameModel.PPM);
+		System.out.println(v2);
+		aimedAt = v2;*/
+		return false;
 	}
 
 	@Override

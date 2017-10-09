@@ -35,14 +35,15 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		this.pos = new Vector2(start.x,start.y);
 		this.startingPos = new Vector2(start.x,start.y);;
 		this.endPos = new Vector2(end.x, end.y);
-		System.out.println("start pos = " + startingPos);
-		System.out.println("end pos = " + endPos);
+
 		this.damage = damage;
 		this.image = t;
 		///this.playerBullet = owner;
 		
-		float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
-		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;
+	/*	float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
+		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;*/
+		float tX = startingPos.x - endPos.x;
+		float tY = startingPos.y - endPos.y;
 		float mag = (float) java.lang.Math.hypot(tX, tY);
 		tX/=mag;
 	    tY/=mag;
@@ -84,13 +85,13 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 			this.setToRemove(true);
 		}
 		doCollide(enemies);
-		pos.set(pos.x-xVel*speed,pos.y+yVel*speed);
+		pos.set(pos.x-xVel*speed,pos.y-yVel*speed);
 	}
 
 	private void doCollide(List<AbstractEnemy> enemies) {
 		for (AbstractEnemy e: enemies){
 			if (e.getBoundingBox().contains(this.getX(),this.getY())){
-				e.hit(2000);
+				e.hit((int)this.getDamage());
 				this.setToRemove(true);
 			}
 		}

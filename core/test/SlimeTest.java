@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class SlimeTest extends GameTest {
 
-    @Test
+    /*@Test
     public void TestDamagingEnemyAndKillingEnemy(){
         Slime2 s = new Slime2();
         int hp = s.getHealth();
@@ -37,5 +37,5 @@ public class SlimeTest extends GameTest {
         s.setPosition(new Vector2(0,0));
         s.update();
         assertTrue(p.getHealth()<10);
-    }
+    }*/
 }

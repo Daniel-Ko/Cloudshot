@@ -9,6 +9,9 @@
    eJztwwENAAAAwqDHsn8yi8DGqqmqqqqqqqqqqqqqqqqqqqqqqqqqqqqq2gElFCDM
   </data>
  </layer>
+ <imagelayer name="Image Layer 1" visible="0">
+  <image source="textures/BG.png" width="3200" height="2400"/>
+ </imagelayer>
  <layer name="Terrain" width="100" height="60">
   <data encoding="base64" compression="zlib">
    eJzt2UtuwjAQAFCzYV/awhp6gpYT9P6XqqUqClj5GLuEUL8nzcJIBitjW2EmBAAAAAAAAAAAAAAAWNbroxfAlY9HL4Ar8rEu8rEu8jFts1n29+QjhPcY+xiHi89eYuxC/74zN07nlYZ8DDvGOIX++cyN03ml0WI+hs5D6jPGV4xz5jidVxrp90Gpbp/nxtR5gGeXc+9DK5wH6DkPdLbht1a1dL3qP6upG3WhP1fucj+/hbq6Ucv1o1vk1kv/IhfyMa+2Xiof5YZ6CrX1UvXVcmM9hdbV9rhy3luG/muM9RRad487254vd487254HmPZdOG+slrWtWg239tjX2IP/Ad0TKnQ=
@@ -51,7 +54,11 @@
   <object id="25" x="1759.88" y="1825.04" width="32.5792" height="30.1659"/>
   <object id="27" x="1727.9" y="1825.04" width="32.5792" height="32.5792"/>
   <object id="28" x="1696.53" y="1825.04" width="31.3725" height="30.7692"/>
-  <object id="29" x="32.346" y="1664.87" width="31.0776" height="29.8091"/>
+  <object id="29" x="32.346" y="1664.87" width="31.0776" height="29.8091">
+   <properties>
+    <property name="Type" value="Pistol"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="End Zone">
   <object id="53" x="2975.82" y="1021.12" width="64.8004" height="97.6326"/>

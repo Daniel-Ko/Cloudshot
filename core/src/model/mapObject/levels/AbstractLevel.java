@@ -79,9 +79,16 @@ public abstract class AbstractLevel {
         collectables = new ArrayList<>();
         for(MapObject o : collectibleObjs){
             RectangleMapObject r = (RectangleMapObject) o;
+
             AbstractCollectable collectable;
-            int rand = (int)(Math.random()*10);
-            collectable = getCollectableFromRand(rand, r);
+            if(r.getProperties().get("Type") != null){
+                collectable = new Pistol(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+            }
+            else{
+                int rand = (int)(Math.random()*10);
+                collectable = getCollectableFromRand(rand, r);
+            }
+
             collectables.add(collectable);
         }
     }
@@ -157,6 +164,7 @@ public abstract class AbstractLevel {
             Rectangle rect = rmo.getRectangle();
            //spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
             Spawn.EnemyType enemyType;
+
             String type = (String)rmo.getProperties().get("Type");
             if(type.equals("Rogue")){
                 enemyType = Spawn.EnemyType.ROGUE;

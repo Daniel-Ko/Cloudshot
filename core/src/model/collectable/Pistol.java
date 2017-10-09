@@ -12,9 +12,9 @@ import view.sprites.StaticSprite;
 
 public class Pistol extends AbstractWeapon{
 	
-	public final int MAX_AMMO = 100;
+	public final int MAX_AMMO = 50;
 
-	protected final float PISTOL_DAMAGE = 5;
+	protected final float PISTOL_DAMAGE = 4;
 
 	private CustomSprite image;
 
