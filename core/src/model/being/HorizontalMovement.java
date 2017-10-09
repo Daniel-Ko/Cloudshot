@@ -59,13 +59,11 @@ public class HorizontalMovement implements EnemyState {
             //On Top
             if(p.getPos().x> e.getBoundingBox().x && p.getPos().x<e.getBoundingBox().x+e.getBoundingBox().width){
                 if(p.getPos().y>e.getPosition().y){
-                    System.out.println("Top");
                     p.applyKnockBack(AbstractPlayer.knock_back.NORTH);
                     return 0;
                 }
                 //Underneath
                 if(p.getPos().y<e.getBoundingBox().y){
-                    System.out.println("bot");
                     p.applyKnockBack(AbstractPlayer.knock_back.SOUTH);
                     return 0;
                 }

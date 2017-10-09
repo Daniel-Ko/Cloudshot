@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -68,10 +69,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Optional<Body> body;
 	protected FixtureDef playerProperties;
 
-	protected GameModel gm;
+	protected OrthographicCamera cam;
 
-	public AbstractPlayer(GameModel gm) {
-		this.gm = gm;
+	public AbstractPlayer() {
 		world = Optional.empty();
 		body = Optional.empty();
 		this.health = 10;
@@ -244,8 +244,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if(cam==null)return false;
 		//screenY = Gdx.graphics.getHeight()-screenY;
-		Vector3 v3 = new Vector3(gm.getCamera().unproject(new Vector3(screenX,screenY,0)));
+		Vector3 v3 = new Vector3(cam.unproject(new Vector3(screenX,screenY,0)));
 		aimedAt = new Vector2(v3.x,v3.y);
 		System.out.println("Player:"+pos);
 		System.out.println("Click:"+aimedAt);
@@ -369,7 +370,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		return playerProperties;
 	}
 
-	
+	/**Provides the player the game camera, to allow us to convert coordinates*/
+	public void setCamera(OrthographicCamera gameCam){
+		cam = gameCam;
+	}
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;
 	}

@@ -59,8 +59,9 @@ public class GameModel {
         enemiesToAdd = new Stack<>();
 
         //Player setup
-        player = new Player(this);
+        player = new Player();
         player.initBox2D(world,new Vector2(50,500));
+        player.setCamera(cam);
         //end
 
         //level setup
@@ -97,10 +98,10 @@ public class GameModel {
         //boss
        // enemies.add(new BossTwo(this,new Vector2(300,500)));
 
-          enemies.add(new SpikeBlock(this,new Vector2(800,400)));
-//        enemies.add(new SpikeBlock(this,new Vector2(700,500)));
-//        enemies.add(new SpikeBlock(this,new Vector2(400,600)));
-//        enemies.add(new SpikeBlock(this,new Vector2(800,450)));
+        enemies.add(new SpikeBlock(this,new Vector2(800,400)));
+        enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
+        enemies.add(new SpikeBlock(this,new Vector2(1400,600)));
+        enemies.add(new SpikeBlock(this,new Vector2(2000,450)));
 
 
 
@@ -268,7 +269,7 @@ public class GameModel {
     }
     
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player(this);
+        AbstractPlayer newPlayer = new Player();
         
         if(pdata.isLiving())
             newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
@@ -324,7 +325,7 @@ public class GameModel {
 
         GameScreen.inputMultiplexer.removeProcessor(player);
 
-        player = new Player(this);
+        player = new Player();
         player.initBox2D(world,new Vector2(50,500));
         //end
 
