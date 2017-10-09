@@ -24,11 +24,12 @@ public class HorizontalMovement implements EnemyState {
     }
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
-      movement(e,p);
-      attack(e,p);
+        if(e.body == null)return;
+        movement(e,p);
+        attack(e,p);
+        //cannot damage enemy in this state
     }
     private void movement(AbstractEnemy e, AbstractPlayer p ){
-
         //until it reaches left target location move left
         if(!reachedLeft){
             if(e.getPosition().x > leftTargetLocation.x){
@@ -55,31 +56,40 @@ public class HorizontalMovement implements EnemyState {
 
     @Override
     public int attack(AbstractEnemy e, AbstractPlayer p) {
+        applyAppropKnockBack(e,p);
+        if(e.getBoundingBox().overlaps(p.getBoundingBox())){
+            p.hit(e.damage);
+            return (int)e.damage;
+        }
+        return 0;
+    }
+
+    /**
+     * Method checks where the player is in relation to this enemy's bounding box/position
+     * and if the Player and this enemy's bounding boxes overlap an approp knock back is applied
+     * to the player.
+     * */
+    public void applyAppropKnockBack(AbstractEnemy e ,AbstractPlayer p){
         if(p.getBoundingBox().overlaps(e.getBoundingBox())){
             //On Top
             if(p.getPos().x> e.getBoundingBox().x && p.getPos().x<e.getBoundingBox().x+e.getBoundingBox().width){
                 if(p.getPos().y>e.getPosition().y){
                     p.applyKnockBack(AbstractPlayer.knock_back.NORTH);
-                    return 0;
                 }
                 //Underneath
                 if(p.getPos().y<e.getBoundingBox().y){
                     p.applyKnockBack(AbstractPlayer.knock_back.SOUTH);
-                    return 0;
                 }
                 //On left an right
                 if(p.getPos().y> e.getBoundingBox().y && p.getPos().y<e.getBoundingBox().y+e.getBoundingBox().height){
                     if(p.getPos().x<=e.getPosition().x) p.applyKnockBack(AbstractPlayer.knock_back.WEST);
                     if(p.getPos().x>=e.getPosition().x) p.applyKnockBack(AbstractPlayer.knock_back.EAST);
-                    return 0;
                 }
 
             }
 
         }
-        return 0;
     }
-
     @Override
     public void damage(AbstractEnemy e, int damage) {
 

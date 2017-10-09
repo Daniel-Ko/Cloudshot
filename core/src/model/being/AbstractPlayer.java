@@ -60,6 +60,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	// Players inventory
 	protected List<AbstractWeapon> inventory;
+	protected AbstractWeapon curWeapon;
 	
 	// Position of the mouse
 	protected Vector2 aimedAt = new Vector2(50,50);
@@ -69,7 +70,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Optional<Body> body;
 	protected FixtureDef playerProperties;
 
-	protected OrthographicCamera cam;
+	//Used for converting mouse pressed coords into world coords
+	private OrthographicCamera cam;
 
 	public AbstractPlayer() {
 		world = Optional.empty();
@@ -78,7 +80,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.damage = 1;
 		this.pos = new Vector2(0,0);
 		this.boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-		this.inventory = new ArrayList<AbstractWeapon>();
+		this.inventory = new ArrayList<>();
 	}
 
 	/**
@@ -108,28 +110,20 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			handleInput();
 			pos.set(body.get().getPosition());
 		}
-		updateActionsPlayerDoing();
+		if(health<=0){
+			playerState = player_state.DEAD;
+		}
 		//updating players bounding box position
 		boundingBox = new Rectangle(getPos().x,getPos().y,boundingBox.width,boundingBox.height);
 	}
 
-	protected void handleInput(){
+	private void handleInput(){
 		if(movingLeft){
 			//only want to move left
 			moveLeft();
 		}
 		else if(movingRight){
 			moveRight();
-		}
-	}
-	/**
-	 * Method constantly updates the fields which indicate the actions the player is
-	 * preforming such as moving left,right..
-	 * */
-	private void updateActionsPlayerDoing(){
-		//checks if dead
-		if(health<=0){
-			playerState = player_state.DEAD;
 		}
 	}
 
@@ -210,13 +204,31 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.SPACE:
 				jump();
 				break;
-
 			default:
 				break;
 		}
+		switchingWeaponInput(keycode);
 		return true;
 	}
 
+	/**
+	 * Handles switching between weapons in players inventory.
+	 * */
+	private void switchingWeaponInput(int keycode){
+		if(keycode == Input.Keys.NUM_1){
+			if(inventory.get(0)!=null)curWeapon = inventory.get(0);
+		}else if (keycode == Input.Keys.NUM_2){
+			if(inventory.get(1)!=null)curWeapon = inventory.get(1);
+		}else if (keycode == Input.Keys.NUM_3){
+			if(inventory.get(2)!=null)curWeapon = inventory.get(2);
+		}else if (keycode == Input.Keys.NUM_4){
+			if(inventory.get(3)!=null)curWeapon = inventory.get(3);
+		}else if (keycode == Input.Keys.NUM_5){
+			if(inventory.get(4)!=null)curWeapon = inventory.get(4);
+		}else {
+			if(inventory.get(0)!=null)curWeapon = inventory.get(0);
+		}
+	}
 	@Override
 	public boolean keyUp(int keycode) {
 		switch (keycode){
@@ -266,14 +278,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-	/*	System.out.println("x:" + screenX);
-		System.out.println("y:" + screenY);
-		screenY = Gdx.graphics.getHeight() - screenY;
-		Vector3 v3 = new Vector3(gm.getCamera().unproject(new Vector3(screenX,screenY,0)));
-		Vector2 v2 = new Vector2(v3.x,v3.y);
-		//aimedAt = new Vector2(screenX/GameModel.PPM,screenY/GameModel.PPM);
-		System.out.println(v2);
-		aimedAt = v2;*/
 		return false;
 	}
 

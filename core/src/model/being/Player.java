@@ -26,7 +26,6 @@ public class Player extends AbstractPlayer {
 	private float maxSpeedInAir = 0.5f;
 	private int doubleJump = 0;
 	private float meleeRange = 1;
-	protected AbstractWeapon curWeapon;
 
 
 

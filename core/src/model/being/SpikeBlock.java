@@ -16,9 +16,21 @@ public class SpikeBlock extends AbstractEnemy {
     private StaticSprite img;
     public SpikeBlock(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
+        damage = 5;
         initPos = body.getPosition();
         maxDist = 0.1f /GameModel.PPM;
         enemyState = new HorizontalMovement(body.getPosition(),3);
+        width = 100/ GameModel.PPM;
+        height = 100/ GameModel.PPM;
+        boundingBox = new Rectangle(position.x,position.y,width,height);
+        img = new StaticSprite("spikeBlock.png");
+    }
+    public SpikeBlock(){
+        damage = 5;
+        initPos = new Vector2(0,0);
+        position = new Vector2(0,0);
+        maxDist = 0.1f /GameModel.PPM;
+        enemyState = new HorizontalMovement(position,3);
         width = 100/ GameModel.PPM;
         height = 100/ GameModel.PPM;
         boundingBox = new Rectangle(position.x,position.y,width,height);
@@ -56,15 +68,18 @@ public class SpikeBlock extends AbstractEnemy {
 
     @Override
     protected void movement() {
-        enemyState.update(this,player);
+
     }
 
     @Override
     public void update() {
-        position = body.getPosition();
-        boundingBox = new Rectangle(position.x-(width/2),position.y-(height/2),width,height);
         //update bounding box
-        movement();
+        if(body != null){
+            position = body.getPosition();
+            boundingBox = new Rectangle(position.x-(width/2),position.y-(height/2),width,height);
+        }
+        //updates state
+        enemyState.update(this,player);
     }
 
     @Override
