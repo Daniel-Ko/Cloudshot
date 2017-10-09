@@ -216,17 +216,15 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * */
 	private void switchingWeaponInput(int keycode){
 		if(keycode == Input.Keys.NUM_1){
-			if(inventory.get(0)!=null)curWeapon = inventory.get(0);
+			if(inventory.size()>1)curWeapon = inventory.get(0);
 		}else if (keycode == Input.Keys.NUM_2){
-			if(inventory.get(1)!=null)curWeapon = inventory.get(1);
+			if(inventory.size()>2)curWeapon = inventory.get(1);
 		}else if (keycode == Input.Keys.NUM_3){
-			if(inventory.get(2)!=null)curWeapon = inventory.get(2);
+			if(inventory.size()>3)curWeapon = inventory.get(2);
 		}else if (keycode == Input.Keys.NUM_4){
-			if(inventory.get(3)!=null)curWeapon = inventory.get(3);
+			if(inventory.size()>4)curWeapon = inventory.get(3);
 		}else if (keycode == Input.Keys.NUM_5){
-			if(inventory.get(4)!=null)curWeapon = inventory.get(4);
-		}else {
-			if(inventory.get(0)!=null)curWeapon = inventory.get(0);
+			if(inventory.size()>5)curWeapon = inventory.get(4);
 		}
 	}
 	@Override
