@@ -40,7 +40,6 @@ public class Shotgun extends AbstractWeapon {
 		bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage()));
 		bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage()));
 		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage()));
-		System.out.println(bullets.size());
 		return bullets;
 		
 	}

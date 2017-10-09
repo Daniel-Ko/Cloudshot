@@ -8,6 +8,7 @@ import model.GameModel;
 import model.GameObjectInterface;
 import model.being.AbstractEnemy;
 import view.sprites.CustomSprite;
+import view.sprites.StaticSprite;
 
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.
@@ -28,8 +29,11 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	private CustomSprite image;
 	private boolean toRemove = false;
 	private boolean playerBullet;
-	
 
+
+	public BulletImpl(Vector2 startingPos) {
+		this.startingPos = startingPos;
+	}
 
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
 		this.pos = new Vector2(start.x,start.y);
@@ -39,6 +43,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		this.damage = damage;
 		this.image = t;
 		///this.playerBullet = owner;
+
+
 		
 	/*	float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
 		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;*/
@@ -47,6 +53,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		float mag = (float) java.lang.Math.hypot(tX, tY);
 		tX/=mag;
 	    tY/=mag;
+		//float signed_angle = java.lang.Math.atan2((startingPos.y),(startingPos.x) - java.lang.Math.atan2((endPos.y),(endPos.x));
+		//this.image.setRotation(signed_angle)
+
 	    //scaling speed
 	    tX*=speed/GameModel.PPM;;
 	    tY*=speed/GameModel.PPM;;
