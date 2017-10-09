@@ -1,5 +1,7 @@
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
 import model.being.AbstractPlayer;
 import model.being.Player;
 import model.being.Slime2;
@@ -12,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest extends GameTest{
 
-    @Test
+    /*@Test
     public void TestBulletsFiredIncreased(){
 
         Player p = new Player();
@@ -50,8 +52,8 @@ public class PlayerTest extends GameTest{
     public void TestPlayerDeath(){
         Player p = new Player();
         int initHP = p.getHealth();
-        p.hit(initHP);//TODO update check and update for death state in hit
-        //TODO update player state method
+        p.hit(initHP);//TODO spawnEnemies check and spawnEnemies for death state in hit
+        //TODO spawnEnemies player state method
         assertEquals(AbstractPlayer.player_state.DEAD,p.getPlayerState());
     }
 
@@ -105,5 +107,15 @@ public class PlayerTest extends GameTest{
         gun.pickedUp(p);//player picks up shot gun
         assertNotNull(p.getCurWeapon());
     }
+
+    @Test
+    public void TestInitBox2D(){
+        Player p = new Player();
+        World world = new World(new Vector2(0, -50), true);
+        Vector2 pos = new Vector2(0,0);
+        p.initBox2D(world,pos);
+        assertNotNull(p.getWorld());
+        assertNotNull(p.getBody());
+    }*/
 
 }

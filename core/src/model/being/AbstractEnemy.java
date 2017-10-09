@@ -1,5 +1,6 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,15 +13,19 @@ import view.sprites.CustomSprite;
 
 /**
  *  Class contains attributes which is common among all 'enemys'
- *  
+ *
  *  @author Jeremy Southon
- * 
+ *
  * */
 public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface, java.io.Serializable {
 
 	private static final long serialVersionUID = -5230554639550482142L;
+
 	/** Used for collisions and getting X & Y coords */
 	protected Rectangle boundingBox;
+	public float width;
+	public  float height;
+
 	public int detectionRadius = 3;
 	public float attackRadius = 0.5f;
 
@@ -53,7 +58,9 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		this.player = gameModel.getPlayer();
 
 		position = pos;
-		boundingBox = new Rectangle(position.x,position.y,50/ GameModel.PPM,50/ GameModel.PPM);//FIXME
+		width = 50/GameModel.PPM;
+		height = 50/ GameModel.PPM;
+		boundingBox = new Rectangle(position.x,position.y,width,height);//FIXME
 		health = 10;
 		speed = 2;//TODO
 		damage = 1;
@@ -82,7 +89,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected abstract void movement();
 
 	/**
-	 * Classic update method which should be called each 'frame'/update
+	 * Classic spawnEnemies method which should be called each 'frame'/spawnEnemies
 	 * */
 	public abstract void update();
 
@@ -120,6 +127,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public enemy_state getState(){return this.state; }
 	public float getDrawingWidth(){ return  drawingWidth;}
 	public float getDrawingHeight(){return  drawingHeight;}
+	public void setPlayer(AbstractPlayer p){this.player = p; }
 	@Override
 	public abstract CustomSprite getImage();
 }

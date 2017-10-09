@@ -54,6 +54,8 @@ public class GameScreen extends ScreenAdapter{
         this.stage = new Stage(new ScreenViewport());
 
         TextButton startButton = createSaveButton();
+        TextButton mute = createMuteButton();
+        stage.addActor(mute);
         stage.addActor(startButton);
 
         healthBar = new HealthBar(100, 10);
@@ -71,7 +73,7 @@ public class GameScreen extends ScreenAdapter{
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        this.gameModel = new GameModel(new LevelOne(),camera);
+        this.gameModel = new GameModel(/*new LevelOne(),*/camera);
         gameModel.getTiledMapRenderer().setView(camera);
     }
 
@@ -95,6 +97,28 @@ public class GameScreen extends ScreenAdapter{
             }
         });
         return saveButton;
+    }
+
+    private TextButton createMuteButton() {
+        TextButton muteButton = new TextButton("Mute", CloudShotGame.gameSkin);
+        muteButton.setWidth(Gdx.graphics.getWidth()/8);
+        muteButton.setPosition(
+                Gdx.graphics.getWidth() - muteButton.getWidth() - muteButton.getWidth() - PADDING*2,
+                PADDING
+
+        );
+        muteButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                gameModel.setMuted();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return muteButton;
     }
 
     @Override

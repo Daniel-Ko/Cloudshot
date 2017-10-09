@@ -1,5 +1,7 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -15,6 +17,7 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
+import model.mapObject.levels.LevelOne;
 import model.projectile.BulletImpl;
 import view.screens.GameScreen;
 
@@ -43,7 +46,9 @@ public class GameModel {
     OrthographicCamera cam;
     //End
 
-    public GameModel(AbstractLevel level, OrthographicCamera cam) {
+    private Music music;
+
+    public GameModel(/*AbstractLevel level, */OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
         world = new World(new Vector2(0, GRAVITY), true);
@@ -52,18 +57,35 @@ public class GameModel {
         enemies = new ArrayList<>();
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
-        this.level = level;
+
         //Player setup
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
+        player.setCamera(cam);
         //end
+
+        //level setup
+        this.level = new LevelOne();
+        loadTerrain();
+
+
+        loadMusic();
+
+        GameScreen.inputMultiplexer.addProcessor(player);
+
+        //generateCollidablePolygons();
+
+        repoScraper = new GameStateTransactionHandler();
+    }
+
+    private void loadTerrain(){
 
         Array<Rectangle> terrain = level.getTiles();
         for(Rectangle r : terrain){
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
             terrainPiece.position.set(new Vector2((r.x+r.width/2)/PPM,(r.y+r.height/2)/PPM));
-            enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
+            //enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width/2)/GameModel.PPM,(r.height/2)/GameModel.PPM);
@@ -71,10 +93,17 @@ public class GameModel {
             groundBody.createFixture(groundBox,0.0f).setUserData("platform");
             groundBox.dispose();
         }
+
+        loadMusic();
         //boss
        // enemies.add(new BossTwo(this,new Vector2(300,500)));
-        //enemies.add(new BossOne(this,new Vector2(300,500)));
-        enemies.add(new Slime2(this,new Vector2(300,500)));
+
+        enemies.add(new SpikeBlock(this,new Vector2(800,400)));
+        enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
+        enemies.add(new SpikeBlock(this,new Vector2(1400,600)));
+        enemies.add(new SpikeBlock(this,new Vector2(2000,450)));
+
+
 
         //enemies.add(new Slime(this,new Vector2(300,500)));
 
@@ -85,7 +114,7 @@ public class GameModel {
         //enemies.add(new Slime(20,player, new Vector2(70,500),world));
         GameScreen.inputMultiplexer.addProcessor(player);
 
-        //generateLevel();
+        //generateCollidablePolygons();
 
         repoScraper = new GameStateTransactionHandler();
     }
@@ -95,6 +124,7 @@ public class GameModel {
         updatePlayerModel();
         updateEnemies();
         updateCollectables();
+        level.spawnEnemies(player, this);
         world.step(1/60f,6,2);
 
         checkIfGameOver();
@@ -104,6 +134,7 @@ public class GameModel {
         //TODO: Change this once the game over condition is more or less confirmed.
         if(player.getHealth() <= 0){
             GameScreen.displayGameOverScreen();
+            music.dispose();
         }
     }
 
@@ -115,7 +146,7 @@ public class GameModel {
         for(AbstractEnemy ae : enemies){
             ae.update();
             //added dead enemies to be removed
-            if(ae.enemyState instanceof Death)enemiesToRemove.add(ae);
+            if(ae.enemyState instanceof Death) enemiesToRemove.add(ae);
         }
         for(int i = 0;i< enemiesToAdd.size();i++){
             enemies.add(enemiesToAdd.pop());
@@ -161,13 +192,18 @@ public class GameModel {
             if(ae instanceof ShootingEnemy){
                 ShootingEnemy s = (ShootingEnemy)ae;
                 for(BulletImpl b : s.bullets)
-                    sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                    sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+            }
+            if(ae instanceof SpikeBlock){
+                SpikeBlock s = (SpikeBlock)ae;
+                sb.draw(s.getImage().getFrameFromTime(elapsedTime),s.getX()-s.width/2,s.getY()-s.height/2,s.width,s.height);
             }
             if(ae instanceof BossOne){
                 BossOne s = (BossOne)ae;
                 for(BulletImpl b : s.bullets)
                     sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
+
         }
         for(AbstractCollectable ac : level.getCollectables()){
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
@@ -184,6 +220,7 @@ public class GameModel {
         for(AbstractEnemy e : enemies){
             player.attack(e);
         }
+
     }
 
     public TiledMapRenderer getTiledMapRenderer() {
@@ -261,5 +298,46 @@ public class GameModel {
         //TODO REPLACE FIXTURE
         
         this.player = newPlayer;
+    }
+
+
+    private void loadMusic(){
+        music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
+        music.setVolume(0.6f);
+        music.setLooping(true);
+        //music.play();
+    }
+
+    public void setMuted(){
+        if(music.isPlaying()){
+            music.pause();
+        }
+        else{
+            music.play();
+        }
+    }
+
+    public void setLevel(AbstractLevel level){
+        // reload all the fields.
+        enemies = new ArrayList<>();
+        enemiesToRemove = new ArrayList<>();
+        enemiesToAdd = new Stack<>();
+
+        world = new World(new Vector2(0, GRAVITY), true);
+
+
+        this.level = level;
+        loadTerrain();
+
+        GameScreen.inputMultiplexer.removeProcessor(player);
+
+        player = new Player();
+        player.initBox2D(world,new Vector2(50,500));
+        //end
+
+        GameScreen.inputMultiplexer.addProcessor(player);
+
+
+
     }
 }

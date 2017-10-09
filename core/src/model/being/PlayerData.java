@@ -15,8 +15,15 @@ import java.util.List;
  * Box2D.World can be remade.
  */
 public class PlayerData implements Serializable{
-    
+
+    //Player-specific methods (not AbstractPlayer)
+
+    protected AbstractWeapon curWeapon;
+
+
+    //player state
     private boolean isLiving = false;
+
     /* variables used in player physics */
     protected Vector2 pos;
     protected Vector2 velocity;
@@ -35,6 +42,8 @@ public class PlayerData implements Serializable{
     protected List<AbstractWeapon> inventory;
     // Position of the mouse
     protected Vector2 aimedAt = new Vector2(50,50);
+
+
     
     //
     //Box2D
@@ -45,7 +54,7 @@ public class PlayerData implements Serializable{
     private Vector2 bodyLinearVelocity;
     
     //fixturedef
-    private Shape shape;
+    //private Shape shape;
     private float friction = 0.2F;
     private float density = 0.0F;
     private boolean isSensor = false;
@@ -59,8 +68,13 @@ public class PlayerData implements Serializable{
         setBox2DProperties(player);
         setAimLocation(player);
         setLiving(player);
+        setInstanceProperties(player);
     }
-    
+
+    private void setInstanceProperties(AbstractPlayer player) {
+        curWeapon = ((Player) player).getCurWeapon();
+    }
+
     private void setUIProperties(AbstractPlayer player) {
         this.health = player.getHealth();
         this.damage = player.getDamage();
@@ -94,7 +108,7 @@ public class PlayerData implements Serializable{
     }
     
     private void setBox2DFixtureDef(AbstractPlayer player) {
-        this.shape = player.getPlayerProperties().shape;
+        //this.shape = player.getPlayerProperties().shape;
         this.density = player.getPlayerProperties().density;
         this.friction = player.getPlayerProperties().friction;
         this.isSensor = player.getPlayerProperties().isSensor;
@@ -111,80 +125,237 @@ public class PlayerData implements Serializable{
     }
     
     /** GETTERS */
-    
+
+
+    public AbstractWeapon getCurWeapon() {
+        return curWeapon;
+    }
+
     public boolean isLiving() {
         return isLiving;
     }
-    
+
+    public void setLiving(boolean living) {
+        isLiving = living;
+    }
+
     public Vector2 getPos() {
         return pos;
     }
-    
+
+    public void setPos(Vector2 pos) {
+        this.pos = pos;
+    }
+
     public Vector2 getVelocity() {
         return velocity;
     }
-    
+
+    public void setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+    }
+
     public int getHealth() {
         return health;
     }
-    
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public int getDamage() {
         return damage;
     }
-    
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
     public Rectangle getBoundingBox() {
         return boundingBox;
     }
-    
+
+    public void setBoundingBox(Rectangle boundingBox) {
+        this.boundingBox = boundingBox;
+    }
+
     public boolean isInAir() {
         return inAir;
     }
-    
+
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
+    }
+
     public boolean isAttacking() {
         return attacking;
     }
-    
+
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
+    }
+
     public boolean isGrounded() {
         return grounded;
     }
-    
+
+    public void setGrounded(boolean grounded) {
+        this.grounded = grounded;
+    }
+
     public boolean isMovingLeft() {
         return movingLeft;
     }
-    
+
+    public void setMovingLeft(boolean movingLeft) {
+        this.movingLeft = movingLeft;
+    }
+
     public boolean isMovingRight() {
         return movingRight;
     }
-    
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
     public List<AbstractWeapon> getInventory() {
         return inventory;
     }
-    
+
+    public void setInventory(List<AbstractWeapon> inventory) {
+        this.inventory = inventory;
+    }
+
     public Vector2 getAimedAt() {
         return aimedAt;
     }
-    
+
+    public void setAimedAt(Vector2 aimedAt) {
+        this.aimedAt = aimedAt;
+    }
+
     public Vector2 getBodyPos() {
         return bodyPos;
     }
-    
+
+    public void setBodyPos(Vector2 bodyPos) {
+        this.bodyPos = bodyPos;
+    }
+
     public Vector2 getBodyLinearVelocity() {
         return bodyLinearVelocity;
     }
-    
-    public Shape getShape() {
-        return shape;
+
+    public void setBodyLinearVelocity(Vector2 bodyLinearVelocity) {
+        this.bodyLinearVelocity = bodyLinearVelocity;
     }
-    
+
+//    public Shape getShape() {
+//        return shape;
+//    }
+//
+//    public void setShape(Shape shape) {
+//        this.shape = shape;
+//    }
+
     public float getFriction() {
         return friction;
     }
-    
+
+    public void setFriction(float friction) {
+        this.friction = friction;
+    }
+
     public float getDensity() {
         return density;
     }
-    
+
+    public void setDensity(float density) {
+        this.density = density;
+    }
+
     public boolean isSensor() {
         return isSensor;
     }
+
+    public void setSensor(boolean sensor) {
+        isSensor = sensor;
+    }
+
+//    public boolean isLiving() {
+//        return isLiving;
+//    }
+//
+//    public Vector2 getPos() {
+//        return pos;
+//    }
+//
+//    public Vector2 getVelocity() {
+//        return velocity;
+//    }
+//
+//    public int getHealth() {
+//        return health;
+//    }
+//
+//    public int getDamage() {
+//        return damage;
+//    }
+//
+//    public Rectangle getBoundingBox() {
+//        return boundingBox;
+//    }
+//
+//    public boolean isInAir() {
+//        return inAir;
+//    }
+//
+//    public boolean isAttacking() {
+//        return attacking;
+//    }
+//
+//    public boolean isGrounded() {
+//        return grounded;
+//    }
+//
+//    public boolean isMovingLeft() {
+//        return movingLeft;
+//    }
+//
+//    public boolean isMovingRight() {
+//        return movingRight;
+//    }
+//
+//    public List<AbstractWeapon> getInventory() {
+//        return inventory;
+//    }
+//
+//    public Vector2 getAimedAt() {
+//        return aimedAt;
+//    }
+//
+//    public Vector2 getBodyPos() {
+//        return bodyPos;
+//    }
+//
+//    public Vector2 getBodyLinearVelocity() {
+//        return bodyLinearVelocity;
+//    }
+//
+//    public Shape getShape() {
+//        return shape;
+//    }
+//
+//    public float getFriction() {
+//        return friction;
+//    }
+//
+//    public float getDensity() {
+//        return density;
+//    }
+//
+//    public boolean isSensor() {
+//        return isSensor;
+//    }
 }

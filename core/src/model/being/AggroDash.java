@@ -5,10 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 public class AggroDash implements EnemyState {
     private Vector2 target_pos;
     private long timeBetweenLastDash = 0;
+
+    private float dashSpeed = 3;
     public AggroDash() {
     }
     /**
-     *  target_pos will be null we enter or re-enter this enemys detection radius.
+     *  target_pos will be null when we enter or re-enter this enemy's detection radius.
      *  therefore set a target location to move to.
      *
      *  if this enemy is at the target location then wait n seconds then dash again...
@@ -30,12 +32,12 @@ public class AggroDash implements EnemyState {
         else{
             //Haven't reached that location therefore move!
             timeBetweenLastDash = System.currentTimeMillis()/1000;
-            if(target_pos.x<e.getX()){
+            if(target_pos.x<=e.getX()){
                 //Dash to left
-                e.body.setLinearVelocity(-3f,e.body.getLinearVelocity().y);
+                e.body.setLinearVelocity(-dashSpeed,e.body.getLinearVelocity().y);
             }else if(target_pos.x>e.getX()){
                 //Dash to right
-                e.body.setLinearVelocity(3f,e.body.getLinearVelocity().y);
+                e.body.setLinearVelocity(dashSpeed,e.body.getLinearVelocity().y);
             }
         }
     }
@@ -45,10 +47,10 @@ public class AggroDash implements EnemyState {
      * in distance.
      * */
     private void computeTargetLocation(AbstractEnemy e, AbstractPlayer p ){
-        if(e.getX()<p.getX()){
+        if(e.getX()<=p.getX()){
             target_pos = new Vector2(e.getX()+e.detectionRadius,e.getY());
         }
-        else if(e.getX()>p.getX()){
+        else if(e.getX()>=p.getX()){
             target_pos = new Vector2(e.getX()-e.detectionRadius,e.getY());
         }
     }
@@ -59,6 +61,13 @@ public class AggroDash implements EnemyState {
 
     @Override
     public void damage(AbstractEnemy e, int damage) {
+        e.internalDamage(damage);
+        if(e.health <= 0){
+            e.enemyState = new Death();
+        }
+    }
 
+    public void setDashSpeed(float speed){
+        this.dashSpeed = speed;
     }
 }

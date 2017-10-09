@@ -26,7 +26,6 @@ public class Player extends AbstractPlayer {
 	private float maxSpeedInAir = 0.5f;
 	private int doubleJump = 0;
 	private float meleeRange = 1;
-	protected AbstractWeapon curWeapon;
 
 
 
@@ -114,7 +113,7 @@ public class Player extends AbstractPlayer {
 	public void update(List<AbstractEnemy> enemies){
 		super.update(enemies);
 
-		//Things to update if we have a body and world to move/move in
+		//Things to spawnEnemies if we have a body and world to move/move in
 		if(body.isPresent()){
 			if(numFootContact< 1)inAir = true;
 			if(numFootContact >= 1){

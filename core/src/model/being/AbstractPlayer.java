@@ -1,7 +1,10 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
@@ -33,6 +36,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public static enum player_state {
 		ALIVE, DEAD
 	}
+	/**
+	 * used in applyKnockBack() direction in which the knock back is being applied form
+	 * */
+	public static enum knock_back {
+		NORTH,EAST,WEST,SOUTH;
+	}
 
 	protected int health;
 	protected int damage;
@@ -51,6 +60,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	// Players inventory
 	protected List<AbstractWeapon> inventory;
+	protected AbstractWeapon curWeapon;
 	
 	// Position of the mouse
 	protected Vector2 aimedAt = new Vector2(50,50);
@@ -60,6 +70,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Optional<Body> body;
 	protected FixtureDef playerProperties;
 
+	//Used for converting mouse pressed coords into world coords
+	private OrthographicCamera cam;
+
 	public AbstractPlayer() {
 		world = Optional.empty();
 		body = Optional.empty();
@@ -67,7 +80,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.damage = 1;
 		this.pos = new Vector2(0,0);
 		this.boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-		this.inventory = new ArrayList<AbstractWeapon>();
+		this.inventory = new ArrayList<>();
 	}
 
 	/**
@@ -95,31 +108,22 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		//if we have a body and world to move around in
 		if(body.isPresent()){
 			handleInput();
-			//update pos based on body
 			pos.set(body.get().getPosition());
 		}
-		updateActionsPlayerDoing();
+		if(health<=0){
+			playerState = player_state.DEAD;
+		}
 		//updating players bounding box position
 		boundingBox = new Rectangle(getPos().x,getPos().y,boundingBox.width,boundingBox.height);
 	}
 
-	protected void handleInput(){
+	private void handleInput(){
 		if(movingLeft){
 			//only want to move left
 			moveLeft();
 		}
 		else if(movingRight){
 			moveRight();
-		}
-	}
-	/**
-	 * Method constantly updates the fields which indicate the actions the player is
-	 * preforming such as moving left,right..
-	 * */
-	private void updateActionsPlayerDoing(){
-		//checks if dead
-		if(health<=0){
-			playerState = player_state.DEAD;
 		}
 	}
 
@@ -154,7 +158,27 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public List<AbstractWeapon> getInventory() {
 		return inventory;
 	}
-	
+
+	/**
+	 * Method used to apply a simple bounce back on the players body, to simulate it being hurt.
+	 *
+	 * @param direction direction in which to knock the player in.
+	 * */
+	public void applyKnockBack(knock_back direction){
+		if(!body.isPresent())return;
+		if(direction == knock_back.EAST){
+			body.get().applyLinearImpulse(new Vector2(0.1f,0),body.get().getWorldCenter(),true);
+		}
+		else if (direction == knock_back.NORTH){
+			body.get().applyLinearImpulse(new Vector2(0,0.1f),body.get().getWorldCenter(),true);
+		}
+		else if (direction == knock_back.WEST){
+			body.get().applyLinearImpulse(new Vector2(-0.1f,0),body.get().getWorldCenter(),true);
+		}
+		else if (direction == knock_back.SOUTH){
+			body.get().applyLinearImpulse(new Vector2(0,-0.1f),body.get().getWorldCenter(),true);
+		}
+	}
 
 	public abstract boolean attack(AbstractEnemy enemy);
 
@@ -180,13 +204,29 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.SPACE:
 				jump();
 				break;
-
 			default:
 				break;
 		}
+		switchingWeaponInput(keycode);
 		return true;
 	}
 
+	/**
+	 * Handles switching between weapons in players inventory.
+	 * */
+	private void switchingWeaponInput(int keycode){
+		if(keycode == Input.Keys.NUM_1){
+			if(inventory.size()>1)curWeapon = inventory.get(0);
+		}else if (keycode == Input.Keys.NUM_2){
+			if(inventory.size()>2)curWeapon = inventory.get(1);
+		}else if (keycode == Input.Keys.NUM_3){
+			if(inventory.size()>3)curWeapon = inventory.get(2);
+		}else if (keycode == Input.Keys.NUM_4){
+			if(inventory.size()>4)curWeapon = inventory.get(3);
+		}else if (keycode == Input.Keys.NUM_5){
+			if(inventory.size()>5)curWeapon = inventory.get(4);
+		}
+	}
 	@Override
 	public boolean keyUp(int keycode) {
 		switch (keycode){
@@ -214,6 +254,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if(cam==null)return false;
+		//screenY = Gdx.graphics.getHeight()-screenY;
+		Vector3 v3 = new Vector3(cam.unproject(new Vector3(screenX,screenY,0)));
+		aimedAt = new Vector2(v3.x,v3.y);
+		System.out.println("Player:"+pos);
+		System.out.println("Click:"+aimedAt);
 		shoot();
 		return true;
 	}
@@ -230,8 +276,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		aimedAt = new Vector2(screenX/GameModel.PPM,screenY/GameModel.PPM);
-		return true;
+		return false;
 	}
 
 	@Override
@@ -272,6 +317,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 	public void setPos(Vector2 pos) {
 		this.pos = pos;
+		if(body.isPresent())body.get().setTransform(pos,0);
 	}
 
 	
@@ -326,7 +372,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		return playerProperties;
 	}
 
-	
+	/**Provides the player the game camera, to allow us to convert coordinates*/
+	public void setCamera(OrthographicCamera gameCam){
+		cam = gameCam;
+	}
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;
 	}

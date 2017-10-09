@@ -29,6 +29,7 @@ public class LightAmmoPack extends AbstractBuff {
 		Player player = (Player)p;
 		AbstractWeapon wep = player.getCurWeapon();
 		wep.setAmmo(wep.getMaxAmmo());
+
 	}
 
 }

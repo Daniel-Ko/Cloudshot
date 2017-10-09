@@ -1,19 +1,40 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import model.GameModel;
 import view.sprites.CustomSprite;
+import view.sprites.StaticSprite;
 
 public class SpikeBlock extends AbstractEnemy {
     private Vector2 initPos;
     private float maxDist;
+    private StaticSprite img;
     public SpikeBlock(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
+        damage = 5;
         initPos = body.getPosition();
         maxDist = 0.1f /GameModel.PPM;
+        enemyState = new HorizontalMovement(body.getPosition(),3);
+        width = 100/ GameModel.PPM;
+        height = 100/ GameModel.PPM;
+        boundingBox = new Rectangle(position.x,position.y,width,height);
+        img = new StaticSprite("spikeBlock.png");
+    }
+    public SpikeBlock(){
+        damage = 5;
+        initPos = new Vector2(0,0);
+        position = new Vector2(0,0);
+        maxDist = 0.1f /GameModel.PPM;
+        enemyState = new HorizontalMovement(position,3);
+        width = 100/ GameModel.PPM;
+        height = 100/ GameModel.PPM;
+        boundingBox = new Rectangle(position.x,position.y,width,height);
+        img = new StaticSprite("spikeBlock.png");
     }
 
     @Override
@@ -47,21 +68,22 @@ public class SpikeBlock extends AbstractEnemy {
 
     @Override
     protected void movement() {
-//        if(initPos.dst(body.getPosition())<maxDist){
-//            body.setLinearVelocity(body.getLinearVelocity().x,0.3f);
-//        }
-//        else {
-//
-//        }
+
     }
 
     @Override
     public void update() {
-        movement();
+        //update bounding box
+        if(body != null){
+            position = body.getPosition();
+            boundingBox = new Rectangle(position.x-(width/2),position.y-(height/2),width,height);
+        }
+        //updates state
+        enemyState.update(this,player);
     }
 
     @Override
     public CustomSprite getImage() {
-        return null;
+        return img;
     }
 }

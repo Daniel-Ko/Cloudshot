@@ -14,9 +14,7 @@ import model.GameModel;
 import model.collectable.AbstractCollectable;
 import model.collectable.DeathPack;
 import model.collectable.HealthPack;
-import model.mapObject.terrain.AbstractTerrain;
-import model.mapObject.terrain.Ground;
-import model.mapObject.terrain.Platform;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,10 +51,10 @@ public class LevelOne extends AbstractLevel {
         spawnRates.put(4,"Pistol");
         spawnRates.put(5,"Pistol");
         spawnRates.put(6,"HeavyAmmoPack");
-        spawnRates.put(7,"LightAmmoPack");
+        spawnRates.put(7,"HeavyAmmoPack");
         spawnRates.put(8,"Shotgun");
         spawnRates.put(9,"Shotgun");
-        spawnRates.put(10,"LightAmmoPack");
+        spawnRates.put(10,"Shotgun");
 
 
 
