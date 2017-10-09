@@ -58,15 +58,14 @@ public class GameModel {
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
 
-        //level setup
-        this.level = new LevelOne();
-        loadTerrain();
-
         //Player setup
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
         //end
 
+        //level setup
+        this.level = new LevelOne();
+        loadTerrain();
 
 
         loadMusic();
@@ -98,10 +97,10 @@ public class GameModel {
         //boss
        // enemies.add(new BossTwo(this,new Vector2(300,500)));
 
-//        enemies.add(new Rogue(this,new Vector2(300,800)));
-//        enemies.add(new Rogue(this,new Vector2(700,800)));
-//        enemies.add(new ShootingEnemy(this,new Vector2(400,900)));
-//        enemies.add(new ShootingEnemy(this,new Vector2(800,900)));
+          enemies.add(new SpikeBlock(this,new Vector2(800,400)));
+//        enemies.add(new SpikeBlock(this,new Vector2(700,500)));
+//        enemies.add(new SpikeBlock(this,new Vector2(400,600)));
+//        enemies.add(new SpikeBlock(this,new Vector2(800,450)));
 
 
 
@@ -187,18 +186,23 @@ public class GameModel {
                 for(BulletImpl b : s.bullets)
                     sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
+            if(ae instanceof SpikeBlock){
+                SpikeBlock s = (SpikeBlock)ae;
+                sb.draw(s.getImage().getFrameFromTime(elapsedTime),s.getX()-s.width/2,s.getY()-s.height/2,s.width,s.height);
+            }
             if(ae instanceof BossOne){
                 BossOne s = (BossOne)ae;
                 for(BulletImpl b : s.bullets)
                     sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
+
         }
         for(AbstractCollectable ac : level.getCollectables()){
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }
 
         //Box2D
-        //debugRenderer.render(world, cam.combined);
+        debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
 
     }

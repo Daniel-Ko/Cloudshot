@@ -37,7 +37,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * used in applyKnockBack() direction in which the knock back is being applied form
 	 * */
 	public static enum knock_back {
-		NORTH, EAST,WEST;
+		NORTH,EAST,WEST,SOUTH;
 	}
 
 	protected int health;
@@ -166,6 +166,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * @param direction direction in which to knock the player in.
 	 * */
 	public void applyKnockBack(knock_back direction){
+		if(!body.isPresent())return;
 		if(direction == knock_back.EAST){
 			body.get().applyLinearImpulse(new Vector2(0.1f,0),body.get().getWorldCenter(),true);
 		}
@@ -174,6 +175,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		}
 		else if (direction == knock_back.WEST){
 			body.get().applyLinearImpulse(new Vector2(-0.1f,0),body.get().getWorldCenter(),true);
+		}
+		else if (direction == knock_back.SOUTH){
+			body.get().applyLinearImpulse(new Vector2(0,-0.1f),body.get().getWorldCenter(),true);
 		}
 	}
 
