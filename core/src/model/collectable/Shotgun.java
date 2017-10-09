@@ -12,7 +12,8 @@ import view.sprites.StaticSprite;
 
 public class Shotgun extends AbstractWeapon {
 
-	public static final int MAX_AMMO = 50;
+	public static final int MAX_AMMO = 25;
+	protected final int SHOTGUN_DAMAGE = 6;
 	private MovingSprite bulImage;
 	private StaticSprite image;
 	
@@ -20,6 +21,7 @@ public class Shotgun extends AbstractWeapon {
 	public Shotgun(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.ammo = MAX_AMMO;
+		this.setDamage(SHOTGUN_DAMAGE);
 		bulImage = new MovingSprite("bullet.png", 3, 2);
 		image = new StaticSprite("shotgun.png");
 	}

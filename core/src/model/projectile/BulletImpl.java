@@ -91,7 +91,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	private void doCollide(List<AbstractEnemy> enemies) {
 		for (AbstractEnemy e: enemies){
 			if (e.getBoundingBox().contains(this.getX(),this.getY())){
-				e.hit(2000);
+				e.hit((int)this.getDamage());
 				this.setToRemove(true);
 			}
 		}
