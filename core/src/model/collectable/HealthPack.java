@@ -29,6 +29,8 @@ public class HealthPack extends AbstractBuff {
 		int oldHealth = p.getHealth();
 		p.setHealth(oldHealth + 50);
 		System.out.println(p.getHealth());
+		//Make sure health cant go above max health
+		if(p.getHealth() > 150){p.setHealth(150);}
 	}
 	
 

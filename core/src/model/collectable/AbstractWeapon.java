@@ -35,6 +35,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 		p.getInventory().add(this);
 		Player player = (Player)p;
 		player.setCurWeapon(this);
+
 	}
 	
 	public abstract CustomSprite getBulletImage();
