@@ -58,15 +58,15 @@ public class GameModel {
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
 
+        //Player setup
+        player = new Player();
+        player.initBox2D(world,new Vector2(50,500));
+        player.setCamera(cam);
+        //end
+
         //level setup
         this.level = new LevelOne();
         loadTerrain();
-
-        //Player setup
-        player = new Player(this);
-        player.initBox2D(world,new Vector2(50,500));
-        //end
-
 
 
         loadMusic();
@@ -93,6 +93,30 @@ public class GameModel {
             groundBody.createFixture(groundBox,0.0f).setUserData("platform");
             groundBox.dispose();
         }
+
+        loadMusic();
+        //boss
+       // enemies.add(new BossTwo(this,new Vector2(300,500)));
+
+        enemies.add(new SpikeBlock(this,new Vector2(800,400)));
+        enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
+        enemies.add(new SpikeBlock(this,new Vector2(1400,600)));
+        enemies.add(new SpikeBlock(this,new Vector2(2000,450)));
+
+
+
+        //enemies.add(new Slime(this,new Vector2(300,500)));
+
+        //ground.
+        //End
+
+
+        //enemies.add(new Slime(20,player, new Vector2(70,500),world));
+        GameScreen.inputMultiplexer.addProcessor(player);
+
+        //generateCollidablePolygons();
+
+        repoScraper = new GameStateTransactionHandler();
     }
 
     public void updateState(float elapsedTime){
@@ -164,18 +188,23 @@ public class GameModel {
                 for(BulletImpl b : s.bullets)
                     sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
+            if(ae instanceof SpikeBlock){
+                SpikeBlock s = (SpikeBlock)ae;
+                sb.draw(s.getImage().getFrameFromTime(elapsedTime),s.getX()-s.width/2,s.getY()-s.height/2,s.width,s.height);
+            }
             if(ae instanceof BossOne){
                 BossOne s = (BossOne)ae;
                 for(BulletImpl b : s.bullets)
                     sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
+
         }
         for(AbstractCollectable ac : level.getCollectables()){
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }
 
         //Box2D
-        //debugRenderer.render(world, cam.combined);
+        debugRenderer.render(world, cam.combined);
         world.step(1/60f, 6, 2);
 
     }
@@ -240,7 +269,7 @@ public class GameModel {
     }
     
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player(this);
+        AbstractPlayer newPlayer = new Player();
         
         if(pdata.isLiving())
             newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
@@ -296,7 +325,7 @@ public class GameModel {
 
         GameScreen.inputMultiplexer.removeProcessor(player);
 
-        player = new Player(this);
+        player = new Player();
         player.initBox2D(world,new Vector2(50,500));
         //end
 

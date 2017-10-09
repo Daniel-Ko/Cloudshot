@@ -1,5 +1,6 @@
 package model.being;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -23,8 +24,10 @@ public class Slime2 extends AbstractEnemy{
     private CustomSprite walk;
     private CustomSprite walk_l;
 
+    private Vector2 initPos;
     public Slime2(GameModel gameModel, Vector2 pos){
         super(gameModel,pos);
+        initPos = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
         health = 20;
         attack_left =  new MovingSprite("slime_attack.png",1,7);
         attack_right =  new MovingSprite("slime_attack_right.png",1,7);
@@ -117,14 +120,14 @@ public class Slime2 extends AbstractEnemy{
         }
         //UPDATING STATES
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
-            if(enemyState instanceof IdleMovement){
+            if(enemyState instanceof HorizontalMovement){
                 enemyState = new AggroMovement();
             }
         }
         else{
-            enemyState = new IdleMovement();
+            if(!(enemyState instanceof  HorizontalMovement))
+                enemyState = new HorizontalMovement(initPos,3);
         }
-
         attack();
 
     }
