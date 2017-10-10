@@ -8,7 +8,7 @@ import view.sprites.StaticSprite;
 
 public class HealthPack extends AbstractBuff {
 
-	CustomSprite image;
+	private transient CustomSprite image;
 
 	public HealthPack(Vector2 position, float width, float height) {
 		super(position, width, height);

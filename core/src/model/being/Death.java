@@ -1,6 +1,6 @@
 package model.being;
 
-public class Death implements EnemyState {
+public class Death implements EnemyState, java.io.Serializable {
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
         e.world.destroyBody(e.body);

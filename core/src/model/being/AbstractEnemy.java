@@ -33,7 +33,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected int speed;
 	protected int health;
 	protected float damage;
-	protected AbstractPlayer player;
+	protected transient AbstractPlayer player;
 
 	protected enemy_state state = enemy_state.EALIVE;
 
@@ -42,13 +42,14 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	}
 
 	//Box2D
-	protected World world;
-	protected Body body;
-	protected FixtureDef fDef;
+	protected transient World world;
+	protected transient Body body;
+	protected transient FixtureDef fDef;
 
-	protected  GameModel game;
+	protected transient GameModel game;
 
 	public EnemyState enemyState;
+
 	//for drawing using sprite batch
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;

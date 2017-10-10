@@ -9,7 +9,7 @@ import view.sprites.StaticSprite;
 
 public class LightAmmoPack extends AbstractBuff {
 
-	private CustomSprite image;
+	private transient CustomSprite image;
 
 	public LightAmmoPack(Vector2 position, float width, float height) {
 		super(position, width, height);

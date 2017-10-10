@@ -8,7 +8,7 @@ import view.sprites.StaticSprite;
 
 public class DeathPack extends AbstractBuff {
 
-	CustomSprite image;
+	private transient CustomSprite image;
 
 	public DeathPack(Vector2 position, float width, float height) {
 		super(position, width, height);

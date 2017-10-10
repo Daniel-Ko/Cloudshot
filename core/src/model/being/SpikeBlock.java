@@ -10,10 +10,11 @@ import model.GameModel;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
-public class SpikeBlock extends AbstractEnemy {
+public class SpikeBlock extends AbstractEnemy{
     private Vector2 initPos;
     private float maxDist;
-    private StaticSprite img;
+    private transient StaticSprite img;
+
     public SpikeBlock(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
         damage = 5;

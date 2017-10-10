@@ -17,14 +17,14 @@ import java.util.Queue;
 public class ShootingEnemy extends AbstractEnemy{
 
 	//bullet and attacking fields
-	public StaticSprite bulletSprite;
-	public Queue<BulletImpl> bullets = new LinkedList<>();
+	private transient StaticSprite bulletSprite;
+	private Queue<BulletImpl> bullets = new LinkedList<>();
 
 	//Archer sprites
-	MovingSprite attacking;
-	MovingSprite attack_left;
-	MovingSprite walk;
-	MovingSprite idle;
+	private transient MovingSprite attacking;
+	private transient MovingSprite attack_left;
+	private transient MovingSprite walk;
+	private transient MovingSprite idle;
 
 	public ShootingEnemy(GameModel gameModel,Vector2 pos){
 		super(gameModel,pos);
@@ -144,4 +144,7 @@ public class ShootingEnemy extends AbstractEnemy{
 
 	public Queue<BulletImpl> getBullets (){return this.bullets;}
 
+	public StaticSprite getBulletSprite() {
+		return bulletSprite;
+	}
 }

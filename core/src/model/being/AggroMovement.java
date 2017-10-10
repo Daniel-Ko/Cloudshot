@@ -7,7 +7,7 @@ package model.being;
  *
  * Just defines movement doesn't attack.
  * */
-public class AggroMovement implements EnemyState {
+public class AggroMovement implements EnemyState, java.io.Serializable {
 
 
     @Override

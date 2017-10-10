@@ -16,9 +16,9 @@ public class Pistol extends AbstractWeapon{
 
 	protected final float PISTOL_DAMAGE = 4;
 
-	private CustomSprite image;
+	private transient CustomSprite image;
 
-	private CustomSprite bulImage;
+	private transient CustomSprite bulImage;
 
 	
 	

@@ -58,6 +58,8 @@ public class GameModel {
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
 
+
+
         //Player setup
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
@@ -67,6 +69,7 @@ public class GameModel {
         //level setup
         this.level = new LevelOne();
         loadTerrain();
+
 
 
         loadMusic();
@@ -112,7 +115,7 @@ public class GameModel {
 
 
         //enemies.add(new Slime(20,player, new Vector2(70,500),world));
-        GameScreen.inputMultiplexer.addProcessor(player);
+        //GameScreen.inputMultiplexer.addProcessor(player);
 
         //generateCollidablePolygons();
 
@@ -174,7 +177,15 @@ public class GameModel {
 
     public void draw(SpriteBatch sb){
 	    Player play = (Player) player;
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-0.9f,player.getY()-0.6f, 1.80f, 1.80f);
+	    float x = player.getX()-0.9f;
+	    float y = player.getY()-0.6f;
+	    float width = 1.80f;
+	    float height = 1.80f;
+        sb.draw(
+                player.getImage().getFrameFromTime(elapsedTime),
+                player.flip() ? x + width : x, y,
+                player.flip() ? -width : width, height
+        );
 
         //drawing player bullets
         for(BulletImpl b : play.getBullets()){
@@ -191,8 +202,8 @@ public class GameModel {
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX()-ae.getDrawingWidth()/2,ae.getY()-ae.getDrawingHeight()/4,ae.getDrawingWidth(),ae.getDrawingHeight());
             if(ae instanceof ShootingEnemy){
                 ShootingEnemy s = (ShootingEnemy)ae;
-                for(BulletImpl b : s.bullets)
-                    sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                for(BulletImpl b : s.getBullets())
+                    sb.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
             if(ae instanceof SpikeBlock){
                 SpikeBlock s = (SpikeBlock)ae;
