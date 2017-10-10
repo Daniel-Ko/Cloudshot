@@ -55,8 +55,10 @@ public class GameScreen extends ScreenAdapter{
 
         TextButton startButton = createSaveButton();
         TextButton mute = createMuteButton();
+        TextButton menu = createMenuButton();
         stage.addActor(mute);
         stage.addActor(startButton);
+        stage.addActor(menu);
 
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
@@ -103,7 +105,7 @@ public class GameScreen extends ScreenAdapter{
         TextButton muteButton = new TextButton("Mute", CloudShotGame.gameSkin);
         muteButton.setWidth(Gdx.graphics.getWidth()/8);
         muteButton.setPosition(
-                Gdx.graphics.getWidth() - muteButton.getWidth() - muteButton.getWidth() - PADDING*2,
+                Gdx.graphics.getWidth() - muteButton.getWidth()*2 - PADDING*2,
                 PADDING
 
         );
@@ -119,6 +121,28 @@ public class GameScreen extends ScreenAdapter{
             }
         });
         return muteButton;
+    }
+
+    private TextButton createMenuButton() {
+        TextButton menu = new TextButton("Menu", CloudShotGame.gameSkin);
+        menu.setWidth(Gdx.graphics.getWidth()/8);
+        menu.setPosition(
+                Gdx.graphics.getWidth() - menu.getWidth()*3 - PADDING*3,
+                PADDING
+
+        );
+        menu.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new MenuScreen(game));
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return menu;
     }
 
     @Override
@@ -172,23 +196,6 @@ public class GameScreen extends ScreenAdapter{
     }
 
     public void drawLevelText(){
-        /*BitmapFont text = new BitmapFont();
-        //text.getData().setScale(1/GameModel.PPM,1/GameModel.PPM);
-        text.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        text.getData().setScale(1.0f/50f);
-        //text.draw(batch, "Level: "+ gameModel.getLevel().getLevelNumber() + " - "+ gameModel.getLevel().getLevelName(),(camera.position.x + 10 - camera.viewportWidth/2)/GameModel.PPM,(camera.position.y + camera.viewportHeight/2)/GameModel.PPM);
-        text.draw(batch,"Hello",camera.position.x,camera.position.y);*/
-/*
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/open-sans/OpenSans-Bold.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 8;
-       // generator.dispose();
-
-        BitmapFont font = generator.generateFont(parameter);
-        generator.dispose();
-        font.getData().setScale(1f/10f);
-        font.draw(batch,"Hello",camera.position.x-camera.viewportWidth/2,camera.position.y+camera.viewportHeight/2);*/
 
     }
 
