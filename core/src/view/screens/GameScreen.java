@@ -206,7 +206,7 @@ public class GameScreen extends ScreenAdapter{
     }
 
     private TextButton createMuteButton() {
-        TextButton muteButton = new TextButton("Mute", CloudShotGame.gameSkin);
+        TextButton muteButton = new TextButton("Unmute", CloudShotGame.gameSkin);
         muteButton.setWidth(Gdx.graphics.getWidth()/8);
         muteButton.setPosition(
                 Gdx.graphics.getWidth() - muteButton.getWidth()*2 - PADDING*2,
@@ -217,6 +217,7 @@ public class GameScreen extends ScreenAdapter{
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 gameModel.setMuted();
+                muteButton.setText(gameModel.musicIsPlaying() ? "Mute" : "Unmute");
             }
 
             @Override

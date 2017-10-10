@@ -330,6 +330,10 @@ public class GameModel {
         }
     }
 
+    public boolean musicIsPlaying(){
+        return music.isPlaying();
+    }
+
     public void setLevel(AbstractLevel level){
         // reload all the fields.
         enemies = new ArrayList<>();
