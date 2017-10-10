@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import model.being.*;
 
 import model.collectable.AbstractCollectable;
+import model.collectable.AbstractWeapon;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
@@ -216,6 +217,7 @@ public class GameModel {
             }
 
         }
+
         for(AbstractCollectable ac : level.getCollectables()){
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }

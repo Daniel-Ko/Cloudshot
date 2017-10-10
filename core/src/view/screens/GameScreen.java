@@ -15,12 +15,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.mapObject.levels.LevelOne;
 import view.CloudShotGame;
 import view.HealthBar;
+import view.InventoryActor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +34,6 @@ public class GameScreen extends ScreenAdapter{
     public final int WORLD_WIDTH = 3000;
 
     private static final float PADDING = 10;
-
     public static final float FRAME_RATE = 0.09f;
 
     public static InputMultiplexer inputMultiplexer;
@@ -48,23 +50,50 @@ public class GameScreen extends ScreenAdapter{
     private GameModel gameModel;
     private Stage stage;
 
+    /**
+     * UI elements;
+     */
+    private TextButton startButton;
+    private TextButton mute;
+    private TextButton menu;
+    private TextButton load;
+    private Label levelText;
+    private Label inventoryText;
+    private InventoryActor inventoryActor;
+
 
     public GameScreen(Game game){
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
+        startButton = createSaveButton();
+        mute = createMuteButton();
+        menu = createMenuButton();
+        load = createLoadButton();
 
-        TextButton startButton = createSaveButton();
-        TextButton mute = createMuteButton();
-        TextButton menu = createMenuButton();
-        TextButton load = createLoadButton();
         stage.addActor(mute);
         stage.addActor(startButton);
         stage.addActor(menu);
         stage.addActor(load);
 
+        levelText = new Label("",CloudShotGame.gameSkin, "big");
+        levelText.setAlignment(Align.center);
+        levelText.setY(Gdx.graphics.getHeight() - 20);
+        levelText.setWidth(Gdx.graphics.getWidth());
+        levelText.setFontScale(1);
+        stage.addActor(levelText);
+
+        inventoryText = new Label("Inventory",CloudShotGame.gameSkin, "default");
+        inventoryText.setY(10);
+        inventoryText.setX(10);
+        inventoryText.setWidth(Gdx.graphics.getWidth());
+        inventoryText.setFontScale(1.5f);
+        stage.addActor(inventoryText);
+
+
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
         stage.addActor(healthBar);
+
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
 
@@ -72,13 +101,86 @@ public class GameScreen extends ScreenAdapter{
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-
         camera = new OrthographicCamera(VIEW_WIDTH/GameModel.PPM,((VIEW_WIDTH * (h / w))/GameModel.PPM));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        this.gameModel = new GameModel(/*new LevelOne(),*/camera);
+        gameModel = new GameModel(camera);
         gameModel.getTiledMapRenderer().setView(camera);
+
+        inventoryActor = new InventoryActor(gameModel.getPlayer());
+        inventoryActor.setY(10);
+        inventoryActor.setX(120);
+        stage.addActor(inventoryActor);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(camera.combined);
+
+        elapsedTime += delta;
+
+        gameModel.getTiledMapRenderer().setView(camera); // Game map.
+        gameModel.getTiledMapRenderer().render();
+
+        // Update the camera.
+        updateCamera();
+        camera.update();
+
+        // Update the game state.
+        gameModel.updateState(elapsedTime);
+
+
+        batch.begin();
+
+        drawLevelText();
+        gameModel.draw(batch);
+        batch.end();
+
+        healthBar.setValue(gameModel.getPlayer().getHealth()/150.0f);
+
+        stage.act();
+        stage.draw();
+    }
+
+    private void updateCamera() {
+        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+
+        camera.position.set(gameModel.getPlayer().getX(), /*camera.position.y*/gameModel.getPlayer().getY(),0);//lock camera to player's position
+
+        camera.position.x = MathUtils.clamp(camera.position.x,
+                effectiveViewportWidth / 2f,
+                WORLD_WIDTH - effectiveViewportWidth
+        );
+
+        camera.position.y = MathUtils.clamp(camera.position.y,
+                effectiveViewportHeight / 2f,
+                WORLD_HEIGHT - effectiveViewportHeight / 2f
+        );
+
+    }
+
+    public void drawLevelText(){
+        levelText.setText(gameModel.getLevel().getLevelName());
+
+    }
+
+    @Override
+    public void dispose () {
+        batch.dispose();
+        stage.dispose();
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+    public static void displayGameOverScreen(){
+        game.setScreen(new GameOverScreen(game));
     }
 
     private TextButton createSaveButton() {
@@ -168,74 +270,5 @@ public class GameScreen extends ScreenAdapter{
             }
         });
         return loadButton;
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-
-        elapsedTime += delta;
-
-        gameModel.getTiledMapRenderer().setView(camera); // Game map.
-        gameModel.getTiledMapRenderer().render();
-
-        // Update the camera.
-        updateCamera();
-        camera.update();
-
-        // Update the game state.
-        gameModel.updateState(elapsedTime);
-
-        // Render the game elements.
-
-        batch.begin();
-
-        drawLevelText();
-        gameModel.draw(batch);
-        batch.end();
-
-        healthBar.setValue(gameModel.getPlayer().getHealth()/150.0f);
-
-        stage.act();
-        stage.draw();
-    }
-
-    private void updateCamera() {
-        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
-        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
-
-        camera.position.set(gameModel.getPlayer().getX(), /*camera.position.y*/gameModel.getPlayer().getY(),0);//lock camera to player's position
-
-        camera.position.x = MathUtils.clamp(camera.position.x,
-                effectiveViewportWidth / 2f,
-                WORLD_WIDTH - effectiveViewportWidth
-        );
-
-        camera.position.y = MathUtils.clamp(camera.position.y,
-                effectiveViewportHeight / 2f,
-                WORLD_HEIGHT - effectiveViewportHeight / 2f
-        );
-
-    }
-
-    public void drawLevelText(){
-
-    }
-
-    @Override
-    public void dispose () {
-        batch.dispose();
-        stage.dispose();
-    }
-
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(inputMultiplexer);
-    }
-
-    public static void displayGameOverScreen(){
-        game.setScreen(new GameOverScreen(game));
     }
 }
