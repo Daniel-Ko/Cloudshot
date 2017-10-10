@@ -261,9 +261,9 @@ public class GameModel {
         }
     }
 
-    public void load() {
+    public void load(StateQuery loadFrom) {
         try {
-            StateQuery loader = repoScraper.load();
+            StateQuery loader = loadFrom;
 
             //beautiful waterfall design of method calls into assignments
             PlayerData loadedPlayerData = loader.loadPlayerData();

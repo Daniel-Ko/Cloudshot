@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import model.data.GameStateTransactionHandler;
+import model.data.StateQuery;
 import view.CloudShotGame;
 
 public class MenuScreen extends ScreenAdapter {
@@ -84,8 +86,11 @@ public class MenuScreen extends ScreenAdapter {
         loadButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // Load game here.
-                System.out.println("LOAD GAME");
+                try{
+                    StateQuery loader = new GameStateTransactionHandler().load();
+                } catch(GameStateTransactionHandler.InvalidTransactionException e) {
+
+                }
             }
 
             @Override
