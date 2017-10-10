@@ -58,6 +58,8 @@ public class GameModel {
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
 
+
+
         //Player setup
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
@@ -67,6 +69,7 @@ public class GameModel {
         //level setup
         this.level = new LevelOne();
         loadTerrain();
+
 
 
         loadMusic();
@@ -112,7 +115,7 @@ public class GameModel {
 
 
         //enemies.add(new Slime(20,player, new Vector2(70,500),world));
-        GameScreen.inputMultiplexer.addProcessor(player);
+        //GameScreen.inputMultiplexer.addProcessor(player);
 
         //generateCollidablePolygons();
 

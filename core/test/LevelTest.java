@@ -47,7 +47,7 @@ public class LevelTest extends GameTest{
 
     @Test
     public void testLevel04(){
-        //AbstractLevel level = new LevelOne();
+        AbstractLevel level = new LevelOne();
     }
 
 

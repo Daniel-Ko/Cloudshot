@@ -9,7 +9,7 @@
    eJztwwENAAAAwqDHsn8yi8DGqqmqqqqqqqqqqqqqqqqqqqqqqqqqqqqq2gElFCDM
   </data>
  </layer>
- <imagelayer name="Image Layer 1" visible="0">
+ <imagelayer name="Image Layer 1">
   <image source="textures/BG.png" width="3200" height="2400"/>
  </imagelayer>
  <layer name="Terrain" width="100" height="60">

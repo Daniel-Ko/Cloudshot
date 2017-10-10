@@ -44,8 +44,9 @@ public abstract class AbstractLevel {
 
 
     public AbstractLevel() {
-
-        //load information from .tmx file.
+        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
+        // load information from .tmx file.
         generateCollidablePolygons();
         loadCollectibles();
         loadEndPoint();
@@ -60,8 +61,6 @@ public abstract class AbstractLevel {
      */
     public void generateCollidablePolygons(){
 
-        tiledMap = new TmxMapLoader().load("levels/level"+getLevelNumber()+".tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,1/ GameModel.PPM);
         MapLayer layer = tiledMap.getLayers().get("Collisions");
         MapObjects objects = layer.getObjects();
         //add terrain to map.
