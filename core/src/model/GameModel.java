@@ -174,7 +174,15 @@ public class GameModel {
 
     public void draw(SpriteBatch sb){
 	    Player play = (Player) player;
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-0.9f,player.getY()-0.6f, 1.80f, 1.80f);
+	    float x = player.getX()-0.9f;
+	    float y = player.getY()-0.6f;
+	    float width = 1.80f;
+	    float height = 1.80f;
+        sb.draw(
+                player.getImage().getFrameFromTime(elapsedTime),
+                player.flip() ? x + width : x, y,
+                player.flip() ? -width : width, height
+        );
 
         //drawing player bullets
         for(BulletImpl b : play.getBullets()){

@@ -411,4 +411,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void setAimedAt(Vector2 aimedAt) {
 		this.aimedAt = aimedAt;
 	}
+
+	public boolean flip(){
+		return wasLeft;
+	}
 }
