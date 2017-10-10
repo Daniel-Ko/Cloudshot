@@ -52,6 +52,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	//for drawing using sprite batch
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;
+
 	public AbstractEnemy(GameModel gameModel, Vector2 pos){
 		this.game = gameModel;
 		this.world = gameModel.getWorld();

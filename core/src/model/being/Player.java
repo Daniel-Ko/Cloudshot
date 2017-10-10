@@ -176,7 +176,8 @@ public class Player extends AbstractPlayer {
 		if(!body.isPresent())throw new Error("Should only be called if a body and world has been init");
 
 		if(inAir &&  body.get().getLinearVelocity().x < maxSpeedInAir){
-			body.get().applyLinearImpulse(new Vector2(0.07f,0),body.get().getWorldCenter(),true);
+			body.get().applyLinearImpulse(new Vector2(0.02f,0),body.get().getWorldCenter(),true);
+			System.out.println("hehre");
 		}
 		else if(!inAir){
 			body.get().setLinearVelocity(maxSpeed,body.get().getLinearVelocity().y);
@@ -191,7 +192,8 @@ public class Player extends AbstractPlayer {
 
 		//restrict movement speed in air
 		if(inAir && body.get().getLinearVelocity().x>-maxSpeedInAir) {
-			body.get().applyLinearImpulse(new Vector2(-0.07f, 0), body.get().getWorldCenter(), true);
+			body.get().applyLinearImpulse(new Vector2(-0.02f, 0), body.get().getWorldCenter(), true);
+			System.out.println("hehre");
 		}
 		//On ground and not yet at max speed
 		else if(!inAir)
@@ -209,8 +211,8 @@ public class Player extends AbstractPlayer {
 			inAir =true;
 		}
 		//limiting jump speed
-		if(body.get().getLinearVelocity().y<maxSpeed && !inAir || doubleJump <= 1){
-			body.get().applyLinearImpulse(new Vector2(0,0.3f),body.get().getWorldCenter(),true);
+		if(body.get().getLinearVelocity().y<maxSpeed && !inAir || doubleJump < 1){
+			body.get().setLinearVelocity(new Vector2(0,7f));
 			this.grounded = false;
 			doubleJump++;
 			inAir = true;
