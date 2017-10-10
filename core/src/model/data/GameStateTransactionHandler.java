@@ -32,7 +32,7 @@ public class GameStateTransactionHandler {
         if(writeQuery(model, newState)) {
             commit(newState);
             File f = new File(".");
-            System.out.println(f.getAbsolutePath());
+            System.out.println(f.getAbsolutePath()); //print the path of where it was saved for testing
             return true;
         }
         return false;

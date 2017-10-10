@@ -48,7 +48,7 @@ public class GameModel {
 
     private Music music;
 
-    public GameModel(/*AbstractLevel level, */OrthographicCamera cam) {
+    public GameModel(OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
         world = new World(new Vector2(0, GRAVITY), true);
@@ -99,7 +99,7 @@ public class GameModel {
 
         loadMusic();
         //boss
-       // enemies.add(new BossTwo(this,new Vector2(300,500)));
+        //enemies.add(new BossTwo(this,new Vector2(300,500)));
 
         enemies.add(new SpikeBlock(this,new Vector2(800,400)));
         enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
@@ -194,8 +194,8 @@ public class GameModel {
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX()-ae.getDrawingWidth()/2,ae.getY()-ae.getDrawingHeight()/4,ae.getDrawingWidth(),ae.getDrawingHeight());
             if(ae instanceof ShootingEnemy){
                 ShootingEnemy s = (ShootingEnemy)ae;
-                for(BulletImpl b : s.bullets)
-                    sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                for(BulletImpl b : s.getBullets())
+                    sb.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
             if(ae instanceof SpikeBlock){
                 SpikeBlock s = (SpikeBlock)ae;
@@ -336,7 +336,7 @@ public class GameModel {
 
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
-        //end
+        player.setCamera(cam);
 
         GameScreen.inputMultiplexer.addProcessor(player);
 

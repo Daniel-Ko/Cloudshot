@@ -10,7 +10,7 @@ package model.being;
  *
  * @author Jeremy Southon
  * */
-public class MeleeAttack implements EnemyState {
+public class MeleeAttack implements EnemyState, java.io.Serializable {
 
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {

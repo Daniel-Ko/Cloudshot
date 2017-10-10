@@ -29,19 +29,19 @@ public class Player extends AbstractPlayer {
 
 
 
-	private CustomSprite current;
+	private transient CustomSprite current;
 
-	private CustomSprite idle_right;
-	private CustomSprite attack_right;
-	private CustomSprite jump_right;
-	private CustomSprite walk_right;
-	private CustomSprite death;
+	private transient CustomSprite idle_right;
+	private transient CustomSprite attack_right;
+	private transient CustomSprite jump_right;
+	private transient CustomSprite walk_right;
+	private transient CustomSprite death;
 
 
-	private CustomSprite idle_left;
-	private CustomSprite attack_left;
-	private CustomSprite jump_left;
-	private CustomSprite walk_left;
+	private transient CustomSprite idle_left;
+	private transient CustomSprite attack_left;
+	private transient CustomSprite jump_left;
+	private transient CustomSprite walk_left;
 
 	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
@@ -254,7 +254,7 @@ public class Player extends AbstractPlayer {
 		//JUMPING ANIMATION
 		if(this.inAir){
 			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
-			if(movingLeft)
+			if(wasLeft)
 				jump.flipHorizontal();
 			return jump;
 		}
@@ -263,7 +263,7 @@ public class Player extends AbstractPlayer {
 			if(body.get().getLinearVelocity().x == 0 && body.get().getLinearVelocity().y == 0){
 				MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
 				//idle
-				if(movingLeft) {
+				if(wasLeft) {
 					idle.flipHorizontal();
 					return idle;
 				}

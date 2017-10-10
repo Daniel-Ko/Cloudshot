@@ -10,11 +10,12 @@ import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
 public class Rogue extends AbstractEnemy {
-    MovingSprite attack_right;
-    MovingSprite attack_left;
-    MovingSprite walk_right;
-    MovingSprite walk_left;
-    MovingSprite idle;
+    private transient MovingSprite attack_right;
+    private transient MovingSprite attack_left;
+    private transient MovingSprite walk_right;
+    private transient MovingSprite walk_left;
+    private transient MovingSprite idle;
+
     public Rogue(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
         this.detectionRadius = 4;
