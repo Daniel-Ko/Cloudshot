@@ -56,9 +56,11 @@ public class GameScreen extends ScreenAdapter{
         TextButton startButton = createSaveButton();
         TextButton mute = createMuteButton();
         TextButton menu = createMenuButton();
+        TextButton load = createLoadButton();
         stage.addActor(mute);
         stage.addActor(startButton);
         stage.addActor(menu);
+        stage.addActor(load);
 
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
@@ -143,6 +145,29 @@ public class GameScreen extends ScreenAdapter{
             }
         });
         return menu;
+    }
+
+    private TextButton createLoadButton() {
+        TextButton loadButton = new TextButton("Load", CloudShotGame.gameSkin);
+        loadButton.setWidth(Gdx.graphics.getWidth()/8);
+        loadButton.setPosition(
+                Gdx.graphics.getWidth() - loadButton.getWidth()*4 - PADDING*4,
+                PADDING
+
+        );
+        loadButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // Load game here.
+                System.out.println("LOAD GAME");
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return loadButton;
     }
 
     @Override
