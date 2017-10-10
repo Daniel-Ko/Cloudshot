@@ -4,7 +4,7 @@ package model.being;
 
 import java.util.Random;
 
-public class IdleMovement implements EnemyState{
+public class IdleMovement implements EnemyState, java.io.Serializable{
     private float idleMovementSpeed = 1f;
     @Override
     public void update(AbstractEnemy e, AbstractPlayer player) {

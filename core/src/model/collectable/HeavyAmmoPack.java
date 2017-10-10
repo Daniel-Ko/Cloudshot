@@ -7,7 +7,8 @@ import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
 public class HeavyAmmoPack extends AbstractBuff {
-	CustomSprite image;
+	private transient CustomSprite image;
+
 	public HeavyAmmoPack(Vector2 position, float width, float height) {
 		super(position, width, height);
 		image = new StaticSprite("ammo.png");

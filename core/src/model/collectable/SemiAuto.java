@@ -16,9 +16,9 @@ public class SemiAuto extends AbstractWeapon{
 
     protected final float SemiAuto_DAMAGE = 4;
 
-    private CustomSprite image;
+    private transient CustomSprite image;
 
-    private CustomSprite bulImage;
+    private transient CustomSprite bulImage;
 
     public SemiAuto(Vector2 position, float width, float height) {
         super(position, width, height);

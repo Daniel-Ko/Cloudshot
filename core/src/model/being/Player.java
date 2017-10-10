@@ -29,19 +29,19 @@ public class Player extends AbstractPlayer {
 
 
 
-	private CustomSprite current;
+	private transient CustomSprite current;
 
-	private CustomSprite idle_right;
-	private CustomSprite attack_right;
-	private CustomSprite jump_right;
-	private CustomSprite walk_right;
-	private CustomSprite death;
+	private transient CustomSprite idle_right;
+	private transient CustomSprite attack_right;
+	private transient CustomSprite jump_right;
+	private transient CustomSprite walk_right;
+	private transient CustomSprite death;
 
 
-	private CustomSprite idle_left;
-	private CustomSprite attack_left;
-	private CustomSprite jump_left;
-	private CustomSprite walk_left;
+	private transient CustomSprite idle_left;
+	private transient CustomSprite attack_left;
+	private transient CustomSprite jump_left;
+	private transient CustomSprite walk_left;
 
 	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();

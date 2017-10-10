@@ -66,9 +66,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected Vector2 aimedAt = new Vector2(50,50);
 
 	//Box2D
-	protected Optional<World> world;
-	protected Optional<Body> body;
-	protected FixtureDef playerProperties;
+	protected transient Optional<World> world;
+	protected transient Optional<Body> body;
+	protected transient FixtureDef playerProperties;
 
 	//Used for converting mouse pressed coords into world coords
 	private OrthographicCamera cam;

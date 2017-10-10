@@ -14,8 +14,8 @@ public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 25;
 	protected final int SHOTGUN_DAMAGE = 6;
-	private MovingSprite bulImage;
-	private StaticSprite image;
+	private transient MovingSprite bulImage;
+	private transient StaticSprite image;
 	
 
 	public Shotgun(Vector2 position, float width, float height) {

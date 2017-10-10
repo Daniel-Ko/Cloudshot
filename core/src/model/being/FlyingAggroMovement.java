@@ -12,7 +12,7 @@ package model.being;
  * @author Jeremy Southon
  *
  * */
-public class FlyingAggroMovement implements EnemyState {
+public class FlyingAggroMovement implements EnemyState, java.io.Serializable{
 
     @Override
     public void update(AbstractEnemy e, AbstractPlayer player) {
