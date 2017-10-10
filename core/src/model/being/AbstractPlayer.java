@@ -21,11 +21,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 
-/**
- * Provides basic character structure, location, size etc.
- * 
- * @author Jeremy Southon
- */
 public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor, java.io.Serializable{
 
 	private static final long serialVersionUID = 1313414442696252302L;

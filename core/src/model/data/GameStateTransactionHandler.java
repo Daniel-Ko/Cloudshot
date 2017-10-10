@@ -60,7 +60,7 @@ public class GameStateTransactionHandler {
      *
      * @return
      */
-    public StateQuery load() {
+    public StateQuery load() throws InvalidTransactionException {
         GameState latest = repository.pullSoft(); //TODO is pullSoft necessary?
 
         if(!latest.containsPlayer() || !latest.containsEnemies()) {
