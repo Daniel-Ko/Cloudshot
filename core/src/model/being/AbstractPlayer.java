@@ -57,6 +57,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected boolean attacking;
 	protected boolean movingLeft;
 	protected boolean movingRight;
+	//used for drawing the player in the correct direction
+	protected boolean wasLeft;
 	
 	// Players inventory
 	protected List<AbstractWeapon> inventory;
@@ -192,10 +194,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 			case Input.Keys.A:
 				movingLeft = true;
 				movingRight = false;
+				wasLeft = true;
 				break;
 			case Input.Keys.D:
 				movingRight = true;
 				movingLeft = false;
+				wasLeft = false;
 				break;
 			case Input.Keys.F:
 				attacking = true;
