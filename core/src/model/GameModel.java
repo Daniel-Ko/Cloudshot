@@ -48,7 +48,7 @@ public class GameModel {
 
     private Music music;
 
-    public GameModel(/*AbstractLevel level, */OrthographicCamera cam) {
+    public GameModel(OrthographicCamera cam) {
         //Box2D
         this.cam = cam;
         world = new World(new Vector2(0, GRAVITY), true);
@@ -96,7 +96,7 @@ public class GameModel {
 
         loadMusic();
         //boss
-       // enemies.add(new BossTwo(this,new Vector2(300,500)));
+        //enemies.add(new BossTwo(this,new Vector2(300,500)));
 
         enemies.add(new SpikeBlock(this,new Vector2(800,400)));
         enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
@@ -327,7 +327,7 @@ public class GameModel {
 
         player = new Player();
         player.initBox2D(world,new Vector2(50,500));
-        //end
+        player.setCamera(cam);
 
         GameScreen.inputMultiplexer.addProcessor(player);
 

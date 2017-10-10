@@ -254,7 +254,7 @@ public class Player extends AbstractPlayer {
 		//JUMPING ANIMATION
 		if(this.inAir){
 			MovingSprite jump = new MovingSprite("player_jump.png", 2, 3);
-			if(movingLeft)
+			if(wasLeft)
 				jump.flipHorizontal();
 			return jump;
 		}
@@ -263,7 +263,7 @@ public class Player extends AbstractPlayer {
 			if(body.get().getLinearVelocity().x == 0 && body.get().getLinearVelocity().y == 0){
 				MovingSprite idle = new MovingSprite("player_idle.png", 2, 2);
 				//idle
-				if(movingLeft) {
+				if(wasLeft) {
 					idle.flipHorizontal();
 					return idle;
 				}
