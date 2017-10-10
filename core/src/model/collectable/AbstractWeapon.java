@@ -14,7 +14,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	
 	protected int ammo;
 	private float damage;
-	private Texture gunImage;
+	private transient Texture gunImage;
 
 	public AbstractWeapon(Vector2 position, float width, float height) {
 		super(position, width, height);

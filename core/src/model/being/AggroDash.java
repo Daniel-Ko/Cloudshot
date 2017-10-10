@@ -2,7 +2,7 @@ package model.being;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class AggroDash implements EnemyState {
+public class AggroDash implements EnemyState, java.io.Serializable {
     private Vector2 target_pos;
     private long timeBetweenLastDash = 0;
 

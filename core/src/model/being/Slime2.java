@@ -17,14 +17,15 @@ public class Slime2 extends AbstractEnemy{
     private String walking = "Skeleton Walk.png";
     private String attacking = "Skeleton Walk.png";
 
-    private CustomSprite attack_left;
-    private CustomSprite attack_right;
-    private CustomSprite dead;
-    private CustomSprite idle;
-    private CustomSprite walk;
-    private CustomSprite walk_l;
+    private transient  CustomSprite attack_left;
+    private transient  CustomSprite attack_right;
+    private transient  CustomSprite dead;
+    private transient CustomSprite idle;
+    private transient CustomSprite walk;
+    private transient CustomSprite walk_l;
 
     private Vector2 initPos;
+
     public Slime2(GameModel gameModel, Vector2 pos){
         super(gameModel,pos);
         initPos = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);

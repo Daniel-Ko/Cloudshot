@@ -11,6 +11,8 @@ import view.sprites.StaticSprite;
 public class BossTwo extends AbstractEnemy{
     private int detectionRadius = 100;
     private int attackRadius = 2;
+
+
     public BossTwo(GameModel gameModel, Vector2 pos) {
         super(gameModel, pos);
         drawingWidth = 4;

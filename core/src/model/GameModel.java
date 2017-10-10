@@ -199,8 +199,8 @@ public class GameModel {
             sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX()-ae.getDrawingWidth()/2,ae.getY()-ae.getDrawingHeight()/4,ae.getDrawingWidth(),ae.getDrawingHeight());
             if(ae instanceof ShootingEnemy){
                 ShootingEnemy s = (ShootingEnemy)ae;
-                for(BulletImpl b : s.bullets)
-                    sb.draw(s.bulletSprite.getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+                for(BulletImpl b : s.getBullets())
+                    sb.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             }
             if(ae instanceof SpikeBlock){
                 SpikeBlock s = (SpikeBlock)ae;

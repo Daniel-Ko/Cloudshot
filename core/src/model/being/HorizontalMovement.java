@@ -2,7 +2,7 @@ package model.being;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class HorizontalMovement implements EnemyState {
+public class HorizontalMovement implements EnemyState, java.io.Serializable {
 
     //range of how much it can move
     private float range =3;
