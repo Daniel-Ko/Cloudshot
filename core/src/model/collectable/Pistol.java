@@ -14,7 +14,7 @@ public class Pistol extends AbstractWeapon{
 	
 	public final int MAX_AMMO = 50;
 
-	protected final float PISTOL_DAMAGE = 4;
+	protected final float PISTOL_DAMAGE = 8;
 
 	private transient CustomSprite image;
 
@@ -26,7 +26,7 @@ public class Pistol extends AbstractWeapon{
 	public Pistol(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.setDamage(PISTOL_DAMAGE);
-		bulImage = new MovingSprite("bullet.png", 3, 2);
+		bulImage = new StaticSprite("bullet.png");
 		this.image = new StaticSprite("pistol.png");
 		this.ammo = MAX_AMMO;
 	}
@@ -43,9 +43,6 @@ public class Pistol extends AbstractWeapon{
 
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
-		//shoots single pistol bullet.
-		//dont shoot if theres no ammo
-		System.out.println("gets here");
 
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();

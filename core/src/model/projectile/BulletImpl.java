@@ -8,7 +8,6 @@ import model.GameModel;
 import model.GameObjectInterface;
 import model.being.AbstractEnemy;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.
@@ -27,8 +26,11 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	private float xVel;
 	private float yVel;
 	private CustomSprite image;
+
+
+	private double angle;
 	private boolean toRemove = false;
-	private boolean playerBullet;
+	private boolean rotation = true;
 
 
 	public BulletImpl(Vector2 startingPos) {
@@ -36,10 +38,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	}
 
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
-		this.pos = new Vector2(start.x,start.y);
-		this.startingPos = new Vector2(start.x,start.y);;
+		this.pos = new Vector2(start.x,start.y + 0.3f);
+		this.startingPos = new Vector2(start.x,start.y + 0.3f);
 		this.endPos = new Vector2(end.x, end.y);
-
 		this.damage = damage;
 		this.image = t;
 		///this.playerBullet = owner;
@@ -53,16 +54,33 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		float mag = (float) java.lang.Math.hypot(tX, tY);
 		tX/=mag;
 	    tY/=mag;
-		//float signed_angle = java.lang.Math.atan2((startingPos.y),(startingPos.x) - java.lang.Math.atan2((endPos.y),(endPos.x));
-		//this.image.setRotation(signed_angle)
+//		this.angle = java.lang.Math.atan2(endPos.y, endPos.x) -java.lang.Math.atan2(startingPos.y, startingPos.x);
+//		if(startingPos.x*endPos.y - startingPos.y*endPos.x < 0) {
+//			angle = -angle;
+//		}
+//
+//
+//		this.angle *= 180/Math.PI;
 
-	    //scaling speed
+
+
+
+		System.out.println("andgle = " + this.getAngle());
+		//scaling speed
 	    tX*=speed/GameModel.PPM;;
 	    tY*=speed/GameModel.PPM;;
 	    xVel = tX;
 	    yVel = tY;
 	}
-	
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see model.GameObjectInterface#getX()
 	 */
@@ -165,12 +183,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	/**
 	 * @return the playerBullet
 	 */
-	public boolean isPlayerBullet() {
-		return playerBullet;
-	}
-	/**
-	 * @return the pos
-	 */
+
 	public Vector2 getPos() {
 		return pos;
 	}
@@ -180,6 +193,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	 */
 	public void setPos(Vector2 pos) {
 		this.pos = pos;
+	}
+	public boolean isRotation() {
+		return rotation;
 	}
 	
 }

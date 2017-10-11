@@ -13,8 +13,8 @@ import view.sprites.StaticSprite;
 public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 25;
-	protected final int SHOTGUN_DAMAGE = 6;
-	private transient MovingSprite bulImage;
+	protected final int SHOTGUN_DAMAGE = 8;
+	private transient StaticSprite bulImage;
 	private transient StaticSprite image;
 	
 
@@ -22,13 +22,12 @@ public class Shotgun extends AbstractWeapon {
 		super(position, width, height);
 		this.ammo = MAX_AMMO;
 		this.setDamage(SHOTGUN_DAMAGE);
-		bulImage = new MovingSprite("bullet.png", 3, 2);
+		bulImage = new StaticSprite("bullet.png");
 		image = new StaticSprite("shotgun.png");
 	}
 
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
-		//System.out.println("gets here");
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();		
 		this.ammo --;
