@@ -47,10 +47,10 @@ public class LevelOne extends AbstractLevel {
         spawnRates.put(0,"HealthPack");
         spawnRates.put(1,"HealthPack");
         spawnRates.put(2,"HealthPack");
-        spawnRates.put(3,"DeathPack");
-        spawnRates.put(4,"Pistol");
-        spawnRates.put(5,"Pistol");
-        spawnRates.put(6,"HeavyAmmoPack");
+        spawnRates.put(3,"Sniper");
+        spawnRates.put(4,"Sniper");
+        spawnRates.put(5,"Sniper");
+        spawnRates.put(6,"Sniper");
         spawnRates.put(7,"HeavyAmmoPack");
         spawnRates.put(8,"Shotgun");
         spawnRates.put(9,"Shotgun");

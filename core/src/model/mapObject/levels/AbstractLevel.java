@@ -78,7 +78,7 @@ public abstract class AbstractLevel {
 
             AbstractCollectable collectable;
             if (r.getProperties().get("Type") != null) {
-                collectable = new Pistol(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                collectable = new SemiAuto(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
             } else {
                 int rand = (int) (Math.random() * 10);
                 collectable = getCollectableFromRand(rand, r);

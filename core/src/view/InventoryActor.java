@@ -3,7 +3,7 @@ package view;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import model.being.AbstractPlayer;
+import model.being.player.AbstractPlayer;
 import model.collectable.AbstractWeapon;
 
 import java.util.List;
