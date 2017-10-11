@@ -12,22 +12,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import view.CloudShotGame;
+import view.labels.GameOverLabel;
 
 public class GameOverScreen extends ScreenAdapter {
 
-    private Game game;
     private Stage stage;
 
-    public GameOverScreen(Game game){
-        this.game = game;
+    public GameOverScreen(){
         this.stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Game Over", CloudShotGame.gameSkin, "title");
-        title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight()*2/3);
-        title.setWidth(Gdx.graphics.getWidth());
-        title.setFontScale(1.5f);
-        stage.addActor(title);
+        stage.addActor(new GameOverLabel().createLabel());
 
         TextButton restartButton = createRestartButton();
         stage.addActor(restartButton);
@@ -43,7 +37,7 @@ public class GameOverScreen extends ScreenAdapter {
         restartButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                MenuScreen.game.setScreen(new GameScreen());
             }
 
             @Override
