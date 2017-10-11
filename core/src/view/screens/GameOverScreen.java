@@ -15,11 +15,9 @@ import view.CloudShotGame;
 
 public class GameOverScreen extends ScreenAdapter {
 
-    private Game game;
     private Stage stage;
 
-    public GameOverScreen(Game game){
-        this.game = game;
+    public GameOverScreen(){
         this.stage = new Stage(new ScreenViewport());
 
         Label title = new Label("Game Over", CloudShotGame.gameSkin, "title");
@@ -43,7 +41,7 @@ public class GameOverScreen extends ScreenAdapter {
         restartButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                MenuScreen.game.setScreen(new GameScreen());
             }
 
             @Override

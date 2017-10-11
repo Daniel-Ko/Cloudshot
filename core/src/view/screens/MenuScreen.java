@@ -17,7 +17,7 @@ import view.CloudShotGame;
 
 public class MenuScreen extends ScreenAdapter {
 
-    private Game game;
+    public static Game game;
     private Stage stage;
 
     public MenuScreen(Game game){
@@ -65,7 +65,7 @@ public class MenuScreen extends ScreenAdapter {
         startButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
             }
 
             @Override

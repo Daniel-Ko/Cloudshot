@@ -41,7 +41,6 @@ public class GameScreen extends ScreenAdapter{
     public static final int VIEW_WIDTH = 1000;
 
     private SpriteBatch batch;
-    private static Game game;
 
     private OrthographicCamera camera;
 
@@ -62,8 +61,7 @@ public class GameScreen extends ScreenAdapter{
     private InventoryActor inventoryActor;
 
 
-    public GameScreen(Game game){
-        this.game = game;
+    public GameScreen(){
         this.stage = new Stage(new ScreenViewport());
         startButton = createSaveButton();
         mute = createMuteButton();
@@ -180,7 +178,7 @@ public class GameScreen extends ScreenAdapter{
     }
 
     public static void displayGameOverScreen(){
-        game.setScreen(new GameOverScreen(game));
+        MenuScreen.game.setScreen(new GameOverScreen());
     }
 
     private TextButton createSaveButton() {
@@ -239,7 +237,7 @@ public class GameScreen extends ScreenAdapter{
         menu.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new MenuScreen(game));
+                MenuScreen.game.setScreen(new MenuScreen(MenuScreen.game));
             }
 
             @Override
