@@ -26,6 +26,7 @@ import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
+import model.mapObject.levels.LevelThree;
 import model.projectile.BulletImpl;
 import view.screens.GameScreen;
 
