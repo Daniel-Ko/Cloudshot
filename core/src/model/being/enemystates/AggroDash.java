@@ -1,6 +1,8 @@
-package model.being;
+package model.being.enemystates;
 
 import com.badlogic.gdx.math.Vector2;
+import model.being.player.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
 
 public class AggroDash implements EnemyState, java.io.Serializable {
     private Vector2 target_pos;
@@ -34,10 +36,10 @@ public class AggroDash implements EnemyState, java.io.Serializable {
             timeBetweenLastDash = System.currentTimeMillis()/1000;
             if(target_pos.x<=e.getX()){
                 //Dash to left
-                e.body.setLinearVelocity(-dashSpeed,e.body.getLinearVelocity().y);
+                e.getBody().setLinearVelocity(-dashSpeed,e.getBody().getLinearVelocity().y);
             }else if(target_pos.x>e.getX()){
                 //Dash to right
-                e.body.setLinearVelocity(dashSpeed,e.body.getLinearVelocity().y);
+                e.getBody().setLinearVelocity(dashSpeed,e.getBody().getLinearVelocity().y);
             }
         }
     }
@@ -62,7 +64,7 @@ public class AggroDash implements EnemyState, java.io.Serializable {
     @Override
     public void damage(AbstractEnemy e, int damage) {
         e.internalDamage(damage);
-        if(e.health <= 0){
+        if(e.getHealth() <= 0){
             e.enemyState = new Death();
         }
     }

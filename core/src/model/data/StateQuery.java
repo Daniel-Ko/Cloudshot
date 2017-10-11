@@ -1,9 +1,7 @@
 package model.data;
 
-import model.being.AbstractEnemy;
-import model.being.AbstractPlayer;
-import model.being.Player;
-import model.being.PlayerData;
+import model.being.enemies.AbstractEnemy;
+import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
 
 import java.util.Collections;

@@ -1,13 +1,9 @@
 package model.data;
 
 import com.badlogic.gdx.Preferences;
-import model.being.AbstractEnemy;
-import model.being.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 /**

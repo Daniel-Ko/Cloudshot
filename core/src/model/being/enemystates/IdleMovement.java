@@ -1,6 +1,9 @@
-package model.being;
+package model.being.enemystates;
 
 //import com.sun.jmx.snmp.EnumRowStatus;
+
+import model.being.player.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
 
 import java.util.Random;
 
@@ -11,9 +14,9 @@ public class IdleMovement implements EnemyState, java.io.Serializable{
         Random r = new Random();
         int i = r.nextInt(10 - 1 + 1) + 1;
         if(i<8){
-            e.body.setLinearVelocity(idleMovementSpeed,e.body.getLinearVelocity().y);
+            e.getBody().setLinearVelocity(idleMovementSpeed,e.getBody().getLinearVelocity().y);
         }else {
-            e.body.setLinearVelocity(-idleMovementSpeed,e.body.getLinearVelocity().y);
+            e.getBody().setLinearVelocity(-idleMovementSpeed,e.getBody().getLinearVelocity().y);
         }
 
     }
@@ -27,7 +30,7 @@ public class IdleMovement implements EnemyState, java.io.Serializable{
     @Override
     public void damage(AbstractEnemy e, int damage) {
         e.internalDamage(damage);
-        if(e.health <= 0){
+        if(e.getHealth() <= 0){
             e.enemyState = new Death();
         }
     }

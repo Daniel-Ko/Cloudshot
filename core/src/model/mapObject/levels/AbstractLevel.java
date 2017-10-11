@@ -12,8 +12,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
-import model.being.AbstractEnemy;
-import model.being.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 import model.collectable.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,7 @@
-package model.being;
+package model.being.enemystates;
+
+import model.being.player.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
 
 /**
  * MeleeAttackState - pre-conditions: changes to this state when enemy is the specified distance away
@@ -19,14 +22,14 @@ public class MeleeAttack implements EnemyState, java.io.Serializable {
 
     @Override
     public int attack(AbstractEnemy e, AbstractPlayer p) {
-        p.hit(e.damage);
-        return (int)e.damage;
+        p.hit(e.getDamage());
+        return (int)e.getDamage();
     }
 
     @Override
     public void damage(AbstractEnemy e, int damage) {
         e.internalDamage(damage);
-        if(e.health <= 0){
+        if(e.getHealth() <= 0){
             e.enemyState = new Death();
         }
     }

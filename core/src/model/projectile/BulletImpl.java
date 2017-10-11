@@ -6,9 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.GameModel;
 import model.GameObjectInterface;
-import model.being.AbstractEnemy;
+import model.being.enemies.AbstractEnemy;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.

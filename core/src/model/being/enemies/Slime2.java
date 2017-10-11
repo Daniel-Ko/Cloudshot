@@ -1,11 +1,12 @@
-package model.being;
+package model.being.enemies;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
+import model.being.enemystates.*;
+import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
@@ -79,7 +80,7 @@ public class Slime2 extends AbstractEnemy{
     protected boolean attack() {
         if(position.dst(player.getPos())<attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             //attackState
-            if(!(enemyState instanceof  MeleeAttack))enemyState = new MeleeAttack();
+            if(!(enemyState instanceof MeleeAttack))enemyState = new MeleeAttack();
             enemyState.attack(this,player);
             return true;
         }

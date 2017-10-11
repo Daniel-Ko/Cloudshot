@@ -7,7 +7,7 @@ import model.GameModel;
 import model.GameObjectInterface;
 
 
-import model.being.AbstractPlayer;
+import model.being.player.AbstractPlayer;
 
 
 import view.sprites.CustomSprite;

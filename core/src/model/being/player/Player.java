@@ -1,8 +1,9 @@
-package model.being;
+package model.being.player;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import model.GameModel;
+import model.being.enemies.AbstractEnemy;
 import model.collectable.AbstractWeapon;
 import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
@@ -250,27 +251,24 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public CustomSprite getImage() {
-
+        //FIXME currently no death
 		if (playerState == player_state.DEAD) {
 			return death;
 		}
-
+        //ATTACKING
 		if (getIsAttacking()) {
 			return attack;
 		}
-		//FIXME temp effect for inAir
 		//JUMPING ANIMATION
 		if (this.inAir) {
 			return jump;
 		}
-
 		//IDLE ANIMATION
 		if (body.isPresent()) {
 			if (body.get().getLinearVelocity().x == 0 && body.get().getLinearVelocity().y == 0) {
 				return idle;
 			}
 		}
-
 		return walk;
 	}
 

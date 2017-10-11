@@ -1,10 +1,14 @@
-package model.being;
+package model.being.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
+import model.being.player.AbstractPlayer;
+import model.being.enemystates.Death;
+import model.being.enemystates.IdleMovement;
+import model.being.enemystates.ShooterAttack;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
@@ -62,7 +66,7 @@ public class ShootingEnemy extends AbstractEnemy{
 	}
 
 	private void loadImages(){
-		this.bulletSprite =  new StaticSprite("magic.png");
+		this.bulletSprite =  new StaticSprite("arrow.png");
 		this.attacking = new MovingSprite("archer_attack.png",1,10);
 		this.attack_left = new MovingSprite("archer_attack_left.png",1,10);
 
@@ -102,7 +106,7 @@ public class ShootingEnemy extends AbstractEnemy{
 	 * */
 	private void checkForStateChange(){
 		if(state == enemy_state.EDEAD)return;
-		if(position.dst(player.pos)<attackRadius){
+		if(position.dst(player.getPos())<attackRadius){
 			if(enemyState instanceof ShooterAttack)return;
 			ShooterAttack shootState = new ShooterAttack();
 			shootState.setSecondsBetweenShots(0);

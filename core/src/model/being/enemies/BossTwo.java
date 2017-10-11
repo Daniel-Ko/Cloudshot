@@ -1,10 +1,15 @@
-package model.being;
+package model.being.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
+import model.being.enemystates.Death;
+import model.being.enemystates.FlyingAggroMovement;
+import model.being.enemystates.IdleMovement;
+import model.being.enemystates.MeleeAttack;
+import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 

@@ -1,6 +1,5 @@
-package model.being;
+package model.being.enemies;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -9,6 +8,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameObjectInterface;
+import model.being.player.AbstractPlayer;
+import model.being.enemystates.EnemyState;
+import model.being.EntityInterface;
+import model.being.enemystates.IdleMovement;
 import view.sprites.CustomSprite;
 
 /**
@@ -122,7 +125,19 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public int getHealth(){return this.health;}
 	public void setPosition(Vector2 pos){this.position = pos;}
 	public Rectangle getBoundingBox(){return boundingBox;}
-
+	/**Returns this enemy's box 2D body
+	 * @return Box2D body or null
+	 * */
+	public Body getBody(){
+		return body;
+	}
+	/**
+	 *
+	 * @return Box2D world object which contains all our games bodies*/
+	public World getWorld(){
+		return this.world;
+	}
+	public float getDamage(){return this.damage;}
 	public Vector2 getPosition() {
 		return position;
 	}

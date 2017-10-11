@@ -2,8 +2,8 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.being.AbstractPlayer;
-import model.being.Player;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
