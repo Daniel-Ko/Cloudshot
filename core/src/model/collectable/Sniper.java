@@ -43,7 +43,9 @@ public class Sniper extends AbstractWeapon {
         if(this.ammo <= 0){return null;}
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
-        bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage()));
+        BulletImpl bul = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage());
+        bul.setSpeed(5);
+        bullets.add(bul);
         return bullets;
     }
     @Override

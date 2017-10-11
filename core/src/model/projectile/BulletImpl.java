@@ -22,6 +22,11 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	
 
 	protected float damage;
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
 	protected float speed = 3;
 	private float xVel;
 	private float yVel;
