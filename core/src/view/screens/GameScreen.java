@@ -26,6 +26,8 @@ import model.mapObject.levels.LevelOne;
 import view.CloudShotGame;
 import view.HealthBar;
 import view.InventoryActor;
+import view.labels.InventoryLabel;
+import view.labels.LevelLabel;
 
 import java.util.concurrent.TimeUnit;
 
@@ -75,20 +77,11 @@ public class GameScreen extends ScreenAdapter{
         stage.addActor(menu);
         stage.addActor(load);
 
-        levelText = new Label("",CloudShotGame.gameSkin, "big");
-        levelText.setAlignment(Align.center);
-        levelText.setY(Gdx.graphics.getHeight() - 20);
-        levelText.setWidth(Gdx.graphics.getWidth());
-        levelText.setFontScale(1);
+        levelText = new LevelLabel().createLabel();
         stage.addActor(levelText);
 
-        inventoryText = new Label("Inventory",CloudShotGame.gameSkin, "default");
-        inventoryText.setY(10);
-        inventoryText.setX(10);
-        inventoryText.setWidth(Gdx.graphics.getWidth());
-        inventoryText.setFontScale(1.5f);
+        inventoryText = new InventoryLabel().createLabel();
         stage.addActor(inventoryText);
-
 
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
@@ -135,7 +128,7 @@ public class GameScreen extends ScreenAdapter{
 
         batch.begin();
 
-        drawLevelText();
+        levelText.setText(gameModel.getLevel().getLevelName());
         gameModel.draw(batch);
         batch.end();
 
@@ -163,10 +156,6 @@ public class GameScreen extends ScreenAdapter{
 
     }
 
-    public void drawLevelText(){
-        levelText.setText(gameModel.getLevel().getLevelName());
-
-    }
 
     @Override
     public void dispose () {

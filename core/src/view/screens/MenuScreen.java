@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import view.CloudShotGame;
+import view.labels.LabelFactory;
+import view.labels.MainMenuLabel;
 
 public class MenuScreen extends ScreenAdapter {
 
@@ -24,12 +24,7 @@ public class MenuScreen extends ScreenAdapter {
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Main Menu", CloudShotGame.gameSkin, "title");
-        title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight()*2/3);
-        title.setWidth(Gdx.graphics.getWidth());
-        title.setFontScale(1);
-        stage.addActor(title);
+        stage.addActor(new MainMenuLabel().createLabel());
 
         TextButton startButton = createStartButton();
         TextButton loadButton = createLoadButton();
