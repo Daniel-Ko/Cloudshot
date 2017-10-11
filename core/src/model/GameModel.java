@@ -200,7 +200,7 @@ public class GameModel {
             //sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
             sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,
                     0f, 0f,
-                    0.5f,0.5f,
+                    0.1f,0.1f,
                     1.0f, 1.0f,
                     60f, true);
 
