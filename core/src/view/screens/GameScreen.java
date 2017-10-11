@@ -1,35 +1,29 @@
 package view.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.data.GameStateTransactionHandler;
-import model.data.StateQuery;
-import model.mapObject.levels.LevelOne;
 import view.CloudShotGame;
 import view.HealthBar;
 import view.InventoryActor;
+import view.buttons.LoadButton;
+import view.buttons.MenuButton;
+import view.buttons.MuteButton;
+import view.buttons.SaveButton;
 import view.labels.InventoryLabel;
 import view.labels.LevelLabel;
-
-import java.util.concurrent.TimeUnit;
 
 public class GameScreen extends ScreenAdapter{
 
@@ -56,26 +50,19 @@ public class GameScreen extends ScreenAdapter{
     /**
      * UI elements;
      */
-    private TextButton startButton;
+    private TextButton save;
     private TextButton mute;
     private TextButton menu;
     private TextButton load;
+
     private Label levelText;
     private Label inventoryText;
+
     private InventoryActor inventoryActor;
 
 
     public GameScreen(){
         this.stage = new Stage(new ScreenViewport());
-        startButton = createSaveButton();
-        mute = createMuteButton();
-        menu = createMenuButton();
-        load = createLoadButton();
-
-        stage.addActor(mute);
-        stage.addActor(startButton);
-        stage.addActor(menu);
-        stage.addActor(load);
 
         levelText = new LevelLabel().createLabel();
         stage.addActor(levelText);
@@ -105,6 +92,32 @@ public class GameScreen extends ScreenAdapter{
         inventoryActor.setY(10);
         inventoryActor.setX(120);
         stage.addActor(inventoryActor);
+
+        save = new SaveButton(
+                Gdx.graphics.getWidth() - PADDING,
+                PADDING,
+                gameModel).createButton();
+
+        mute = new MuteButton(
+                Gdx.graphics.getWidth() - PADDING*2,
+                PADDING,
+                gameModel).createButton();
+
+        menu = new MenuButton(
+                Gdx.graphics.getWidth() - PADDING*3,
+                PADDING
+        ).createButton();
+
+        load = new LoadButton(
+                Gdx.graphics.getWidth()- PADDING*4,
+                PADDING,
+                gameModel
+        ).createButton();
+
+        stage.addActor(mute);
+        stage.addActor(save);
+        stage.addActor(menu);
+        stage.addActor(load);
     }
 
     @Override
@@ -172,96 +185,4 @@ public class GameScreen extends ScreenAdapter{
         MenuScreen.game.setScreen(new GameOverScreen());
     }
 
-    private TextButton createSaveButton() {
-        TextButton saveButton = new TextButton("Save", CloudShotGame.gameSkin);
-        saveButton.setWidth(Gdx.graphics.getWidth()/8);
-        saveButton.setPosition(
-                Gdx.graphics.getWidth() - saveButton.getWidth() - PADDING,
-                PADDING
-
-        );
-        saveButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                gameModel.save();
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return saveButton;
-    }
-
-    private TextButton createMuteButton() {
-        TextButton muteButton = new TextButton("Unmute", CloudShotGame.gameSkin);
-        muteButton.setWidth(Gdx.graphics.getWidth()/8);
-        muteButton.setPosition(
-                Gdx.graphics.getWidth() - muteButton.getWidth()*2 - PADDING*2,
-                PADDING
-
-        );
-        muteButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                gameModel.setMuted();
-                muteButton.setText(gameModel.musicIsPlaying() ? "Mute" : "Unmute");
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return muteButton;
-    }
-
-    private TextButton createMenuButton() {
-        TextButton menu = new TextButton("Menu", CloudShotGame.gameSkin);
-        menu.setWidth(Gdx.graphics.getWidth()/8);
-        menu.setPosition(
-                Gdx.graphics.getWidth() - menu.getWidth()*3 - PADDING*3,
-                PADDING
-
-        );
-        menu.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MenuScreen.game.setScreen(new MenuScreen(MenuScreen.game));
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return menu;
-    }
-
-    private TextButton createLoadButton() {
-        TextButton loadButton = new TextButton("Load", CloudShotGame.gameSkin);
-        loadButton.setWidth(Gdx.graphics.getWidth()/8);
-        loadButton.setPosition(
-                Gdx.graphics.getWidth() - loadButton.getWidth()*4 - PADDING*4,
-                PADDING
-
-        );
-        loadButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                try{
-                    gameModel.load();
-                } catch(GameStateTransactionHandler.InvalidTransactionException e) {
-        
-                }
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return loadButton;
-    }
 }

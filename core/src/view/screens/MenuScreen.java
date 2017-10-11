@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import view.CloudShotGame;
+import view.buttons.StartButton;
 import view.labels.LabelFactory;
 import view.labels.MainMenuLabel;
 
@@ -26,10 +27,12 @@ public class MenuScreen extends ScreenAdapter {
 
         stage.addActor(new MainMenuLabel().createLabel());
 
-        TextButton startButton = createStartButton();
-        TextButton loadButton = createLoadButton();
+        TextButton startButton = new StartButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2
+        ).createButton();
+
         stage.addActor(startButton);
-        stage.addActor(loadButton);
     }
 
     @Override
@@ -50,49 +53,4 @@ public class MenuScreen extends ScreenAdapter {
         stage.dispose();
     }
 
-    private TextButton createStartButton(){
-        TextButton startButton = new TextButton("Start", CloudShotGame.gameSkin);
-        startButton.setWidth(Gdx.graphics.getWidth()/2);
-        startButton.setPosition(
-                Gdx.graphics.getWidth()/2 - startButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2 - startButton.getHeight()/2
-        );
-        startButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen());
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return startButton;
-    }
-
-    private TextButton createLoadButton() {
-        TextButton loadButton = new TextButton("Load", CloudShotGame.gameSkin);
-        loadButton.setWidth(Gdx.graphics.getWidth()/2);
-        loadButton.setPosition(
-                Gdx.graphics.getWidth()/2 - loadButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2 - loadButton.getHeight()*2
-        );
-        loadButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                try{
-                    StateQuery loader = new GameStateTransactionHandler().load();
-                } catch(GameStateTransactionHandler.InvalidTransactionException e) {
-
-                }
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return loadButton;
-    }
 }
