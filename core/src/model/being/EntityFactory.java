@@ -35,14 +35,14 @@ public class EntityFactory {
 	 */
 	public static AbstractEnemy getEnemy(GameModel game, Vector2 position, entity_type enemyType) {
 		if (enemyType == entity_type.archer) {
-			ShootingEnemy shooter = new ShootingEnemy(game,position);
+			ShootingEnemy shooter = new ShootingEnemy(game.getWorld(),game.getPlayer(),position);
 			return shooter;
 		} else if (enemyType == entity_type.slime) {
-			Slime2 slime = new Slime2(game,position);
+			Slime2 slime = new Slime2(game.getWorld(),game.getPlayer(),position);
 			return slime;
 		}
 		else if (enemyType == entity_type.spikeblock) {
-			SpikeBlock spikeBlock = new SpikeBlock(game,position);
+			SpikeBlock spikeBlock = new SpikeBlock(game.getWorld(),game.getPlayer(),position);
 			return spikeBlock;
 		}
 		return null;

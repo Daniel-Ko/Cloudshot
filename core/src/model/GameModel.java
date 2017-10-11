@@ -109,10 +109,10 @@ public class GameModel {
         //boss
         //enemies.add(new BossTwo(this,new Vector2(300,500)));
 
-        enemies.add(new SpikeBlock(this,new Vector2(800,400)));
-        enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
-        enemies.add(new SpikeBlock(this,new Vector2(1400,600)));
-        enemies.add(new SpikeBlock(this,new Vector2(2000,450)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(800,400)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(1000,700)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(1400,600)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(2000,450)));
 
 
 

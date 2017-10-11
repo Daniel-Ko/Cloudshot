@@ -5,8 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.enemystates.HorizontalMovement;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
@@ -15,8 +18,8 @@ public class SpikeBlock extends AbstractEnemy{
     private float maxDist;
     private transient StaticSprite img;
 
-    public SpikeBlock(GameModel gameModel, Vector2 pos) {
-        super(gameModel, pos);
+    public SpikeBlock(World world, AbstractPlayer player, Vector2 pos) {
+        super(world,player,pos);
         damage = 5;
         initPos = body.getPosition();
         maxDist = 0.1f /GameModel.PPM;

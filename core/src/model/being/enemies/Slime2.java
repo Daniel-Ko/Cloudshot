@@ -4,9 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
@@ -27,8 +29,8 @@ public class Slime2 extends AbstractEnemy{
 
     private Vector2 initPos;
 
-    public Slime2(GameModel gameModel, Vector2 pos){
-        super(gameModel,pos);
+    public Slime2(World world, AbstractPlayer player, Vector2 pos){
+        super(world,player,pos);
         initPos = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
         health = 20;
         attack_left =  new MovingSprite("slime_attack.png",1,7);
@@ -100,8 +102,8 @@ public class Slime2 extends AbstractEnemy{
             if (enemyState instanceof Death) {
                 if (splitID < 1) {
                     //split slime into 2 but half that stats
-                    Slime2 e1 = new Slime2(game, new Vector2((body.getPosition().x * GameModel.PPM) - 10, body.getPosition().y * GameModel.PPM));
-                    Slime2 e2 = new Slime2(game, new Vector2((body.getPosition().x * GameModel.PPM) + 10, body.getPosition().y * GameModel.PPM));
+                    Slime2 e1 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) - 10, body.getPosition().y * GameModel.PPM));
+                    Slime2 e2 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) + 10, body.getPosition().y * GameModel.PPM));
                     e1.drawingWidth = drawingWidth / 1.5f;
                     e1.drawingHeight = drawingHeight / 1.5f;
                     e2.drawingWidth = drawingWidth / 1.5f;

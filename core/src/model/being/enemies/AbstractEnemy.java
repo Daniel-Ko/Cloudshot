@@ -12,6 +12,7 @@ import model.being.player.AbstractPlayer;
 import model.being.enemystates.EnemyState;
 import model.being.EntityInterface;
 import model.being.enemystates.IdleMovement;
+import model.being.player.Player;
 import view.sprites.CustomSprite;
 
 /**
@@ -57,12 +58,9 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;
 
-	public AbstractEnemy(GameModel gameModel, Vector2 pos){
-		this.game = gameModel;
-		this.world = gameModel.getWorld();
-		this.player = gameModel.getPlayer();
-		//game for player
-		//game for world
+	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos){
+		this.world = world;
+		this.player = player;
 		position = pos;
 		width = 50/GameModel.PPM;
 		height = 50/ GameModel.PPM;

@@ -4,11 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.player.AbstractPlayer;
 import model.being.enemystates.Death;
 import model.being.enemystates.IdleMovement;
 import model.being.enemystates.ShooterAttack;
+import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
@@ -30,8 +32,8 @@ public class ShootingEnemy extends AbstractEnemy{
 	private transient MovingSprite walk;
 	private transient MovingSprite idle;
 
-	public ShootingEnemy(GameModel gameModel,Vector2 pos){
-		super(gameModel,pos);
+	public ShootingEnemy(World world, AbstractPlayer player, Vector2 pos){
+		super(world,player,pos);
 		loadImages();
 		IdleMovement movement =  new IdleMovement();
 		movement.setIdleMovementSpeed(0);
