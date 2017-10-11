@@ -21,6 +21,7 @@ import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
+import model.collectable.AbstractWeapon;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
@@ -223,6 +224,7 @@ public class GameModel {
             }
 
         }
+
         for(AbstractCollectable ac : level.getCollectables()){
             sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
         }
@@ -268,9 +270,9 @@ public class GameModel {
         }
     }
 
-    public void load() {
+    public void load(StateQuery loadFrom) {
         try {
-            StateQuery loader = repoScraper.load();
+            StateQuery loader = loadFrom;
 
             //beautiful waterfall design of method calls into assignments
             PlayerData loadedPlayerData = loader.loadPlayerData();
@@ -333,6 +335,10 @@ public class GameModel {
         else{
             music.play();
         }
+    }
+
+    public boolean musicIsPlaying(){
+        return music.isPlaying();
     }
 
     public void setLevel(AbstractLevel level){

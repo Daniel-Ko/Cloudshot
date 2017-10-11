@@ -15,12 +15,15 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.mapObject.levels.LevelOne;
 import view.CloudShotGame;
 import view.HealthBar;
+import view.InventoryActor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +34,6 @@ public class GameScreen extends ScreenAdapter{
     public final int WORLD_WIDTH = 3000;
 
     private static final float PADDING = 10;
-
     public static final float FRAME_RATE = 0.09f;
 
     public static InputMultiplexer inputMultiplexer;
@@ -48,21 +50,50 @@ public class GameScreen extends ScreenAdapter{
     private GameModel gameModel;
     private Stage stage;
 
+    /**
+     * UI elements;
+     */
+    private TextButton startButton;
+    private TextButton mute;
+    private TextButton menu;
+    private TextButton load;
+    private Label levelText;
+    private Label inventoryText;
+    private InventoryActor inventoryActor;
+
 
     public GameScreen(Game game){
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
+        startButton = createSaveButton();
+        mute = createMuteButton();
+        menu = createMenuButton();
+        load = createLoadButton();
 
-        TextButton startButton = createSaveButton();
-        TextButton mute = createMuteButton();
-        TextButton menu = createMenuButton();
         stage.addActor(mute);
         stage.addActor(startButton);
         stage.addActor(menu);
+        stage.addActor(load);
+
+        levelText = new Label("",CloudShotGame.gameSkin, "big");
+        levelText.setAlignment(Align.center);
+        levelText.setY(Gdx.graphics.getHeight() - 20);
+        levelText.setWidth(Gdx.graphics.getWidth());
+        levelText.setFontScale(1);
+        stage.addActor(levelText);
+
+        inventoryText = new Label("Inventory",CloudShotGame.gameSkin, "default");
+        inventoryText.setY(10);
+        inventoryText.setX(10);
+        inventoryText.setWidth(Gdx.graphics.getWidth());
+        inventoryText.setFontScale(1.5f);
+        stage.addActor(inventoryText);
+
 
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
         stage.addActor(healthBar);
+
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
 
@@ -70,79 +101,17 @@ public class GameScreen extends ScreenAdapter{
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-
         camera = new OrthographicCamera(VIEW_WIDTH/GameModel.PPM,((VIEW_WIDTH * (h / w))/GameModel.PPM));
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
-        this.gameModel = new GameModel(/*new LevelOne(),*/camera);
+        gameModel = new GameModel(camera);
         gameModel.getTiledMapRenderer().setView(camera);
-    }
 
-    private TextButton createSaveButton() {
-        TextButton saveButton = new TextButton("Save", CloudShotGame.gameSkin);
-        saveButton.setWidth(Gdx.graphics.getWidth()/8);
-        saveButton.setPosition(
-                Gdx.graphics.getWidth() - saveButton.getWidth() - PADDING,
-                PADDING
-
-        );
-        saveButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                gameModel.save();
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return saveButton;
-    }
-
-    private TextButton createMuteButton() {
-        TextButton muteButton = new TextButton("Mute", CloudShotGame.gameSkin);
-        muteButton.setWidth(Gdx.graphics.getWidth()/8);
-        muteButton.setPosition(
-                Gdx.graphics.getWidth() - muteButton.getWidth()*2 - PADDING*2,
-                PADDING
-
-        );
-        muteButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                gameModel.setMuted();
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return muteButton;
-    }
-
-    private TextButton createMenuButton() {
-        TextButton menu = new TextButton("Menu", CloudShotGame.gameSkin);
-        menu.setWidth(Gdx.graphics.getWidth()/8);
-        menu.setPosition(
-                Gdx.graphics.getWidth() - menu.getWidth()*3 - PADDING*3,
-                PADDING
-
-        );
-        menu.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new MenuScreen(game));
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return menu;
+        inventoryActor = new InventoryActor(gameModel.getPlayer());
+        inventoryActor.setY(10);
+        inventoryActor.setX(120);
+        stage.addActor(inventoryActor);
     }
 
     @Override
@@ -163,7 +132,6 @@ public class GameScreen extends ScreenAdapter{
         // Update the game state.
         gameModel.updateState(elapsedTime);
 
-        // Render the game elements.
 
         batch.begin();
 
@@ -196,6 +164,7 @@ public class GameScreen extends ScreenAdapter{
     }
 
     public void drawLevelText(){
+        levelText.setText(gameModel.getLevel().getLevelName());
 
     }
 
@@ -212,5 +181,95 @@ public class GameScreen extends ScreenAdapter{
 
     public static void displayGameOverScreen(){
         game.setScreen(new GameOverScreen(game));
+    }
+
+    private TextButton createSaveButton() {
+        TextButton saveButton = new TextButton("Save", CloudShotGame.gameSkin);
+        saveButton.setWidth(Gdx.graphics.getWidth()/8);
+        saveButton.setPosition(
+                Gdx.graphics.getWidth() - saveButton.getWidth() - PADDING,
+                PADDING
+
+        );
+        saveButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                gameModel.save();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return saveButton;
+    }
+
+    private TextButton createMuteButton() {
+        TextButton muteButton = new TextButton("Unmute", CloudShotGame.gameSkin);
+        muteButton.setWidth(Gdx.graphics.getWidth()/8);
+        muteButton.setPosition(
+                Gdx.graphics.getWidth() - muteButton.getWidth()*2 - PADDING*2,
+                PADDING
+
+        );
+        muteButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                gameModel.setMuted();
+                muteButton.setText(gameModel.musicIsPlaying() ? "Mute" : "Unmute");
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return muteButton;
+    }
+
+    private TextButton createMenuButton() {
+        TextButton menu = new TextButton("Menu", CloudShotGame.gameSkin);
+        menu.setWidth(Gdx.graphics.getWidth()/8);
+        menu.setPosition(
+                Gdx.graphics.getWidth() - menu.getWidth()*3 - PADDING*3,
+                PADDING
+
+        );
+        menu.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new MenuScreen(game));
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return menu;
+    }
+
+    private TextButton createLoadButton() {
+        TextButton loadButton = new TextButton("Load", CloudShotGame.gameSkin);
+        loadButton.setWidth(Gdx.graphics.getWidth()/8);
+        loadButton.setPosition(
+                Gdx.graphics.getWidth() - loadButton.getWidth()*4 - PADDING*4,
+                PADDING
+
+        );
+        loadButton.addListener(new InputListener(){
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                // Load game here.
+                System.out.println("LOAD GAME");
+            }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        return loadButton;
     }
 }
