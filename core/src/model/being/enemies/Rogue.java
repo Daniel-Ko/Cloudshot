@@ -1,11 +1,15 @@
-package model.being;
+package model.being.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import model.GameModel;
+import model.being.enemystates.AggroDash;
+import model.being.enemystates.Death;
+import model.being.enemystates.IdleMovement;
+import model.being.enemystates.MeleeAttack;
+import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
@@ -88,7 +92,7 @@ public class Rogue extends AbstractEnemy {
         }
         //UPDATING STATES
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
-            if(! (enemyState instanceof  AggroDash) )
+            if(! (enemyState instanceof AggroDash) )
             enemyState = new AggroDash();
             ((AggroDash)enemyState).setDashSpeed(5f);
         }

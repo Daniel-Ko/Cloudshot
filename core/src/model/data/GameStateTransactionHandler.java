@@ -3,9 +3,9 @@ package model.data;
 
 import com.badlogic.gdx.Gdx;
 import model.GameModel;
-import model.being.AbstractEnemy;
-import model.being.AbstractPlayer;
-import model.being.PlayerData;
+import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
+import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
 
 import java.io.*;

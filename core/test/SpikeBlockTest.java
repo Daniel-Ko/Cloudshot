@@ -1,5 +1,5 @@
-import model.being.Player;
-import model.being.SpikeBlock;
+import model.being.player.Player;
+import model.being.enemies.SpikeBlock;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

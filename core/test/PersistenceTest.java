@@ -1,9 +1,3 @@
-import com.badlogic.gdx.math.Vector2;
-import model.GameModel;
-import model.being.AbstractEnemy;
-import model.being.Player;
-import model.collectable.Pistol;
-import model.data.GameState;
 import model.data.GameStateTransactionHandler;
 import org.junit.Test;
 

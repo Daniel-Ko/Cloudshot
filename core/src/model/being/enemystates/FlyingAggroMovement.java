@@ -1,4 +1,7 @@
-package model.being;
+package model.being.enemystates;
+
+import model.being.player.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
 
 /**
  * FlyingAggroMovementState, if the player is within the aggro radius of an enemy
@@ -17,13 +20,13 @@ public class FlyingAggroMovement implements EnemyState, java.io.Serializable{
     @Override
     public void update(AbstractEnemy e, AbstractPlayer player) {
         if(e.getX()<player.getX())
-            e.body.setLinearVelocity(1f,e.body.getLinearVelocity().y);
+            e.getBody().setLinearVelocity(1f,e.getBody().getLinearVelocity().y);
         if(e.getX()>player.getX())
-            e.body.setLinearVelocity(-1f,e.body.getLinearVelocity().y);
+            e.getBody().setLinearVelocity(-1f,e.getBody().getLinearVelocity().y);
         if(e.getY()<player.getY())
-            e.body.setLinearVelocity(e.body.getLinearVelocity().x,1f);
+            e.getBody().setLinearVelocity(e.getBody().getLinearVelocity().x,1f);
         if(e.getY ()>player.getY())
-            e.body.setLinearVelocity(e.body.getLinearVelocity().x,-1f);
+            e.getBody().setLinearVelocity(e.getBody().getLinearVelocity().x,-1f);
     }
 
     @Override
@@ -34,7 +37,7 @@ public class FlyingAggroMovement implements EnemyState, java.io.Serializable{
     @Override
     public void damage(AbstractEnemy e, int damage) {
         e.internalDamage(damage);
-        if(e.health <= 0){
+        if(e.getHealth() <= 0){
             e.enemyState = new Death();
         }
     }

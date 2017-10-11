@@ -1,16 +1,15 @@
-package model.being;
+package model.being.player;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.GameObjectInterface;
+import model.being.EntityInterface;
+import model.being.enemies.AbstractEnemy;
 import model.collectable.AbstractWeapon;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Vector;
 
 public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor, java.io.Serializable{
 

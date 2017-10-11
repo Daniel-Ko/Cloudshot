@@ -1,6 +1,8 @@
-package model.being;
+package model.being.enemystates;
 
 import com.badlogic.gdx.math.Vector2;
+import model.being.player.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
 
 public class HorizontalMovement implements EnemyState, java.io.Serializable {
 
@@ -24,7 +26,7 @@ public class HorizontalMovement implements EnemyState, java.io.Serializable {
     }
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
-        if(e.body == null)return;
+        if(e.getBody() == null)return;
         movement(e,p);
         attack(e,p);
         //cannot damage enemy in this state
@@ -33,7 +35,7 @@ public class HorizontalMovement implements EnemyState, java.io.Serializable {
         //until it reaches left target location move left
         if(!reachedLeft){
             if(e.getPosition().x > leftTargetLocation.x){
-                e.body.setLinearVelocity(-1f,e.body.getLinearVelocity().y);
+                e.getBody().setLinearVelocity(-1f,e.getBody().getLinearVelocity().y);
             }
             else {
                 //reached left location
@@ -44,7 +46,7 @@ public class HorizontalMovement implements EnemyState, java.io.Serializable {
         //if it reached left, move right until reaches right target location
         if(!reachedRight){
             if(e.getPosition().x < rightTargetLocation.x){
-                e.body.setLinearVelocity(1f,e.body.getLinearVelocity().y);
+                e.getBody().setLinearVelocity(1f,e.getBody().getLinearVelocity().y);
             }
             else {
                 //reached right location
@@ -58,8 +60,8 @@ public class HorizontalMovement implements EnemyState, java.io.Serializable {
     public int attack(AbstractEnemy e, AbstractPlayer p) {
         applyAppropKnockBack(e,p);
         if(e.getBoundingBox().overlaps(p.getBoundingBox())){
-            p.hit(e.damage);
-            return (int)e.damage;
+            p.hit(e.getDamage());
+            return (int)e.getDamage();
         }
         return 0;
     }

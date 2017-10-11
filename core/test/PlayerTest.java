@@ -1,17 +1,3 @@
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import model.GameModel;
-import model.being.AbstractPlayer;
-import model.being.Player;
-import model.being.Slime2;
-import model.collectable.Pistol;
-import model.collectable.Shotgun;
-import org.junit.Test;
-
-
-import static org.junit.Assert.*;
-
 public class PlayerTest extends GameTest{
 
     /*@Test

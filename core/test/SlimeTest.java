@@ -1,20 +1,15 @@
-
 import com.badlogic.gdx.math.Vector2;
-import model.being.AbstractPlayer;
-import model.being.Death;
-import model.being.Player;
-import model.being.Slime2;
-import model.collectable.Pistol;
-import model.collectable.Shotgun;
-import org.junit.Test;
+import model.being.enemies.Slime2;
+import model.being.enemystates.Death;
+import model.being.player.Player;
+import org.junit.jupiter.api.Test;
 
-
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.*;
 
 public class SlimeTest extends GameTest {
 
-    /*@Test
+    @Test
     public void TestDamagingEnemyAndKillingEnemy(){
         Slime2 s = new Slime2();
         int hp = s.getHealth();
@@ -37,5 +32,5 @@ public class SlimeTest extends GameTest {
         s.setPosition(new Vector2(0,0));
         s.update();
         assertTrue(p.getHealth()<10);
-    }*/
+    }
 }

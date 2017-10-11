@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.being.Player;
+import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;

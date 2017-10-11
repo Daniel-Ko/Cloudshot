@@ -1,4 +1,7 @@
-package model.being;
+package model.being.enemystates;
+
+import model.being.player.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
 
 /**
  * State when the player has entered an enemy's aggro radius
@@ -11,11 +14,11 @@ public class AggroMovement implements EnemyState, java.io.Serializable {
 
 
     @Override
-    public void update(AbstractEnemy e,AbstractPlayer player) {
+    public void update(AbstractEnemy e, AbstractPlayer player) {
         if(e.getX()<player.getX())
-            e.body.setLinearVelocity(1f,e.body.getLinearVelocity().y);
+            e.getBody().setLinearVelocity(1f,e.getBody().getLinearVelocity().y);
         if(e.getX()>player.getX())
-            e.body.setLinearVelocity(-1f,e.body.getLinearVelocity().y);
+            e.getBody().setLinearVelocity(-1f,e.getBody().getLinearVelocity().y);
     }
 
     @Override
@@ -26,7 +29,7 @@ public class AggroMovement implements EnemyState, java.io.Serializable {
     @Override
     public void damage(AbstractEnemy e, int damage) {
         e.internalDamage(damage);
-        if(e.health <= 0){
+        if(e.getHealth() <= 0){
             e.enemyState = new Death();
         }
     }

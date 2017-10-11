@@ -11,8 +11,15 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import model.being.*;
 
+import model.being.enemies.AbstractEnemy;
+import model.being.enemies.BossOne;
+import model.being.enemies.ShootingEnemy;
+import model.being.enemies.SpikeBlock;
+import model.being.enemystates.Death;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
+import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
 import model.collectable.AbstractWeapon;
 import model.data.GameStateTransactionHandler;
@@ -164,9 +171,9 @@ public class GameModel {
            if(ac.checkCollide(getPlayer()) == true){
         	   remove = ac;
         	   break;
-           } 
+           }
         }
-        if(remove != null){level.getCollectables().remove(remove);} 
+        if(remove != null){level.getCollectables().remove(remove);}
 	}
 
     /**

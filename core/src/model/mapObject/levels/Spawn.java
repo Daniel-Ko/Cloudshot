@@ -2,10 +2,10 @@ package model.mapObject.levels;
 
 import com.badlogic.gdx.math.Vector2;
 import model.GameModel;
-import model.being.AbstractEnemy;
-import model.being.Rogue;
-import model.being.ShootingEnemy;
-import model.being.Slime2;
+import model.being.enemies.AbstractEnemy;
+import model.being.enemies.Rogue;
+import model.being.enemies.ShootingEnemy;
+import model.being.enemies.Slime2;
 
 import java.util.List;
 

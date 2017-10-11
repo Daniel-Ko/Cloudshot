@@ -1,10 +1,11 @@
-package model.being;
+package model.being.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import model.GameModel;
+import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
@@ -76,7 +77,7 @@ public class BossOne extends AbstractEnemy{
 
     private void attackIfPossible(){
         if(state == enemy_state.EDEAD)return;
-        if(position.dst(player.pos)<attackRadius){
+        if(position.dst(player.getPos())<attackRadius){
             state = enemy_state.EATTACKING;
             if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
         }
@@ -106,7 +107,7 @@ public class BossOne extends AbstractEnemy{
     @Override
     public void movement(){
         if(position.dst(player.getPos())>attackRadius)state = enemy_state.EIDLE;
-        if(position.dst(player.pos)<attackRadius){
+        if(position.dst(player.getPos())<attackRadius){
             if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
         }
         //MOVEMENT
@@ -116,7 +117,7 @@ public class BossOne extends AbstractEnemy{
             foundPlayerMovement();
         }
         //if not within attacking range
-        if(position.dst(player.pos)>attackRadius){ state = enemy_state.EIDLE;}
+        if(position.dst(player.getPos())>attackRadius){ state = enemy_state.EIDLE;}
     }
 
     private void updateBullets(){
