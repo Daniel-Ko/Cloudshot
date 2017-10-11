@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
+import model.data.GameStateTransactionHandler;
+import model.data.StateQuery;
 import model.mapObject.levels.LevelOne;
 import view.CloudShotGame;
 import view.HealthBar;
@@ -259,8 +261,11 @@ public class GameScreen extends ScreenAdapter{
         loadButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // Load game here.
-                System.out.println("LOAD GAME");
+                try{
+                    gameModel.load();
+                } catch(GameStateTransactionHandler.InvalidTransactionException e) {
+        
+                }
             }
 
             @Override
