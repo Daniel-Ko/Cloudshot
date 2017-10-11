@@ -61,7 +61,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		this.game = gameModel;
 		this.world = gameModel.getWorld();
 		this.player = gameModel.getPlayer();
-
+		//game for player
+		//game for world
 		position = pos;
 		width = 50/GameModel.PPM;
 		height = 50/ GameModel.PPM;
