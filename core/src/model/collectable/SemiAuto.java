@@ -1,6 +1,7 @@
 package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
+import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class SemiAuto extends AbstractWeapon{
     public final int MAX_AMMO = 50;
 
-    protected final float SemiAuto_DAMAGE = 4;
+    protected final float SemiAuto_DAMAGE = 8;
 
     private transient CustomSprite image;
 
@@ -23,6 +24,7 @@ public class SemiAuto extends AbstractWeapon{
     public SemiAuto(Vector2 position, float width, float height) {
         super(position, width, height);
         setAmmo(MAX_AMMO);
+        this.setDamage(SemiAuto_DAMAGE);
         this.image = new StaticSprite("Tec-9.png");
         this.image.flipHorizontal();
         this.bulImage = new StaticSprite("bullet.png");
@@ -40,17 +42,32 @@ public class SemiAuto extends AbstractWeapon{
         this.ammo --;
 
         Vector2 aim = p.getAimedAt();
-        Vector2 aimAbove = new Vector2(aim.x -1,  (float) (aim.y));
-        Vector2 aimBelow =  new Vector2(aim.x +1, (float) (aim.y));
-        Vector2 bul = new Vector2(aim.x +2, (float) (aim.y));
+        Vector2 behind = new Vector2(p.getX() + 1.5f,  p.getY());
+        Vector2 aimBelow =  new Vector2(p.getX() +1,  p.getY());
+        Vector2 bul = new Vector2(p.getX() + 0.5f,  p.getY());
 
-        bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(p.getPos(), bul, getDamage(), getBulletImage()));
+        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage()));
+        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage()));
+        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage()));
+        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage()));
         return bullets;
     }
 
+    @Override
+    public void pickedUp(AbstractPlayer p) {
+        for (AbstractWeapon w: p.getInventory()) {
+            if(w.getClass().equals(this.getClass())){
+                w.setAmmo(getMaxAmmo());
+                return;
+            }
+        }
+        //adds the weapon to the players inventory.
+
+        p.getInventory().add(this);
+        Player player = (Player)p;
+        player.setCurWeapon(this);
+
+    }
     @Override
     public void setAmmo(int i) {
         this.ammo = i;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
@@ -43,12 +44,25 @@ public class Pistol extends AbstractWeapon{
 
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
-
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();
 		this.ammo --;
 		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage()));
 		return bullets;
+	}
+
+	@Override
+	public void pickedUp(AbstractPlayer p) {
+		for (AbstractWeapon w: p.getInventory()) {
+			if(w.getClass().equals(this.getClass())){
+				w.setAmmo(getMaxAmmo());
+				return;
+			}
+		}
+		p.getInventory().add(this);
+		Player player = (Player)p;
+		player.setCurWeapon(this);
+
 	}
 
 	@Override

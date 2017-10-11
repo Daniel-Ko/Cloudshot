@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
@@ -13,7 +14,7 @@ import view.sprites.StaticSprite;
 public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 25;
-	protected final int SHOTGUN_DAMAGE = 8;
+	protected final int SHOTGUN_DAMAGE = 15;
 	private transient StaticSprite bulImage;
 	private transient StaticSprite image;
 	
@@ -41,6 +42,21 @@ public class Shotgun extends AbstractWeapon {
 		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage()));
 		return bullets;
 		
+	}
+	@Override
+	public void pickedUp(AbstractPlayer p) {
+		for (AbstractWeapon w: p.getInventory()) {
+			if(w.getClass().equals(this.getClass())){
+				w.setAmmo(getMaxAmmo());
+				return;
+			}
+		}
+		//adds the weapon to the players inventory.
+
+		p.getInventory().add(this);
+		Player player = (Player)p;
+		player.setCurWeapon(this);
+
 	}
 
 	@Override
