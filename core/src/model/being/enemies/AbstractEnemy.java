@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameObjectInterface;
+import model.being.EntityFactory;
 import model.being.player.AbstractPlayer;
 import model.being.enemystates.EnemyState;
 import model.being.EntityInterface;
@@ -25,6 +26,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	private static final long serialVersionUID = -5230554639550482142L;
 
+	public EntityFactory.entity_type type;
+
 	/** Used for collisions and getting X & Y coords */
 	protected Rectangle boundingBox;
 	public float width;
@@ -36,10 +39,13 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected Vector2 position;
 	protected int speed;
 	protected int health;
+
 	protected float damage;
-	protected transient AbstractPlayer player;
+	protected AbstractPlayer player;
 
 	protected enemy_state state = enemy_state.EALIVE;
+
+
 
 	public static enum enemy_state{
 		EALIVE,EDEAD,EATTACKING,EIDLE
@@ -58,7 +64,11 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;
 
-	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos){
+
+
+	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, EntityFactory.entity_type enemyType){
+		this.type = enemyType;
+
 		this.world = world;
 		this.player = player;
 		position = pos;
@@ -68,6 +78,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 		health = 10;
 		speed = 2;//TODO
 		damage = 1;
+
 		defineBody();
 		enemyState = new IdleMovement();
 	}
@@ -146,4 +157,42 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public void setPlayer(AbstractPlayer p){this.player = p; }
 	@Override
 	public abstract CustomSprite getImage();
+
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+
+	public void setEnemyState(EnemyState enemyState) {
+		this.enemyState = enemyState;
+	}
+
+	public void setDrawingWidth(float drawingWidth) {
+		this.drawingWidth = drawingWidth;
+	}
+
+	public void setDrawingHeight(float drawingHeight) {
+		this.drawingHeight = drawingHeight;
+	}
+
+	public void setSpeed(int newSpeed) {
+		speed = newSpeed;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+
+	public GameModel getGame() {
+		return game;
+	}
+
+	public void setGame(GameModel game) {
+		this.game = game;
+	}
 }

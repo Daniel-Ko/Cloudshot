@@ -22,12 +22,10 @@ import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
-import model.collectable.AbstractWeapon;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
-import model.mapObject.levels.LevelThree;
 import model.projectile.BulletImpl;
 import view.screens.GameScreen;
 
@@ -71,7 +69,7 @@ public class GameModel {
 
 
         //Player setup
-        player = EntityFactory.getPlayer(this,new Vector2(50,500));
+        player = EntityFactory.producePlayer(this,new Vector2(50,500));
         //end
 
         //level setup
@@ -273,6 +271,8 @@ public class GameModel {
     public void load() {
         try {
             StateQuery loader = repoScraper.load();
+            if(loader == null)
+                return; //todo say nothing to load?
 
             //beautiful waterfall design of method calls into assignments
             PlayerData loadedPlayerData = loader.loadPlayerData();
@@ -295,29 +295,48 @@ public class GameModel {
     }
     
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player();
         
         if(pdata.isLiving())
-            newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
+            this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
-            newPlayer.setPlayerState(AbstractPlayer.player_state.DEAD);
+            this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
         
-        newPlayer.setHealth(pdata.getHealth());
-        newPlayer.setDamage(pdata.getDamage());
-        newPlayer.setBoundingBox(pdata.getBoundingBox());
+        player.setHealth(pdata.getHealth());
+        player.setDamage(pdata.getDamage());
+        player.setBoundingBox(pdata.getBoundingBox());
         
-        //TODO set inventory  newPlayer.setInventory(pdata.getInventory());
+        //TODO set inventory  player.setInventory(pdata.getInventory());
     
-        newPlayer.setInAir(pdata.isInAir());
-        newPlayer.setAttacking(pdata.isAttacking());
-        newPlayer.setGrounded(pdata.isGrounded());
-        newPlayer.setMovingLeft(pdata.isMovingLeft());
-        newPlayer.setMovingRight(pdata.isMovingRight());
+        player.setInAir(pdata.isInAir());
+        player.setAttacking(pdata.isAttacking());
+        player.setGrounded(pdata.isGrounded());
+        player.setMovingLeft(pdata.isMovingLeft());
+        player.setMovingRight(pdata.isMovingRight());
+        
+        
 
         //TODO REPLACE BODY newPlayer.getBody().setTransform();
         //TODO REPLACE FIXTURE
-        
-        this.player = newPlayer;
+    }
+
+    private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
+        this.enemies.clear();
+
+        for(AbstractEnemy e : enemiesToLoad) {
+            AbstractEnemy newEnemy = EntityFactory.produceEnemy(this, e.getPosition(), e.type);
+
+            System.out.println(newEnemy.getGame() == null);
+
+            newEnemy.setSpeed(e.getSpeed());
+            newEnemy.setDamage(e.getDamage());
+            newEnemy.setHealth(e.getHealth());
+            newEnemy.setEnemyState(e.enemyState);
+
+            newEnemy.setDrawingWidth(e.getDrawingWidth());
+            newEnemy.setDrawingHeight(e.getDrawingHeight());
+
+            this.enemies.add(newEnemy);
+        }
     }
 
 
@@ -355,7 +374,7 @@ public class GameModel {
 
         GameScreen.inputMultiplexer.removeProcessor(player);
 
-        player = EntityFactory.getPlayer(this,new Vector2(50,500));
+        player = EntityFactory.producePlayer(this,new Vector2(50,500));
 
         GameScreen.inputMultiplexer.addProcessor(player);
 

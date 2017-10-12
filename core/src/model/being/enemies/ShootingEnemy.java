@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
+import model.being.EntityFactory;
 import model.being.player.AbstractPlayer;
 import model.being.enemystates.Death;
 import model.being.enemystates.IdleMovement;
@@ -22,6 +23,8 @@ import java.util.Queue;
 
 public class ShootingEnemy extends AbstractEnemy{
 
+	public final EntityFactory.entity_type type = EntityFactory.entity_type.archer;
+
 	//bullet and attacking fields
 	private transient StaticSprite bulletSprite;
 	private Queue<BulletImpl> bullets = new LinkedList<>();
@@ -33,7 +36,7 @@ public class ShootingEnemy extends AbstractEnemy{
 	private transient MovingSprite idle;
 
 	public ShootingEnemy(World world, AbstractPlayer player, Vector2 pos){
-		super(world,player,pos);
+		super(world,player,pos, EntityFactory.entity_type.archer);
 		loadImages();
 		IdleMovement movement =  new IdleMovement();
 		movement.setIdleMovementSpeed(0);

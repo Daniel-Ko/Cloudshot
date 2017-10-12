@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
+import model.being.EntityFactory;
 import model.being.enemystates.Death;
 import model.being.enemystates.FlyingAggroMovement;
 import model.being.enemystates.IdleMovement;
@@ -16,12 +17,13 @@ import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
 public class BossTwo extends AbstractEnemy{
+    public final EntityFactory.entity_type type = EntityFactory.entity_type.boss2;
     private int detectionRadius = 100;
     private int attackRadius = 2;
 
 
     public BossTwo(World world, AbstractPlayer player, Vector2 pos) {
-        super(world,player,pos);
+        super(world,player,pos, EntityFactory.entity_type.boss2);
         drawingWidth = 4;
         drawingHeight =4;
     }

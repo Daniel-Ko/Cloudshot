@@ -26,10 +26,12 @@ public class StateQuery {
     }
 
     public List<AbstractEnemy> loadEnemies() {
-        return Collections.unmodifiableList(enemies);
+        return enemies;
+        //return Collections.unmodifiableList(enemies);
     }
 
     public List<AbstractCollectable> loadCollectables() {
-        return Collections.unmodifiableList(collectables);
+        return collectables;
+        //return Collections.unmodifiableList(collectables);
     }
 }

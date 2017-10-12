@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.io.Serializable;
 
-public abstract class CustomSprite{
+
+public abstract class CustomSprite implements Serializable{
     /**
      * Image of the sprite sheet to use.
      */
-    protected Texture spriteImage;
+    protected transient Texture spriteImage;
 
     /**
      * Flags to determine whether the sprites needs to be flipped or not.
