@@ -9,7 +9,7 @@ public class InventoryLabel extends LabelFactory {
     @Override
     public Label createLabel() {
         Label inventoryText = new Label("Inventory", CloudShotGame.gameSkin, "default");
-        inventoryText.setY(10);
+        inventoryText.setY(50);
         inventoryText.setX(10);
         inventoryText.setWidth(Gdx.graphics.getWidth());
         inventoryText.setFontScale(1.5f);

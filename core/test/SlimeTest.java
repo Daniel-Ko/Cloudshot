@@ -7,6 +7,7 @@ import model.being.player.Player;
 //import org.junit.jupiter.api.Test;
 import org.junit.Test;
 import view.screens.GameScreen;
+import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.*;
