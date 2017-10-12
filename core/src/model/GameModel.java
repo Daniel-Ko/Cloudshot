@@ -127,7 +127,7 @@ public class GameModel {
         updatePlayerModel();
         updateEnemies();
         updateCollectables();
-        level.spawnEnemies(player, this);
+         level.spawnEnemies(player, this);
         world.step(1 / 60f, 6, 2);
 
         checkIfGameOver();

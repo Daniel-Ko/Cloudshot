@@ -128,7 +128,7 @@ public class Player extends AbstractPlayer {
 		ArrayList<BulletImpl> toRemove = new ArrayList<>();
 		//updating players bullets
 		for (BulletImpl b : bullets) {
-			b.update(enemies);
+			b.update(enemies,this);
 			if (b.isToRemove()) {
 				toRemove.add(b);
 			}

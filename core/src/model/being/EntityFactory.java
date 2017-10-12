@@ -4,10 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.javafx.css.parser.DeriveColorConverter;
 import model.GameModel;
-import model.being.enemies.AbstractEnemy;
-import model.being.enemies.ShootingEnemy;
-import model.being.enemies.Slime2;
-import model.being.enemies.SpikeBlock;
+import model.being.enemies.*;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 
@@ -39,11 +36,17 @@ public class EntityFactory {
 			return shooter;
 		} else if (enemyType == entity_type.slime) {
 			Slime2 slime = new Slime2(game.getWorld(),game.getPlayer(),position);
+			//to allow the slime to dynamically add itself at runtime
+			slime.provideGameModel(game);
 			return slime;
 		}
 		else if (enemyType == entity_type.spikeblock) {
 			SpikeBlock spikeBlock = new SpikeBlock(game.getWorld(),game.getPlayer(),position);
 			return spikeBlock;
+		}
+		else if (enemyType == entity_type.rogue) {
+			Rogue r = new Rogue(game.getWorld(),game.getPlayer(),position);
+			return r ;
 		}
 		return null;
 	}
