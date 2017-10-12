@@ -31,14 +31,14 @@ public class Spawn {
     public void spawn(List<AbstractEnemy> enemies, GameModel gm){
         for(int i = 0; i < number; i++){
             if(enemyType == EnemyType.SLIME){
-                enemies.add(new Slime2(gm,new Vector2(this.getX()-i*50,this.getY())));
+                enemies.add(new Slime2(gm.getWorld(),gm.getPlayer(),new Vector2(this.getX()-i*50,this.getY())));
             }
             else if(enemyType == EnemyType.ROGUE){
-                enemies.add(new Rogue(gm,new Vector2(this.getX()-i*50,this.getY())));
+                enemies.add(new Rogue(gm.getWorld(),gm.getPlayer(),new Vector2(this.getX()-i*50,this.getY())));
 
             }
             else if(enemyType == EnemyType.SHOOTER){
-                enemies.add(new ShootingEnemy(gm,new Vector2(this.getX()-i*50,this.getY())));
+                enemies.add(new ShootingEnemy(gm.getWorld(),gm.getPlayer(),new Vector2(this.getX()-i*50,this.getY())));
 
             }
         }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
@@ -25,8 +26,8 @@ public class BossOne extends AbstractEnemy{
 
     //TESTING
     public List<BulletImpl> huh = new ArrayList<>();
-    public BossOne(GameModel game, Vector2 pos){
-        super(game,pos);
+    public BossOne(World world, AbstractPlayer player, Vector2 pos){
+        super(world,player,pos);
         speed = 6;
         damage = 10;
         drawingWidth = 4;

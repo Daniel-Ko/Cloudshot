@@ -4,12 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.enemystates.Death;
 import model.being.enemystates.FlyingAggroMovement;
 import model.being.enemystates.IdleMovement;
 import model.being.enemystates.MeleeAttack;
 import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
@@ -18,8 +20,8 @@ public class BossTwo extends AbstractEnemy{
     private int attackRadius = 2;
 
 
-    public BossTwo(GameModel gameModel, Vector2 pos) {
-        super(gameModel, pos);
+    public BossTwo(World world, AbstractPlayer player, Vector2 pos) {
+        super(world,player,pos);
         drawingWidth = 4;
         drawingHeight =4;
     }

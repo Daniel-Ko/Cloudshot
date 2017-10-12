@@ -46,14 +46,17 @@ public class Player extends AbstractPlayer {
 		health = 150;
 
 		//LOAD SPRITES
-		//..TODO
+
+
+		curWeapon = null;
+	}
+
+	public void loadImage(){
 		idle = new MovingSprite("player_idle.png", 2, 2);
 		attack = new MovingSprite("player_attack.png", 2, 3);
 		jump = new MovingSprite("player_jump.png", 2, 3);
 		walk = new MovingSprite("player_walk.png", 3, 3);
 		death = new MovingSprite("player_death.png", 1, 1);
-
-		curWeapon = null;
 	}
 
 	@Override

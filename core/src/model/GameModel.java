@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
+import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemies.BossOne;
 import model.being.enemies.ShootingEnemy;
@@ -70,9 +71,7 @@ public class GameModel {
 
 
         //Player setup
-        player = new Player();
-        player.initBox2D(world,new Vector2(50,500));
-        player.setCamera(cam);
+        player = EntityFactory.getPlayer(this,new Vector2(50,500));
         //end
 
         //level setup
@@ -110,10 +109,10 @@ public class GameModel {
         //boss
         //enemies.add(new BossTwo(this,new Vector2(300,500)));
 
-        enemies.add(new SpikeBlock(this,new Vector2(800,400)));
-        enemies.add(new SpikeBlock(this,new Vector2(1000,700)));
-        enemies.add(new SpikeBlock(this,new Vector2(1400,600)));
-        enemies.add(new SpikeBlock(this,new Vector2(2000,450)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(800,400)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(1000,700)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(1400,600)));
+        enemies.add(new SpikeBlock(getWorld(),getPlayer(),new Vector2(2000,450)));
 
 
 
@@ -356,9 +355,7 @@ public class GameModel {
 
         GameScreen.inputMultiplexer.removeProcessor(player);
 
-        player = new Player();
-        player.initBox2D(world,new Vector2(50,500));
-        player.setCamera(cam);
+        player = EntityFactory.getPlayer(this,new Vector2(50,500));
 
         GameScreen.inputMultiplexer.addProcessor(player);
 
