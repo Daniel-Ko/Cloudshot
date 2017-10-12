@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import model.GameModel;
 import model.GameObjectInterface;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 
 /**
@@ -35,20 +36,20 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 
 	private double angle;
 	private boolean toRemove = false;
-	private boolean rotation = true;
+	private boolean playerBullet;
 
 
 	public BulletImpl(Vector2 startingPos) {
 		this.startingPos = startingPos;
 	}
 
-	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t){
+	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t, boolean owner){
 		this.pos = new Vector2(start.x,start.y + 0.3f);
 		this.startingPos = new Vector2(start.x,start.y + 0.3f);
 		this.endPos = new Vector2(end.x, end.y);
 		this.damage = damage;
 		this.image = t;
-		///this.playerBullet = owner;
+		this.playerBullet = owner;
 
 
 		
@@ -112,21 +113,29 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 		return this.image;
 	}
 
-	public void update(List<AbstractEnemy> enemies){
+	public void update(List<AbstractEnemy> enemies, AbstractPlayer player){
 		if(pos.dst2(this.getStartingPos()) > 1000){
 			this.setToRemove(true);
 		}
-		doCollide(enemies);
+		doCollide(enemies,player);
 		pos.set(pos.x-xVel*speed,pos.y-yVel*speed);
 	}
 
-	private void doCollide(List<AbstractEnemy> enemies) {
-		for (AbstractEnemy e: enemies){
-			if (e.getBoundingBox().contains(this.getX(),this.getY())){
-				e.hit((int)this.getDamage());
-				this.setToRemove(true);
+	private void doCollide(List<AbstractEnemy> enemies, AbstractPlayer player) {
+		if (this.playerBullet){
+			for (AbstractEnemy e: enemies){
+				if (e.getBoundingBox().contains(this.getX(),this.getY())){
+					e.hit((int)this.getDamage());
+					this.setToRemove(true);
+				}
 			}
 		}
+		else{
+			if (player.getBoundingBox().contains(this.getX(),this.getY())){
+				player.hit(this.getDamage());
+			}
+		}
+
 	}
 
 	/**
@@ -199,8 +208,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	public void setPos(Vector2 pos) {
 		this.pos = pos;
 	}
-	public boolean isRotation() {
-		return rotation;
-	}
+
 	
 }

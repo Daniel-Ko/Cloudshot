@@ -42,7 +42,7 @@ public class Pistol extends AbstractWeapon{
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();
 		this.ammo --;
-		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage()));
+		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true));
 		return bullets;
 	}
 	/**

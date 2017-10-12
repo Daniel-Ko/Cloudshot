@@ -23,7 +23,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 
 	/**
 	 * Defines how each gun should shoot.
-	 * @param player
+	 * @param p player
 	 * @return the bullets which get shot by the gun
      */
 	public abstract ArrayList<BulletImpl> shoot(Player p);
