@@ -18,7 +18,7 @@ public class LevelLabel extends LabelFactory {
     public Label createLabel() {
         Label levelText = new Label(gameModel.getLevel().getLevelName(), CloudShotGame.gameSkin, "big");
         levelText.setAlignment(Align.center);
-        levelText.setY(Gdx.graphics.getHeight() - 20);
+        levelText.setY(Gdx.graphics.getHeight() - 35);
         levelText.setWidth(Gdx.graphics.getWidth());
         levelText.setFontScale(1);
         return levelText;
