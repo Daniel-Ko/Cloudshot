@@ -37,7 +37,7 @@ public class SemiAuto extends AbstractWeapon{
 
     /**
      * shoots a line of four bullets.
-     * @param Abstract Player
+     * @param p player
      * @return Arraylist of bullets
      */
     @Override
@@ -51,10 +51,10 @@ public class SemiAuto extends AbstractWeapon{
         Vector2 aimBelow =  new Vector2(p.getX() +1,  p.getY());
         Vector2 bul = new Vector2(p.getX() + 0.5f,  p.getY());
 
-        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage()));
+        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage(), true));
+        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage(), true));
+        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage(), true ));
+        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage(), true ));
         return bullets;
     }
 

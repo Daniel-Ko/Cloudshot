@@ -40,7 +40,7 @@ public class Sniper extends AbstractWeapon {
 
     /**
      * shoots one very strong & fast bullet.
-     * @param Abstract person
+     * @param p abstract player
      * @return bullet to be shot.
      */
     @Override
@@ -48,7 +48,7 @@ public class Sniper extends AbstractWeapon {
         if(this.ammo <= 0){return null;}
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
-        BulletImpl bul = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage());
+        BulletImpl bul = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
         bul.setSpeed(5);
         bullets.add(bul);
         return bullets;
@@ -56,7 +56,7 @@ public class Sniper extends AbstractWeapon {
 
     /**
      * adds a sniper to the inventory if there is one there.
-     * @param Abstract player
+     * @param p
      */
     @Override
     public void pickedUp(AbstractPlayer p) {
