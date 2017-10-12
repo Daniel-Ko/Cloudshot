@@ -1,6 +1,5 @@
 package view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,7 +8,6 @@ import model.being.player.AbstractPlayer;
 import model.collectable.AbstractWeapon;
 import view.labels.AmmoCountLabel;
 import view.labels.InventoryLabel;
-import view.labels.LabelFactory;
 
 import java.util.List;
 

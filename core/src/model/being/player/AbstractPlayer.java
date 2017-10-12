@@ -94,6 +94,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	protected abstract void definePlayer(Vector2 pos);
 
+
+
 	/**
 	 * Applies player movement if they are moving
 	 *
@@ -373,6 +375,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void setCamera(OrthographicCamera gameCam){
 		cam = gameCam;
 	}
+
+	public void setWorld(Optional<World> world) {
+		this.world = world;
+	}
+
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;
 	}

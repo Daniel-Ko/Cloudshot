@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import static com.sun.xml.internal.ws.policy.sourcemodel.wspolicy.XmlToken.Optional;
+
 public class GameModel implements GameModelInterface {
 
     /**
@@ -93,6 +95,7 @@ public class GameModel implements GameModelInterface {
         this.enemiesToRemove = new ArrayList<>();
         this.enemiesToAdd = new Stack<>();
         this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
+        //player.setWorld(Optional world);
         this.level = new LevelOne();
         this.repoScraper = new GameStateTransactionHandler();
     }
