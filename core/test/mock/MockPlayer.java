@@ -112,7 +112,7 @@ public class MockPlayer {
         ArrayList<BulletImpl> toRemove = new ArrayList<>();
         //updating players bullets
         for(BulletImpl b: bullets ){
-            b.update(enemies);
+            // b.update(enemies,);
             if (b.isToRemove()) {
                 toRemove.add(b);
             }

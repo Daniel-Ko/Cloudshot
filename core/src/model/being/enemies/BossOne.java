@@ -70,7 +70,7 @@ public class BossOne extends AbstractEnemy{
         int secondsBetweenShots = 0;
         if(lastBulletFired+secondsBetweenShots<System.currentTimeMillis()/1000){
             lastBulletFired = System.currentTimeMillis()/1000;
-            bullets.add(new BulletImpl(position,player.getPos(),2,new StaticSprite("player_jump.png")));
+            bullets.add(new BulletImpl(position,player.getPos(),2,new StaticSprite("player_jump.png"),false));
             return true;
         }
         return false;
@@ -124,7 +124,7 @@ public class BossOne extends AbstractEnemy{
     private void updateBullets(){
         //updating bullets enemy has fired
         for(BulletImpl b : bullets)
-            b.update(new ArrayList<AbstractEnemy>());//FIXME
+            b.update(new ArrayList<AbstractEnemy>(),player);//FIXME
         //Cleans up bullets
         if(bullets.size() > 50){
             bullets.poll();//remove the oldest 1st

@@ -71,7 +71,6 @@ public abstract class AbstractLevel {
 
     public void loadCollectibles() {
         MapLayer collectibles = tiledMap.getLayers().get("Collectibles");
-        System.out.println();
         MapObjects collectibleObjs = collectibles.getObjects();
         collectables = new ArrayList<>();
         for (MapObject o : collectibleObjs) {
@@ -198,6 +197,7 @@ public abstract class AbstractLevel {
                 p.applyKnockBack(AbstractPlayer.knock_back.NORTH);
             }
             for (AbstractEnemy ae : gm.getEnemies()) {//affect enemies
+
                 if (rect.contains(ae.getPosition())) {
                     ae.hit(10);
                 }

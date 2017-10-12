@@ -33,7 +33,7 @@ public class ShooterAttack implements EnemyState {
         if(lastBulletFired+secondsBetweenShots<System.currentTimeMillis()/1000){
             lastBulletFired = System.currentTimeMillis()/1000;
             Vector2 centerOfPlayer = new Vector2(p.getBoundingBox().x+p.getBoundingBox().width/2,p.getBoundingBox().y+p.getBoundingBox().height/2);
-            se.getBullets().add(new BulletImpl(se.getPosition(),centerOfPlayer,2,new StaticSprite("player_jump.png")));
+            se.getBullets().add(new BulletImpl(se.getPosition(),centerOfPlayer,2,new StaticSprite("player_jump.png"),false));
             return (int)e.getDamage();
         }
         return -1;
