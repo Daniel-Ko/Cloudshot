@@ -2,7 +2,6 @@
 package model.data;
 
 import com.badlogic.gdx.Gdx;
-import model.GameModel;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.being.player.PlayerData;
@@ -23,13 +22,13 @@ public class GameStateTransactionHandler {
         repository = new GameStateRepository();
     }
 
-    public boolean save(GameModel model) {
+    public boolean save(AbstractPlayer pl, List<AbstractEnemy> enems, List<AbstractCollectable> collects) {
         GameState newState = new GameState(
                 Gdx.app.getPreferences(
                         "save" + repository.latestSaveNum() //always a unique name and should stay dynamic + consistent throughout repo operations
                 ));
         
-        if(writeQuery(model, newState)) {
+        if(writeQuery(pl, enems, collects, newState)) {
             commit(newState);
             File f = new File(".");
             System.out.println(f.getAbsolutePath()); //print the path of where it was saved for testing
@@ -38,18 +37,18 @@ public class GameStateTransactionHandler {
         return false;
     }
 
-    private boolean writeQuery(GameModel model, GameState newState) {
+    private boolean writeQuery(AbstractPlayer pl, List<AbstractEnemy> enems, List<AbstractCollectable> collects, GameState newState) {
 
         /* spawnEnemies the newState with validated data, otherwise signal failed save */
-        if(!validateAndUpdatePlayer(newState, model.getPlayer())) {
+        if(!validateAndUpdatePlayer(newState, pl)) {
             System.out.println("bad player");
             return false;
         }
-        if(!validateAndUpdateEnemies(newState, model.getEnemies())) {
+        if(!validateAndUpdateEnemies(newState, enems)) {
             System.out.println("bad enemies");
             return false;
         }
-        if(!validateAndUpdateCollectables(newState, model.getCollectables())) {
+        if(!validateAndUpdateCollectables(newState, collects)) {
             System.out.println("bad items");
             return false;
         }

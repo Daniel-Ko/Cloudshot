@@ -1,5 +1,16 @@
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import model.being.EntityFactory;
+import model.being.enemies.AbstractEnemy;
+import model.being.enemies.Rogue;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
+import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
@@ -26,8 +37,14 @@ public class PersistenceTest extends GameTest{
 
     @Test
     public void testValidSave() {
-        GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
+        GameStateTransactionHandler repoScraper = new GameStateTransactionHandler();
 
-        //assertFalse(nullCatcher.validateAndUpdatePlayer(null
+        AbstractPlayer pl = new Player();
+        List<AbstractEnemy> enems = new ArrayList<>();
+        List<AbstractCollectable> collects = new ArrayList<>();
+
+        enems.add(new Rogue(new World(new Vector2(0, -8), true), pl, new Vector2(15, 15)));
+
+        repoScraper.save(pl, enems, collects);
     }
 }

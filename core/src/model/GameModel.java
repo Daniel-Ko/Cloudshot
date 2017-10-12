@@ -263,7 +263,7 @@ public class GameModel {
     }
 
     public void save() {
-        if (!repoScraper.save(this)) {
+        if (!repoScraper.save(this.player, this.enemies, this.getCollectables())) {
             //TODO: msg dialog: save failed
         }
     }
