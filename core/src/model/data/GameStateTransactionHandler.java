@@ -61,7 +61,9 @@ public class GameStateTransactionHandler {
      * @return
      */
     public StateQuery load() throws InvalidTransactionException {
-        GameState latest = repository.pullSoft(); //TODO is pullSoft necessary?
+        GameState latest = repository.pullSoft();
+        if(latest == null)
+            return null;
 
         if(!latest.containsPlayer() || !latest.containsEnemies()) {
             repository.pullHard(); //cleanse the repo of the bad state

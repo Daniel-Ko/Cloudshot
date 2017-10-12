@@ -20,7 +20,7 @@ import model.being.player.Player;
 public class EntityFactory {
 
 	public static enum entity_type {
-		archer, slime, rogue,spikeblock;
+		archer, slime, rogue,spikeblock, boss2, boss1;
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class EntityFactory {
 	 *
 	 * @return returns the enemy which matches enemyType
 	 */
-	public static AbstractEnemy getEnemy(GameModel game, Vector2 position, entity_type enemyType) {
+	public static AbstractEnemy produceEnemy(GameModel game, Vector2 position, entity_type enemyType) {
 		if (enemyType == entity_type.archer) {
 			ShootingEnemy shooter = new ShootingEnemy(game.getWorld(),game.getPlayer(),position);
 			return shooter;
@@ -57,7 +57,7 @@ public class EntityFactory {
 	 *
 	 * @return a player who has been fully init and placed in gameModels Box2D world
 	 * */
-	public static AbstractPlayer getPlayer(GameModel gameModel, Vector2 pos){
+	public static AbstractPlayer producePlayer(GameModel gameModel, Vector2 pos){
 		Player p = new Player();
 		p.loadImage();
 		p.initBox2D(gameModel.getWorld(),pos);

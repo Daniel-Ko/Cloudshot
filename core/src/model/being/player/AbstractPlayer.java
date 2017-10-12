@@ -66,7 +66,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	protected transient FixtureDef playerProperties;
 
 	//Used for converting mouse pressed coords into world coords
-	private OrthographicCamera cam;
+	private transient OrthographicCamera cam;
 
 	public AbstractPlayer() {
 		world = Optional.empty();

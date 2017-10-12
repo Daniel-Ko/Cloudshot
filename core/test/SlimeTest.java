@@ -4,7 +4,8 @@ import model.being.EntityFactory;
 import model.being.enemies.Slime2;
 import model.being.enemystates.Death;
 import model.being.player.Player;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import view.screens.GameScreen;
 
 import static junit.framework.TestCase.assertFalse;
