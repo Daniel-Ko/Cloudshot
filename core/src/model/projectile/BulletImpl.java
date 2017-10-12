@@ -19,8 +19,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected Vector2 startingPos;
 	protected Vector2 endPos;
 	protected Vector2 pos;
-	
-	
 
 	protected float damage;
 

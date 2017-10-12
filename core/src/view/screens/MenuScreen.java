@@ -4,16 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import model.data.GameStateTransactionHandler;
-import model.data.StateQuery;
-import view.CloudShotGame;
 import view.buttons.StartButton;
-import view.labels.LabelFactory;
 import view.labels.MainMenuLabel;
 
 public class MenuScreen extends ScreenAdapter {
