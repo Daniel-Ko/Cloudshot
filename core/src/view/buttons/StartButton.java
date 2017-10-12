@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import model.GameModel;
 import view.CloudShotGame;
 import view.screens.GameScreen;
 import view.screens.MenuScreen;
@@ -25,7 +26,8 @@ public class StartButton extends ButtonFactory {
         startButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MenuScreen.game.setScreen(new GameScreen());
+                GameModel gameModel = new GameModel();
+                MenuScreen.game.setScreen(new GameScreen(gameModel));
             }
 
             @Override

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import model.GameModel;
 import view.CloudShotGame;
 import view.labels.GameOverLabel;
 
@@ -37,7 +38,8 @@ public class GameOverScreen extends ScreenAdapter {
         restartButton.addListener(new InputListener(){
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MenuScreen.game.setScreen(new GameScreen());
+                GameModel gameModel = new GameModel();
+                MenuScreen.game.setScreen(new GameScreen(gameModel));
             }
 
             @Override

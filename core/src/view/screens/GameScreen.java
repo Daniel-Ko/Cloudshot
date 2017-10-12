@@ -7,37 +7,33 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
+import model.being.enemies.AbstractEnemy;
+import model.being.enemies.BossOne;
+import model.being.enemies.ShootingEnemy;
+import model.being.enemies.SpikeBlock;
 import model.being.player.AbstractPlayer;
-import model.data.GameStateTransactionHandler;
-import view.CloudShotGame;
+import model.being.player.Player;
+import model.collectable.AbstractCollectable;
+import model.projectile.BulletImpl;
 import view.HealthBar;
 import view.InventoryActor;
 import view.buttons.LoadButton;
 import view.buttons.MenuButton;
 import view.buttons.MuteButton;
 import view.buttons.SaveButton;
-import view.labels.InventoryLabel;
 import view.labels.LevelLabel;
 
-public class GameScreen extends ScreenAdapter{
-
-    //These values may get changed on a per level basis.
-    public final int WORLD_HEIGHT = 2000;
-    public final int WORLD_WIDTH = 3000;
+public class GameScreen extends ScreenAdapter {
 
     private static final float PADDING = 10;
     public static final float FRAME_RATE = 0.09f;
 
     public static InputMultiplexer inputMultiplexer;
-
-    public static final int VIEW_WIDTH = 1000;
 
     private SpriteBatch batch;
 
@@ -55,14 +51,13 @@ public class GameScreen extends ScreenAdapter{
     private TextButton mute;
     private TextButton menu;
     private TextButton load;
-
     private Label levelText;
-
     private InventoryActor inventoryActor;
 
 
-    public GameScreen(){
+    public GameScreen(GameModel gameModel) {
         this.stage = new Stage(new ScreenViewport());
+        this.gameModel = gameModel;
 
         levelText = new LevelLabel().createLabel();
         stage.addActor(levelText);
@@ -73,17 +68,9 @@ public class GameScreen extends ScreenAdapter{
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(gameModel.getPlayer());
 
         batch = new SpriteBatch();
-
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(VIEW_WIDTH/GameModel.PPM,((VIEW_WIDTH * (h / w))/GameModel.PPM));
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        camera.update();
-
-        gameModel = new GameModel(camera);
-        gameModel.getTiledMapRenderer().setView(camera);
 
         inventoryActor = new InventoryActor(gameModel.getPlayer());
         inventoryActor.setY(30);
@@ -96,17 +83,17 @@ public class GameScreen extends ScreenAdapter{
                 gameModel).createButton();
 
         mute = new MuteButton(
-                Gdx.graphics.getWidth() - PADDING*2,
+                Gdx.graphics.getWidth() - PADDING * 2,
                 PADDING,
                 gameModel).createButton();
 
         menu = new MenuButton(
-                Gdx.graphics.getWidth() - PADDING*3,
+                Gdx.graphics.getWidth() - PADDING * 3,
                 PADDING
         ).createButton();
 
         load = new LoadButton(
-                Gdx.graphics.getWidth()- PADDING*4,
+                Gdx.graphics.getWidth() - PADDING * 4,
                 PADDING,
                 gameModel
         ).createButton();
@@ -121,54 +108,69 @@ public class GameScreen extends ScreenAdapter{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(gameModel.getCamera().combined);
 
         elapsedTime += delta;
 
-        gameModel.getTiledMapRenderer().setView(camera); // Game map.
-        gameModel.getTiledMapRenderer().render();
-
-        // Update the camera.
-        updateCamera(gameModel.getPlayer());
-
-        // Update the game state.
-        gameModel.updateState(elapsedTime);
-
+        gameModel.update();
+        levelText.setText(gameModel.getLevel().getLevelName());
 
         batch.begin();
+        Player player = (Player) gameModel.getPlayer();
+        float x = player.getX() - 0.9f;
+        float y = player.getY() - 0.6f;
+        float width = 1.80f;
+        float height = 1.80f;
+        batch.draw(
+                player.getImage().getFrameFromTime(elapsedTime),
+                player.flip() ? x + width : x, y,
+                player.flip() ? -width : width, height
+        );
 
-        levelText.setText(gameModel.getLevel().getLevelName());
-        gameModel.draw(batch);
+        //drawing player bullets
+        for (BulletImpl b : player.getBullets()) {
+            //sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+            batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime), b.getX() - 0.25f, b.getY() - 0.25f,
+                    0f, 0f,
+                    0.1f, 0.1f,
+                    1.0f, 1.0f,
+                    60f, true);
+
+        }
+        for (AbstractEnemy ae : gameModel.getEnemies()) {
+            if (ae.getImage() == null) continue;
+            batch.draw(ae.getImage().getFrameFromTime(elapsedTime), ae.getX() - ae.getDrawingWidth() / 2, ae.getY() - ae.getDrawingHeight() / 4, ae.getDrawingWidth(), ae.getDrawingHeight());
+            if (ae instanceof ShootingEnemy) {
+                ShootingEnemy s = (ShootingEnemy) ae;
+                for (BulletImpl b : s.getBullets())
+                    batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime), b.getX() - 0.25f, b.getY() - 0.25f, 0.5f, 0.5f);
+            }
+            if (ae instanceof SpikeBlock) {
+                SpikeBlock s = (SpikeBlock) ae;
+                batch.draw(s.getImage().getFrameFromTime(elapsedTime), s.getX() - s.width / 2, s.getY() - s.height / 2, s.width, s.height);
+            }
+            if (ae instanceof BossOne) {
+                BossOne s = (BossOne) ae;
+                for (BulletImpl b : s.bullets)
+                    batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime), b.getX() - 0.25f, b.getY() - 0.25f, 0.5f, 0.5f);
+            }
+
+        }
+
+        for (AbstractCollectable ac : gameModel.getCollectables()) {
+            batch.draw(ac.getImage().getFrameFromTime(elapsedTime), ac.getX(), ac.getY(), ac.getBoundingBox().getWidth(), ac.getBoundingBox().getHeight());
+        }
+        gameModel.postDraw();
         batch.end();
 
-        healthBar.setValue(gameModel.getPlayer().getHealth()/150.0f);
+        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
 
         stage.act();
         stage.draw();
     }
 
-    private void updateCamera(AbstractPlayer player) {
-        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
-        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
-
-        camera.position.set(player.getX(), player.getY(),0);//lock camera to player's position
-
-        camera.position.x = MathUtils.clamp(camera.position.x,
-                effectiveViewportWidth / 2f,
-                WORLD_WIDTH - effectiveViewportWidth
-        );
-
-        camera.position.y = MathUtils.clamp(camera.position.y,
-                effectiveViewportHeight / 2f,
-                WORLD_HEIGHT - effectiveViewportHeight / 2f
-        );
-
-        camera.update();
-    }
-
-
     @Override
-    public void dispose () {
+    public void dispose() {
         batch.dispose();
         stage.dispose();
     }
@@ -178,7 +180,7 @@ public class GameScreen extends ScreenAdapter{
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    public static void displayGameOverScreen(){
+    public static void displayGameOverScreen() {
         MenuScreen.game.setScreen(new GameOverScreen());
     }
 

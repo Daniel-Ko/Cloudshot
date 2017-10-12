@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1280;
 		config.height = 740;
+		config.forceExit = false;
 		new LwjglApplication(new CloudShotGame(), config);
 	}
 }
