@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
+import model.being.player.AbstractPlayer;
 import model.data.GameStateTransactionHandler;
 import view.CloudShotGame;
 import view.HealthBar;
@@ -56,7 +57,6 @@ public class GameScreen extends ScreenAdapter{
     private TextButton load;
 
     private Label levelText;
-    private Label inventoryText;
 
     private InventoryActor inventoryActor;
 
@@ -66,9 +66,6 @@ public class GameScreen extends ScreenAdapter{
 
         levelText = new LevelLabel().createLabel();
         stage.addActor(levelText);
-
-        inventoryText = new InventoryLabel().createLabel();
-        stage.addActor(inventoryText);
 
         healthBar = new HealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
@@ -89,7 +86,7 @@ public class GameScreen extends ScreenAdapter{
         gameModel.getTiledMapRenderer().setView(camera);
 
         inventoryActor = new InventoryActor(gameModel.getPlayer());
-        inventoryActor.setY(10);
+        inventoryActor.setY(30);
         inventoryActor.setX(120);
         stage.addActor(inventoryActor);
 
@@ -132,8 +129,7 @@ public class GameScreen extends ScreenAdapter{
         gameModel.getTiledMapRenderer().render();
 
         // Update the camera.
-        updateCamera();
-        camera.update();
+        updateCamera(gameModel.getPlayer());
 
         // Update the game state.
         gameModel.updateState(elapsedTime);
@@ -151,11 +147,11 @@ public class GameScreen extends ScreenAdapter{
         stage.draw();
     }
 
-    private void updateCamera() {
+    private void updateCamera(AbstractPlayer player) {
         float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
         float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
 
-        camera.position.set(gameModel.getPlayer().getX(), /*camera.position.y*/gameModel.getPlayer().getY(),0);//lock camera to player's position
+        camera.position.set(player.getX(), player.getY(),0);//lock camera to player's position
 
         camera.position.x = MathUtils.clamp(camera.position.x,
                 effectiveViewportWidth / 2f,
@@ -167,6 +163,7 @@ public class GameScreen extends ScreenAdapter{
                 WORLD_HEIGHT - effectiveViewportHeight / 2f
         );
 
+        camera.update();
     }
 
 
