@@ -16,16 +16,23 @@ public class DeathPack extends AbstractBuff {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 *
+	 * @return the deathpack image
+     */
 	@Override
 	public CustomSprite getImage() {
 		return image;
 	}
 
+	/**
+	 * this damages the player by 50.
+	 * @param AbstractPlayer
+     */
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		int oldHealth = p.getHealth();
 		p.setHealth(oldHealth - 50);
-		System.out.println(p.getHealth());
 
 	}
 

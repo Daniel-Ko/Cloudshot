@@ -35,6 +35,11 @@ public class SemiAuto extends AbstractWeapon{
         return this.bulImage;
     }
 
+    /**
+     * shoots a line of four bullets.
+     * @param Abstract Player
+     * @return Arraylist of bullets
+     */
     @Override
     public ArrayList<BulletImpl> shoot(Player p) {
         if(this.ammo <= 0){return null;}
@@ -53,6 +58,11 @@ public class SemiAuto extends AbstractWeapon{
         return bullets;
     }
 
+    /**
+     * adds a semiAuto to players inventory
+     * if there isnt one there.
+     * @param p
+     */
     @Override
     public void pickedUp(AbstractPlayer p) {
         for (AbstractWeapon w: p.getInventory()) {

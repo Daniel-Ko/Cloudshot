@@ -38,6 +38,11 @@ public class Sniper extends AbstractWeapon {
         return this.bulImage;
     }
 
+    /**
+     * shoots one very strong & fast bullet.
+     * @param Abstract person
+     * @return bullet to be shot.
+     */
     @Override
     public ArrayList<BulletImpl> shoot(Player p) {
         if(this.ammo <= 0){return null;}
@@ -48,6 +53,11 @@ public class Sniper extends AbstractWeapon {
         bullets.add(bul);
         return bullets;
     }
+
+    /**
+     * adds a sniper to the inventory if there is one there.
+     * @param Abstract player
+     */
     @Override
     public void pickedUp(AbstractPlayer p) {
         for (AbstractWeapon w: p.getInventory()) {
