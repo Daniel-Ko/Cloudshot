@@ -281,7 +281,7 @@ public class GameModel {
             
             
             loadPlayer(loadedPlayerData);
-            this.enemies = loadedEnemies;
+            loadEnemies(loadedEnemies);
             //this.
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
@@ -300,7 +300,8 @@ public class GameModel {
             this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
             this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
-        
+
+        player.setPos(pdata.getPos());
         player.setHealth(pdata.getHealth());
         player.setDamage(pdata.getDamage());
         player.setBoundingBox(pdata.getBoundingBox());
@@ -321,11 +322,9 @@ public class GameModel {
 
     private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
         this.enemies.clear();
-
+        enemies.addAll(enemiesToRemove);
         for(AbstractEnemy e : enemiesToLoad) {
             AbstractEnemy newEnemy = EntityFactory.produceEnemy(this, e.getPosition(), e.type);
-
-            System.out.println(newEnemy.getGame() == null);
 
             newEnemy.setSpeed(e.getSpeed());
             newEnemy.setDamage(e.getDamage());
@@ -335,7 +334,8 @@ public class GameModel {
             newEnemy.setDrawingWidth(e.getDrawingWidth());
             newEnemy.setDrawingHeight(e.getDrawingHeight());
 
-            this.enemies.add(newEnemy);
+            //enemies.add(newEnemy);
+            enemiesToAdd.push(newEnemy);
         }
     }
 
