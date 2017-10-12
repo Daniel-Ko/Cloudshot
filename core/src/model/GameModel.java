@@ -79,24 +79,30 @@ public class GameModel implements GameModelInterface {
      */
     private Music music;
 
-    public GameModel(){
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        this.camera = new OrthographicCamera(VIEW_WIDTH / GameModel.PPM, ((VIEW_WIDTH * (h / w)) / GameModel.PPM));
-        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
-        this.camera.update();
+    public GameModel() {
+        setupCamera();
+        setupGame();
+        loadTerrain();
+        loadMusic();
+    }
 
+    private void setupGame() {
         this.world = new World(new Vector2(0, GRAVITY), true);
         this.debugRenderer = new Box2DDebugRenderer();
         this.enemies = new ArrayList<>();
         this.enemiesToRemove = new ArrayList<>();
         this.enemiesToAdd = new Stack<>();
-        this.player = EntityFactory.producePlayer(this, new Vector2(50,500));
+        this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
         this.level = new LevelOne();
         this.repoScraper = new GameStateTransactionHandler();
+    }
 
-        loadTerrain();
-        loadMusic();
+    private void setupCamera() {
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        this.camera = new OrthographicCamera(VIEW_WIDTH / GameModel.PPM, ((VIEW_WIDTH * (h / w)) / GameModel.PPM));
+        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        this.camera.update();
     }
 
     private void loadTerrain() {
@@ -108,6 +114,7 @@ public class GameModel implements GameModelInterface {
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width / 2) / GameModel.PPM, (r.height / 2) / GameModel.PPM);
+
             // User data to tell us what things are colliding.
             groundBody.createFixture(groundBox, 0.0f).setUserData("platform");
             groundBox.dispose();
@@ -137,10 +144,12 @@ public class GameModel implements GameModelInterface {
         getTiledMapRenderer().render();
 
         level.spawnEnemies(player, this);
+
+        debugRenderer.render(world, camera.combined);
         world.step(1 / 60f, 6, 2);
+
         checkIfGameOver();
 
-        postDraw();
     }
 
     private void updateCamera() {
@@ -163,7 +172,10 @@ public class GameModel implements GameModelInterface {
     }
 
     private void updatePlayerModel() {
+        // Let the player knows about the enemies around it.
         player.update(enemies);
+
+        // Attack the enemy if the player is attacking a valid enemy.
         for (AbstractEnemy e : enemies) {
             player.attack(e);
         }
@@ -171,14 +183,19 @@ public class GameModel implements GameModelInterface {
     }
 
     public void updateEnemies() {
-        //First Clean up all dead enemies
+        // Clean up all dead enemies.
         for (AbstractEnemy ae : enemiesToRemove)
             enemies.remove(ae);
+
         for (AbstractEnemy ae : enemies) {
             ae.update();
-            //added dead enemies to be removed
-            if (ae.enemyState instanceof Death) enemiesToRemove.add(ae);
+
+            // Dead enemies to be removed.
+            if (ae.enemyState instanceof Death)
+                enemiesToRemove.add(ae);
         }
+
+        // Add enemies into the game.
         for (int i = 0; i < enemiesToAdd.size(); i++) {
             enemies.add(enemiesToAdd.pop());
         }
@@ -187,14 +204,19 @@ public class GameModel implements GameModelInterface {
 
     public void updateCollectables() {
         AbstractCollectable remove = null;
+
+        // Iterate through all of the collectables in the scene.
         for (AbstractCollectable ac : level.getCollectables()) {
+            // Check if the player have collected it.
             if (ac.checkCollide(getPlayer()) == true) {
                 remove = ac;
                 break;
             }
         }
+
+        // Remove the collectable in the game.
         if (remove != null) {
-            level.getCollectables().remove(remove);
+            getCollectables().remove(remove);
         }
     }
 
@@ -231,20 +253,13 @@ public class GameModel implements GameModelInterface {
         return level;
     }
 
-    public String getLevelName(){
+    @Override
+    public String getLevelName() {
         return level.getLevelName();
     }
 
     /**
-     * To be called after drawing the GameObjects.
-     */
-    public void postDraw(){
-        debugRenderer.render(world, camera.combined);
-        world.step(1 / 60f, 6, 2);
-    }
-
-    /**
-     * Mutes or unmutes the soundtrack playing in the background.
+     * Mutes or plays the soundtrack in the background.
      */
     public void setMuted() {
         if (music.isPlaying()) {
@@ -256,8 +271,8 @@ public class GameModel implements GameModelInterface {
 
     /**
      * Return true if the music is playing. False otherwise.
-     * @return
-     *      true if music is playing.
+     *
+     * @return true if music is playing.
      */
     public boolean musicIsPlaying() {
         return music.isPlaying();
@@ -275,7 +290,7 @@ public class GameModel implements GameModelInterface {
         loadTerrain();
 
         GameScreen.inputMultiplexer.removeProcessor(player);
-        player = EntityFactory.producePlayer(this,new Vector2(50,500));
+        player = EntityFactory.producePlayer(this, new Vector2(50, 500));
         GameScreen.inputMultiplexer.addProcessor(player);
     }
 
@@ -303,7 +318,7 @@ public class GameModel implements GameModelInterface {
     public void load() {
         try {
             StateQuery loader = repoScraper.load();
-            if(loader == null)
+            if (loader == null)
                 return; //todo say nothing to load?
 
             //beautiful waterfall design of method calls into assignments
@@ -323,7 +338,7 @@ public class GameModel implements GameModelInterface {
     }
 
     private void loadPlayer(PlayerData pdata) {
-        if(pdata.isLiving())
+        if (pdata.isLiving())
             this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
             this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
@@ -342,7 +357,6 @@ public class GameModel implements GameModelInterface {
         player.setMovingRight(pdata.isMovingRight());
 
 
-
         //TODO REPLACE BODY newPlayer.getBody().setTransform();
         //TODO REPLACE FIXTURE
     }
@@ -350,12 +364,12 @@ public class GameModel implements GameModelInterface {
     private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
         this.enemies.clear();
         enemies.addAll(enemiesToRemove);
-        for(AbstractEnemy e : enemiesToLoad) {
+        for (AbstractEnemy e : enemiesToLoad) {
             AbstractEnemy newEnemy = EntityFactory.produceEnemy(this,
                     new Vector2(
-                            e.getPosition().x*PPM,
-                            e.getPosition().y*PPM
-                            ),
+                            e.getPosition().x * PPM,
+                            e.getPosition().y * PPM
+                    ),
                     e.type);
 
             newEnemy.setSpeed(e.getSpeed());
