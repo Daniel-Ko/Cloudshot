@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
+import model.GameModelInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemies.BossOne;
 import model.being.enemies.ShootingEnemy;
@@ -53,7 +54,7 @@ public class GameScreen extends ScreenAdapter {
     /**
      * Model of Cloudshot.
      */
-    private GameModel gameModel;
+    private GameModelInterface gameModel;
 
     /**
      * Stage is the staging area for all the UI elements in the game.
@@ -71,7 +72,7 @@ public class GameScreen extends ScreenAdapter {
     private Label levelText;
     private InventoryActor inventoryActor;
 
-    public GameScreen(GameModel gameModel) {
+    public GameScreen(GameModelInterface gameModel) {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
         this.batch = new SpriteBatch();
@@ -172,7 +173,6 @@ public class GameScreen extends ScreenAdapter {
         drawBullets(player);
         drawEnemies(gameModel.getEnemies(), player);
         drawCollectables(gameModel.getCollectables());
-        gameModel.postDraw();
 
         // Drawing ends.
         batch.end();

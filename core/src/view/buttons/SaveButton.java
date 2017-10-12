@@ -5,13 +5,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import model.GameModel;
+import model.GameModelInterface;
 import view.CloudShotGame;
 
 public class SaveButton extends ButtonFactory {
 
-    private GameModel gameModel;
+    private GameModelInterface gameModel;
 
-    public SaveButton(float x, float y, GameModel gameModel) {
+    public SaveButton(float x, float y, GameModelInterface gameModel) {
         super(x, y);
         this.gameModel = gameModel;
     }

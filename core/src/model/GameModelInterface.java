@@ -20,6 +20,12 @@ public interface GameModelInterface {
 
     TiledMapRenderer getTiledMapRenderer();
 
+    String getLevelName();
+
     void update();
+
+    void load();
+
+    void save();
 
 }

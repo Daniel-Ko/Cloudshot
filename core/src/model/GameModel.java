@@ -139,6 +139,8 @@ public class GameModel implements GameModelInterface {
         level.spawnEnemies(player, this);
         world.step(1 / 60f, 6, 2);
         checkIfGameOver();
+
+        postDraw();
     }
 
     private void updateCamera() {
