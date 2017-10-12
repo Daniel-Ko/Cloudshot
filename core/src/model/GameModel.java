@@ -80,7 +80,6 @@ public class GameModel implements GameModelInterface {
     private Music music;
 
     public GameModel(){
-
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         this.camera = new OrthographicCamera(VIEW_WIDTH / GameModel.PPM, ((VIEW_WIDTH * (h / w)) / GameModel.PPM));
