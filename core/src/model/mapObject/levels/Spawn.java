@@ -32,14 +32,14 @@ public class Spawn {
     public void spawn(List<AbstractEnemy> enemies, GameModel gm){
         for(int i = 0; i < number; i++){
             if(enemyType == EnemyType.SLIME){
-                enemies.add(EntityFactory.getEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), EntityFactory.entity_type.slime));
+                enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), EntityFactory.entity_type.slime));
             }
             else if(enemyType == EnemyType.ROGUE){
-                enemies.add(EntityFactory.getEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), EntityFactory.entity_type.rogue));
+                enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), EntityFactory.entity_type.rogue));
 
             }
             else if(enemyType == EnemyType.SHOOTER){
-                enemies.add(EntityFactory.getEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), EntityFactory.entity_type.archer));
+                enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), EntityFactory.entity_type.archer));
 
             }
         }
