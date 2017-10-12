@@ -95,7 +95,6 @@ public class GameModel implements GameModelInterface {
         this.enemiesToRemove = new ArrayList<>();
         this.enemiesToAdd = new Stack<>();
         this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
-        //player.setWorld(Optional world);
         this.level = new LevelOne();
         this.repoScraper = new GameStateTransactionHandler();
     }
@@ -103,7 +102,10 @@ public class GameModel implements GameModelInterface {
     private void setupCamera() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        this.camera = new OrthographicCamera(VIEW_WIDTH / GameModel.PPM, ((VIEW_WIDTH * (h / w)) / GameModel.PPM));
+        this.camera = new OrthographicCamera(
+                VIEW_WIDTH / GameModel.PPM,
+                ((VIEW_WIDTH * (h / w)) / GameModel.PPM)
+        );
         this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         this.camera.update();
     }
@@ -147,12 +149,11 @@ public class GameModel implements GameModelInterface {
         getTiledMapRenderer().render();
 
         level.spawnEnemies(player, this);
-
+        world.step(1 / 60f, 6, 2);
         debugRenderer.render(world, camera.combined);
         world.step(1 / 60f, 6, 2);
 
         checkIfGameOver();
-
     }
 
     private void updateCamera() {
