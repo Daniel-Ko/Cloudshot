@@ -8,10 +8,10 @@ public class HorizontalMovement implements EnemyState, java.io.Serializable {
 
     //range of how much it can move
     private float range =3;
-    public Vector2 leftTargetLocation;
-    public Vector2 rightTargetLocation;
-    boolean reachedLeft;
-    boolean reachedRight;
+    private Vector2 leftTargetLocation;
+    private Vector2 rightTargetLocation;
+    private boolean reachedLeft;
+    private boolean reachedRight;
     /**
      *
      * @param initPostion initial starting position of this enemy

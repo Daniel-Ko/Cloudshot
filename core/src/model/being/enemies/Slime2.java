@@ -44,9 +44,13 @@ public class Slime2 extends AbstractEnemy{
         detectionRadius = 3;
         attackRadius = 0.5f;
     }
+    public void provideGameModel(GameModel gm){
+        game = gm;
+    }
 
     public Slime2(){
         super();
+        initPos = position;
     }
     protected void defineBody(){
         //body def

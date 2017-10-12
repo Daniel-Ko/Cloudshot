@@ -71,6 +71,7 @@ public abstract class AbstractLevel {
 
     public void loadCollectibles() {
         MapLayer collectibles = tiledMap.getLayers().get("Collectibles");
+        System.out.println();
         MapObjects collectibleObjs = collectibles.getObjects();
         collectables = new ArrayList<>();
         for (MapObject o : collectibleObjs) {

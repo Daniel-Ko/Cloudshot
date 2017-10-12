@@ -39,6 +39,8 @@ public class EntityFactory {
 			return shooter;
 		} else if (enemyType == entity_type.slime) {
 			Slime2 slime = new Slime2(game.getWorld(),game.getPlayer(),position);
+			//to allow the slime to dynamically add itself at runtime
+			slime.provideGameModel(game);
 			return slime;
 		}
 		else if (enemyType == entity_type.spikeblock) {
@@ -62,6 +64,7 @@ public class EntityFactory {
 		p.loadImage();
 		p.initBox2D(gameModel.getWorld(),pos);
 		p.setCamera(gameModel.getCamera());
+
 		return p;
 	}
 }
