@@ -325,7 +325,12 @@ public class GameModel {
         this.enemies.clear();
         enemies.addAll(enemiesToRemove);
         for(AbstractEnemy e : enemiesToLoad) {
-            AbstractEnemy newEnemy = EntityFactory.produceEnemy(this, e.getPosition(), e.type);
+            AbstractEnemy newEnemy = EntityFactory.produceEnemy(this,
+                    new Vector2(
+                            e.getPosition().x*PPM,
+                            e.getPosition().y*PPM
+                            ),
+                    e.type);
 
             newEnemy.setSpeed(e.getSpeed());
             newEnemy.setDamage(e.getDamage());
