@@ -230,6 +230,10 @@ public class GameModel implements GameModelInterface {
         return level;
     }
 
+    public String getLevelName(){
+        return level.getLevelName();
+    }
+
     /**
      * To be called after drawing the GameObjects.
      */

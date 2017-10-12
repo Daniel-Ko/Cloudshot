@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -16,7 +14,6 @@ import model.being.enemies.AbstractEnemy;
 import model.being.enemies.BossOne;
 import model.being.enemies.ShootingEnemy;
 import model.being.enemies.SpikeBlock;
-import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.collectable.AbstractCollectable;
 import model.projectile.BulletImpl;
@@ -28,25 +25,45 @@ import view.buttons.MuteButton;
 import view.buttons.SaveButton;
 import view.labels.LevelLabel;
 
+import java.util.List;
+
 public class GameScreen extends ScreenAdapter {
 
+    /**
+     * Constants.
+     */
     private static final float PADDING = 10;
     public static final float FRAME_RATE = 0.09f;
 
+    /**
+     * inputMultiplexer is the controller which listens for user input.
+     */
     public static InputMultiplexer inputMultiplexer;
 
+    /**
+     * batch draws the elements of the game.
+     */
     private SpriteBatch batch;
 
-    private OrthographicCamera camera;
-
+    /**
+     * Time elapsed so far.
+     */
     private float elapsedTime;
-    private HealthBar healthBar;
+
+    /**
+     * Model of Cloudshot.
+     */
     private GameModel gameModel;
+
+    /**
+     * Stage is the staging area for all the UI elements in the game.
+     */
     private Stage stage;
 
     /**
      * UI elements;
      */
+    private HealthBar healthBar;
     private TextButton save;
     private TextButton mute;
     private TextButton menu;
@@ -54,29 +71,54 @@ public class GameScreen extends ScreenAdapter {
     private Label levelText;
     private InventoryActor inventoryActor;
 
-
     public GameScreen(GameModel gameModel) {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
-
-        levelText = new LevelLabel().createLabel();
-        stage.addActor(levelText);
-
-        healthBar = new HealthBar(100, 10);
-        healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
-        stage.addActor(healthBar);
+        this.batch = new SpriteBatch();
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(gameModel.getPlayer());
 
-        batch = new SpriteBatch();
+        initialiseLevelText();
+        initialiseHealthBar();
+        initialiseInventory();
+        initialiseButtons();
+    }
 
+    /**
+     * Initialise the label to display the levels.
+     */
+    private void initialiseLevelText() {
+        levelText = new LevelLabel(gameModel).createLabel();
+        stage.addActor(levelText);
+    }
+
+    /**
+     * Initialise healthBar which displays the player's health rate.
+     */
+    private void initialiseHealthBar(){
+        healthBar = new HealthBar(100, 10);
+        healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
+        stage.addActor(healthBar);
+    }
+
+    /**
+     * Initialise inventoryActor which displays what weapons does the player currently own as well as the
+     * ammo counts for each weapon.
+     */
+    private void initialiseInventory(){
         inventoryActor = new InventoryActor(gameModel.getPlayer());
         inventoryActor.setY(30);
         inventoryActor.setX(120);
         stage.addActor(inventoryActor);
+    }
 
+    /**
+     * Initialise all the buttons in the GameScreen.
+     */
+    private void initialiseButtons(){
+        // Create the buttons first.
         save = new SaveButton(
                 Gdx.graphics.getWidth() - PADDING,
                 PADDING,
@@ -98,25 +140,53 @@ public class GameScreen extends ScreenAdapter {
                 gameModel
         ).createButton();
 
+        // Add buttons into the staging area.
         stage.addActor(mute);
         stage.addActor(save);
         stage.addActor(menu);
         stage.addActor(load);
+
     }
 
     @Override
     public void render(float delta) {
+        // Initialise the Gdx render settings.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(gameModel.getCamera().combined);
 
+        // Update elapsedTime and gameModel.
         elapsedTime += delta;
-
         gameModel.update();
-        levelText.setText(gameModel.getLevel().getLevelName());
 
-        batch.begin();
+        // Update levelText and healthBar.
+        levelText.setText(gameModel.getLevelName());
+        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
+
         Player player = (Player) gameModel.getPlayer();
+
+        // Drawing logic begins here.
+        batch.begin();
+
+        drawPlayer(player);
+        drawBullets(player);
+        drawEnemies(gameModel.getEnemies(), player);
+        drawCollectables(gameModel.getCollectables());
+        gameModel.postDraw();
+
+        // Drawing ends.
+        batch.end();
+
+        stage.act();
+        stage.draw();
+    }
+
+    /**
+     * Draw the player using batch.
+     * @param player
+     *          Player that we are going to draw.
+     */
+    private void drawPlayer(Player player){
         float x = player.getX() - 0.9f;
         float y = player.getY() - 0.6f;
         float width = 1.80f;
@@ -126,47 +196,88 @@ public class GameScreen extends ScreenAdapter {
                 player.flip() ? x + width : x, y,
                 player.flip() ? -width : width, height
         );
+    }
 
+    /**
+     * Draw the bullets that the player shoots out.
+     * @param player
+     *          Player that we are going to draw.
+     *
+     */
+    private void drawBullets(Player player){
         //drawing player bullets
         for (BulletImpl b : player.getBullets()) {
-            //sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
-            batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime), b.getX() - 0.25f, b.getY() - 0.25f,
+            batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),
+                    b.getX() - 0.25f,
+                    b.getY() - 0.25f,
                     0f, 0f,
                     0.1f, 0.1f,
                     1.0f, 1.0f,
                     60f, true);
-
         }
-        for (AbstractEnemy ae : gameModel.getEnemies()) {
+    }
+
+    /**
+     * Draw the collection of AbstractEnemy enemies.
+     * @param enemies
+     *          AbstractEnemy(s) that we want to draw.
+     * @param player
+     *          Player that retrieve information in order to draw enemies.
+     */
+    private void drawEnemies(List<AbstractEnemy> enemies, Player player) {
+        for (AbstractEnemy ae : enemies) {
             if (ae.getImage() == null) continue;
-            batch.draw(ae.getImage().getFrameFromTime(elapsedTime), ae.getX() - ae.getDrawingWidth() / 2, ae.getY() - ae.getDrawingHeight() / 4, ae.getDrawingWidth(), ae.getDrawingHeight());
+            batch.draw(ae.getImage().getFrameFromTime(elapsedTime),
+                    ae.getX() - ae.getDrawingWidth() / 2,
+                    ae.getY() - ae.getDrawingHeight() / 4,
+                    ae.getDrawingWidth(),
+                    ae.getDrawingHeight()
+            );
             if (ae instanceof ShootingEnemy) {
                 ShootingEnemy s = (ShootingEnemy) ae;
                 for (BulletImpl b : s.getBullets())
-                    batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime), b.getX() - 0.25f, b.getY() - 0.25f, 0.5f, 0.5f);
+                    batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),
+                            b.getX() - 0.25f, b.getY() - 0.25f,
+                            0.5f,
+                            0.5f
+                    );
             }
             if (ae instanceof SpikeBlock) {
                 SpikeBlock s = (SpikeBlock) ae;
-                batch.draw(s.getImage().getFrameFromTime(elapsedTime), s.getX() - s.width / 2, s.getY() - s.height / 2, s.width, s.height);
+                batch.draw(s.getImage().getFrameFromTime(elapsedTime),
+                        s.getX() - s.width / 2,
+                        s.getY() - s.height / 2,
+                        s.width,
+                        s.height
+                );
             }
             if (ae instanceof BossOne) {
                 BossOne s = (BossOne) ae;
                 for (BulletImpl b : s.bullets)
-                    batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime), b.getX() - 0.25f, b.getY() - 0.25f, 0.5f, 0.5f);
+                    batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),
+                            b.getX() - 0.25f,
+                            b.getY() - 0.25f,
+                            0.5f,
+                            0.5f
+                    );
             }
-
         }
+    }
 
-        for (AbstractCollectable ac : gameModel.getCollectables()) {
-            batch.draw(ac.getImage().getFrameFromTime(elapsedTime), ac.getX(), ac.getY(), ac.getBoundingBox().getWidth(), ac.getBoundingBox().getHeight());
+    /**
+     * Draw the collection of Collectables
+     * @param collectables
+     *          AbstractCollectable(s) that we want to draw.
+     */
+    private void drawCollectables(List<AbstractCollectable> collectables) {
+        for (AbstractCollectable ac : collectables) {
+            batch.draw(ac.getImage().getFrameFromTime(elapsedTime),
+                    ac.getX(),
+                    ac.getY(),
+                    ac.getBoundingBox().getWidth(),
+                    ac.getBoundingBox().getHeight()
+            );
         }
-        gameModel.postDraw();
-        batch.end();
-
-        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
-
-        stage.act();
-        stage.draw();
     }
 
     @Override
