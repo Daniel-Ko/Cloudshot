@@ -23,6 +23,11 @@ public class LightAmmoPack extends AbstractBuff {
 		
 	}
 
+	/**
+	 * this applies max ammo only to the
+	 *	weapon which is equipped.
+	 * @param p
+     */
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		//need to change this to equipped weapon not the first element in inventory

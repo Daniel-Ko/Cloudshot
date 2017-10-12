@@ -18,12 +18,15 @@ public class HealthPack extends AbstractBuff {
 	
 	@Override
 	public CustomSprite getImage() {
-		/*if(this.pickedUp = true){
-			return null;
-		}*/
 		return image;
 	}
 
+	/**
+	 * this applies a health bonus of 50.
+	 * Also ensures that player cant get more health
+	 * than 150.
+	 * @param p
+     */
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		int oldHealth = p.getHealth();

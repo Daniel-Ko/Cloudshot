@@ -20,6 +20,11 @@ public class HeavyAmmoPack extends AbstractBuff {
 		return this.image;
 	}
 
+	/**
+	 * this applies max ammo to everything in the
+	 * players inventory.
+	 * @param Abstract Player
+     */
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		//Maximises all weapons ammo

@@ -27,6 +27,12 @@ public class Shotgun extends AbstractWeapon {
 		image = new StaticSprite("shotgun.png");
 	}
 
+	/**
+	 * Shoots 3 bullets which spread out.
+	 * @param  p abstract player
+	 * @return list of bullets
+     */
+
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
 		if(this.ammo <= 0){return null;}
@@ -37,12 +43,17 @@ public class Shotgun extends AbstractWeapon {
 		Vector2 aimAbove = new Vector2(aim.x,  (float) (aim.y + 0.5));
 		Vector2 aimBelow =  new Vector2(aim.x, (float) (aim.y - 0.5));
 		
-		bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage()));
-		bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage()));
-		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage()));
+		bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage(), true));
+		bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage(), true));
+		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage(),true));
 		return bullets;
 		
 	}
+
+	/**
+	 * adds a shotgun to inventory if there isnt one there already.
+	 * @param p
+     */
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		for (AbstractWeapon w: p.getInventory()) {

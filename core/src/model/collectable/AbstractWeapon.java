@@ -11,7 +11,7 @@ import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
-	
+	//fields which every bullet needs
 	protected int ammo;
 	private float damage;
 	private transient Texture gunImage;
@@ -21,6 +21,19 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Defines how each gun should shoot.
+	 * @param p player
+	 * @return the bullets which get shot by the gun
+     */
+	public abstract ArrayList<BulletImpl> shoot(Player p);
+
+
+
+
+  //-----------------GETTERS AND SETTERS-------------------
+
+
 	public float getDamage() {
 		return damage;
 	}
@@ -28,11 +41,8 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	public void setDamage(float damage) {
 		this.damage = damage;
 	}
-
 	
 	public abstract CustomSprite getBulletImage();
-	
-	public abstract ArrayList<BulletImpl> shoot(Player p);
 	
 	public abstract void setAmmo(int i);
 	

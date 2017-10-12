@@ -7,8 +7,8 @@ import model.being.enemystates.AggroMovement;
 import model.being.enemystates.Death;
 import model.being.enemystates.HorizontalMovement;
 import model.being.player.Player;
-import org.junit.jupiter.api.Test;
 import view.screens.GameScreen;
+import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.*;

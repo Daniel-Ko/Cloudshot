@@ -12,7 +12,7 @@ import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
 
 public class Pistol extends AbstractWeapon{
-	
+	//concrete fields for pistol
 	public final int MAX_AMMO = 50;
 
 	protected final float PISTOL_DAMAGE = 8;
@@ -32,25 +32,24 @@ public class Pistol extends AbstractWeapon{
 		this.ammo = MAX_AMMO;
 	}
 
-	@Override
-	public CustomSprite getImage() {
-		return this.image;
-	}
-	
-	public CustomSprite getBulletImage() {
-		return this.bulImage;
-	}
-	
-
+	/**
+	 * Shoots one bullet.
+	 * @param p
+	 * @return bullet to be shot
+     */
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();
 		this.ammo --;
-		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage()));
+		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true));
 		return bullets;
 	}
-
+	/**
+	 * Adds pistol to players inventory if not one there
+	 * @param Abstract Player
+	 *
+	 */
 	@Override
 	public void pickedUp(AbstractPlayer p) {
 		for (AbstractWeapon w: p.getInventory()) {
@@ -63,6 +62,18 @@ public class Pistol extends AbstractWeapon{
 		Player player = (Player)p;
 		player.setCurWeapon(this);
 
+	}
+
+
+	//---------------------GETTERS AND SETTERS------------------------
+
+	@Override
+	public CustomSprite getImage() {
+		return this.image;
+	}
+
+	public CustomSprite getBulletImage() {
+		return this.bulImage;
 	}
 
 	@Override

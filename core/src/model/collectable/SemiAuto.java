@@ -35,6 +35,11 @@ public class SemiAuto extends AbstractWeapon{
         return this.bulImage;
     }
 
+    /**
+     * shoots a line of four bullets.
+     * @param p player
+     * @return Arraylist of bullets
+     */
     @Override
     public ArrayList<BulletImpl> shoot(Player p) {
         if(this.ammo <= 0){return null;}
@@ -46,13 +51,18 @@ public class SemiAuto extends AbstractWeapon{
         Vector2 aimBelow =  new Vector2(p.getX() +1,  p.getY());
         Vector2 bul = new Vector2(p.getX() + 0.5f,  p.getY());
 
-        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage()));
-        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage()));
+        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage(), true));
+        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage(), true));
+        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage(), true ));
+        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage(), true ));
         return bullets;
     }
 
+    /**
+     * adds a semiAuto to players inventory
+     * if there isnt one there.
+     * @param p
+     */
     @Override
     public void pickedUp(AbstractPlayer p) {
         for (AbstractWeapon w: p.getInventory()) {
