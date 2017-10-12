@@ -65,7 +65,9 @@ public class GameModel {
 
 
         //Player setup
-        player = EntityFactory.getPlayer(this, new Vector2(50, 500));
+
+        player = EntityFactory.producePlayer(this,new Vector2(50,500));
+
         //end
 
         //level setup
@@ -271,6 +273,8 @@ public class GameModel {
     public void load() {
         try {
             StateQuery loader = repoScraper.load();
+            if(loader == null)
+                return; //todo say nothing to load?
 
             //beautiful waterfall design of method calls into assignments
             PlayerData loadedPlayerData = loader.loadPlayerData();
@@ -279,7 +283,7 @@ public class GameModel {
 
 
             loadPlayer(loadedPlayerData);
-            this.enemies = loadedEnemies;
+            loadEnemies(loadedEnemies);
             //this.
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
@@ -293,29 +297,47 @@ public class GameModel {
     }
 
     private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player();
-
-        if (pdata.isLiving())
-            newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
+        if(pdata.isLiving())
+            this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
-            newPlayer.setPlayerState(AbstractPlayer.player_state.DEAD);
+            this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
 
-        newPlayer.setHealth(pdata.getHealth());
-        newPlayer.setDamage(pdata.getDamage());
-        newPlayer.setBoundingBox(pdata.getBoundingBox());
-
-        //TODO set inventory  newPlayer.setInventory(pdata.getInventory());
-
-        newPlayer.setInAir(pdata.isInAir());
-        newPlayer.setAttacking(pdata.isAttacking());
-        newPlayer.setGrounded(pdata.isGrounded());
-        newPlayer.setMovingLeft(pdata.isMovingLeft());
-        newPlayer.setMovingRight(pdata.isMovingRight());
+        player.setPos(pdata.getPos());
+        player.setHealth(pdata.getHealth());
+        player.setDamage(pdata.getDamage());
+        player.setBoundingBox(pdata.getBoundingBox());
+        
+        //TODO set inventory  player.setInventory(pdata.getInventory());
+    
+        player.setInAir(pdata.isInAir());
+        player.setAttacking(pdata.isAttacking());
+        player.setGrounded(pdata.isGrounded());
+        player.setMovingLeft(pdata.isMovingLeft());
+        player.setMovingRight(pdata.isMovingRight());
+        
+        
 
         //TODO REPLACE BODY newPlayer.getBody().setTransform();
         //TODO REPLACE FIXTURE
+    }
 
-        this.player = newPlayer;
+    private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
+        this.enemies.clear();
+        enemies.addAll(enemiesToRemove);
+        for(AbstractEnemy e : enemiesToLoad) {
+            AbstractEnemy newEnemy = EntityFactory.produceEnemy(this, e.getPosition(), e.type);
+
+            newEnemy.setSpeed(e.getSpeed());
+            newEnemy.setDamage(e.getDamage());
+            newEnemy.setHealth(e.getHealth());
+            newEnemy.setEnemyState(e.enemyState);
+
+            newEnemy.setDrawingWidth(e.getDrawingWidth());
+            newEnemy.setDrawingHeight(e.getDrawingHeight());
+
+            //enemies.add(newEnemy);
+            enemiesToAdd.push(newEnemy);
+        }
     }
 
 
@@ -352,7 +374,7 @@ public class GameModel {
 
         GameScreen.inputMultiplexer.removeProcessor(player);
 
-        player = EntityFactory.getPlayer(this, new Vector2(50, 500));
+        player = EntityFactory.producePlayer(this,new Vector2(50,500));
 
         GameScreen.inputMultiplexer.addProcessor(player);
 

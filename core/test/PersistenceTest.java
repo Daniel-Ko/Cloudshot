@@ -28,6 +28,11 @@ public class PersistenceTest extends GameTest{
     }
 
     @Test
+    public void popEmptyStack() {
+
+    }
+
+    @Test
     public void testValidSavePerson() {
         GameStateTransactionHandler nullCatcher = new GameStateTransactionHandler();
         assertFalse(false);
