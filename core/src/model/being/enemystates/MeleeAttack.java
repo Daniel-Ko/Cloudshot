@@ -1,7 +1,7 @@
 package model.being.enemystates;
 
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
 /**
  * MeleeAttackState - pre-conditions: changes to this state when enemy is the specified distance away

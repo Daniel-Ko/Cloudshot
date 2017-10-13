@@ -1,9 +1,8 @@
 package model.being;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.sun.javafx.css.parser.DeriveColorConverter;
 import model.GameModel;
+import model.GameModelInterface;
 import model.being.enemies.*;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
@@ -16,9 +15,6 @@ import model.being.player.Player;
  */
 public class EntityFactory {
 
-	public static enum entity_type {
-		archer, slime, rogue,spikeblock, boss2, boss1;
-	}
 
 	/**
 	 * Method is used to produce the requested Enemy
@@ -30,21 +26,21 @@ public class EntityFactory {
 	 *
 	 * @return returns the enemy which matches enemyType
 	 */
-	public static AbstractEnemy produceEnemy(GameModel game, Vector2 position, entity_type enemyType) {
-		if (enemyType == entity_type.archer) {
+	public static AbstractEnemy produceEnemy(GameModel game, Vector2 position, AbstractEnemy.entity_type enemyType) {
+		if (enemyType == AbstractEnemy.entity_type.archer) {
 			ShootingEnemy shooter = new ShootingEnemy(game.getWorld(),game.getPlayer(),position);
 			return shooter;
-		} else if (enemyType == entity_type.slime) {
+		} else if (enemyType == AbstractEnemy.entity_type.slime) {
 			Slime2 slime = new Slime2(game.getWorld(),game.getPlayer(),position);
 			//to allow the slime to dynamically add itself at runtime
 			slime.provideGameModel(game);
 			return slime;
 		}
-		else if (enemyType == entity_type.spikeblock) {
+		else if (enemyType == AbstractEnemy.entity_type.spikeblock) {
 			SpikeBlock spikeBlock = new SpikeBlock(game.getWorld(),game.getPlayer(),position);
 			return spikeBlock;
 		}
-		else if (enemyType == entity_type.rogue) {
+		else if (enemyType == AbstractEnemy.entity_type.rogue) {
 			Rogue r = new Rogue(game.getWorld(),game.getPlayer(),position);
 			return r ;
 		}
@@ -60,9 +56,8 @@ public class EntityFactory {
 	 *
 	 * @return a player who has been fully init and placed in gameModels Box2D world
 	 * */
-	public static AbstractPlayer producePlayer(GameModel gameModel, Vector2 pos){
+	public static AbstractPlayer producePlayer(GameModelInterface gameModel, Vector2 pos){
 		Player p = new Player();
-		p.loadImage();
 		p.initBox2D(gameModel.getWorld(),pos);
 		p.setCamera(gameModel.getCamera());
 		return p;

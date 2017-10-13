@@ -7,23 +7,21 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
-import model.being.EntityFactory;
 import model.being.enemystates.HorizontalMovement;
 import model.being.player.AbstractPlayer;
-import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
 public class SpikeBlock extends AbstractEnemy{
 
-    public final EntityFactory.entity_type type = EntityFactory.entity_type.spikeblock;
+    public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.spikeblock;
 
     private Vector2 initPos;
     private float maxDist;
     private transient StaticSprite img;
 
     public SpikeBlock(World world, AbstractPlayer player, Vector2 pos) {
-        super(world,player,pos, EntityFactory.entity_type.spikeblock);
+        super(world,player,pos, AbstractEnemy.entity_type.spikeblock);
         damage = 5;
         initPos = body.getPosition();
         maxDist = 0.1f /GameModel.PPM;

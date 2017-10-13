@@ -34,10 +34,11 @@ public abstract class AbstractLevel {
     protected List<AbstractCollectable> collectables;
 
     protected Rectangle endZone;
-    protected Array<Rectangle> spawnTriggers;
-    protected Array<Spawn> spawns;
+    protected List<Rectangle> spawnTriggers;
+    protected List<Spawn> spawns;
     protected Array<Portal> portals;
     protected Array<Rectangle> hurtyTiles;
+
 
 
     public AbstractLevel() {
@@ -155,7 +156,7 @@ public abstract class AbstractLevel {
     }
 
     public void loadSpawnTriggerPoints() {
-        spawnTriggers = new Array<>();
+        spawnTriggers = new ArrayList<>();
         MapLayer spawns = tiledMap.getLayers().get("SpawnTrigger");
         for (MapObject r : spawns.getObjects()) {
             RectangleMapObject rmo = (RectangleMapObject) r;
@@ -166,42 +167,41 @@ public abstract class AbstractLevel {
 
     public void loadSpawns() {
         // spawns = new Array<>();
-        spawns = new Array<>();
+        spawns = new ArrayList<>();
         MapLayer layer = tiledMap.getLayers().get("Spawn Location");
         for (MapObject r : layer.getObjects()) {
             RectangleMapObject rmo = (RectangleMapObject) r;
             Rectangle rect = rmo.getRectangle();
             //spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
-            Spawn.EnemyType enemyType;
+            AbstractEnemy.entity_type enemyType;
 
             String type = (String) rmo.getProperties().get("Type");
             if (type.equals("Rogue")) {
-                enemyType = Spawn.EnemyType.ROGUE;
+                enemyType = AbstractEnemy.entity_type.rogue;
             } else if (type.equals("Shooter")) {
-                enemyType = Spawn.EnemyType.SHOOTER;
+                enemyType = AbstractEnemy.entity_type.archer;
             } else {
-                enemyType = Spawn.EnemyType.SLIME;
+                enemyType = AbstractEnemy.entity_type.slime;
             }
             spawns.add(new Spawn(enemyType, (int) rmo.getProperties().get("Number"), rect.x, rect.y));
         }
     }
 
     public void spawnEnemies(AbstractPlayer p, GameModel gm) {
-        if (p.getPos().y < 0) {//falling off map kills
+        if (p.getPos().y < -40) {//falling off map kills, but with a bit of delay (can fall off screen for a few seconds)
             p.hit(p.getHealth());
         }
         if (endZone.contains(p.getPos())) {
-            gm.setLevel(new LevelTwo());
-            System.out.println("next level");
+            gm.setNewLevel(new LevelTwo());
         }
-        for (int i = 0; i < spawnTriggers.size; i++) {
+        for (int i = 0; i < spawnTriggers.size(); i++) {
             if (spawnTriggers.get(i).contains(p.getPos())) {
                 //currently just spawn slime but this will be changed.
 
                 //gm.getEnemies().add(new Slime2(gm,new Vector2(spawns.get(i).getX(), spawns.get(i).getY())));
                 spawns.get(i).spawn(gm.getEnemies(), gm);
-                spawnTriggers.removeIndex(i);
-                spawns.removeIndex(i);
+                spawnTriggers.remove(i);
+                spawns.remove(i);
             }
         }
         for (int i = 0; i < hurtyTiles.size; i++) {//spike tiles
@@ -249,6 +249,22 @@ public abstract class AbstractLevel {
             portals.add(new Portal(new Rectangle(rmo1.getRectangle().x / GameModel.PPM, rmo1.getRectangle().y / GameModel.PPM, rmo1.getRectangle().getWidth() / GameModel.PPM, rmo1.getRectangle().getHeight() / GameModel.PPM),
                     new Rectangle(rmo2.getRectangle().x / GameModel.PPM, rmo2.getRectangle().y / GameModel.PPM, rmo2.getRectangle().getWidth() / GameModel.PPM, rmo2.getRectangle().getHeight() / GameModel.PPM)));
         }
+    }
+
+    public List<Rectangle> getSpawnTriggers() {
+        return spawnTriggers;
+    }
+
+    public List<Spawn> getSpawns() {
+        return spawns;
+    }
+
+    public void setSpawnTriggers(List<Rectangle> spawnTriggers) {
+        this.spawnTriggers = spawnTriggers;
+    }
+
+    public void setSpawns(List<Spawn> spawns) {
+        this.spawns = spawns;
     }
 
     public abstract String getLevelName();

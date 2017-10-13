@@ -3,17 +3,19 @@ package model.being.player;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameObjectInterface;
 import model.being.EntityInterface;
 import model.being.enemies.AbstractEnemy;
 import model.collectable.AbstractWeapon;
-
-import com.badlogic.gdx.math.Rectangle;
-
+import view.screens.GameScreen;
+import view.screens.GameScreen.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +95,8 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 
 	protected abstract void definePlayer(Vector2 pos);
+
+
 
 	/**
 	 * Applies player movement if they are moving
@@ -182,7 +186,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	@Override
 	public boolean keyDown(int keycode) {
 		//Player is dead cant move
-		if(playerState == player_state.DEAD)return false;
+		if(playerState == player_state.DEAD)
+			return false;
+
+		if(GameScreen.state.equals(State.GAME_PAUSED)){
+			return false;
+		}
 		switch (keycode){
 			case Input.Keys.A:
 				movingLeft = true;
@@ -255,8 +264,6 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		//screenY = Gdx.graphics.getHeight()-screenY;
 		Vector3 v3 = new Vector3(cam.unproject(new Vector3(screenX,screenY,0)));
 		aimedAt = new Vector2(v3.x,v3.y);
-		System.out.println("Player:"+pos);
-		System.out.println("Click:"+aimedAt);
 		shoot();
 		return true;
 	}
@@ -373,6 +380,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public void setCamera(OrthographicCamera gameCam){
 		cam = gameCam;
 	}
+
+	public void setWorld(Optional<World> world) {
+		this.world = world;
+	}
+
 	public void setBoundingBox(Rectangle boundingBox) {
 		this.boundingBox = boundingBox;
 	}
@@ -399,6 +411,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	public void setInventory(List<AbstractWeapon> inventory) {
 		this.inventory = inventory;
+	}
+
+	public void setCurWeapon(AbstractWeapon curWeapon) {
+		this.curWeapon = curWeapon;
 	}
 	
 	public void setAimedAt(Vector2 aimedAt) {

@@ -1,15 +1,11 @@
-package view;
+package view.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import model.being.player.AbstractPlayer;
 import model.collectable.AbstractWeapon;
-import view.labels.AmmoCountLabel;
-import view.labels.InventoryLabel;
-import view.labels.LabelFactory;
 
 import java.util.List;
 
@@ -24,7 +20,7 @@ public class InventoryActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         // Inventory label.
-        Label inventoryText = new InventoryLabel().createLabel();
+        Label inventoryText = LabelFactory.InventoryLabel();
         inventoryText.draw(batch, parentAlpha);
 
         // To space out the weapons when drawing.
@@ -40,7 +36,7 @@ public class InventoryActor extends Actor {
             batch.draw(region, getX() + spacing, getY());
 
             // Display the ammo count.
-            Label ammoCount = new AmmoCountLabel(weapon, getX() + 10 + spacing, getY()-15).createLabel();
+            Label ammoCount = LabelFactory.ammoCountLabel(weapon, getX() + 10 + spacing, getY()-15);
             ammoCount.draw(batch, parentAlpha);
             spacing += region.getRegionWidth() + 10;
         }

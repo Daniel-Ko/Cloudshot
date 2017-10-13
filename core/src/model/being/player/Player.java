@@ -7,6 +7,7 @@ import model.being.enemies.AbstractEnemy;
 import model.collectable.AbstractWeapon;
 import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
@@ -28,13 +29,6 @@ public class Player extends AbstractPlayer {
 	private int doubleJump = 0;
 	private float meleeRange = 1;
 
-	private transient CustomSprite idle;
-	private transient CustomSprite attack;
-	private transient CustomSprite jump;
-	private transient CustomSprite walk;
-	private transient CustomSprite death;
-
-
 	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
 	//Box2D
@@ -45,18 +39,7 @@ public class Player extends AbstractPlayer {
 		damage = 1;
 		health = 150;
 
-		//LOAD SPRITES
-
-
 		curWeapon = null;
-	}
-
-	public void loadImage(){
-		idle = new MovingSprite("player_idle.png", 2, 2);
-		attack = new MovingSprite("player_attack.png", 2, 3);
-		jump = new MovingSprite("player_jump.png", 2, 3);
-		walk = new MovingSprite("player_walk.png", 3, 3);
-		death = new MovingSprite("player_death.png", 1, 1);
 	}
 
 	@Override
@@ -256,23 +239,23 @@ public class Player extends AbstractPlayer {
 	public CustomSprite getImage() {
         //FIXME currently no death
 		if (playerState == player_state.DEAD) {
-			return death;
+			return Assets.playerDeath;
 		}
         //ATTACKING
 		if (getIsAttacking()) {
-			return attack;
+			return Assets.playerAttack;
 		}
 		//JUMPING ANIMATION
 		if (this.inAir) {
-			return jump;
+			return Assets.playerJump;
 		}
 		//IDLE ANIMATION
 		if (body.isPresent()) {
 			if (body.get().getLinearVelocity().x == 0 && body.get().getLinearVelocity().y == 0) {
-				return idle;
+				return Assets.playerIdle;
 			}
 		}
-		return walk;
+		return Assets.playerWalk;
 	}
 
 	class MyContactListener implements ContactListener {

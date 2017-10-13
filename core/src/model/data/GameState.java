@@ -1,8 +1,10 @@
 package model.data;
 
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.math.Rectangle;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
+import model.mapObject.levels.Spawn;
 
 import java.util.List;
 
@@ -52,6 +54,16 @@ public class GameState{
         state.putString("Collectables", collectables);
     }
 
+    /** puts the bytecode of a List<Rectangle> and List<Spawn>
+     *  into the Preference
+     * @param spawnTriggers
+     * @param spawns
+     */
+    public void setSpawningInPref(String spawnTriggers, String spawns) {
+        state.putString("SpawnTriggers", spawnTriggers);
+        state.putString("Spawns", spawns);
+    }
+
     /** As the model will load this value in, assure the TransactionHandler
      * that this value exists inside the GameState
      * @return assurance.
@@ -67,4 +79,6 @@ public class GameState{
     public boolean containsEnemies() {
         return state.contains("Enemies");
     }
+
+
 }
