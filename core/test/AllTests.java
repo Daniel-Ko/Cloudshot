@@ -1,5 +1,6 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+
 /**
  * If you run this file as a JUnit test, it automatically runs all the tests.
  */

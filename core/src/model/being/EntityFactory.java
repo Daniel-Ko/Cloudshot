@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.sun.javafx.css.parser.DeriveColorConverter;
 import model.GameModel;
+import model.GameModelInterface;
 import model.being.enemies.*;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
@@ -60,7 +61,7 @@ public class EntityFactory {
 	 *
 	 * @return a player who has been fully init and placed in gameModels Box2D world
 	 * */
-	public static AbstractPlayer producePlayer(GameModel gameModel, Vector2 pos){
+	public static AbstractPlayer producePlayer(GameModelInterface gameModel, Vector2 pos){
 		Player p = new Player();
 		p.loadImage();
 		p.initBox2D(gameModel.getWorld(),pos);

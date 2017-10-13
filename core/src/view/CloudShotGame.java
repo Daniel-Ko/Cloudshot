@@ -45,7 +45,6 @@ public class CloudShotGame extends Game {
                 break;
             case TEST:
                 this.setScreen(new GameScreen(model));
-
         }
 
     }

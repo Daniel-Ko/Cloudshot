@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import static com.sun.xml.internal.ws.policy.sourcemodel.wspolicy.XmlToken.Optional;
-
 public class GameModel implements GameModelInterface {
 
     /**
@@ -145,13 +143,9 @@ public class GameModel implements GameModelInterface {
         updateCollectables();
         updateCamera();
 
-        getTiledMapRenderer().setView(camera); // Game map.
-        getTiledMapRenderer().render();
-
         level.spawnEnemies(player, this);
-        world.step(1 / 60f, 6, 2);
+        world.step(1 / 30f, 12, 4);
         debugRenderer.render(world, camera.combined);
-        world.step(1 / 60f, 6, 2);
 
         checkIfGameOver();
     }
@@ -249,6 +243,7 @@ public class GameModel implements GameModelInterface {
         return level.getTiledMapRenderer();
     }
 
+    @Override
     public World getWorld() {
         return this.world;
     }

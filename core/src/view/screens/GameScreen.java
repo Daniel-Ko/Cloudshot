@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import model.GameModel;
 import model.GameModelInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemies.BossOne;
@@ -20,21 +19,24 @@ import model.collectable.AbstractCollectable;
 import model.projectile.BulletImpl;
 import view.HealthBar;
 import view.InventoryActor;
-import view.buttons.LoadButton;
-import view.buttons.MenuButton;
-import view.buttons.MuteButton;
-import view.buttons.SaveButton;
+import view.buttons.*;
 import view.labels.LevelLabel;
 
 import java.util.List;
 
 public class GameScreen extends ScreenAdapter {
 
+    public enum State{
+        GAME_PAUSED, GAME_RUNNING, GAME_OVER
+    }
+
     /**
      * Constants.
      */
     private static final float PADDING = 10;
     public static final float FRAME_RATE = 0.09f;
+
+    public static State state;
 
     /**
      * inputMultiplexer is the controller which listens for user input.
@@ -69,6 +71,7 @@ public class GameScreen extends ScreenAdapter {
     private TextButton mute;
     private TextButton menu;
     private TextButton load;
+    private TextButton pause;
     private Label levelText;
     private InventoryActor inventoryActor;
 
@@ -76,6 +79,7 @@ public class GameScreen extends ScreenAdapter {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
         this.batch = new SpriteBatch();
+        this.state = State.GAME_RUNNING;
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -141,12 +145,17 @@ public class GameScreen extends ScreenAdapter {
                 gameModel
         ).createButton();
 
+        pause = new PauseButton(
+                Gdx.graphics.getWidth() - PADDING *5,
+                PADDING
+        ).createButton();
+
         // Add buttons into the staging area.
         stage.addActor(mute);
         stage.addActor(save);
         stage.addActor(menu);
         stage.addActor(load);
-
+        stage.addActor(pause);
     }
 
     @Override
@@ -156,26 +165,63 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(gameModel.getCamera().combined);
 
-        // Update elapsedTime and gameModel.
-        elapsedTime += delta;
-        gameModel.update();
+        // Update the gameModel and elapsed time only if the game is running.
+        if(state.equals(State.GAME_RUNNING)) {
+            elapsedTime += delta;
+            gameModel.update();
+        }
 
-        // Update levelText and healthBar.
-        levelText.setText(gameModel.getLevelName());
-        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
-
-        Player player = (Player) gameModel.getPlayer();
+        // Draw the terrains.
+        gameModel.getTiledMapRenderer().setView(gameModel.getCamera()); // Game map.
+        gameModel.getTiledMapRenderer().render();
 
         // Drawing logic begins here.
         batch.begin();
 
+        switch(state){
+            case GAME_RUNNING:
+                presentRunningGame();
+                break;
+            case GAME_PAUSED:
+                presentPausedGame();
+                break;
+            case GAME_OVER:
+                //TODO: Display game over screen.
+                break;
+        }
+
+
+        batch.end();
+
+    }
+
+    private void presentRunningGame(){
+        // Update levelText and healthBar.
+        levelText.setText(gameModel.getLevelName());
+        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
+
+        // Update and draw the game model.
+        Player player = (Player) gameModel.getPlayer();
         drawPlayer(player);
         drawBullets(player);
         drawEnemies(gameModel.getEnemies(), player);
         drawCollectables(gameModel.getCollectables());
 
-        // Drawing ends.
-        batch.end();
+        stage.act();
+        stage.draw();
+    }
+
+    private void presentPausedGame() {
+        // Update levelText and healthBar.
+        levelText.setText(gameModel.getLevelName());
+        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
+
+        // Update and draw the game model.
+        Player player = (Player) gameModel.getPlayer();
+        drawPlayer(player);
+        drawBullets(player);
+        drawEnemies(gameModel.getEnemies(), player);
+        drawCollectables(gameModel.getCollectables());
 
         stage.act();
         stage.draw();
