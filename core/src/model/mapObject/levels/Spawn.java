@@ -5,9 +5,10 @@ import model.GameModel;
 import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Spawn {
+public class Spawn implements Serializable{
 
     private AbstractEnemy.entity_type enemyType;
     private int number;
