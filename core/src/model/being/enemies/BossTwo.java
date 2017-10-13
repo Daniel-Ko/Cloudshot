@@ -87,7 +87,6 @@ public class BossTwo extends AbstractEnemy{
             enemyState = new MeleeAttack();
             attack();
         }
-        System.out.println(enemyState);
         enemyState.update(this,player);
     }
 

@@ -10,10 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import model.being.EntityFactory;
-import model.being.enemies.AbstractEnemy;
-import model.being.enemies.BossOne;
-import model.being.enemies.ShootingEnemy;
-import model.being.enemies.SpikeBlock;
+import model.being.enemies.*;
 import model.being.enemystates.Death;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
@@ -104,7 +101,7 @@ public class GameModel {
         //boss
         //enemies.add(new BossTwo(this,new Vector2(300,500)));
 
-        enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(800, 400)));
+        enemies.add(new Boss1V2(getWorld(), getPlayer(), new Vector2(800, 400)));
         enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(1000, 700)));
         enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(1400, 600)));
         enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(2000, 450)));

@@ -283,12 +283,14 @@ public class Player extends AbstractPlayer {
 			String id = (String) contact.getFixtureA().getUserData();
 			if (id == null) return;
 			if (id.equals("user_feet")) {
-				numFootContact++;
+				//if(contact.getFixtureB().getBody().getPosition().y<=getPos().y)
+					numFootContact++;
 			}
 			String id2 = (String) contact.getFixtureB().getUserData();
 			if (id2 == null) return;
 			if (id2.equals("user_feet")) {
-				numFootContact++;
+				//if(contact.getFixtureB().getBody().getPosition().y<=getPos().y)
+					numFootContact++;
 			}
 		}
 
@@ -297,12 +299,14 @@ public class Player extends AbstractPlayer {
 			String id = (String) contact.getFixtureA().getUserData();
 			if (id == null) return;
 			if (id.equals("user_feet")) {
-				numFootContact--;
+				//if(contact.getFixtureB().getBody().getPosition().y>getPos().y)
+					numFootContact--;
 			}
 			String id2 = (String) contact.getFixtureB().getUserData();
 			if (id2 == null) return;
 			if (id2.equals("user_feet")) {
-				numFootContact--;
+				//if(contact.getFixtureB().getBody().getPosition().y>getPos().y)
+					numFootContact--;
 			}
 		}
 

@@ -68,7 +68,6 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, EntityFactory.entity_type enemyType){
 		this.type = enemyType;
-
 		this.world = world;
 		this.player = player;
 		position = pos;

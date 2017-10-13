@@ -132,6 +132,7 @@ public class Rogue extends AbstractEnemy {
             }
             return walk_right;
         }
+
         return idle;
     }
 }
