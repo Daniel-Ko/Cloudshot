@@ -11,6 +11,7 @@ import model.being.enemystates.IdleMovement;
 import model.being.enemystates.ShooterAttack;
 import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
@@ -24,18 +25,10 @@ public class ShootingEnemy extends AbstractEnemy{
 	public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.archer;
 
 	//bullet and attacking fields
-	private transient StaticSprite bulletSprite;
 	private Queue<BulletImpl> bullets = new LinkedList<>();
-
-	//Archer sprites
-	private transient MovingSprite attacking;
-	private transient MovingSprite attack_left;
-	private transient MovingSprite walk;
-	private transient MovingSprite idle;
 
 	public ShootingEnemy(World world, AbstractPlayer player, Vector2 pos){
 		super(world,player,pos, AbstractEnemy.entity_type.archer);
-		loadImages();
 		IdleMovement movement =  new IdleMovement();
 		movement.setIdleMovementSpeed(0);
 		enemyState = movement;
@@ -68,14 +61,6 @@ public class ShootingEnemy extends AbstractEnemy{
 		body.createFixture(fDef).setUserData("mob2");
 	}
 
-	private void loadImages(){
-		this.bulletSprite =  new StaticSprite("arrow.png");
-		this.attacking = new MovingSprite("archer_attack.png",1,10);
-		this.attack_left = new MovingSprite("archer_attack_left.png",1,10);
-
-		this.walk = new MovingSprite("archer_walk.png",1,10);
-		this.idle = new MovingSprite("archer_idle.png",1,10);
-	}
 	@Override
 	public void update() {
 		updateBullets();
@@ -141,17 +126,17 @@ public class ShootingEnemy extends AbstractEnemy{
 	public CustomSprite getImage() {
 		if(enemyState instanceof ShooterAttack){
 			if(player.getX()<this.getX()){
-				return attack_left;
+				return Assets.shootingEnemyAttackingLeft;
 			}
-			return attacking;
+			return Assets.shootingEnemyAttackingRight;
 		}
-		return idle;
+		return Assets.shootingEnemyIdle;
 	}
 
 
 	public Queue<BulletImpl> getBullets (){return this.bullets;}
 
-	public StaticSprite getBulletSprite() {
-		return bulletSprite;
+	public CustomSprite getBulletSprite() {
+		return Assets.shootingEnemyBulletSprite;
 	}
 }

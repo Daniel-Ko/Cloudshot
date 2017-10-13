@@ -20,10 +20,10 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.mapObject.levels.LevelOne;
 import model.projectile.BulletImpl;
-import view.HealthBar;
-import view.InventoryActor;
-import view.buttons.*;
-import view.labels.LevelLabel;
+import view.utils.ButtonFactory;
+import view.utils.LabelFactory;
+import view.utils.HealthBar;
+import view.utils.InventoryActor;
 
 import java.util.List;
 
@@ -118,7 +118,7 @@ public class GameScreen extends ScreenAdapter {
      * Initialise the label to display the levels.
      */
     private void initialiseLevelText() {
-        levelText = new LevelLabel(gameModel).createLabel();
+        levelText = LabelFactory.levelLabel(gameModel);
         stage.addActor(levelText);
     }
 
@@ -147,31 +147,31 @@ public class GameScreen extends ScreenAdapter {
      */
     private void initialiseButtons(){
         // Create the buttons first.
-        save = new SaveButton(
+        save = ButtonFactory.saveButton(
                 Gdx.graphics.getWidth() - PADDING,
                 PADDING,
-                gameModel).createButton();
+                gameModel);
 
-        mute = new MuteButton(
+        mute = ButtonFactory.muteButton(
                 Gdx.graphics.getWidth() - PADDING * 2,
                 PADDING,
-                gameModel).createButton();
+                gameModel);
 
-        menu = new MenuButton(
+        menu = ButtonFactory.menuButton(
                 Gdx.graphics.getWidth() - PADDING * 3,
                 PADDING
-        ).createButton();
+        );
 
-        load = new LoadButton(
+        load = ButtonFactory.loadButton(
                 Gdx.graphics.getWidth() - PADDING * 4,
                 PADDING,
                 gameModel
-        ).createButton();
+        );
 
-        pause = new PauseButton(
+        pause = ButtonFactory.pauseButton(
                 Gdx.graphics.getWidth() - PADDING *5,
                 PADDING
-        ).createButton();
+        );
 
         // Add buttons into the staging area.
         stage.addActor(mute);
