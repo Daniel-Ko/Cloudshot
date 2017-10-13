@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
@@ -156,7 +157,6 @@ public class BossOne extends AbstractEnemy{
 
     @Override
     public CustomSprite getImage() {
-        //FIXME TEMP IMAGE
-        return new MovingSprite("slime_walk.png",1, 9);
+        return Assets.slimeWalk;
     }
 }

@@ -11,35 +11,18 @@ import model.being.enemystates.Death;
 import model.being.enemystates.IdleMovement;
 import model.being.enemystates.MeleeAttack;
 import model.being.player.AbstractPlayer;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
 public class Rogue extends AbstractEnemy {
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.rogue;
 
-    private transient MovingSprite attack_right;
-    private transient MovingSprite attack_left;
-    private transient MovingSprite walk_right;
-    private transient MovingSprite walk_left;
-    private transient MovingSprite idle;
-
-
-
     public Rogue(World world, AbstractPlayer player, Vector2 pos) {
         super(world,player,pos, AbstractEnemy.entity_type.rogue);
         this.detectionRadius = 4;
         this.attackRadius = 0.4f;
         this.health = 30;
-        loadImages();
-    }
-    private void loadImages(){
-        this.attack_right = new MovingSprite("rouge_attack.png",1,10);
-        this.attack_left = new MovingSprite("rouge_attack_left.png",1,10);
-
-        this.walk_right = new MovingSprite("rouge_walk1.png",1,10);
-        this.walk_left = new MovingSprite("rouge_walk1_left.png",1,10);
-
-        this.idle = new MovingSprite("rouge_idle.png",1,10);
     }
 
     /**
@@ -119,17 +102,17 @@ public class Rogue extends AbstractEnemy {
     public CustomSprite getImage() {
         if(enemyState instanceof MeleeAttack){
             if(player.getX()<this.getX()){
-                return attack_left;
+                return Assets.rogueEnemyAttackLeft;
             }
-            return attack_right;
+            return Assets.rogueEnemyAttackRight;
         }
         if(enemyState instanceof  AggroDash){
 
             if(player.getX()<this.getX()){
-                return walk_left;
+                return Assets.rogueEnemyAttackLeft;
             }
-            return walk_right;
+            return Assets.rogueEnemyWalkRight;
         }
-        return idle;
+        return Assets.rogueEnemyIdle;
     }
 }

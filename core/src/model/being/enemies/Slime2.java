@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
@@ -21,25 +22,13 @@ public class Slime2 extends AbstractEnemy{
     private String walking = "Skeleton Walk.png";
     private String attacking = "Skeleton Walk.png";
 
-    private transient  CustomSprite attack_left;
-    private transient  CustomSprite attack_right;
-    private transient  CustomSprite dead;
-    private transient CustomSprite idle;
-    private transient CustomSprite walk;
-    private transient CustomSprite walk_l;
-
     private Vector2 initPos;
 
     public Slime2(World world, AbstractPlayer player, Vector2 pos){
         super(world,player,pos, AbstractEnemy.entity_type.slime);
         initPos = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
         health = 20;
-        attack_left =  new MovingSprite("slime_attack.png",1,7);
-        attack_right =  new MovingSprite("slime_attack_right.png",1,7);
-        dead = new MovingSprite("Skeleton Dead.png",1,1);
-        idle = new MovingSprite("slime_walk.png",1, 9);
-        walk = new MovingSprite("slime_walk.png",1, 9);
-        walk_l = new MovingSprite("slime_walk_left.png",1, 9);
+
         damage = 1;
 
         detectionRadius = 3;
@@ -153,23 +142,23 @@ public class Slime2 extends AbstractEnemy{
     @Override
     public CustomSprite getImage() {
         if(state == enemy_state.EDEAD){
-            return dead;
+            return Assets.slime2Dead;
         }
 
         if(enemyState instanceof MeleeAttack){
             if(getPosition().dst(player.getPos())<0){
-               return attack_left;
+               return Assets.slime2AttackLeft;
             }
-            return attack_right;
+            return Assets.slime2AttackRight;
         }
         //IDLE STATE
         if(enemyState instanceof IdleMovement){
-            return idle;
+            return Assets.slime2Idle;
         }
 
         if(body.getLinearVelocity().x<0){
-            return walk_l;
+            return Assets.slime2WalkLeft;
         }
-        return walk;
+        return Assets.slime2WalkRight;
     }
 }

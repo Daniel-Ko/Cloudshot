@@ -28,6 +28,26 @@ public class Assets {
     public static CustomSprite shootingEnemyWalking;
     public static CustomSprite shootingEnemyIdle;
 
+    /**
+     * Rogue enemy sprites.
+     */
+    public static CustomSprite rogueEnemyAttackRight;
+    public static CustomSprite rogueEnemyAttackLeft;
+    public static CustomSprite rogueEnemyWalkRight;
+    public static CustomSprite rogueEnemyWalkLeft;
+    public static CustomSprite rogueEnemyIdle;
+
+    public static CustomSprite slimeWalk;
+
+    public static CustomSprite slime2AttackLeft;
+    public static CustomSprite slime2AttackRight;
+    public static CustomSprite slime2Dead;
+    public static CustomSprite slime2Idle;
+    public static CustomSprite slime2WalkRight;
+    public static CustomSprite slime2WalkLeft;
+
+
+
     public static void load(){
         gameSkin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
 
@@ -42,5 +62,20 @@ public class Assets {
         shootingEnemyAttackingLeft = new MovingSprite("archer_attack_left.png",1,10);
         shootingEnemyWalking = new MovingSprite("archer_walk.png",1,10);
         shootingEnemyIdle = new MovingSprite("archer_idle.png",1,10);
+
+        rogueEnemyAttackRight = new MovingSprite("rouge_attack.png",1,10);
+        rogueEnemyAttackLeft = new MovingSprite("rouge_attack_left.png",1,10);
+        rogueEnemyWalkRight = new MovingSprite("rouge_walk1.png",1,10);
+        rogueEnemyWalkLeft = new MovingSprite("rouge_walk1_left.png",1,10);
+        rogueEnemyIdle = new MovingSprite("rouge_idle.png",1,10);
+
+        slimeWalk = new MovingSprite("slime_walk.png",1, 9);
+
+        slime2AttackLeft =  new MovingSprite("slime_attack.png",1,7);
+        slime2AttackRight =  new MovingSprite("slime_attack_right.png",1,7);
+        slime2Dead = new MovingSprite("Skeleton Dead.png",1,1);
+        slime2Idle = new MovingSprite("slime_walk.png",1, 9);
+        slime2WalkRight = new MovingSprite("slime_walk.png",1, 9);
+        slime2WalkLeft = new MovingSprite("slime_walk_left.png",1, 9);
     }
 }
