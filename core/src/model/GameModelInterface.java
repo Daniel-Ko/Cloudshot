@@ -5,6 +5,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.collectable.AbstractCollectable;
+import model.data.GameStateTransactionHandler;
+import model.mapObject.levels.AbstractLevel;
+import model.mapObject.levels.LevelOne;
 
 import java.util.List;
 
@@ -28,4 +31,7 @@ public interface GameModelInterface {
 
     void save();
 
+    void setRepoScraper(GameStateTransactionHandler saveLoadHandler);
+
+    void setLevel(AbstractLevel level);
 }

@@ -17,6 +17,8 @@ import model.being.enemies.ShootingEnemy;
 import model.being.enemies.SpikeBlock;
 import model.being.player.Player;
 import model.collectable.AbstractCollectable;
+import model.data.GameStateTransactionHandler;
+import model.mapObject.levels.LevelOne;
 import model.projectile.BulletImpl;
 import view.HealthBar;
 import view.InventoryActor;
@@ -40,6 +42,7 @@ public class GameScreen extends ScreenAdapter {
      * inputMultiplexer is the controller which listens for user input.
      */
     public static InputMultiplexer inputMultiplexer;
+    private GameStateTransactionHandler saveLoadHandler;
 
     /**
      * batch draws the elements of the game.
@@ -75,6 +78,8 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(GameModelInterface gameModel) {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
+        initGameModel();
+
         this.batch = new SpriteBatch();
 
         inputMultiplexer = new InputMultiplexer();
@@ -85,6 +90,23 @@ public class GameScreen extends ScreenAdapter {
         initialiseHealthBar();
         initialiseInventory();
         initialiseButtons();
+
+    }
+
+    private void initGameModel() {
+        GameModel model = (GameModel) gameModel;
+
+        //finally, load in the first level
+        gameModel.setLevel(new LevelOne());
+
+        model.setupCamera();
+        model.setupGame();
+        model.loadTerrain();
+        model.loadMusic();
+
+        //set separate module to handle save/load
+        saveLoadHandler = new GameStateTransactionHandler();
+        model.setRepoScraper(saveLoadHandler);
     }
 
     /**
