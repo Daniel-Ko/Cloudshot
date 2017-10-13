@@ -1,7 +1,6 @@
 package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
-
 import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
@@ -31,7 +30,7 @@ public class HealthPack extends AbstractBuff {
 	public void pickedUp(AbstractPlayer p) {
 		int oldHealth = p.getHealth();
 		p.setHealth(oldHealth + 50);
-		System.out.println(p.getHealth());
+
 		//Make sure health cant go above max health
 		if(p.getHealth() > 150){p.setHealth(150);}
 	}

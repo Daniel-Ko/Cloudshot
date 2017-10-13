@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
-import model.being.EntityFactory;
 import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
@@ -16,7 +15,7 @@ import view.sprites.StaticSprite;
 import java.util.*;
 
 public class BossOne extends AbstractEnemy{
-    public final EntityFactory.entity_type type = EntityFactory.entity_type.boss1;
+    public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.boss1;
 
     //Fields for
     private int detectionRadius = 10;
@@ -30,7 +29,7 @@ public class BossOne extends AbstractEnemy{
     //TESTING
     public List<BulletImpl> huh = new ArrayList<>();
     public BossOne(World world, AbstractPlayer player, Vector2 pos){
-        super(world,player,pos, EntityFactory.entity_type.boss1);
+        super(world,player,pos, AbstractEnemy.entity_type.boss1);
         speed = 6;
         damage = 10;
         drawingWidth = 4;

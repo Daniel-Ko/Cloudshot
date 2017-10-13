@@ -6,18 +6,16 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
-import model.being.EntityFactory;
 import model.being.enemystates.AggroDash;
 import model.being.enemystates.Death;
 import model.being.enemystates.IdleMovement;
 import model.being.enemystates.MeleeAttack;
 import model.being.player.AbstractPlayer;
-import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
 public class Rogue extends AbstractEnemy {
-    public final EntityFactory.entity_type type = EntityFactory.entity_type.rogue;
+    public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.rogue;
 
     private transient MovingSprite attack_right;
     private transient MovingSprite attack_left;
@@ -28,7 +26,7 @@ public class Rogue extends AbstractEnemy {
 
 
     public Rogue(World world, AbstractPlayer player, Vector2 pos) {
-        super(world,player,pos, EntityFactory.entity_type.rogue);
+        super(world,player,pos, AbstractEnemy.entity_type.rogue);
         this.detectionRadius = 4;
         this.attackRadius = 0.4f;
         this.health = 30;

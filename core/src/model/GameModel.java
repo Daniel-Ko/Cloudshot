@@ -19,7 +19,6 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
-import model.mapObject.levels.LevelOne;
 import view.screens.GameScreen;
 
 import java.util.ArrayList;
@@ -303,6 +302,11 @@ public class GameModel implements GameModelInterface {
     private void checkIfGameOver() {
         //TODO: Change this once the game over condition is more or less confirmed.
         if (player.getHealth() <= 0) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             GameScreen.displayGameOverScreen();
             music.dispose();
         }
@@ -335,7 +339,7 @@ public class GameModel implements GameModelInterface {
             reinitGame(this.level);
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
-            //this.
+
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
@@ -344,12 +348,15 @@ public class GameModel implements GameModelInterface {
     }
 
     private void loadPlayer(PlayerData pdata) {
+        GameScreen.inputMultiplexer.removeProcessor(player);
         player = EntityFactory.producePlayer(this,
                 new Vector2(
                         //scale player pos back down to the normal world scale
                         pdata.getPos().x * PPM,
                         pdata.getPos().y * PPM
                 ));
+
+        player.setWorld(java.util.Optional.of(this.world));
 
         if (pdata.isLiving())
             this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
@@ -360,7 +367,8 @@ public class GameModel implements GameModelInterface {
         player.setDamage(pdata.getDamage());
         player.setBoundingBox(pdata.getBoundingBox());
 
-        //TODO set inventory  player.setInventory(pdata.getInventory());
+        player.setInventory(pdata.getInventory());
+        player.setCurWeapon(pdata.getCurWeapon());
 
         player.setInAir(pdata.isInAir());
         player.setAttacking(pdata.isAttacking());

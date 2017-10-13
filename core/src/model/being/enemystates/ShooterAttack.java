@@ -1,18 +1,21 @@
 package model.being.enemystates;
 
 import com.badlogic.gdx.math.Vector2;
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemies.ShootingEnemy;
+import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
 import view.sprites.StaticSprite;
+
+import java.io.Serializable;
+
 /**
  * This state provided the behaviour of a enemy shooting, no movement, just shoots.
  *
  * @author Jeremy Southon
  *
  * */
-public class ShooterAttack implements EnemyState {
+public class ShooterAttack implements EnemyState, Serializable{
     private long lastBulletFired;
     private int secondsBetweenShots = 1;
 

@@ -2,8 +2,8 @@ package model.being.enemystates;
 
 //import com.sun.jmx.snmp.EnumRowStatus;
 
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
 import java.util.Random;
 

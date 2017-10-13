@@ -8,7 +8,6 @@ import model.being.player.AbstractPlayer;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.mapObject.levels.AbstractLevel;
-import model.mapObject.levels.LevelOne;
 
 import java.util.List;
 

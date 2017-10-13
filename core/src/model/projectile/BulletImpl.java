@@ -1,21 +1,21 @@
 package model.projectile;
 
-import java.util.List;
-
 import com.badlogic.gdx.math.Vector2;
-
 import model.GameModel;
 import model.GameObjectInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.
  * @author tomherdson
  *
  */
-public class BulletImpl implements ProjectileInterface, GameObjectInterface {
+public class BulletImpl implements ProjectileInterface, GameObjectInterface, Serializable {
 	protected Vector2 startingPos;
 	protected Vector2 endPos;
 	protected Vector2 pos;
@@ -29,7 +29,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 	protected float speed = 3;
 	private float xVel;
 	private float yVel;
-	private CustomSprite image;
+	private transient CustomSprite image;
 
 
 	private double angle;
@@ -69,7 +69,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface {
 
 
 
-		System.out.println("andgle = " + this.getAngle());
 		//scaling speed
 	    tX*=speed/GameModel.PPM;;
 	    tY*=speed/GameModel.PPM;;

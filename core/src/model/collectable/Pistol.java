@@ -1,17 +1,18 @@
 package model.collectable;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
-
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
 
+import java.util.ArrayList;
+
 public class Pistol extends AbstractWeapon{
+
+	public final weapon_type type = weapon_type.pistol;
+
 	//concrete fields for pistol
 	public final int MAX_AMMO = 50;
 
