@@ -2,10 +2,12 @@
 package model.data;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
+import model.mapObject.levels.Spawn;
 
 import java.io.*;
 import java.util.Base64;
@@ -22,13 +24,13 @@ public class GameStateTransactionHandler {
         repository = new GameStateRepository();
     }
 
-    public boolean save(AbstractPlayer pl, List<AbstractEnemy> enems, List<AbstractCollectable> collects) {
+    public boolean save(ModelData model) {
         GameState newState = new GameState(
                 Gdx.app.getPreferences(
                         "save" + repository.latestSaveNum() //always a unique name and should stay dynamic + consistent throughout repo operations
                 ));
         
-        if(writeQuery(pl, enems, collects, newState)) {
+        if(writeQuery(model, newState)) {
             commit(newState);
             File f = new File(".");
             System.out.println(f.getAbsolutePath()); //print the path of where it was saved for testing
@@ -37,23 +39,28 @@ public class GameStateTransactionHandler {
         return false;
     }
 
-    private boolean writeQuery(AbstractPlayer pl, List<AbstractEnemy> enems, List<AbstractCollectable> collects, GameState newState) {
+    private boolean writeQuery(ModelData model, GameState newState) {
 
         /* spawnEnemies the newState with validated data, otherwise signal failed save */
-        if(!validateAndUpdatePlayer(newState, pl)) {
+        if(!validateAndUpdatePlayer(newState, model.getPlayer())) {
             System.out.println("bad player");
             return false;
         }
-        if(!validateAndUpdateEnemies(newState, enems)) {
+        if(!validateAndUpdateEnemies(newState, model.getEnemies())) {
             System.out.println("bad enemies");
             return false;
         }
-        if(!validateAndUpdateCollectables(newState, collects)) {
+        if(!validateAndUpdateCollectables(newState, model.getCollectables())) {
             System.out.println("bad items");
+            return false;
+        }
+        if(!validateAndUpdateSpawns(newState, model.getSpawnTriggers(), model.getSpawns())) {
+            System.out.println("bad spawns");
             return false;
         }
         return true;
     }
+
 
     /** sends signal to repo to pull the latestSaveNum state and wrap it in a StateQuery to the model
      *
@@ -73,10 +80,12 @@ public class GameStateTransactionHandler {
             PlayerData validatedPlayerData = validateAndReturnPlayerData(latest);
             List<AbstractEnemy> validatedEnemies = validateAndReturnEnemies(latest);
             List<AbstractCollectable> validatedCollectables = validateAndReturnCollectables(latest);
+            List<Rectangle> validatedTriggers = validateAndReturnSpawnTriggers(latest);
+            List<Spawn> validatedSpawns = validateAndReturnSpawns(latest);
 
             //if all data is valid, remove it from stack finally
             repository.pullHard();
-            return new StateQuery(validatedPlayerData, validatedEnemies, validatedCollectables); //give the model a loader object to directly call validated data
+            return new StateQuery(validatedPlayerData, validatedEnemies, validatedCollectables, validatedTriggers, validatedSpawns); //give the model a loader object to directly call validated data
 
         } catch (InvalidTransactionException e) {
             repository.pullHard(); //remove corrupted data
@@ -174,6 +183,35 @@ public class GameStateTransactionHandler {
         }
     }
 
+    /** Serialise the List of spawn trigger tiles and the List of spawns obtained from the model and store it
+     * into the buffer GameState. Checks if the data to be stored exists in the right type
+     * and can be stored correctly
+     * 
+     * @param newState
+     * @param spawnTriggers
+     * @param spawns
+     * @return
+     */
+    private boolean validateAndUpdateSpawns(GameState newState, List<Rectangle> spawnTriggers, List<Spawn> spawns) {
+        if(spawnTriggers == null || spawns == null) {
+            return false;
+        }
+
+        //now serialise the Enemies List and add to Preferences
+        String triggersSer = "";
+        String spawnsSer = "";
+        try {
+            triggersSer = serializeInBase64(spawnTriggers);
+            spawnsSer = serializeInBase64(spawns);
+
+            newState.setSpawningInPref(triggersSer, spawnsSer);
+            return true;
+
+        } catch(IOException e) {
+            return false;
+        }
+    }
+
     /** Deserialize the Player's data from the GameState and validate that the data is correct
      *
      * @param latest
@@ -236,10 +274,52 @@ public class GameStateTransactionHandler {
             //check each element in the list
             for(int i = 0; i < collectables.size(); i++) {
                 if(!(collectables.get(i) instanceof AbstractCollectable))
-                    throw new InvalidTransactionException("Deserialized enemy list doesn't contain Abstractcollectables");
+                    throw new InvalidTransactionException("Deserialized list doesn't contain AbstractCollectable");
             }
 
             return collectables;
+        } catch(IOException | ClassNotFoundException e) {
+            throw new InvalidTransactionException(e.getMessage());
+        }
+    }
+
+    private List<Rectangle> validateAndReturnSpawnTriggers(GameState latest) throws InvalidTransactionException{
+        try {
+            Object c = deserializeFromBase64(latest.getPref().getString("SpawnTriggers"));
+
+            if(!(c instanceof List))
+                throw new InvalidTransactionException("Deserialized object isn't an List");
+
+            List<Rectangle> spawnTriggers = (List<Rectangle>) c;
+
+            //check each element in the list
+            for(int i = 0; i < spawnTriggers.size(); i++) {
+                if(!(spawnTriggers.get(i) instanceof Rectangle))
+                    throw new InvalidTransactionException("Deserialized List doesn't contain Rectangles");
+            }
+
+            return spawnTriggers;
+        } catch(IOException | ClassNotFoundException e) {
+            throw new InvalidTransactionException(e.getMessage());
+        }
+    }
+
+    private List<Spawn> validateAndReturnSpawns(GameState latest) throws InvalidTransactionException{
+        try {
+            Object c = deserializeFromBase64(latest.getPref().getString("Spawns"));
+
+            if(!(c instanceof List))
+                throw new InvalidTransactionException("Deserialized object isn't a List");
+
+            List<Spawn> spawns = (List<Spawn>) c;
+
+            //check each element in the list
+            for(int i = 0; i < spawns.size(); i++) {
+                if(!(spawns.get(i) instanceof Spawn))
+                    throw new InvalidTransactionException("Deserialized List doesn't contain Spawns");
+            }
+
+            return spawns;
         } catch(IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }

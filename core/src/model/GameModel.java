@@ -17,8 +17,10 @@ import model.being.player.AbstractPlayer;
 import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
+import model.data.ModelData;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
+import model.mapObject.levels.Spawn;
 import view.screens.GameScreen;
 
 import java.util.ArrayList;
@@ -320,7 +322,12 @@ public class GameModel implements GameModelInterface {
     }
 
     public void save() {
-        if (!repoScraper.save(this.player, this.enemies, this.getCollectables())) {
+        if (!repoScraper.save(
+                new ModelData(
+                        this.player, this.enemies, this.getCollectables(), this.level.getSpawnTriggers(), this.level.getSpawns()
+                )
+        ))
+        {
             //TODO: msg dialog: save failed
         }
     }
@@ -335,10 +342,13 @@ public class GameModel implements GameModelInterface {
             PlayerData loadedPlayerData = loader.loadPlayerData();
             List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
             List<AbstractCollectable> loadedCollectables = loader.loadCollectables();
+            List<Rectangle> validatedTriggers = loader.loadSpawnTriggers();
+            List<Spawn> validatedSpawns = loader.loadSpawns();
 
             reinitGame(this.level);
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
+            loadSpawns(validatedTriggers, validatedSpawns);
 
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
@@ -347,8 +357,10 @@ public class GameModel implements GameModelInterface {
         }
     }
 
+
     private void loadPlayer(PlayerData pdata) {
-        GameScreen.inputMultiplexer.removeProcessor(player);
+        GameScreen.inputMultiplexer.removeProcessor(player); //remove the old player from input-handling
+
         player = EntityFactory.producePlayer(this,
                 new Vector2(
                         //scale player pos back down to the normal world scale
@@ -356,8 +368,10 @@ public class GameModel implements GameModelInterface {
                         pdata.getPos().y * PPM
                 ));
 
+        //reconfirm that player has a new Box2D world (removes existing bodies)
         player.setWorld(java.util.Optional.of(this.world));
 
+        //set all fields
         if (pdata.isLiving())
             this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
@@ -376,15 +390,7 @@ public class GameModel implements GameModelInterface {
         player.setMovingLeft(pdata.isMovingLeft());
         player.setMovingRight(pdata.isMovingRight());
 
-        GameScreen.inputMultiplexer.addProcessor(player);
-
-
-
-
-
-
-        //TODO REPLACE BODY newPlayer.getBody().setTransform();
-        //TODO REPLACE FIXTURE
+        GameScreen.inputMultiplexer.addProcessor(player); //finally, set the input to recognise this new player
     }
 
     private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
@@ -409,5 +415,10 @@ public class GameModel implements GameModelInterface {
             //enemies.add(newEnemy);
             enemiesToAdd.push(newEnemy);
         }
+    }
+
+    private void loadSpawns(List<Rectangle> validatedTriggers, List<Spawn> validatedSpawns) {
+        this.level.setSpawnTriggers(validatedTriggers);
+        this.level.setSpawns(validatedSpawns);
     }
 }
