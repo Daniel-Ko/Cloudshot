@@ -20,8 +20,8 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.mapObject.levels.LevelOne;
 import model.projectile.BulletImpl;
-import view.ButtonFactory;
-import view.LabelFactory;
+import view.utils.ButtonFactory;
+import view.utils.LabelFactory;
 import view.utils.HealthBar;
 import view.utils.InventoryActor;
 

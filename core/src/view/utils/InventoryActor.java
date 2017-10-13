@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import model.being.player.AbstractPlayer;
 import model.collectable.AbstractWeapon;
-import view.LabelFactory;
 
 import java.util.List;
 

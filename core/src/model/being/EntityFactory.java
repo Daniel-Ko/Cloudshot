@@ -58,7 +58,6 @@ public class EntityFactory {
 	 * */
 	public static AbstractPlayer producePlayer(GameModelInterface gameModel, Vector2 pos){
 		Player p = new Player();
-		p.loadImage();
 		p.initBox2D(gameModel.getWorld(),pos);
 		p.setCamera(gameModel.getCamera());
 		return p;
