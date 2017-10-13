@@ -1,5 +1,5 @@
 import org.junit.Test;
-import view.HealthBar;
+import view.utils.HealthBar;
 
 import static org.junit.Assert.assertTrue;
 

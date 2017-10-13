@@ -1,4 +1,4 @@
-package view;
+package view.utils;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;

@@ -1,8 +1,6 @@
 package view;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import model.GameModel;
 import model.GameModelInterface;
 import view.screens.GameScreen;
@@ -10,7 +8,6 @@ import view.screens.MenuScreen;
 
 public class CloudShotGame extends Game {
 
-    public static Skin gameSkin;
     public enum Screen {
         MENU, GAME, TEST
     };
@@ -34,7 +31,8 @@ public class CloudShotGame extends Game {
 
     @Override
     public void create() {
-        gameSkin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
+
+        Assets.load();
 
         switch (screen){
             case MENU:

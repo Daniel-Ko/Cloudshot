@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import mock.MockGameModel;
 import model.being.EntityFactory;
 import model.being.player.AbstractPlayer;
-import model.collectable.AbstractWeapon;
 import org.junit.Test;
 import view.CloudShotGame;
 

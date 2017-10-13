@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import view.buttons.StartButton;
-import view.labels.MainMenuLabel;
+import view.ButtonFactory;
+import view.LabelFactory;
 
 public class MenuScreen extends ScreenAdapter {
 
@@ -19,12 +19,12 @@ public class MenuScreen extends ScreenAdapter {
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
 
-        stage.addActor(new MainMenuLabel().createLabel());
+        stage.addActor(LabelFactory.mainMenuLabel());
 
-        TextButton startButton = new StartButton(
+        TextButton startButton = ButtonFactory.startButton(
                 Gdx.graphics.getWidth()/2,
                 Gdx.graphics.getHeight()/2
-        ).createButton();
+        );
 
         stage.addActor(startButton);
     }
