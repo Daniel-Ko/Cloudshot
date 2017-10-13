@@ -24,6 +24,7 @@ import view.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 import static com.sun.xml.internal.ws.policy.sourcemodel.wspolicy.XmlToken.Optional;
@@ -349,12 +350,15 @@ public class GameModel implements GameModelInterface {
     }
 
     private void loadPlayer(PlayerData pdata) {
+        GameScreen.inputMultiplexer.removeProcessor(player);
         player = EntityFactory.producePlayer(this,
                 new Vector2(
                         //scale player pos back down to the normal world scale
                         pdata.getPos().x * PPM,
                         pdata.getPos().y * PPM
                 ));
+
+        player.setWorld(java.util.Optional.of(this.world));
 
         if (pdata.isLiving())
             this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);

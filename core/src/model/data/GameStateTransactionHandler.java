@@ -75,7 +75,8 @@ public class GameStateTransactionHandler {
             List<AbstractCollectable> validatedCollectables = validateAndReturnCollectables(latest);
 
             //if all data is valid, remove it from stack finally
-            repository.pullHard();
+            //repository.pullHard();
+            System.out.println(repository.latestSaveNum());
             return new StateQuery(validatedPlayerData, validatedEnemies, validatedCollectables); //give the model a loader object to directly call validated data
 
         } catch (InvalidTransactionException e) {
