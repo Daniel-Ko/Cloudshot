@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import model.GameModel;
 import model.GameModelInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemies.BossOne;
@@ -100,7 +101,7 @@ public class GameScreen extends ScreenAdapter {
     private void initGameModel() {
         GameModel model = (GameModel) gameModel;
 
-        //finally, load in the first level
+        // Finally, load in the first level.
         gameModel.setLevel(new LevelOne());
 
         model.setupCamera();
@@ -108,7 +109,7 @@ public class GameScreen extends ScreenAdapter {
         model.loadTerrain();
         model.loadMusic();
 
-        //set separate module to handle save/load
+        // Set separate module to handle save/load.
         saveLoadHandler = new GameStateTransactionHandler();
         model.setRepoScraper(saveLoadHandler);
     }
@@ -218,6 +219,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void presentRunningGame(){
+
         // Update levelText and healthBar.
         levelText.setText(gameModel.getLevelName());
         healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
