@@ -44,6 +44,7 @@ public class GameModel implements GameModelInterface {
 
     /**
      * Manage the enemies in the game.
+
      */
     private List<AbstractEnemy> enemies;
     private Stack<AbstractEnemy> enemiesToAdd;
@@ -79,25 +80,34 @@ public class GameModel implements GameModelInterface {
      */
     private Music music;
 
-    public GameModel() {
-        setupCamera();
-        setupGame();
-        loadTerrain();
-        loadMusic();
-    }
 
-    private void setupGame() {
+
+    public void setupGame() {
         this.world = new World(new Vector2(0, GRAVITY), true);
         this.debugRenderer = new Box2DDebugRenderer();
         this.enemies = new ArrayList<>();
         this.enemiesToRemove = new ArrayList<>();
         this.enemiesToAdd = new Stack<>();
         this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
-        this.level = new LevelOne();
-        this.repoScraper = new GameStateTransactionHandler();
     }
 
-    private void setupCamera() {
+    public void setRepoScraper(GameStateTransactionHandler repoScraper) {
+        this.repoScraper = repoScraper;
+    }
+
+    private void reinitGame(AbstractLevel level) {
+        enemies = new ArrayList<>();
+        enemiesToRemove = new ArrayList<>();
+        enemiesToAdd = new Stack<>();
+
+        world = new World(new Vector2(0, GRAVITY), true);
+
+        this.level = level;
+        loadTerrain();
+    }
+
+
+    public void setupCamera() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         this.camera = new OrthographicCamera(
@@ -108,7 +118,7 @@ public class GameModel implements GameModelInterface {
         this.camera.update();
     }
 
-    private void loadTerrain() {
+    public void loadTerrain() {
         Array<Rectangle> terrain = level.getTiles();
         for (Rectangle r : terrain) {
             BodyDef terrainPiece = new BodyDef();
@@ -130,7 +140,7 @@ public class GameModel implements GameModelInterface {
 
     }
 
-    private void loadMusic() {
+    public void loadMusic() {
         music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
         music.setVolume(0.6f);
         music.setLooping(true);
@@ -277,16 +287,13 @@ public class GameModel implements GameModelInterface {
         return music.isPlaying();
     }
 
-    public void setLevel(AbstractLevel level) {
+    public void setLevel(AbstractLevel leve) {
+        this.level = leve;
+    }
+
+    public void setNewLevel(AbstractLevel level) {
         // Reload all the fields.
-        enemies = new ArrayList<>();
-        enemiesToRemove = new ArrayList<>();
-        enemiesToAdd = new Stack<>();
-
-        world = new World(new Vector2(0, GRAVITY), true);
-
-        this.level = level;
-        loadTerrain();
+        reinitGame(level);
 
         GameScreen.inputMultiplexer.removeProcessor(player);
         player = EntityFactory.producePlayer(this, new Vector2(50, 500));
@@ -325,7 +332,7 @@ public class GameModel implements GameModelInterface {
             List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
             List<AbstractCollectable> loadedCollectables = loader.loadCollectables();
 
-
+            reinitGame(this.level);
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
             //this.
@@ -337,12 +344,18 @@ public class GameModel implements GameModelInterface {
     }
 
     private void loadPlayer(PlayerData pdata) {
+        player = EntityFactory.producePlayer(this,
+                new Vector2(
+                        //scale player pos back down to the normal world scale
+                        pdata.getPos().x * PPM,
+                        pdata.getPos().y * PPM
+                ));
+
         if (pdata.isLiving())
             this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
             this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
 
-        player.setPos(pdata.getPos());
         player.setHealth(pdata.getHealth());
         player.setDamage(pdata.getDamage());
         player.setBoundingBox(pdata.getBoundingBox());
@@ -354,6 +367,12 @@ public class GameModel implements GameModelInterface {
         player.setGrounded(pdata.isGrounded());
         player.setMovingLeft(pdata.isMovingLeft());
         player.setMovingRight(pdata.isMovingRight());
+
+        GameScreen.inputMultiplexer.addProcessor(player);
+
+
+
+
 
 
         //TODO REPLACE BODY newPlayer.getBody().setTransform();

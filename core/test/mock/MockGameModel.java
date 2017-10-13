@@ -11,6 +11,8 @@ import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.collectable.AbstractCollectable;
+import model.data.GameStateTransactionHandler;
+import model.mapObject.levels.AbstractLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,16 @@ public class MockGameModel implements GameModelInterface {
 
     @Override
     public void save() {
+
+    }
+
+    @Override
+    public void setRepoScraper(GameStateTransactionHandler saveLoadHandler) {
+
+    }
+
+    @Override
+    public void setLevel(AbstractLevel level) {
 
     }
 }

@@ -191,7 +191,7 @@ public abstract class AbstractLevel {
             p.hit(p.getHealth());
         }
         if (endZone.contains(p.getPos())) {
-            gm.setLevel(new LevelTwo());
+            gm.setNewLevel(new LevelTwo());
             System.out.println("next level");
         }
         for (int i = 0; i < spawnTriggers.size; i++) {
