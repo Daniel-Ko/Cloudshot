@@ -1,15 +1,14 @@
 package model.projectile;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.badlogic.gdx.math.Vector2;
-
 import model.GameModel;
 import model.GameObjectInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.
@@ -70,7 +69,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 
 
-		System.out.println("andgle = " + this.getAngle());
 		//scaling speed
 	    tX*=speed/GameModel.PPM;;
 	    tY*=speed/GameModel.PPM;;

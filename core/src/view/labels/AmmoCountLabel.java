@@ -1,6 +1,5 @@
 package view.labels;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import model.collectable.AbstractWeapon;

@@ -2,18 +2,15 @@ package model.being.enemies;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameObjectInterface;
-import model.being.EntityFactory;
-import model.being.player.AbstractPlayer;
-import model.being.enemystates.EnemyState;
 import model.being.EntityInterface;
+import model.being.enemystates.EnemyState;
 import model.being.enemystates.IdleMovement;
-import model.being.player.Player;
+import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 
 /**
@@ -26,7 +23,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	private static final long serialVersionUID = -5230554639550482142L;
 
-	public EntityFactory.entity_type type;
+	public entity_type type;
 
 	/** Used for collisions and getting X & Y coords */
 	protected Rectangle boundingBox;
@@ -45,9 +42,11 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	protected enemy_state state = enemy_state.EALIVE;
 
+	public enum entity_type {
+		archer, slime, rogue,spikeblock, boss2, boss1;
+	}
 
-
-	public static enum enemy_state{
+	public enum enemy_state{
 		EALIVE,EDEAD,EATTACKING,EIDLE
 	}
 
@@ -66,7 +65,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 
 
-	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, EntityFactory.entity_type enemyType){
+	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, entity_type enemyType){
 		this.type = enemyType;
 
 		this.world = world;

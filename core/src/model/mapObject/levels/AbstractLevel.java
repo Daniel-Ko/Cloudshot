@@ -172,15 +172,15 @@ public abstract class AbstractLevel {
             RectangleMapObject rmo = (RectangleMapObject) r;
             Rectangle rect = rmo.getRectangle();
             //spawns.add(new Rectangle(rect.x/GameModel.PPM, rect.y/GameModel.PPM, rect.getWidth()/GameModel.PPM, rect.getHeight()/GameModel.PPM));
-            Spawn.EnemyType enemyType;
+            AbstractEnemy.entity_type enemyType;
 
             String type = (String) rmo.getProperties().get("Type");
             if (type.equals("Rogue")) {
-                enemyType = Spawn.EnemyType.ROGUE;
+                enemyType = AbstractEnemy.entity_type.rogue;
             } else if (type.equals("Shooter")) {
-                enemyType = Spawn.EnemyType.SHOOTER;
+                enemyType = AbstractEnemy.entity_type.archer;
             } else {
-                enemyType = Spawn.EnemyType.SLIME;
+                enemyType = AbstractEnemy.entity_type.slime;
             }
             spawns.add(new Spawn(enemyType, (int) rmo.getProperties().get("Number"), rect.x, rect.y));
         }
@@ -192,7 +192,6 @@ public abstract class AbstractLevel {
         }
         if (endZone.contains(p.getPos())) {
             gm.setNewLevel(new LevelTwo());
-            System.out.println("next level");
         }
         for (int i = 0; i < spawnTriggers.size; i++) {
             if (spawnTriggers.get(i).contains(p.getPos())) {

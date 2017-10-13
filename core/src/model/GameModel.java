@@ -19,12 +19,10 @@ import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
-import model.mapObject.levels.LevelOne;
 import view.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Stack;
 
 public class GameModel implements GameModelInterface {
@@ -336,7 +334,7 @@ public class GameModel implements GameModelInterface {
             reinitGame(this.level);
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
-            //this.
+
 
             //TODO: Jerem + jake, you can replace your data with my loaded data
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
@@ -364,7 +362,8 @@ public class GameModel implements GameModelInterface {
         player.setDamage(pdata.getDamage());
         player.setBoundingBox(pdata.getBoundingBox());
 
-        //TODO set inventory  player.setInventory(pdata.getInventory());
+        player.setInventory(pdata.getInventory());
+        player.setCurWeapon(pdata.getCurWeapon());
 
         player.setInAir(pdata.isInAir());
         player.setAttacking(pdata.isAttacking());

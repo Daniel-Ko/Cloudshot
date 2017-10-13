@@ -2,8 +2,10 @@ package model.being.player;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import model.collectable.AbstractWeapon;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Holds all properties of the AbstractPlayer
@@ -34,8 +36,11 @@ public class PlayerData implements Serializable{
     protected boolean grounded = false;
     protected boolean movingLeft;
     protected boolean movingRight;
+
     // Players inventory
-    //protected List<AbstractWeapon> inventory;
+    protected List<AbstractWeapon> inventory;
+    protected AbstractWeapon curWeapon;
+
     // Position of the mouse
     protected Vector2 aimedAt = new Vector2(50,50);
 
@@ -50,7 +55,6 @@ public class PlayerData implements Serializable{
     private Vector2 bodyLinearVelocity;
     
     //fixturedef
-    //private Shape shape;
     private float friction = 0.2F;
     private float density = 0.0F;
     private boolean isSensor = false;
@@ -59,17 +63,17 @@ public class PlayerData implements Serializable{
     public PlayerData(AbstractPlayer player) {
         setUIProperties(player);
         setActionProperties(player);
-//        setInventory(player);
+        setInventory(player);
         setPhysicsProperties(player);
         setBox2DProperties(player);
         setAimLocation(player);
         setLiving(player);
-//        setInstanceProperties(player);
+        setInstanceProperties(player);
     }
 
-//    private void setInstanceProperties(AbstractPlayer player) {
-//        curWeapon = ((Player) player).getCurWeapon();
-//    }
+    private void setInstanceProperties(AbstractPlayer player) {
+        curWeapon = ((Player) player).getCurWeapon();
+    }
 
     private void setUIProperties(AbstractPlayer player) {
         this.health = player.getHealth();
@@ -77,9 +81,9 @@ public class PlayerData implements Serializable{
         this.boundingBox = player.getBoundingBox();
     }
     
-//    private void setInventory(AbstractPlayer player) {
-//        this.inventory = player.getInventory();
-//    }
+    private void setInventory(AbstractPlayer player) {
+        this.inventory = player.getInventory();
+    }
     
     private void setActionProperties(AbstractPlayer player) {
         this.inAir = player.isInAir();
@@ -123,9 +127,9 @@ public class PlayerData implements Serializable{
     /** GETTERS */
 
 
-//    public AbstractWeapon getCurWeapon() {
-//        return curWeapon;
-//    }
+    public AbstractWeapon getCurWeapon() {
+        return curWeapon;
+    }
 
     public boolean isLiving() {
         return isLiving;
@@ -215,13 +219,13 @@ public class PlayerData implements Serializable{
         this.movingRight = movingRight;
     }
 
-//    public List<AbstractWeapon> getInventory() {
-//        return inventory;
-//    }
-//
-//    public void setInventory(List<AbstractWeapon> inventory) {
-//        this.inventory = inventory;
-//    }
+    public List<AbstractWeapon> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<AbstractWeapon> inventory) {
+        this.inventory = inventory;
+    }
 
     public Vector2 getAimedAt() {
         return aimedAt;

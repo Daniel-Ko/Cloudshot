@@ -4,7 +4,6 @@ import model.being.enemies.AbstractEnemy;
 import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

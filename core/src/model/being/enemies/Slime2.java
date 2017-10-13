@@ -6,16 +6,14 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
-import model.being.EntityFactory;
 import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
-import model.being.player.Player;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 
 public class Slime2 extends AbstractEnemy{
 
-    public final EntityFactory.entity_type type = EntityFactory.entity_type.slime;
+    public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.slime;
 
     private int splitID = 0;//0 = original smile,1 = second gen..
 
@@ -33,7 +31,7 @@ public class Slime2 extends AbstractEnemy{
     private Vector2 initPos;
 
     public Slime2(World world, AbstractPlayer player, Vector2 pos){
-        super(world,player,pos, EntityFactory.entity_type.slime);
+        super(world,player,pos, AbstractEnemy.entity_type.slime);
         initPos = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
         health = 20;
         attack_left =  new MovingSprite("slime_attack.png",1,7);
@@ -130,9 +128,8 @@ public class Slime2 extends AbstractEnemy{
             position.set(body.getPosition());
             boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());
         }
+
         //UPDATING STATES
-        if(player == null)
-            System.out.println("player was null");
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             if(enemyState instanceof HorizontalMovement){
                 enemyState = new AggroMovement();
