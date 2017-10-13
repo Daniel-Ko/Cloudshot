@@ -187,7 +187,7 @@ public abstract class AbstractLevel {
     }
 
     public void spawnEnemies(AbstractPlayer p, GameModel gm) {
-        if (p.getPos().y < 0) {//falling off map kills
+        if (p.getPos().y < -40) {//falling off map kills, but with a bit of delay (can fall off screen for a few seconds)
             p.hit(p.getHealth());
         }
         if (endZone.contains(p.getPos())) {
