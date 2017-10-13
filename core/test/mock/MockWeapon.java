@@ -24,9 +24,6 @@ public class MockWeapon {
 
     private CustomSprite bulImage;
 
-
-
-
     public MockWeapon(Vector2 position, float width, float height) {
 //        super(position, width, height);
 //        this.setDamage(PISTOL_DAMAGE);

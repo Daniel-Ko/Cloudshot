@@ -13,7 +13,8 @@ import model.being.enemies.AbstractEnemy;
 import model.collectable.AbstractWeapon;
 
 import com.badlogic.gdx.math.Rectangle;
-
+import view.screens.GameScreen;
+import view.screens.GameScreen.State;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,7 +185,12 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	@Override
 	public boolean keyDown(int keycode) {
 		//Player is dead cant move
-		if(playerState == player_state.DEAD)return false;
+		if(playerState == player_state.DEAD)
+			return false;
+
+		if(GameScreen.state.equals(State.GAME_PAUSED)){
+			return false;
+		}
 		switch (keycode){
 			case Input.Keys.A:
 				movingLeft = true;

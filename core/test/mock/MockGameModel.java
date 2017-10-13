@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.GameModelInterface;
 import model.being.EntityFactory;
@@ -20,7 +21,7 @@ public class MockGameModel implements GameModelInterface {
 
     @Override
     public AbstractPlayer getPlayer() {
-        return EntityFactory.producePlayer(null, new Vector2(50,500));
+        return EntityFactory.producePlayer(this, new Vector2(50,500));
     }
 
     @Override
@@ -48,6 +49,11 @@ public class MockGameModel implements GameModelInterface {
     @Override
     public TiledMapRenderer getTiledMapRenderer() {
         return null;
+    }
+
+    @Override
+    public World getWorld() {
+        return new World(new Vector2(0, -8), true);
     }
 
     @Override
