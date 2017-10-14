@@ -134,7 +134,7 @@ public class GameModel implements GameModelInterface {
             groundBody.createFixture(groundBox, 0.0f).setUserData("platform");
             groundBox.dispose();
         }
-
+        
         enemies.add(new SpikeBlock(world, getPlayer(), new Vector2(800, 400)));
         enemies.add(new SpikeBlock(world, getPlayer(), new Vector2(1000, 700)));
         enemies.add(new SpikeBlock(world, getPlayer(), new Vector2(1400, 600)));
@@ -358,9 +358,8 @@ public class GameModel implements GameModelInterface {
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
             loadLevel(loader.loadLevel());
+            loadTerrain(); //reset terrain physics for this level
             
-            //loadCollectables(loadedCollectables);
-            //loadSpawns(validatedTriggers, validatedSpawns);
             
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             //TODO: msg dialog: load failed
@@ -435,7 +434,7 @@ public class GameModel implements GameModelInterface {
             newLevel = new LevelTwo();
         else if(levelToLoad.levelNum == 3)
             newLevel = new LevelThree();
-
+    
         newLevel.setCollectables(levelToLoad.getCollectables());
         newLevel.setPortals(levelToLoad.getPortals());
         newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
