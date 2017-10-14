@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
+import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.collectable.*;
@@ -251,6 +252,7 @@ public abstract class AbstractLevel {
         if (hasPlayerWon(p)) {
             gm.setNewLevel(this.getNextLevel());
         }
+
         for (int i = 0; i < spawnTriggers.size(); i++) {//check if walking over spawn trigger.
             if (spawnTriggers.get(i).contains(p.getPos())) {
                 spawns.get(i).spawn(gm.getEnemies(), gm);
