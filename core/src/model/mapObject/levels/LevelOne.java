@@ -1,7 +1,9 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.maps.MapProperties;
 import model.collectable.AbstractCollectable;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,18 +13,14 @@ import java.util.List;
  */
 public class LevelOne extends AbstractLevel {
 
+
     public LevelOne() {
-        super();
+        super(1);
     }
 
     @Override
     public String getLevelName() {
         return "Welcome to Cloudshot";
-    }
-
-    @Override
-    public int getLevelNumber() {
-        return 1;
     }
 
     @Override
@@ -54,6 +52,8 @@ public class LevelOne extends AbstractLevel {
     public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
+
+
 
 
 }

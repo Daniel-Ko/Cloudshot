@@ -15,10 +15,12 @@ import model.being.enemies.SpikeBlock;
 import model.being.enemystates.Death;
 import model.being.player.AbstractPlayer;
 import model.being.player.PlayerData;
+import model.collectable.AbstractBuff;
 import model.collectable.AbstractCollectable;
+import model.collectable.AbstractWeapon;
+import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
-import model.data.StateQuery;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.Spawn;
 import view.screens.GameScreen;
@@ -169,12 +171,12 @@ public class GameModel implements GameModelInterface {
 
         camera.position.x = MathUtils.clamp(camera.position.x,
                 effectiveViewportWidth / 2f,
-                WORLD_WIDTH - effectiveViewportWidth
+                level.getLevelDimension().width/PPM - effectiveViewportWidth/2f
         );
 
         camera.position.y = MathUtils.clamp(camera.position.y,
                 effectiveViewportHeight / 2f,
-                WORLD_HEIGHT - effectiveViewportHeight / 2f
+                level.getLevelDimension().height/PPM - effectiveViewportHeight / 2f
         );
 
         camera.update();
@@ -247,6 +249,7 @@ public class GameModel implements GameModelInterface {
         return level.getCollectibles();
     }
 
+
     @Override
     public OrthographicCamera getCamera() {
         return camera;
@@ -298,10 +301,8 @@ public class GameModel implements GameModelInterface {
     public void setNewLevel(AbstractLevel level) {
         // Reload all the fields.
         reinitGame(level);
-
-        GameScreen.inputMultiplexer.removeProcessor(player);
-        player = EntityFactory.producePlayer(this, new Vector2(50, 500));
-        GameScreen.inputMultiplexer.addProcessor(player);
+        loadPlayer(new PlayerData(player)); //load PERSISTENT player data over levels!
+        player.setPos(new Vector2(5, 5)); //set to the expected start of the level
     }
 
     private void checkIfGameOver() {
@@ -329,6 +330,7 @@ public class GameModel implements GameModelInterface {
         data.setPlayer(this.player);
         data.setEnemies(this.enemies);
         data.setCollectables(this.getCollectables());
+        data.setLevel(this.level);
         data.setSpawnTriggers(this.level.getSpawnTriggers());
         data.setSpawns(this.level.getSpawns());
 
@@ -341,7 +343,7 @@ public class GameModel implements GameModelInterface {
 
     public void load() {
         try {
-            StateQuery loader = repoScraper.load();
+            ModelData loader = repoScraper.load();
             if (loader == null)
                 return; //todo say nothing to load?
 
@@ -355,6 +357,7 @@ public class GameModel implements GameModelInterface {
             reinitGame(this.level);
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
+            loadCollectables(loadedCollectables);
             loadSpawns(validatedTriggers, validatedSpawns);
 
 
@@ -421,6 +424,37 @@ public class GameModel implements GameModelInterface {
 
             //enemies.add(newEnemy);
             enemiesToAdd.push(newEnemy);
+        }
+    }
+
+    private void loadCollectables(List<AbstractCollectable> collectsToLoad) {
+        //clear the level's existing collectables
+        this.level.getCollectables().clear();
+
+        for(AbstractCollectable c : collectsToLoad) {
+
+            if(c instanceof AbstractBuff) {
+                    //create new buff and set the loaded properties in
+                    AbstractBuff loadedBuff = CollectableFactory.produceAbstractBuff((
+                        (AbstractBuff) c).type,
+                        new Vector2(c.getX(), c.getY()
+                    ));
+                    loadedBuff.setPickedUp(c.isPickedUp());
+
+                this.level.getCollectables().add(loadedBuff); //add to level
+
+            } else { //else case is if c instanceof AbstractWeapon
+
+                //create new Weapon and set the loaded properties in
+                AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon((
+                                    (AbstractWeapon) c).type,
+                                    new Vector2(c.getX(), c.getY()
+                                    ));
+                loadedWeapon.setAmmo(((AbstractWeapon) c).getAmmo());
+                loadedWeapon.setPickedUp(c.isPickedUp());
+
+                this.level.getCollectables().add(loadedWeapon); //add to level
+            }
         }
     }
 
