@@ -134,6 +134,30 @@ public class GameStateTransactionHandler {
         }
     }
 
+    public boolean validateAndUpdatePlayer(GameState newState, AbstractPlayer newPlayer) {
+        if (newPlayer == null) {
+            return false;
+        }
+
+        //create a PlayerData object that makes serializable objects out of a not-entirely serializable AbstractPlayer
+        //, particularly Box2D.
+        PlayerData playerProps = new PlayerData(newPlayer);
+
+        //now serialise the PlayerData object and add to Preferences
+
+        String playerSer = "";
+        try {
+            playerSer = serializeInBase64(playerProps);
+
+            newState.setPlayerInPref(playerSer);
+            return true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * Serialise the List of enemies obtained from the model and store it
      * into the buffer GameState. Checks if the data to be stored exists in the right type
