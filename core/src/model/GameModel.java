@@ -198,6 +198,10 @@ public class GameModel implements GameModelInterface {
         for (AbstractEnemy ae : enemies) {
             ae.update();
 
+            if(ae.getPosition().y < -40){// kill enemy if it falls off map.
+                ae.hit(ae.getHealth());
+            }
+
             // Dead enemies to be removed.
             if (ae.enemyState instanceof Death)
                 enemiesToRemove.add(ae);
@@ -214,7 +218,7 @@ public class GameModel implements GameModelInterface {
         AbstractCollectable remove = null;
 
         // Iterate through all of the collectables in the scene.
-        for (AbstractCollectable ac : level.getCollectables()) {
+        for (AbstractCollectable ac : level.getCollectibles()) {
             // Check if the player have collected it.
             if (ac.checkCollide(getPlayer())) {
                 remove = ac;
@@ -240,7 +244,7 @@ public class GameModel implements GameModelInterface {
 
     @Override
     public List<AbstractCollectable> getCollectables() {
-        return level.getCollectables();
+        return level.getCollectibles();
     }
 
     @Override
