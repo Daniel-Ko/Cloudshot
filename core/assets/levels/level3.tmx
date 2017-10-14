@@ -134,6 +134,16 @@
  <objectgroup name="Collectibles"/>
  <objectgroup name="Text"/>
  <layer name="Decorations" width="100" height="100">
+ <objectgroup name="SpawnTrigger"/>
+ <objectgroup name="End Zone"/>
+ <objectgroup name="Collectables">
+  <object id="45" x="1910.38" y="1329.04" width="32.5792" height="32.5792"/>
+ </objectgroup>
+ <objectgroup name="Portals">
+  <object id="51" x="1470.73" y="1607.45" width="32.5468" height="65.0936"/>
+  <object id="52" x="1918.73" y="1507.81" width="32.5468" height="62.3813"/>
+ </objectgroup>
+ <layer name="Decoration" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

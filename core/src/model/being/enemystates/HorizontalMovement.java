@@ -2,6 +2,7 @@ package model.being.enemystates;
 
 import com.badlogic.gdx.math.Vector2;
 import model.being.enemies.AbstractEnemy;
+import model.being.enemies.SpikeBlock;
 import model.being.player.AbstractPlayer;
 
 public class HorizontalMovement implements EnemyState, java.io.Serializable {
@@ -95,6 +96,11 @@ public class HorizontalMovement implements EnemyState, java.io.Serializable {
     }
     @Override
     public void damage(AbstractEnemy e, int damage) {
+        if(e instanceof SpikeBlock)return;//cannot hit this
+        e.internalDamage(damage);
+        if(e.getHealth()<=0){
+            e.enemyState = new Death();
+        }
 
     }
 }

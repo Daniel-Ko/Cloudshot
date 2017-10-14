@@ -2,7 +2,9 @@ package model.mapObject.levels;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public class Portal {
+import java.io.Serializable;
+
+public class Portal implements Serializable{
     private Rectangle entry;
     private Rectangle exit;
     private boolean isActive;
