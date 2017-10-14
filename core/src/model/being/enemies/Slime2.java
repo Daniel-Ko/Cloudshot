@@ -132,8 +132,7 @@ public class Slime2 extends AbstractEnemy{
             boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());
         }
         //UPDATING STATES
-        if(player == null)
-            System.out.println("player was null");
+
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             if(enemyState instanceof HorizontalMovement){
                 enemyState = new AggroMovement();
@@ -152,7 +151,6 @@ public class Slime2 extends AbstractEnemy{
 
 
     }
-
 
     @Override
     public CustomSprite getImage() {
