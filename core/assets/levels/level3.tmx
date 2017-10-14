@@ -150,7 +150,7 @@
  <objectgroup name="Text"/>
  <objectgroup name="SpawnTrigger"/>
  <objectgroup name="End Zone"/>
- <objectgroup name="Collectibles">
+ <objectgroup name="Collectables">
   <object id="45" x="1910.38" y="1329.04" width="32.5792" height="32.5792"/>
  </objectgroup>
  <objectgroup name="Portals">

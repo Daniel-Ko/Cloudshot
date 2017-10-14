@@ -21,8 +21,7 @@ import model.collectable.AbstractWeapon;
 import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
-import model.mapObject.levels.AbstractLevel;
-import model.mapObject.levels.Spawn;
+import model.mapObject.levels.*;
 import view.screens.GameScreen;
 
 import java.util.ArrayList;
@@ -220,7 +219,7 @@ public class GameModel implements GameModelInterface {
         AbstractCollectable remove = null;
 
         // Iterate through all of the collectables in the scene.
-        for (AbstractCollectable ac : level.getCollectibles()) {
+        for (AbstractCollectable ac : level.getCollectables()) {
             // Check if the player have collected it.
             if (ac.checkCollide(getPlayer())) {
                 remove = ac;
@@ -246,7 +245,7 @@ public class GameModel implements GameModelInterface {
 
     @Override
     public List<AbstractCollectable> getCollectables() {
-        return level.getCollectibles();
+        return level.getCollectables();
     }
 
 
@@ -357,6 +356,7 @@ public class GameModel implements GameModelInterface {
             reinitGame(this.level);
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
+            loadLevel(loader.loadLevel());
             loadCollectables(loadedCollectables);
             loadSpawns(validatedTriggers, validatedSpawns);
 
@@ -366,7 +366,6 @@ public class GameModel implements GameModelInterface {
             //TODO: msg dialog: load failed
         }
     }
-
 
     private void loadPlayer(PlayerData pdata) {
         GameScreen.inputMultiplexer.removeProcessor(player); //remove the old player from input-handling
@@ -425,6 +424,22 @@ public class GameModel implements GameModelInterface {
             //enemies.add(newEnemy);
             enemiesToAdd.push(newEnemy);
         }
+    }
+
+    private void loadLevel(AbstractLevel levelToLoad) {
+        AbstractLevel newLevel = null;
+
+        if(levelToLoad.levelNum == 1)
+            newLevel = new LevelOne();
+        else if(levelToLoad.levelNum == 2)
+            newLevel = new LevelTwo();
+        else if(levelToLoad.levelNum == 3)
+            newLevel = new LevelThree();
+
+        newLevel.setCollectables(levelToLoad.getCollectables());
+        newLevel.setPortals(levelToLoad.getPortals());
+        newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
+        newLevel.setSpawns(levelToLoad.getSpawns());
     }
 
     private void loadCollectables(List<AbstractCollectable> collectsToLoad) {

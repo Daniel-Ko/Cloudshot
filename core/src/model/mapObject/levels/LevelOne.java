@@ -47,7 +47,7 @@ public class LevelOne extends AbstractLevel {
     }
 
     @Override
-    public List<AbstractCollectable> getCollectibles() {
+    public List<AbstractCollectable> getCollectables() {
         return collectables;
     }
 

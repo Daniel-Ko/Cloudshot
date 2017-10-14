@@ -45,7 +45,7 @@ public class LevelThree extends AbstractLevel {
     }
 
     @Override
-    public List<AbstractCollectable> getCollectibles() {
+    public List<AbstractCollectable> getCollectables() {
         return collectables;
     }
 

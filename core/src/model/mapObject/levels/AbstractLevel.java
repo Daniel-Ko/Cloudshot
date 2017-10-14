@@ -28,10 +28,9 @@ import java.util.List;
 public abstract class AbstractLevel implements Serializable{
     public final int levelNum;
 
-
     protected transient TiledMap tiledMap;
     protected transient TiledMapRenderer tiledMapRenderer;
-    protected Array<Rectangle> tiles = new Array<>();
+    protected transient Array<Rectangle> tiles = new Array<>();
 
     protected List<AbstractCollectable> collectables;
     protected Rectangle endZone;
@@ -52,7 +51,7 @@ public abstract class AbstractLevel implements Serializable{
 
         // load information from .tmx file.
         generateCollidablePolygons();
-        loadCollectibles();
+        loadCollectables();
         loadEndPoint();
         loadSpawnTriggerPoints();
         loadSpawns();
@@ -76,17 +75,17 @@ public abstract class AbstractLevel implements Serializable{
     }
 
     /**
-     * Loads the 'Collectibles' layer of the TMX file. This layer contains the spawn points of the various collectibles.
-     * Collectibles are stored as 'AbstractCollectable' objects.
+     * Loads the 'Collectables' layer of the TMX file. This layer contains the spawn points of the various Collectables.
+     * Collectables are stored as 'AbstractCollectable' objects.
      */
-    public void loadCollectibles() {
-        MapLayer collectibles = tiledMap.getLayers().get("Collectibles");
-        MapObjects collectibleObjs = collectibles.getObjects();
+    public void loadCollectables() {
+        MapLayer Collectables = tiledMap.getLayers().get("Collectables");
+        MapObjects CollectableObjs = Collectables.getObjects();
         collectables = new ArrayList<>();
-        for (MapObject o : collectibleObjs) {
+        for (MapObject o : CollectableObjs) {
             RectangleMapObject r = (RectangleMapObject) o;
             AbstractCollectable collectable;
-            if (r.getProperties().get("Type") != null) {//Check for specifically named Collectible objects in Collectibles layer.
+            if (r.getProperties().get("Type") != null) {//Check for specifically named Collectable objects in Collectables layer.
                 String s = r.getProperties().get("Type").toString();
                 if(s.equals("Sniper")){
                     collectable = new Sniper(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
@@ -99,7 +98,7 @@ public abstract class AbstractLevel implements Serializable{
                     collectable = new SemiAuto(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
                 }
             }
-            else {//If the collectible is not specified, it is random.
+            else {//If the Collectable is not specified, it is random.
                 int rand = (int) (Math.random() * 10);
                 collectable = getCollectableFromRand(rand, r);
             }
@@ -312,15 +311,15 @@ public abstract class AbstractLevel implements Serializable{
     public abstract AbstractLevel getNextLevel();
 
     /**
-     * HashMap containing the spawn rates of each collectible.
+     * HashMap containing the spawn rates of each Collectable.
      * @return HashMap with spawnrates.
      */
     public abstract HashMap<Integer, String> getSpawnRates();
 
     /**
-     * @return Collectibles on the map.
+     * @return Collectables on the map.
      */
-    public abstract List<AbstractCollectable> getCollectibles();
+    public abstract List<AbstractCollectable> getCollectables();
 
     //Getters and setters
     public List<Rectangle> getSpawnTriggers() {
@@ -339,13 +338,6 @@ public abstract class AbstractLevel implements Serializable{
         this.spawns = spawns;
     }
 
-    /**
-     * A list of all the collectible objects on the map.
-     *
-     * @return
-     */
-    public abstract List<AbstractCollectable> getCollectables();
-
 
     public TiledMap getTiledMap() {
         return tiledMap;
@@ -361,5 +353,17 @@ public abstract class AbstractLevel implements Serializable{
 
     public void setCollectables(List<AbstractCollectable> collects) {
         collectables = collects;
+    }
+
+    public void setEndZone(Rectangle endZone) {
+        this.endZone = endZone;
+    }
+
+    public void setPortals(List<Portal> portals) {
+        this.portals = portals;
+    }
+
+    public List<Portal> getPortals() {
+        return portals;
     }
 }

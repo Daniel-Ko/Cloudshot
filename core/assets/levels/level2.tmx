@@ -24,7 +24,7 @@
   <object id="8" x="1633.1" y="1601.5" width="92.812" height="89.8499"/>
   <object id="9" x="1825.63" y="1536.33" width="637.836" height="90.8373"/>
  </objectgroup>
- <objectgroup name="Collectibles">
+ <objectgroup name="Collectables">
   <object id="10" x="1154.23" y="1665.68" width="32.5829" height="30.6082"/>
  </objectgroup>
  <objectgroup name="End Zone">
