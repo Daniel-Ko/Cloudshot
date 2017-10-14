@@ -133,10 +133,8 @@ public class GameModel implements GameModelInterface {
             groundBox.dispose();
         }
 
-        enemies.add(EntityFactory.produceEnemy(this,new Vector2(400,400),AbstractEnemy.entity_type.boss1));
-        enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(1000, 700)));
-        enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(1400, 600)));
-        enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(2000, 450)));
+        enemies.add(EntityFactory.produceEnemy(this,new Vector2(2100,400),AbstractEnemy.entity_type.boss1));
+
 
     }
 

@@ -16,6 +16,7 @@ import model.being.player.Player;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.mapObject.levels.LevelOne;
+import model.mapObject.levels.LevelThree;
 import model.projectile.BulletImpl;
 import view.utils.ButtonFactory;
 import view.utils.HealthBar;
@@ -99,7 +100,7 @@ public class GameScreen extends ScreenAdapter {
         GameModel model = (GameModel) gameModel;
 
         // Finally, load in the first level.
-        gameModel.setLevel(new LevelOne());
+        gameModel.setLevel(new LevelThree());//TODO change back to lvl 1
 
         model.setupCamera();
         model.setupGame();

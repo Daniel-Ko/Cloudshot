@@ -23,7 +23,7 @@ public class LevelThree extends AbstractLevel {
 
     @Override
     public int getLevelNumber() {
-        return 3;
+        return 4;
     }
 
     @Override
