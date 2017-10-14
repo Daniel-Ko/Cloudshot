@@ -27,6 +27,12 @@ public class LevelOne extends AbstractLevel {
     }
 
     @Override
+    public AbstractLevel getNextLevel() {
+        return new LevelTwo();
+    }
+
+
+    @Override
     public HashMap<Integer, String> getSpawnRates() {
         HashMap<Integer,String> spawnRates = new HashMap<>();
         spawnRates.put(0,"HealthPack");

@@ -154,7 +154,7 @@ public class GameModel implements GameModelInterface {
         updateCollectables();
         updateCamera();
 
-        level.spawnEnemies(player, this);
+        level.update(player, this);
         world.step(1 / 30f, 12, 4);
         debugRenderer.render(world, camera.combined);
 
