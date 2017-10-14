@@ -40,15 +40,18 @@ public class SemiAuto extends AbstractWeapon{
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
 
-        Vector2 aim = p.getAimedAt();
-        Vector2 behind = new Vector2(p.getX() + 1.5f,  p.getY());
-        Vector2 aimBelow =  new Vector2(p.getX() +1,  p.getY());
-        Vector2 bul = new Vector2(p.getX() + 0.5f,  p.getY());
+        BulletImpl bul1 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        BulletImpl bul2 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        BulletImpl bul3 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        BulletImpl bul4 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        bul1.setSpeed(3.1f);
+        bul2.setSpeed(3.2f);
+        bul3.setSpeed(3.3f);
+        bullets.add(bul1);
+        bullets.add(bul2);
+        bullets.add(bul3);
+        bullets.add(bul4);
 
-        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage(), true));
-        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage(), true));
-        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage(), true ));
-        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage(), true ));
         return bullets;
     }
 

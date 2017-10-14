@@ -124,12 +124,14 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 				if (e.getBoundingBox().contains(this.getX(),this.getY())){
 					e.hit((int)this.getDamage());
 					this.setToRemove(true);
+					System.out.println("enemy health =" +  e.getHealth());
 				}
 			}
 		}
 		else{
 			if (player.getBoundingBox().contains(this.getX(),this.getY())){
 				player.hit(this.getDamage());
+				this.setToRemove(true);
 			}
 		}
 
