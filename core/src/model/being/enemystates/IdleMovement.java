@@ -8,6 +8,7 @@ import model.being.player.AbstractPlayer;
 import java.util.Random;
 
 public class IdleMovement implements EnemyState, java.io.Serializable{
+    private static final long serialVersionUID = 4525408048766636312L;
     private float idleMovementSpeed = 1f;
     @Override
     public void update(AbstractEnemy e, AbstractPlayer player) {

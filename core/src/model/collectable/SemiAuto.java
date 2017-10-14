@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * Created by Jake on 9/10/17.
  */
 public class SemiAuto extends AbstractWeapon{
+    private static final long serialVersionUID = 4845354169570635749L;
     public final int MAX_AMMO = 50;
 
     protected final float SemiAuto_DAMAGE = 8;

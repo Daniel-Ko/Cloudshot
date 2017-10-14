@@ -7,7 +7,9 @@ import view.sprites.CustomSprite;
 
 public class HeavyAmmoPack extends AbstractBuff {
 
-	public HeavyAmmoPack(Vector2 position, float width, float height) {
+    private static final long serialVersionUID = -4710054287634053891L;
+
+    public HeavyAmmoPack(Vector2 position, float width, float height) {
 		super(position, width, height, buff_type.heavyammo);
 	}
 

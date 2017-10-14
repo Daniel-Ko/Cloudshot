@@ -9,6 +9,7 @@ import view.sprites.CustomSprite;
 import java.util.ArrayList;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
+	private static final long serialVersionUID = -9094601317027252528L;
 	public final weapon_type type;
 	//fields which every bullet needs
 	protected int ammo;

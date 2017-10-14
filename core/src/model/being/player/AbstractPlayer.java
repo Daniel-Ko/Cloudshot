@@ -105,10 +105,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 */
 	public void update(List<AbstractEnemy> enemies) {
 		//if we have a body and world to move around in
-		if(body.isPresent()){
-			handleInput();
-			pos.set(body.get().getPosition());
-		}
+        body.ifPresent(body -> {
+            handleInput();
+            pos.set(body.getPosition());
+        });
 		if(health<=0){
 			playerState = player_state.DEAD;
 		}
@@ -321,7 +321,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	}
 	public void setPos(Vector2 pos) {
 		this.pos = pos;
-		if(body.isPresent())body.get().setTransform(pos,0);
+        body.ifPresent(body -> body.setTransform(pos, 0));
 	}
 
 	
@@ -358,19 +358,15 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * @return World if present, is present if initBox2D has been called o.w return null
 	 * */
 	public World getWorld() {
-		if(world.isPresent())
-			return world.get();
-		return null;
-	}
+        return world.orElse(null);
+    }
 
 	/**
 	 * @return body if present, is present if initBox2D has been called o.w return null
 	 * */
 	public Body getBody() {
-		if(body.isPresent())
-			return body.get();
-		return null;
-	}
+        return body.orElse(null);
+    }
 	
 	public FixtureDef getPlayerProperties() {
 		return playerProperties;

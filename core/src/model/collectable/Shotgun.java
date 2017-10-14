@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 25;
+	private static final long serialVersionUID = 4480309599284992958L;
 	protected final int SHOTGUN_DAMAGE = 15;
 
 	public Shotgun(Vector2 position, float width, float height) {

@@ -14,6 +14,7 @@ import view.sprites.CustomSprite;
 
 public class SpikeBlock extends AbstractEnemy{
 
+    private static final long serialVersionUID = -1155054338574041353L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.spikeblock;
 
     private Vector2 initPos;

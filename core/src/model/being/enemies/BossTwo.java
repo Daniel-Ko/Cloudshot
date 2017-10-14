@@ -15,9 +15,8 @@ import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
 public class BossTwo extends AbstractEnemy{
+    private static final long serialVersionUID = 5928068042381925690L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.boss2;
-    private int detectionRadius = 100;
-    private int attackRadius = 2;
 
 
     public BossTwo(World world, AbstractPlayer player, Vector2 pos) {
@@ -74,13 +73,15 @@ public class BossTwo extends AbstractEnemy{
         position.set(body.getPosition());
         boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
         //UPDATING STATES
-        if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
+        int detectionRadius = 100;
+        if(position.dst(player.getPos())< detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             enemyState = new FlyingAggroMovement();
         }
         else{
             enemyState = new IdleMovement();
         }
-        if(position.dst(player.getPos())<attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
+        int attackRadius = 2;
+        if(position.dst(player.getPos())< attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             //attackState
             enemyState = new MeleeAttack();
             attack();

@@ -216,7 +216,7 @@ public abstract class AbstractLevel {
         }
 
         for (int i = 0; i < portals.size; i++) {
-            if (portals.get(i).isActive() == false) continue;
+            if (!portals.get(i).isActive()) continue;
             Rectangle rect = portals.get(i).getEntry();
             if (rect.contains(p.getPos())) {
                 portals.get(i).setActive(false);

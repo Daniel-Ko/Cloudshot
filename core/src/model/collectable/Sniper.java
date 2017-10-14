@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 
 public class Sniper extends AbstractWeapon {
+    private static final long serialVersionUID = 7677522328854311341L;
     protected final int MAX_AMMO = 10;
     protected final int SNIPER_DAMAGE = 40;
 
@@ -44,7 +45,7 @@ public class Sniper extends AbstractWeapon {
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
         BulletImpl bul = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
-        bul.setSpeed(5);
+        bul.setSpeed();
         bullets.add(bul);
         return bullets;
     }

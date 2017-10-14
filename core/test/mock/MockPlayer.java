@@ -117,9 +117,7 @@ public class MockPlayer {
                 toRemove.add(b);
             }
         }
-        for(BulletImpl b: toRemove){
-            bullets.remove(b);
-        }
+        bullets.removeAll(toRemove);
 
     }
 

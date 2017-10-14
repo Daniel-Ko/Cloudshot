@@ -13,6 +13,7 @@ import java.util.List;
  * Box2D.World can be remade.
  */
 public class PlayerData implements Serializable{
+    private static final long serialVersionUID = -7251883622678858138L;
 
     //Player-specific methods (not AbstractPlayer)
 

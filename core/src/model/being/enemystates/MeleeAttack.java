@@ -15,6 +15,8 @@ import model.being.player.AbstractPlayer;
  * */
 public class MeleeAttack implements EnemyState, java.io.Serializable {
 
+    private static final long serialVersionUID = 8087909869459216496L;
+
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
         //what do you want e doing at its attacking?

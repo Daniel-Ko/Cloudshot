@@ -20,7 +20,8 @@ import java.util.Queue;
 
 public class ShootingEnemy extends AbstractEnemy{
 
-	public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.archer;
+    private static final long serialVersionUID = 1377896803459343312L;
+    public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.archer;
 
 	//bullet and attacking fields
 	private Queue<BulletImpl> bullets = new LinkedList<>();

@@ -17,6 +17,8 @@ import model.being.player.AbstractPlayer;
  * */
 public class FlyingAggroMovement implements EnemyState, java.io.Serializable{
 
+    private static final long serialVersionUID = -5710428099070736277L;
+
     @Override
     public void update(AbstractEnemy e, AbstractPlayer player) {
         if(e.getX()<player.getX())

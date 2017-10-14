@@ -233,9 +233,7 @@ public class GameStateTransactionHandler {
             if (!(p instanceof PlayerData))
                 throw new InvalidTransactionException("Deserialized player object isn't a PlayerData");
 
-            PlayerData playerdata = (PlayerData) p; //TODO any more checks on this player?
-
-            return playerdata;
+            return (PlayerData) p;
         } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
@@ -254,7 +252,7 @@ public class GameStateTransactionHandler {
             if (!(e instanceof List))
                 throw new InvalidTransactionException("Deserialized enemies object isn't a List");
 
-            List<AbstractEnemy> enemies = (List<AbstractEnemy>) e;
+            @SuppressWarnings("unchecked") List<AbstractEnemy> enemies = (List<AbstractEnemy>) e;
 
             for (int i = 0; i < enemies.size(); i++) {
                 if (!(enemies.get(i) instanceof AbstractEnemy))
@@ -280,7 +278,7 @@ public class GameStateTransactionHandler {
             if (!(c instanceof List))
                 throw new InvalidTransactionException("Deserialized collectables object isn't a List");
 
-            List<AbstractCollectable> collectables = (List<AbstractCollectable>) c;
+            @SuppressWarnings("unchecked") List<AbstractCollectable> collectables = (List<AbstractCollectable>) c;
 
             //check each element in the list
             for (int i = 0; i < collectables.size(); i++) {
@@ -301,7 +299,7 @@ public class GameStateTransactionHandler {
             if (!(c instanceof List))
                 throw new InvalidTransactionException("Deserialized object isn't an List");
 
-            List<Rectangle> spawnTriggers = (List<Rectangle>) c;
+            @SuppressWarnings("unchecked") List<Rectangle> spawnTriggers = (List<Rectangle>) c;
 
             //check each element in the list
             for (int i = 0; i < spawnTriggers.size(); i++) {
@@ -322,7 +320,7 @@ public class GameStateTransactionHandler {
             if (!(c instanceof List))
                 throw new InvalidTransactionException("Deserialized object isn't a List");
 
-            List<Spawn> spawns = (List<Spawn>) c;
+            @SuppressWarnings("unchecked") List<Spawn> spawns = (List<Spawn>) c;
 
             //check each element in the list
             for (int i = 0; i < spawns.size(); i++) {
@@ -392,6 +390,8 @@ public class GameStateTransactionHandler {
      * done upon the database
      */
     public class InvalidTransactionException extends RuntimeException {
+        private static final long serialVersionUID = -4130249240390391522L;
+
         public InvalidTransactionException(String msg) {
             super(msg);
         }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class AbstractBuff extends AbstractCollectable {
 
+    private static final long serialVersionUID = 1144730386837305193L;
     public final buff_type type;
 
     public enum buff_type {

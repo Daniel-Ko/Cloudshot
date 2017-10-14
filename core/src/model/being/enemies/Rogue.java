@@ -15,6 +15,7 @@ import view.Assets;
 import view.sprites.CustomSprite;
 
 public class Rogue extends AbstractEnemy {
+    private static final long serialVersionUID = -7180543831834015770L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.rogue;
 
     public Rogue(World world, AbstractPlayer player, Vector2 pos) {
@@ -81,7 +82,7 @@ public class Rogue extends AbstractEnemy {
         if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
             if(! (enemyState instanceof AggroDash) )
             enemyState = new AggroDash();
-            ((AggroDash)enemyState).setDashSpeed(5f);
+            ((AggroDash)enemyState).setDashSpeed();
         }
         //
         if(position.dst(player.getPos())>detectionRadius){
