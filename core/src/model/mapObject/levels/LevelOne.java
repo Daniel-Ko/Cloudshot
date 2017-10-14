@@ -1,7 +1,9 @@
 package model.mapObject.levels;
 
+import com.badlogic.gdx.maps.MapProperties;
 import model.collectable.AbstractCollectable;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,6 +56,8 @@ public class LevelOne extends AbstractLevel {
     public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
+
+
 
 
 }

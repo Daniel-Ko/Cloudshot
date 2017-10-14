@@ -3,6 +3,7 @@ package model.mapObject.levels;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -17,6 +18,7 @@ import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.collectable.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -278,7 +280,6 @@ public abstract class AbstractLevel {
             if (rect.contains(p.getPos())) {
                 portals.get(i).setActive(false);
                 p.setPos(new Vector2(portals.get(i).getExit().x, portals.get(i).getExit().y));
-                //p.setPos(new Vector2(1.0f,4.59999f));
             }
         }
     }
@@ -313,6 +314,21 @@ public abstract class AbstractLevel {
      * @return Collectibles on the map.
      */
     public abstract List<AbstractCollectable> getCollectibles();
+
+    public  Dimension getLevelDimension(){
+
+            MapProperties properties = tiledMap.getProperties();
+            int mapWidth = properties.get("width", Integer.class);
+            int mapHeight = properties.get("height", Integer.class);
+            int tilePixelWidth = properties.get("tilewidth", Integer.class);
+            int tilePixelHeight = properties.get("tileheight", Integer.class);
+
+            int mapPixelWidth = mapWidth * tilePixelWidth;
+            int mapPixelHeight = mapHeight * tilePixelHeight;
+
+            return new Dimension(mapPixelWidth, mapPixelHeight);
+
+    }
 
     //Getters and setters
     public List<Rectangle> getSpawnTriggers() {
