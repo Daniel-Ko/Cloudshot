@@ -263,6 +263,22 @@ public class GameScreen extends ScreenAdapter {
                 player.flip() ? x + width : x, y,
                 player.flip() ? -width : width, height
         );
+        if(player.getCurWeapon() != null){
+            if(player.flip()){
+                //should be facing left
+                batch.draw(player.getCurWeapon().getImage().getFrameFromTime(elapsedTime),
+                        player.flip() ? x + width/2 : x, y+height/2,
+                        player.flip() ? -0.5f : 0.5f,0.5f
+                );
+            }
+            else{
+                batch.draw(player.getCurWeapon().getImage().getFrameFromTime(elapsedTime),
+                        x + width/2, y+height/2,
+                        player.flip() ? -0.5f : 0.5f,0.5f
+                );
+            }
+
+        }
     }
 
     /**
