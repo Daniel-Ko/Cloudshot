@@ -170,12 +170,12 @@ public class GameModel implements GameModelInterface {
 
         camera.position.x = MathUtils.clamp(camera.position.x,
                 effectiveViewportWidth / 2f,
-                WORLD_WIDTH - effectiveViewportWidth
+                level.getLevelDimension().width/PPM - effectiveViewportWidth/2f
         );
 
         camera.position.y = MathUtils.clamp(camera.position.y,
                 effectiveViewportHeight / 2f,
-                WORLD_HEIGHT - effectiveViewportHeight / 2f
+                level.getLevelDimension().height/PPM - effectiveViewportHeight / 2f
         );
 
         camera.update();
