@@ -1,9 +1,7 @@
-
 import com.badlogic.gdx.math.Vector2;
 import model.being.player.Player;
 import model.collectable.*;
 import org.junit.Test;
-
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

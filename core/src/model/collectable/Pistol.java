@@ -6,12 +6,12 @@ import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 
 public class Pistol extends AbstractWeapon{
 
+	private static final long serialVersionUID = -5640172337987396467L;
 	//concrete fields for pistol
 	public final int MAX_AMMO = 50;
 

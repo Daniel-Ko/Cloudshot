@@ -9,8 +9,9 @@ import view.sprites.CustomSprite;
 
 
 public abstract class AbstractCollectable implements GameObjectInterface, java.io.Serializable{
-	
-	//fields for defining A collectable.
+
+    private static final long serialVersionUID = 2484518252244346432L;
+    //fields for defining A collectable.
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
 	protected boolean pickedUp = false;

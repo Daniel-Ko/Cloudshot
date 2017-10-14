@@ -1,14 +1,11 @@
 package view.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import model.GameModelInterface;
 import model.collectable.AbstractWeapon;
 import view.Assets;
-import view.CloudShotGame;
 
 public class LabelFactory {
 

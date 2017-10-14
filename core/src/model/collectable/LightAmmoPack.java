@@ -5,11 +5,12 @@ import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class LightAmmoPack extends AbstractBuff {
 
-	public LightAmmoPack(Vector2 position, float width, float height) {
+    private static final long serialVersionUID = 366645573229085796L;
+
+    public LightAmmoPack(Vector2 position, float width, float height) {
 		super(position, width, height, buff_type.lightammo);
 	}
 

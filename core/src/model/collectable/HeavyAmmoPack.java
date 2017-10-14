@@ -4,11 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class HeavyAmmoPack extends AbstractBuff {
 
-	public HeavyAmmoPack(Vector2 position, float width, float height) {
+    private static final long serialVersionUID = -4710054287634053891L;
+
+    public HeavyAmmoPack(Vector2 position, float width, float height) {
 		super(position, width, height, buff_type.heavyammo);
 	}
 

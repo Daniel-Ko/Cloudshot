@@ -10,7 +10,7 @@ public class CloudShotGame extends Game {
 
     public enum Screen {
         MENU, GAME, TEST
-    };
+    }
 
     private GameModelInterface model;
 

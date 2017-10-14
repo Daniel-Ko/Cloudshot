@@ -16,14 +16,15 @@ import java.util.List;
  *
  */
 public class BulletImpl implements ProjectileInterface, GameObjectInterface, Serializable {
+	private static final long serialVersionUID = 120954733508781847L;
 	protected Vector2 startingPos;
 	protected Vector2 endPos;
 	protected Vector2 pos;
 
 	protected float damage;
 
-	public void setSpeed(float speed) {
-		this.speed = speed;
+	public void setSpeed() {
+		this.speed = (float) 5;
 	}
 
 	protected float speed = 3;
@@ -70,9 +71,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 
 		//scaling speed
-	    tX*=speed/GameModel.PPM;;
-	    tY*=speed/GameModel.PPM;;
-	    xVel = tX;
+	    tX*=speed/GameModel.PPM;
+		tY*=speed/GameModel.PPM;
+		xVel = tX;
 	    yVel = tY;
 	}
 	public double getAngle() {
@@ -112,7 +113,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 	public void update(List<AbstractEnemy> enemies, AbstractPlayer player){
 		if(pos.dst2(this.getStartingPos()) > 1000){
-			this.setToRemove(true);
+			this.setToRemove();
 		}
 		doCollide(enemies,player);
 		pos.set(pos.x-xVel*speed,pos.y-yVel*speed);
@@ -123,8 +124,12 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 			for (AbstractEnemy e: enemies){
 				if (e.getBoundingBox().contains(this.getX(),this.getY())){
 					e.hit((int)this.getDamage());
+<<<<<<< HEAD
 					this.setToRemove(true);
 					System.out.println("enemy health =" +  e.getHealth());
+=======
+					this.setToRemove();
+>>>>>>> 72fd0bd032a0c1d8961635093e853be1aa1422c5
 				}
 			}
 		}
@@ -187,10 +192,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 	}
 
 	/**
-	 * @param toRemove the toRemove to set
 	 */
-	public void setToRemove(boolean toRemove) {
-		this.toRemove = toRemove;
+	public void setToRemove() {
+		this.toRemove = true;
 	}
 
 	/**

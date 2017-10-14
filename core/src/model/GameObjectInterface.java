@@ -4,9 +4,9 @@ import view.sprites.CustomSprite;
 
 public interface GameObjectInterface {
 
-    public float getX();
+    float getX();
 
-    public float getY();
+    float getY();
 
-    public CustomSprite getImage();
+    CustomSprite getImage();
 }

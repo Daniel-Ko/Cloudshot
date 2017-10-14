@@ -29,8 +29,8 @@ public class GameStateTransactionHandler {
                 Gdx.app.getPreferences(
                         "save" + repository.latestSaveNum() //always a unique name and should stay dynamic + consistent throughout repo operations
                 ));
-        
-        if(writeQuery(model, newState)) {
+
+        if (writeQuery(model, newState)) {
             commit(newState);
             File f = new File(".");
             System.out.println(f.getAbsolutePath()); //print the path of where it was saved for testing
@@ -42,19 +42,19 @@ public class GameStateTransactionHandler {
     private boolean writeQuery(ModelData model, GameState newState) {
 
         /* spawnEnemies the newState with validated data, otherwise signal failed save */
-        if(!validateAndUpdatePlayer(newState, model.getPlayer())) {
+        if (!validateAndUpdatePlayer(newState, model.getPlayer())) {
             System.out.println("bad player");
             return false;
         }
-        if(!validateAndUpdateEnemies(newState, model.getEnemies())) {
+        if (!validateAndUpdateEnemies(newState, model.getEnemies())) {
             System.out.println("bad enemies");
             return false;
         }
-        if(!validateAndUpdateCollectables(newState, model.getCollectables())) {
+        if (!validateAndUpdateCollectables(newState, model.getCollectables())) {
             System.out.println("bad items");
             return false;
         }
-        if(!validateAndUpdateSpawns(newState, model.getSpawnTriggers(), model.getSpawns())) {
+        if (!validateAndUpdateSpawns(newState, model.getSpawnTriggers(), model.getSpawns())) {
             System.out.println("bad spawns");
             return false;
         }
@@ -62,16 +62,17 @@ public class GameStateTransactionHandler {
     }
 
 
-    /** sends signal to repo to pull the latestSaveNum state and wrap it in a StateQuery to the model
+    /**
+     * sends signal to repo to pull the latestSaveNum state and wrap it in a StateQuery to the model
      *
      * @return
      */
     public StateQuery load() throws InvalidTransactionException {
         GameState latest = repository.pullSoft();
-        if(latest == null)
+        if (latest == null)
             return null;
 
-        if(!latest.containsPlayer() || !latest.containsEnemies()) {
+        if (!latest.containsPlayer() || !latest.containsEnemies()) {
             repository.pullHard(); //cleanse the repo of the bad state
             throw new InvalidTransactionException("Corrupted state");
         }
@@ -97,76 +98,82 @@ public class GameStateTransactionHandler {
     private void commit(GameState newState) {
         repository.push(newState);
     }
-    
-    
-    /** Convert the AbstractPlayer obtained from the model into a serialisable PlayerData object and store it
+
+
+    /**
+     * Convert the AbstractPlayer obtained from the model into a serialisable PlayerData object and store it
      * into the buffer GameState. Checks if the data to be stored exists in the right type
      * and can be stored correctly
+     *
      * @param newState
      * @param newPlayer
      * @return
      */
     @SuppressWarnings("Duplicates")
     public boolean validateAndUpdatePlayer(GameState newState, AbstractPlayer newPlayer) {
-        if(newPlayer == null) {
+        if (newPlayer == null) {
             return false;
         }
-        
+
         //create a PlayerData object that makes serializable objects out of a not-entirely serializable AbstractPlayer
         //, particularly Box2D.
         PlayerData playerProps = new PlayerData(newPlayer);
-        
+
         //now serialise the PlayerData object and add to Preferences
 
         String playerSer = "";
         try {
             playerSer = serializeInBase64(playerProps);
-        
+
             newState.setPlayerInPref(playerSer);
             return true;
-        
-        } catch(IOException e) {
+
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
-    
-    /** Serialise the List of enemies obtained from the model and store it
+
+    /**
+     * Serialise the List of enemies obtained from the model and store it
      * into the buffer GameState. Checks if the data to be stored exists in the right type
      * and can be stored correctly
+     *
      * @param newState
      * @param newFoes
      * @return
      */
     @SuppressWarnings("Duplicates")
     private boolean validateAndUpdateEnemies(GameState newState, List<AbstractEnemy> newFoes) {
-        if(newFoes == null ) {
+        if (newFoes == null) {
             return false;
         }
-    
+
         //now serialise the Enemies List and add to Preferences
         String enemiesSer = "";
         try {
             enemiesSer = serializeInBase64(newFoes);
-            
+
             newState.setEnemiesInPref(enemiesSer);
             return true;
-            
-        } catch(IOException e) {
+
+        } catch (IOException e) {
             return false;
         }
     }
 
-    /** Serialise the List of collectables obtained from the model and store it
+    /**
+     * Serialise the List of collectables obtained from the model and store it
      * into the buffer GameState. Checks if the data to be stored exists in the right type
      * and can be stored correctly
+     *
      * @param newState
      * @param newItems
      * @return
      */
     @SuppressWarnings("Duplicates")
     private boolean validateAndUpdateCollectables(GameState newState, List<AbstractCollectable> newItems) {
-        if(newItems == null ) {
+        if (newItems == null) {
             return false;
         }
 
@@ -178,22 +185,23 @@ public class GameStateTransactionHandler {
             newState.setCollectablesInPref(itemsSer);
             return true;
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             return false;
         }
     }
 
-    /** Serialise the List of spawn trigger tiles and the List of spawns obtained from the model and store it
+    /**
+     * Serialise the List of spawn trigger tiles and the List of spawns obtained from the model and store it
      * into the buffer GameState. Checks if the data to be stored exists in the right type
      * and can be stored correctly
-     * 
+     *
      * @param newState
      * @param spawnTriggers
      * @param spawns
      * @return
      */
     private boolean validateAndUpdateSpawns(GameState newState, List<Rectangle> spawnTriggers, List<Spawn> spawns) {
-        if(spawnTriggers == null || spawns == null) {
+        if (spawnTriggers == null || spawns == null) {
             return false;
         }
 
@@ -207,120 +215,121 @@ public class GameStateTransactionHandler {
             newState.setSpawningInPref(triggersSer, spawnsSer);
             return true;
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             return false;
         }
     }
 
-    /** Deserialize the Player's data from the GameState and validate that the data is correct
+    /**
+     * Deserialize the Player's data from the GameState and validate that the data is correct
      *
      * @param latest
      * @return validated PlayerData to be loaded into a StateQuery and transferred into a new
      * AbstractPlayer instance
      */
-    private PlayerData validateAndReturnPlayerData(GameState latest) throws InvalidTransactionException{
+    private PlayerData validateAndReturnPlayerData(GameState latest) throws InvalidTransactionException {
         try {
             Object p = deserializeFromBase64(latest.getPref().getString("Player"));
-            if(!(p instanceof PlayerData))
+            if (!(p instanceof PlayerData))
                 throw new InvalidTransactionException("Deserialized player object isn't a PlayerData");
-    
-            PlayerData playerdata = (PlayerData) p; //TODO any more checks on this player?
 
-            return playerdata;
-        } catch(IOException | ClassNotFoundException e) {
+            return (PlayerData) p;
+        } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
     }
 
-    /** Deserialize the List of enemies from the GameState and validate that the data is correct
+    /**
+     * Deserialize the List of enemies from the GameState and validate that the data is correct
      *
      * @param latest
      * @return validated List of AbstractEnemies to be loaded into model
      */
-    private List<AbstractEnemy> validateAndReturnEnemies(GameState latest) throws InvalidTransactionException{
+    private List<AbstractEnemy> validateAndReturnEnemies(GameState latest) throws InvalidTransactionException {
         try {
             Object e = deserializeFromBase64(latest.getPref().getString("Enemies"));
 
-            if(!(e instanceof List))
+            if (!(e instanceof List))
                 throw new InvalidTransactionException("Deserialized enemies object isn't a List");
 
-            List<AbstractEnemy> enemies = (List<AbstractEnemy>) e; 
+            @SuppressWarnings("unchecked") List<AbstractEnemy> enemies = (List<AbstractEnemy>) e;
 
-            for(int i = 0; i < enemies.size(); i++) {
-                if(!(enemies.get(i) instanceof AbstractEnemy))
+            for (int i = 0; i < enemies.size(); i++) {
+                if (!(enemies.get(i) instanceof AbstractEnemy))
                     throw new InvalidTransactionException("Deserialized enemy list doesn't contain AbstractEnemies");
             }
 
             return enemies;
-        } catch(IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
     }
 
-    /** Deserialize the List of Collectables from the GameState and validate that the data is correct
+    /**
+     * Deserialize the List of Collectables from the GameState and validate that the data is correct
      *
      * @param latest
      * @return validated List of AbstractCollectables to be loaded into model
      */
-    private List<AbstractCollectable> validateAndReturnCollectables(GameState latest) throws InvalidTransactionException{
+    private List<AbstractCollectable> validateAndReturnCollectables(GameState latest) throws InvalidTransactionException {
         try {
             Object c = deserializeFromBase64(latest.getPref().getString("Collectables"));
 
-            if(!(c instanceof List))
+            if (!(c instanceof List))
                 throw new InvalidTransactionException("Deserialized collectables object isn't a List");
 
-            List<AbstractCollectable> collectables = (List<AbstractCollectable>) c;
-            
+            @SuppressWarnings("unchecked") List<AbstractCollectable> collectables = (List<AbstractCollectable>) c;
+
             //check each element in the list
-            for(int i = 0; i < collectables.size(); i++) {
-                if(!(collectables.get(i) instanceof AbstractCollectable))
+            for (int i = 0; i < collectables.size(); i++) {
+                if (!(collectables.get(i) instanceof AbstractCollectable))
                     throw new InvalidTransactionException("Deserialized list doesn't contain AbstractCollectable");
             }
 
             return collectables;
-        } catch(IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
     }
 
-    private List<Rectangle> validateAndReturnSpawnTriggers(GameState latest) throws InvalidTransactionException{
+    private List<Rectangle> validateAndReturnSpawnTriggers(GameState latest) throws InvalidTransactionException {
         try {
             Object c = deserializeFromBase64(latest.getPref().getString("SpawnTriggers"));
 
-            if(!(c instanceof List))
+            if (!(c instanceof List))
                 throw new InvalidTransactionException("Deserialized object isn't an List");
 
-            List<Rectangle> spawnTriggers = (List<Rectangle>) c;
+            @SuppressWarnings("unchecked") List<Rectangle> spawnTriggers = (List<Rectangle>) c;
 
             //check each element in the list
-            for(int i = 0; i < spawnTriggers.size(); i++) {
-                if(!(spawnTriggers.get(i) instanceof Rectangle))
+            for (int i = 0; i < spawnTriggers.size(); i++) {
+                if (!(spawnTriggers.get(i) instanceof Rectangle))
                     throw new InvalidTransactionException("Deserialized List doesn't contain Rectangles");
             }
 
             return spawnTriggers;
-        } catch(IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
     }
 
-    private List<Spawn> validateAndReturnSpawns(GameState latest) throws InvalidTransactionException{
+    private List<Spawn> validateAndReturnSpawns(GameState latest) throws InvalidTransactionException {
         try {
             Object c = deserializeFromBase64(latest.getPref().getString("Spawns"));
 
-            if(!(c instanceof List))
+            if (!(c instanceof List))
                 throw new InvalidTransactionException("Deserialized object isn't a List");
 
-            List<Spawn> spawns = (List<Spawn>) c;
+            @SuppressWarnings("unchecked") List<Spawn> spawns = (List<Spawn>) c;
 
             //check each element in the list
-            for(int i = 0; i < spawns.size(); i++) {
-                if(!(spawns.get(i) instanceof Spawn))
+            for (int i = 0; i < spawns.size(); i++) {
+                if (!(spawns.get(i) instanceof Spawn))
                     throw new InvalidTransactionException("Deserialized List doesn't contain Spawns");
             }
 
             return spawns;
-        } catch(IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
     }
@@ -332,8 +341,8 @@ public class GameStateTransactionHandler {
      */
 
 
-
-    /** Serialise an object and return its bytecode String
+    /**
+     * Serialise an object and return its bytecode String
      *
      * @param o
      * @return
@@ -347,11 +356,11 @@ public class GameStateTransactionHandler {
             ObjectOutputStream so = new ObjectOutputStream(bo);
             so.writeObject(o);
             so.flush(); //persist
-        
+
             ser = new String(Base64.getEncoder().encode(bo.toByteArray())); //convert the bytecode to a character String
 
             return ser;
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new IOException(e.getMessage());
         }
     }
@@ -365,11 +374,10 @@ public class GameStateTransactionHandler {
             ByteArrayInputStream bi = new ByteArrayInputStream(b);
             ObjectInputStream si = new ObjectInputStream(bi);
 
-            return (Object) si.readObject(); //return the object (will be casted in the parent method)
-        }
-        catch (IOException | ClassNotFoundException e) {
+            return si.readObject(); //return the object (will be casted in the parent method)
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            if(e instanceof IOException)
+            if (e instanceof IOException)
                 throw new IOException(e.getMessage());
             else
                 throw new ClassNotFoundException();
@@ -377,10 +385,13 @@ public class GameStateTransactionHandler {
     }
 
 
-    /** Upon invalid or missing data, this exception will be thrown to rollback all changes
+    /**
+     * Upon invalid or missing data, this exception will be thrown to rollback all changes
      * done upon the database
      */
     public class InvalidTransactionException extends RuntimeException {
+        private static final long serialVersionUID = -4130249240390391522L;
+
         public InvalidTransactionException(String msg) {
             super(msg);
         }
