@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class HeavyAmmoPack extends AbstractBuff {
 

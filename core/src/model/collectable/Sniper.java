@@ -6,7 +6,6 @@ import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 

@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import model.being.enemies.AbstractEnemy;
-import model.being.player.AbstractPlayer;
 import model.being.enemystates.EnemyState;
+import model.being.player.AbstractPlayer;
 import model.collectable.AbstractWeapon;
 import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
@@ -23,7 +23,7 @@ public class MockPlayer {
     /**
      * Used to represent the different states of the player
      */
-    public static enum player_state {
+    public enum player_state {
         ALIVE, DEAD
     }
 

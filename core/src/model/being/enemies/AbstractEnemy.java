@@ -43,8 +43,8 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected enemy_state state = enemy_state.EALIVE;
 
 	public enum entity_type {
-		archer, slime, rogue,spikeblock, boss2, boss1;
-	}
+		archer, slime, rogue,spikeblock, boss2, boss1
+    }
 
 	public enum enemy_state{
 		EALIVE,EDEAD,EATTACKING,EIDLE

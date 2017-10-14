@@ -28,15 +28,15 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/**
 	 * Used to represent the different states of the player
 	 */
-	public static enum player_state {
+	public enum player_state {
 		ALIVE, DEAD
 	}
 	/**
 	 * used in applyKnockBack() direction in which the knock back is being applied form
 	 * */
-	public static enum knock_back {
-		NORTH,EAST,WEST,SOUTH;
-	}
+	public enum knock_back {
+		NORTH,EAST,WEST,SOUTH
+    }
 
 	protected int health;
 	protected int damage;

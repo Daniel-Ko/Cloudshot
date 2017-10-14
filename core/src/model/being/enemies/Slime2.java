@@ -10,7 +10,6 @@ import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
 
 public class Slime2 extends AbstractEnemy{
 

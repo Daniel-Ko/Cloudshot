@@ -11,7 +11,6 @@ import model.being.enemystates.HorizontalMovement;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class SpikeBlock extends AbstractEnemy{
 

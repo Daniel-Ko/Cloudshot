@@ -70,9 +70,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 
 		//scaling speed
-	    tX*=speed/GameModel.PPM;;
-	    tY*=speed/GameModel.PPM;;
-	    xVel = tX;
+	    tX*=speed/GameModel.PPM;
+		tY*=speed/GameModel.PPM;
+		xVel = tX;
 	    yVel = tY;
 	}
 	public double getAngle() {

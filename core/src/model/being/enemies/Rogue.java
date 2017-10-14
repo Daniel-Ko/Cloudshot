@@ -13,7 +13,6 @@ import model.being.enemystates.MeleeAttack;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
 
 public class Rogue extends AbstractEnemy {
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.rogue;

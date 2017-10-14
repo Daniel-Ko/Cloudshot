@@ -5,7 +5,6 @@ import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class LightAmmoPack extends AbstractBuff {
 

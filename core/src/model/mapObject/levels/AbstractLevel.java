@@ -149,10 +149,7 @@ public abstract class AbstractLevel {
     }
 
     public boolean hasPlayerWon(AbstractPlayer p) {
-        if (endZone.contains(p.getPos())) {
-            return true;
-        }
-        return false;
+        return endZone.contains(p.getPos());
     }
 
     public void loadSpawnTriggerPoints() {

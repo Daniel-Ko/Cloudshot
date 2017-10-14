@@ -16,7 +16,7 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	private transient Texture gunImage;
 
 	public enum weapon_type {
-		pistol, semiauto, sniper, shotgun;
+		pistol, semiauto, sniper, shotgun
 	}
 
 

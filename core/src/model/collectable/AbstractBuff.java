@@ -7,7 +7,7 @@ public abstract class AbstractBuff extends AbstractCollectable {
     public final buff_type type;
 
     public enum buff_type {
-        death, health, heavyammo, lightammo, slow;
+        death, health, heavyammo, lightammo, slow
     }
 
     /**

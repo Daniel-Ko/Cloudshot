@@ -33,7 +33,7 @@ public class EnemyData {
 
     protected AbstractEnemy.enemy_state state = AbstractEnemy.enemy_state.EALIVE;
 
-    public static enum enemy_state{
+    public enum enemy_state{
         EALIVE,EDEAD,EATTACKING,EIDLE
     }
 

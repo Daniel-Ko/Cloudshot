@@ -13,8 +13,6 @@ import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
