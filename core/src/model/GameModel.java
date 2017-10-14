@@ -198,6 +198,10 @@ public class GameModel implements GameModelInterface {
         for (AbstractEnemy ae : enemies) {
             ae.update();
 
+            if(ae.getPosition().y < -40){// kill enemy if it falls off map.
+                ae.hit(ae.getHealth());
+            }
+
             // Dead enemies to be removed.
             if (ae.enemyState instanceof Death)
                 enemiesToRemove.add(ae);
