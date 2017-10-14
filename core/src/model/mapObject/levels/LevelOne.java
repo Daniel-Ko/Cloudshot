@@ -15,7 +15,6 @@ public class LevelOne extends AbstractLevel {
         super();
     }
 
-
     @Override
     public String getLevelName() {
         return "Welcome to Cloudshot";
@@ -30,7 +29,6 @@ public class LevelOne extends AbstractLevel {
     public AbstractLevel getNextLevel() {
         return new LevelTwo();
     }
-
 
     @Override
     public HashMap<Integer, String> getSpawnRates() {
@@ -53,7 +51,7 @@ public class LevelOne extends AbstractLevel {
     }
 
     @Override
-    public List<AbstractCollectable> getCollectables() {
+    public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
 
