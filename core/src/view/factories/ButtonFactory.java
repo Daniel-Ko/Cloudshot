@@ -9,8 +9,11 @@ import model.GameModel;
 import model.GameModelInterface;
 import model.data.GameStateTransactionHandler;
 import view.Assets;
+import view.factories.DialogFactory;
 import view.screens.GameScreen;
 import view.screens.MenuScreen;
+
+import java.awt.*;
 
 public class ButtonFactory {
 
@@ -70,6 +73,7 @@ public class ButtonFactory {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 gameModel.save();
+                DialogFactory.saveSuccessfulDialog().show(MenuScreen.stage);
             }
 
             @Override

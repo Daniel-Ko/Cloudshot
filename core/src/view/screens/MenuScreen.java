@@ -14,7 +14,7 @@ import view.utils.LabelFactory;
 public class MenuScreen extends ScreenAdapter {
 
     public static Game game;
-    private Stage stage;
+    public static Stage stage;
 
     public MenuScreen(Game game){
         MenuScreen.game = game;
