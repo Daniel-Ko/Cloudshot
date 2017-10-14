@@ -1,26 +1,78 @@
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.math.Vector2;
+import mock.MockGameModel;
+import model.being.EntityFactory;
+import model.being.player.AbstractPlayer;
 import org.junit.Test;
-import view.HealthBar;
+import view.CloudShotGame;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+public class ViewTest{
 
-public class ViewTest extends GameTest{
+    void launchAndExitIn3Seconds(Game game) throws InterruptedException {
+        // Setup the launcher.
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.width = 1280;
+        config.height = 740;
+        config.forceExit = false;
 
-    @Test
-    public void testHealthBar_Full(){
-        int fullHP = 150;
-        int currentHP = 150;
-        HealthBar healthBar = new HealthBar(100, 10);
-        healthBar.setValue(currentHP/fullHP);
-        assertTrue(healthBar.getPercent()*100 == 100);
+        // Launch the application.
+        new LwjglApplication(game, config);
+
+        // Close the app after 3 seconds.
+        Thread.sleep(3000);
+        game.dispose();
+        Gdx.app.exit();
     }
 
+    /**
+     * Test that the MenuScreen can be successfully rendered without errors.
+     * @throws InterruptedException
+     */
     @Test
-    public void testHealthBar_Half(){
-        int halfHP = 75;
-        int fullHP = 150;
-        HealthBar healthBar = new HealthBar(100, 10);
-        healthBar.setValue((float)halfHP/(float)fullHP);
-        assertTrue(healthBar.getPercent()*100 == 50);
+    public void testMenuScreen() throws InterruptedException {
+        Game menu = new CloudShotGame(CloudShotGame.Screen.MENU);
+        launchAndExitIn3Seconds(menu);
     }
+
+    /**
+     * Test that the player can be drawn at the bottom left of the screen.
+     * @throws InterruptedException
+     */
+    @Test
+    public void testDrawPlayer_BottomLeft() throws InterruptedException {
+        MockGameModel gameModel = new MockGameModel(){
+            @Override
+            public AbstractPlayer getPlayer() {
+                // Create and draw player the the bottom left of the screen.
+                AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(0,0));
+                player.setPos(new Vector2(1.0f, 1.0f));
+                return player;
+            }
+        };
+        Game game = new CloudShotGame(CloudShotGame.Screen.TEST, gameModel);
+        launchAndExitIn3Seconds(game);
+    }
+
+    /**
+     * Test that the player can be drawn at the top right of the screen.
+     * @throws InterruptedException
+     */
+    @Test
+    public void testDrawPlayer_TopRight() throws InterruptedException {
+        MockGameModel gameModel = new MockGameModel(){
+            @Override
+            public AbstractPlayer getPlayer() {
+                // Create and draw player the the bottom left of the screen.
+                AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(0,0));
+                player.setPos(new Vector2(10.0f, 10.0f));
+                return player;
+            }
+        };
+        Game game = new CloudShotGame(CloudShotGame.Screen.TEST, gameModel);
+        launchAndExitIn3Seconds(game);
+    }
+
 }

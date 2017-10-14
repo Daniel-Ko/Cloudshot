@@ -1,7 +1,7 @@
 package model.being.enemystates;
 
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
 /**
  * FlyingAggroMovementState, if the player is within the aggro radius of an enemy

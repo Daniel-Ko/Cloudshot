@@ -1,14 +1,12 @@
 package model.collectable;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-
-import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.sprites.CustomSprite;
+
+import java.util.ArrayList;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
 	//fields which every bullet needs
@@ -16,9 +14,13 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	private float damage;
 	private transient Texture gunImage;
 
+	public enum weapon_type {
+		pistol, semiauto, sniper, shotgun;
+	}
+
+
 	public AbstractWeapon(Vector2 position, float width, float height) {
 		super(position, width, height);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

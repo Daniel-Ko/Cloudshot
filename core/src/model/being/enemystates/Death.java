@@ -1,7 +1,7 @@
 package model.being.enemystates;
 
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
 public class Death implements EnemyState, java.io.Serializable {
     @Override

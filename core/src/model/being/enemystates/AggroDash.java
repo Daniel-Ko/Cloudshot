@@ -1,8 +1,8 @@
 package model.being.enemystates;
 
 import com.badlogic.gdx.math.Vector2;
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
 public class AggroDash implements EnemyState, java.io.Serializable {
     private Vector2 target_pos;

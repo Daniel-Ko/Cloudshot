@@ -1,7 +1,7 @@
 package model.being.enemystates;
 
-import model.being.player.AbstractPlayer;
 import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
 /**
  * State when the player has entered an enemy's aggro radius
