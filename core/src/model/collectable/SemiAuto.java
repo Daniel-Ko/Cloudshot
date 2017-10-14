@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 
@@ -13,26 +13,20 @@ import java.util.ArrayList;
  * Created by Jake on 9/10/17.
  */
 public class SemiAuto extends AbstractWeapon{
+    private static final long serialVersionUID = 4845354169570635749L;
     public final int MAX_AMMO = 50;
 
     protected final float SemiAuto_DAMAGE = 8;
 
-    private transient CustomSprite image;
-
-    private transient CustomSprite bulImage;
 
     public SemiAuto(Vector2 position, float width, float height) {
-        super(position, width, height);
+        super(position, width, height, weapon_type.semiauto);
         setAmmo(MAX_AMMO);
-        this.setDamage(SemiAuto_DAMAGE);
-        this.image = new StaticSprite("Tec-9.png");
-        this.image.flipHorizontal();
-        this.bulImage = new StaticSprite("bullet.png");
     }
 
     @Override
     public CustomSprite getBulletImage() {
-        return this.bulImage;
+        return Assets.semiAutoBullet;
     }
 
     /**
@@ -46,15 +40,18 @@ public class SemiAuto extends AbstractWeapon{
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
 
-        Vector2 aim = p.getAimedAt();
-        Vector2 behind = new Vector2(p.getX() + 1.5f,  p.getY());
-        Vector2 aimBelow =  new Vector2(p.getX() +1,  p.getY());
-        Vector2 bul = new Vector2(p.getX() + 0.5f,  p.getY());
+        BulletImpl bul1 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        BulletImpl bul2 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        BulletImpl bul3 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        BulletImpl bul4 = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
+        bul1.setSpeed(3.1f);
+        bul2.setSpeed(3.2f);
+        bul3.setSpeed(3.3f);
+        bullets.add(bul1);
+        bullets.add(bul2);
+        bullets.add(bul3);
+        bullets.add(bul4);
 
-        bullets.add(new BulletImpl(p.getPos() ,aim, getDamage(), getBulletImage(), true));
-        bullets.add(new BulletImpl(behind  , aim, getDamage(), getBulletImage(), true));
-        bullets.add(new BulletImpl(aimBelow, aim, getDamage(), getBulletImage(), true ));
-        bullets.add(new BulletImpl(bul, aim, getDamage(), getBulletImage(), true ));
         return bullets;
     }
 
@@ -95,6 +92,6 @@ public class SemiAuto extends AbstractWeapon{
 
     @Override
     public CustomSprite getImage() {
-        return this.image;
+        return Assets.semiAuto;
     }
 }

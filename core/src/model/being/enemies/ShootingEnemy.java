@@ -13,8 +13,6 @@ import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,7 +20,8 @@ import java.util.Queue;
 
 public class ShootingEnemy extends AbstractEnemy{
 
-	public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.archer;
+    private static final long serialVersionUID = 1377896803459343312L;
+    public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.archer;
 
 	//bullet and attacking fields
 	private Queue<BulletImpl> bullets = new LinkedList<>();

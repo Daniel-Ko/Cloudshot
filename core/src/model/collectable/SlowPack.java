@@ -6,8 +6,10 @@ import view.sprites.CustomSprite;
 
 public class SlowPack extends AbstractBuff {
 
-	public SlowPack(Vector2 position, float width, float height) {
-		super(position, width, height);
+    private static final long serialVersionUID = -3401001731436481239L;
+
+    public SlowPack(Vector2 position, float width, float height) {
+		super(position, width, height, buff_type.slow);
 	}
 
 	@Override

@@ -9,18 +9,21 @@ import view.sprites.CustomSprite;
 import java.util.ArrayList;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
+	private static final long serialVersionUID = -9094601317027252528L;
+	public final weapon_type type;
 	//fields which every bullet needs
 	protected int ammo;
 	private float damage;
 	private transient Texture gunImage;
 
 	public enum weapon_type {
-		pistol, semiauto, sniper, shotgun;
+		pistol, semiauto, sniper, shotgun
 	}
 
 
-	public AbstractWeapon(Vector2 position, float width, float height) {
+	public AbstractWeapon(Vector2 position, float width, float height, weapon_type type) {
 		super(position, width, height);
+		this.type = type;
 	}
 
 	/**

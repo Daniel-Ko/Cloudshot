@@ -2,22 +2,21 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
+import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class HealthPack extends AbstractBuff {
 
-	private transient CustomSprite image;
 
-	public HealthPack(Vector2 position, float width, float height) {
-		super(position, width, height);
-		image = new StaticSprite("healthpack.png");
-		// TODO Auto-generated constructor stub
+    private static final long serialVersionUID = 6727531646815304787L;
+
+    public HealthPack(Vector2 position, float width, float height) {
+		super(position, width, height, buff_type.health);
 	}
 	
 	@Override
 	public CustomSprite getImage() {
-		return image;
+		return Assets.healthPack;
 	}
 
 	/**

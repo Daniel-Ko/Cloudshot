@@ -3,22 +3,21 @@ package model.collectable;
 import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
+import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class LightAmmoPack extends AbstractBuff {
 
-	private transient CustomSprite image;
+    private static final long serialVersionUID = 366645573229085796L;
 
-	public LightAmmoPack(Vector2 position, float width, float height) {
-		super(position, width, height);
-		image = new StaticSprite("ammo.png");
+    public LightAmmoPack(Vector2 position, float width, float height) {
+		super(position, width, height, buff_type.lightammo);
 	}
 
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
-		return this.image;
+		return Assets.lightAmmoPack;
 		
 	}
 

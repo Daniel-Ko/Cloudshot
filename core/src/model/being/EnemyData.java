@@ -16,14 +16,6 @@ import model.being.player.AbstractPlayer;
 public class EnemyData {
     protected Rectangle boundingBox;
 
-    //BOX2D
-    private Vector2 bodyPos;
-    private Vector2 bodyLinearVelocity;
-    private float density;
-    private float friction;
-    private boolean isSensor;
-
-
 
     protected Vector2 position;
     protected int speed;
@@ -33,7 +25,7 @@ public class EnemyData {
 
     protected AbstractEnemy.enemy_state state = AbstractEnemy.enemy_state.EALIVE;
 
-    public static enum enemy_state{
+    public enum enemy_state{
         EALIVE,EDEAD,EATTACKING,EIDLE
     }
 
@@ -63,15 +55,15 @@ public class EnemyData {
     }
 
     private void setBox2DBody(AbstractEnemy enem) {
-        this.bodyPos = player.getBody().getPosition();
-        this.bodyLinearVelocity = player.getBody().getLinearVelocity();
+        Vector2 bodyPos = player.getBody().getPosition();
+        Vector2 bodyLinearVelocity = player.getBody().getLinearVelocity();
     }
 
     private void setBox2DFixtureDef(AbstractEnemy enem) {
         //this.shape = player.getPlayerProperties().shape;
-        this.density = player.getPlayerProperties().density;
-        this.friction = player.getPlayerProperties().friction;
-        this.isSensor = player.getPlayerProperties().isSensor;
+        float density = player.getPlayerProperties().density;
+        float friction = player.getPlayerProperties().friction;
+        boolean isSensor = player.getPlayerProperties().isSensor;
     }
 
     private void setEnemyProperties(AbstractEnemy enem) {

@@ -1,6 +1,10 @@
 //import com.badlogic.gdx.Game;
 //import com.badlogic.gdx.Gdx;
+<<<<<<< HEAD
 //import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+=======
+////import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+>>>>>>> d19cb31d5dd42684da742c4f82ca4a73be89896d
 //import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 //import com.badlogic.gdx.math.Vector2;
 //import mock.MockGameModel;

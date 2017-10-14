@@ -9,7 +9,6 @@ import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.Optional;
 public class Player extends AbstractPlayer {
 	public static final float WIDTH = 32;
 	public static final float HEIGHT = 32;
+	private static final long serialVersionUID = 2214599264469855926L;
 	private float maxSpeed = 2.5f;
 	private float maxSpeedInAir = 0.5f;
 	private int doubleJump = 0;
@@ -103,13 +103,13 @@ public class Player extends AbstractPlayer {
 		super.update(enemies);
 		hurtThisFrame = false;
 		//Things to spawnEnemies if we have a body and world to move/move in
-		if (body.isPresent()) {
+		body.ifPresent(body -> {
 			if (numFootContact < 1) inAir = true;
 			if (numFootContact >= 1) {
 				inAir = false;
 				doubleJump = 0;
 			}
-		}
+		});
 
 		ArrayList<BulletImpl> toRemove = new ArrayList<>();
 		//updating players bullets
@@ -119,9 +119,7 @@ public class Player extends AbstractPlayer {
 				toRemove.add(b);
 			}
 		}
-		for (BulletImpl b : toRemove) {
-			bullets.remove(b);
-		}
+		bullets.removeAll(toRemove);
 
 	}
 

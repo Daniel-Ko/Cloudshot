@@ -1,8 +1,8 @@
-import model.being.player.Player;
 import model.being.enemies.SpikeBlock;
+import model.being.player.Player;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 public class SpikeBlockTest extends GameTest{
 
     @Test

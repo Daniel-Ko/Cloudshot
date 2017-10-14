@@ -1,19 +1,17 @@
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import model.being.EntityFactory;
 import model.being.enemies.Slime2;
 import model.being.enemystates.AggroMovement;
 import model.being.enemystates.Death;
 import model.being.enemystates.HorizontalMovement;
 import model.being.player.Player;
-//import org.junit.jupiter.api.Test;
-import org.junit.Test;
-import view.screens.GameScreen;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+//import org.junit.jupiter.api.Test;
 
 public class SlimeTest extends GameTest {
 

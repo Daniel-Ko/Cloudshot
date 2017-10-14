@@ -1,9 +1,7 @@
-
 import com.badlogic.gdx.math.Vector2;
 import model.being.player.Player;
 import model.collectable.*;
 import org.junit.Test;
-
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -51,6 +49,23 @@ public class CollectableTests extends GameTest {
         shotgun.pickedUp(p);
         assert p.getInventory().contains(shotgun);
     }
+    @Test
+    public void TestPickUpSemiAuto() {
+        Player p = new Player();
+        assert p.getInventory().isEmpty();
+        SemiAuto semiAuto = new SemiAuto(new Vector2(p.getX(), p.getY()), 10, 10);
+        semiAuto.pickedUp(p);
+        assert p.getInventory().contains(semiAuto);
+    }
+    @Test
+    public void TestPickUpSniper() {
+        Player p = new Player();
+        assert p.getInventory().isEmpty();
+        Sniper sniper = new Sniper(new Vector2(p.getX(), p.getY()), 10, 10);
+        sniper.pickedUp(p);
+        assert p.getInventory().contains(sniper);
+    }
+
 
     @Test
     public void TestDecreaseAmmo() {
@@ -113,6 +128,9 @@ public class CollectableTests extends GameTest {
         shotgun2.pickedUp(p);
         assertFalse(p.getInventory().contains(shotgun2));
     }
+
+
+
 
 
 }

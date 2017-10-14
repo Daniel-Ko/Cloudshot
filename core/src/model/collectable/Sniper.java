@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 
@@ -14,28 +14,24 @@ import java.util.ArrayList;
  */
 
 public class Sniper extends AbstractWeapon {
+    private static final long serialVersionUID = 7677522328854311341L;
     protected final int MAX_AMMO = 10;
     protected final int SNIPER_DAMAGE = 40;
-    private transient CustomSprite bulImage;
-    private transient CustomSprite image;
-
 
     public Sniper(Vector2 position, float width, float height) {
-        super(position, width, height);
-        this.bulImage = new StaticSprite("bullet.png");
-        this.image = new StaticSprite("sniper.png");
+        super(position, width, height, weapon_type.sniper);
         this.ammo = getMaxAmmo();
         this.setDamage(SNIPER_DAMAGE);
     }
 
     @Override
     public CustomSprite getImage() {
-        return this.image;
+        return Assets.sniper;
     }
 
     @Override
     public CustomSprite getBulletImage() {
-        return this.bulImage;
+        return Assets.sniperBullet;
     }
 
     /**
@@ -49,7 +45,7 @@ public class Sniper extends AbstractWeapon {
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
         BulletImpl bul = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
-        bul.setSpeed(5);
+        bul.setSpeed();
         bullets.add(bul);
         return bullets;
     }

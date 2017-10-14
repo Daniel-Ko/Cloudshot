@@ -28,8 +28,7 @@ public class EntityFactory {
 	 */
 	public static AbstractEnemy produceEnemy(GameModel game, Vector2 position, AbstractEnemy.entity_type enemyType) {
 		if (enemyType == AbstractEnemy.entity_type.archer) {
-			ShootingEnemy shooter = new ShootingEnemy(game.getWorld(),game.getPlayer(),position);
-			return shooter;
+            return new ShootingEnemy(game.getWorld(),game.getPlayer(),position);
 		} else if (enemyType == AbstractEnemy.entity_type.slime) {
 			Slime2 slime = new Slime2(game.getWorld(),game.getPlayer(),position);
 			//to allow the slime to dynamically add itself at runtime
@@ -37,12 +36,10 @@ public class EntityFactory {
 			return slime;
 		}
 		else if (enemyType == AbstractEnemy.entity_type.spikeblock) {
-			SpikeBlock spikeBlock = new SpikeBlock(game.getWorld(),game.getPlayer(),position);
-			return spikeBlock;
+            return new SpikeBlock(game.getWorld(),game.getPlayer(),position);
 		}
 		else if (enemyType == AbstractEnemy.entity_type.rogue) {
-			Rogue r = new Rogue(game.getWorld(),game.getPlayer(),position);
-			return r ;
+            return new Rogue(game.getWorld(),game.getPlayer(),position);
 		}
 		else if (enemyType == AbstractEnemy.entity_type.boss1) {
 			Boss1V2 b = new Boss1V2(game.getWorld(),game.getPlayer(),position);

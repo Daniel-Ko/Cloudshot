@@ -5,6 +5,7 @@ import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 
 public class AggroDash implements EnemyState, java.io.Serializable {
+    private static final long serialVersionUID = 5989217400706170974L;
     private Vector2 target_pos;
     private long timeBetweenLastDash = 0;
 
@@ -69,7 +70,7 @@ public class AggroDash implements EnemyState, java.io.Serializable {
         }
     }
 
-    public void setDashSpeed(float speed){
-        this.dashSpeed = speed;
+    public void setDashSpeed(){
+        this.dashSpeed = 5f;
     }
 }
