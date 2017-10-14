@@ -10,7 +10,7 @@ import view.sprites.StaticSprite;
 public class LightAmmoPack extends AbstractBuff {
 
 	public LightAmmoPack(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, buff_type.lightammo);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class Sniper extends AbstractWeapon {
     protected final int SNIPER_DAMAGE = 40;
 
     public Sniper(Vector2 position, float width, float height) {
-        super(position, width, height);
+        super(position, width, height, weapon_type.sniper);
         this.ammo = getMaxAmmo();
         this.setDamage(SNIPER_DAMAGE);
     }

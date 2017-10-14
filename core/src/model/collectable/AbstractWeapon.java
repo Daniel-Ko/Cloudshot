@@ -9,6 +9,7 @@ import view.sprites.CustomSprite;
 import java.util.ArrayList;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
+	public final weapon_type type;
 	//fields which every bullet needs
 	protected int ammo;
 	private float damage;
@@ -19,8 +20,9 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	}
 
 
-	public AbstractWeapon(Vector2 position, float width, float height) {
+	public AbstractWeapon(Vector2 position, float width, float height, weapon_type type) {
 		super(position, width, height);
+		this.type = type;
 	}
 
 	/**

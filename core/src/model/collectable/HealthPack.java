@@ -10,8 +10,7 @@ public class HealthPack extends AbstractBuff {
 
 
 	public HealthPack(Vector2 position, float width, float height) {
-		super(position, width, height);
-		// TODO Auto-generated constructor stub
+		super(position, width, height, buff_type.health);
 	}
 	
 	@Override

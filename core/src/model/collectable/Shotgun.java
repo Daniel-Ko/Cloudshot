@@ -16,7 +16,7 @@ public class Shotgun extends AbstractWeapon {
 	protected final int SHOTGUN_DAMAGE = 15;
 
 	public Shotgun(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, weapon_type.shotgun);
 		this.ammo = MAX_AMMO;
 		this.setDamage(SHOTGUN_DAMAGE);
 	}

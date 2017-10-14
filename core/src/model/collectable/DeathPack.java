@@ -10,7 +10,7 @@ public class DeathPack extends AbstractBuff {
 
 
 	public DeathPack(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, buff_type.death);
 		// TODO Auto-generated constructor stub
 	}
 

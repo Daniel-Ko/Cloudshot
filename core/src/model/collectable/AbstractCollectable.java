@@ -34,7 +34,7 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 	/**
 	 * Checks whether the Player's bounding box is colliding with the collectible's
 	 * bounding box. Then calls Abstract method pickedUp(p)
-	 * @param Abstract player
+	 * @param p
 	 * @return true if the collision is detected.
      */
 	public boolean checkCollide(AbstractPlayer p){
@@ -49,7 +49,7 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 
 	/**
 	 * Declares that all subclasses have to perform an action when picked up
-	 * @param Abstract Player
+	 * @param p
      */
 	public abstract void pickedUp(AbstractPlayer p);
 

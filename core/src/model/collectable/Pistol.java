@@ -12,15 +12,13 @@ import java.util.ArrayList;
 
 public class Pistol extends AbstractWeapon{
 
-	public final weapon_type type = weapon_type.pistol;
-
 	//concrete fields for pistol
 	public final int MAX_AMMO = 50;
 
 	protected final float PISTOL_DAMAGE = 8;
 
 	public Pistol(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, weapon_type.pistol);
 		this.setDamage(PISTOL_DAMAGE);
 		this.ammo = MAX_AMMO;
 	}
@@ -40,7 +38,7 @@ public class Pistol extends AbstractWeapon{
 	}
 	/**
 	 * Adds pistol to players inventory if not one there
-	 * @param Abstract Player
+	 * @param p
 	 *
 	 */
 	@Override
