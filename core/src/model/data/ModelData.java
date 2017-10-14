@@ -3,7 +3,9 @@ package model.data;
 import com.badlogic.gdx.math.Rectangle;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
+import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
+import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.Spawn;
 
 import java.util.List;
@@ -17,28 +19,38 @@ public class ModelData {
     private List<AbstractCollectable> collectables;
     private List<Rectangle> spawnTriggers;
     private List<Spawn> spawns;
+    private PlayerData playerData;
+    private AbstractLevel level;
 
     //
     //  GETTERS
     //
 
-    public AbstractPlayer getPlayer() {
+    public AbstractPlayer loadPlayer() {
         return player;
     }
+    
+    public PlayerData loadPlayerData() {
+        return playerData;
+    }
 
-    public List<AbstractEnemy> getEnemies() {
+    public List<AbstractEnemy> loadEnemies() {
         return enemies;
     }
 
-    public List<AbstractCollectable> getCollectables() {
+    public AbstractLevel loadLevel() {
+        return level;
+    }
+
+    public List<AbstractCollectable> loadCollectables() {
         return collectables;
     }
 
-    public List<Rectangle> getSpawnTriggers() {
+    public List<Rectangle> loadSpawnTriggers() {
         return spawnTriggers;
     }
 
-    public List<Spawn> getSpawns() {
+    public List<Spawn> loadSpawns() {
         return spawns;
     }
 
@@ -54,6 +66,10 @@ public class ModelData {
         this.enemies = enemies;
     }
 
+    public void setLevel(AbstractLevel level) {
+        this.level = level;
+    }
+
     public void setCollectables(List<AbstractCollectable> collectables) {
         this.collectables = collectables;
     }
@@ -65,4 +81,10 @@ public class ModelData {
     public void setSpawns(List<Spawn> spawns) {
         this.spawns = spawns;
     }
+ 
+    public void setPlayerData(PlayerData playerData) {
+        this.playerData = playerData;
+    }
+
+
 }

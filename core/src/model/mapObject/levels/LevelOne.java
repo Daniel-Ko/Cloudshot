@@ -13,18 +13,14 @@ import java.util.List;
  */
 public class LevelOne extends AbstractLevel {
 
+
     public LevelOne() {
-        super();
+        super(1);
     }
 
     @Override
     public String getLevelName() {
         return "Welcome to Cloudshot";
-    }
-
-    @Override
-    public int getLevelNumber() {
-        return 1;
     }
 
     @Override

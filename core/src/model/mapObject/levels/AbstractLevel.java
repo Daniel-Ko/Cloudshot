@@ -19,6 +19,7 @@ import model.being.player.AbstractPlayer;
 import model.collectable.*;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,25 +27,28 @@ import java.util.List;
 /**
  * Library for creating levels by loading TMX files into java objects that can easily be tested for collisions.
  */
-public abstract class AbstractLevel {
+public abstract class AbstractLevel implements Serializable{
+    public final int levelNum;
 
 
-    protected TiledMap tiledMap;
-    protected TiledMapRenderer tiledMapRenderer;
-    protected List<AbstractCollectable> collectables;
-
+    protected transient TiledMap tiledMap;
+    protected transient TiledMapRenderer tiledMapRenderer;
     protected Array<Rectangle> tiles = new Array<>();
+
+    protected List<AbstractCollectable> collectables;
     protected Rectangle endZone;
     protected List<Rectangle> spawnTriggers;
     protected List<Spawn> spawns;
-    protected Array<Portal> portals;
-    protected Array<Rectangle> hurtyTiles;
+    protected List<Portal> portals;
+    protected transient Array<Rectangle> hurtyTiles;
 
 
     /**
      * Constructs the level by loading the tmx file, and filling the fields with various rectangles to test for collisions/intersections.
      */
-    public AbstractLevel() {
+    public AbstractLevel(int lev) {
+        levelNum = lev;
+
         tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
 
@@ -230,7 +234,7 @@ public abstract class AbstractLevel {
      * Portals are stored in pairs in the TMX file, the object i and i+1 are paired as an entry and end point in the layer.
      */
     public void loadPortals() {
-        portals = new Array<>();
+        portals = new ArrayList<>();
         MapLayer ml = tiledMap.getLayers().get("Portals");
         for (int i = 0; i < ml.getObjects().getCount(); i += 2) {
             RectangleMapObject rmo1 = (RectangleMapObject) ml.getObjects().get(i);
@@ -274,7 +278,8 @@ public abstract class AbstractLevel {
                 }
             }
         }
-        for (int i = 0; i < portals.size; i++) {
+
+        for (int i = 0; i < portals.size(); i++) {
             if (!portals.get(i).isActive()) continue;
             Rectangle rect = portals.get(i).getEntry();
             if (rect.contains(p.getPos())) {
@@ -295,7 +300,10 @@ public abstract class AbstractLevel {
      * Specifies level number, used for picking which TMX file to load
      * @return level number.
      */
-    public abstract int getLevelNumber();
+    public int getLevelNumber() {
+        return this.levelNum;
+    }
+
 
     /**
      * The next level in the linked list.
@@ -347,11 +355,27 @@ public abstract class AbstractLevel {
         this.spawns = spawns;
     }
 
+    /**
+     * A list of all the collectible objects on the map.
+     *
+     * @return
+     */
+    public abstract List<AbstractCollectable> getCollectables();
+
+
+    public TiledMap getTiledMap() {
+        return tiledMap;
+    }
+
     public TiledMapRenderer getTiledMapRenderer() {
         return tiledMapRenderer;
     }
 
     public Array<Rectangle> getTiles() {
         return tiles;
+    }
+
+    public void setCollectables(List<AbstractCollectable> collects) {
+        collectables = collects;
     }
 }

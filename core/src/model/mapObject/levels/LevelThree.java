@@ -12,17 +12,12 @@ import java.util.List;
 public class LevelThree extends AbstractLevel {
 
     public LevelThree() {
-        super();
+        super(3);
     }
 
     @Override
     public String getLevelName() {
         return "Jeremy's Level";
-    }
-
-    @Override
-    public int getLevelNumber() {
-        return 3;
     }
 
     @Override
