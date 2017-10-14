@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -72,8 +73,8 @@ public class GameScreen extends ScreenAdapter {
      * UI elements;
      */
     private HealthBar healthBar;
-    private TextButton mute;
-    private TextButton pause;
+    private Button mute;
+    private Button pause;
     private Label levelText;
     private InventoryActor inventoryActor;
 
@@ -148,12 +149,12 @@ public class GameScreen extends ScreenAdapter {
 
         mute = ButtonFactory.muteButton(
                 Gdx.graphics.getWidth() - PADDING,
-                PADDING,
+                -30,
                 gameModel);
 
         pause = ButtonFactory.pauseButton(
                 Gdx.graphics.getWidth() - PADDING * 2,
-                PADDING
+                -30
         );
 
         // Add buttons into the staging area.
@@ -211,8 +212,6 @@ public class GameScreen extends ScreenAdapter {
         elapsedTime += delta;
         gameModel.update();
 
-        pause.setText("Pause");
-
         batch.begin();
 
         // Update levelText and healthBar.
@@ -232,7 +231,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void presentPausedGame() {
-        pause.setText("Resume");
         batch.begin();
 
         // Update levelText and healthBar.

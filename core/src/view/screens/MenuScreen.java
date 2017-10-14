@@ -36,7 +36,7 @@ public class MenuScreen extends ScreenAdapter {
 
         stage.addActor(LabelFactory.mainMenuLabel());
 
-        TextButton startButton = ButtonFactory.startButton(
+        TextButton restartButton = ButtonFactory.restartButton(
                 Gdx.graphics.getWidth()/2,
                 Gdx.graphics.getHeight()/2
         );
@@ -61,7 +61,7 @@ public class MenuScreen extends ScreenAdapter {
         );
 
         stage.addActor(resumebutton);
-        stage.addActor(startButton);
+        stage.addActor(restartButton);
         stage.addActor(saveButton);
         stage.addActor(loadButton);
 

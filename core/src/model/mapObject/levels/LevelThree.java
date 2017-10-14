@@ -15,7 +15,6 @@ public class LevelThree extends AbstractLevel {
         super(3);
     }
 
-
     @Override
     public String getLevelName() {
         return "Jeremy's Level";
@@ -46,7 +45,7 @@ public class LevelThree extends AbstractLevel {
     }
 
     @Override
-    public List<AbstractCollectable> getCollectables() {
+    public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
 

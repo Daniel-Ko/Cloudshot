@@ -1,7 +1,11 @@
 package view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
@@ -71,6 +75,14 @@ public class Assets {
     public static CustomSprite sniper;
     public static CustomSprite sniperBullet;
 
+    /**
+     * Game buttons.
+     */
+    public static Drawable play_button;
+    public static Drawable pause_button;
+    public static Drawable music_on;
+    public static Drawable music_off;
+
     public static void load(){
         gameSkin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
 
@@ -119,6 +131,19 @@ public class Assets {
 
         sniper = new StaticSprite("sniper.png");
         sniperBullet = new StaticSprite("bullet.png");
+
+        play_button = new TextureRegionDrawable(
+                new TextureRegion(new Texture(Gdx.files.internal("buttons/play_button.png")))
+        );
+        pause_button = new TextureRegionDrawable(
+                new TextureRegion(new Texture(Gdx.files.internal("buttons/pause_button.png")))
+        );
+        music_on = new TextureRegionDrawable(
+                new TextureRegion(new Texture(Gdx.files.internal("buttons/music_on.png")))
+        );
+        music_off = new TextureRegionDrawable(
+                new TextureRegion(new Texture(Gdx.files.internal("buttons/music_off.png")))
+        );
 
     }
 }

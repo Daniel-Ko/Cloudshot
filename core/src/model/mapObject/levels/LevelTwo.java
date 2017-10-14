@@ -15,7 +15,6 @@ public class LevelTwo extends AbstractLevel {
         super(2);
     }
 
-
     @Override
     public String getLevelName() {
         return "Snowy Peak";
@@ -41,13 +40,11 @@ public class LevelTwo extends AbstractLevel {
         spawnRates.put(8,"Shotgun");
         spawnRates.put(9,"Shotgun");
         spawnRates.put(10,"Shotgun");
-
-
         return spawnRates;
     }
 
     @Override
-    public List<AbstractCollectable> getCollectables() {
+    public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
 
