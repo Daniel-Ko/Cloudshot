@@ -299,7 +299,7 @@ public class GameStateTransactionHandler {
         try {
             Object l = deserializeFromBase64(latest.getPref().getString("Level"));
 
-            if (!(l instanceof List))
+            if (!(l instanceof AbstractLevel))
                 throw new InvalidTransactionException("Deserialized Level object isn't an AbstractLevel");
 
             return (AbstractLevel) l;
