@@ -113,11 +113,7 @@ public class Rogue extends AbstractEnemy {
             }
             return Assets.rogueEnemyWalkRight;
         }
-<<<<<<< HEAD
 
-        return idle;
-=======
         return Assets.rogueEnemyIdle;
->>>>>>> 904479476344632e6f4fd3e197b28aee47df03d3
     }
 }

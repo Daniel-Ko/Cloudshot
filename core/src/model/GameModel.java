@@ -133,7 +133,7 @@ public class GameModel implements GameModelInterface {
             groundBox.dispose();
         }
 
-        enemies.add(new Boss1V2(getWorld(), getPlayer(), new Vector2(800, 400)));
+        enemies.add(EntityFactory.produceEnemy(this,new Vector2(400,400),AbstractEnemy.entity_type.boss1));
         enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(1000, 700)));
         enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(1400, 600)));
         enemies.add(new SpikeBlock(getWorld(), getPlayer(), new Vector2(2000, 450)));
@@ -158,6 +158,7 @@ public class GameModel implements GameModelInterface {
         debugRenderer.render(world, camera.combined);
 
         checkIfGameOver();
+
     }
 
     private void updateCamera() {

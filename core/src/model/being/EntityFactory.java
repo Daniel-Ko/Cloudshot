@@ -44,6 +44,11 @@ public class EntityFactory {
 			Rogue r = new Rogue(game.getWorld(),game.getPlayer(),position);
 			return r ;
 		}
+		else if (enemyType == AbstractEnemy.entity_type.boss1) {
+			Boss1V2 b = new Boss1V2(game.getWorld(),game.getPlayer(),position);
+			b.provideGameModel(game);
+			return b ;
+		}
 		return null;
 	}
 

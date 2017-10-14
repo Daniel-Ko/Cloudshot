@@ -31,6 +31,9 @@ public class Player extends AbstractPlayer {
 
 	Shotgun pistol;
 	List<BulletImpl> bullets = new ArrayList<>();
+
+	//being hurt dectection
+	boolean hurtThisFrame;
 	//Box2D
 	int numFootContact = 0;
 
@@ -98,7 +101,7 @@ public class Player extends AbstractPlayer {
 	@Override
 	public void update(List<AbstractEnemy> enemies) {
 		super.update(enemies);
-
+		hurtThisFrame = false;
 		//Things to spawnEnemies if we have a body and world to move/move in
 		if (body.isPresent()) {
 			if (numFootContact < 1) inAir = true;
@@ -120,6 +123,12 @@ public class Player extends AbstractPlayer {
 			bullets.remove(b);
 		}
 
+	}
+
+	@Override
+	public void hit(float damage){
+		super.hit(damage);
+		hurtThisFrame = true;
 	}
 
 	/**
@@ -252,9 +261,13 @@ public class Player extends AbstractPlayer {
 		//IDLE ANIMATION
 		if (body.isPresent()) {
 			if (body.get().getLinearVelocity().x == 0 && body.get().getLinearVelocity().y == 0) {
+				if(hurtThisFrame)
+					return Assets.playerIdleHurt;
 				return Assets.playerIdle;
 			}
 		}
+		if(hurtThisFrame)
+			return Assets.playerWalkHurt;
 		return Assets.playerWalk;
 	}
 

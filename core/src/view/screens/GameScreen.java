@@ -11,10 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.GameModelInterface;
-import model.being.enemies.AbstractEnemy;
-import model.being.enemies.BossOne;
-import model.being.enemies.ShootingEnemy;
-import model.being.enemies.SpikeBlock;
+import model.being.enemies.*;
 import model.being.player.Player;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
@@ -296,7 +293,7 @@ public class GameScreen extends ScreenAdapter {
      */
     private void drawEnemies(List<AbstractEnemy> enemies, Player player) {
         for (AbstractEnemy ae : enemies) {
-            if (ae.getImage() == null) continue;
+            if (ae.getImage() == null) continue;//TODO this shouldnt be null look into this
             batch.draw(ae.getImage().getFrameFromTime(elapsedTime),
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() - ae.getDrawingHeight() / 4,
@@ -306,6 +303,15 @@ public class GameScreen extends ScreenAdapter {
             if (ae instanceof ShootingEnemy) {
                 ShootingEnemy s = (ShootingEnemy) ae;
                 for (BulletImpl b : s.getBullets())
+                    batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),
+                            b.getX() - 0.25f, b.getY() - 0.25f,
+                            0.5f,
+                            0.5f
+                    );
+            }
+            if (ae instanceof Boss1V2) {
+                Boss1V2 s = (Boss1V2) ae;
+                for (BulletImpl b : s.getBulletsShot())
                     batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),
                             b.getX() - 0.25f, b.getY() - 0.25f,
                             0.5f,

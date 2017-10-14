@@ -29,7 +29,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * Used to represent the different states of the player
 	 */
 	public static enum player_state {
-		ALIVE, DEAD
+		ALIVE, DEAD,BEINGHURT
 	}
 	/**
 	 * used in applyKnockBack() direction in which the knock back is being applied form
@@ -148,6 +148,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * @param damage to inflict on player
 	 * */
 	public void hit(float damage){
+
 		this.health-=damage;
 	}
 
