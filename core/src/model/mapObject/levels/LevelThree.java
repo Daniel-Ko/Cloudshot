@@ -12,9 +12,8 @@ import java.util.List;
 public class LevelThree extends AbstractLevel {
 
     public LevelThree() {
-        super();
+        super(3);
     }
-
 
     @Override
     public String getLevelName() {
@@ -51,7 +50,7 @@ public class LevelThree extends AbstractLevel {
     }
 
     @Override
-    public List<AbstractCollectable> getCollectables() {
+    public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
 

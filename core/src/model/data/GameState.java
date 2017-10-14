@@ -12,8 +12,6 @@ import java.util.List;
 public class GameState{
     private Preferences state;
 
-    private AbstractPlayer player;
-    private List<AbstractEnemy> enemies;
 
     public GameState(Preferences pref) {
         state = pref;
@@ -50,6 +48,14 @@ public class GameState{
      */
     public void setCollectablesInPref(String collectables) {
         state.putString("Collectables", collectables);
+    }
+
+    /** puts the bytecode of an AbstractLevel
+     * into the Preference
+     * @param level
+     */
+    public void setLevelInPref(String level) {
+        state.putString("Level", level);
     }
 
     /** puts the bytecode of a List<Rectangle> and List<Spawn>

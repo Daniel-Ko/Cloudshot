@@ -8,6 +8,7 @@ import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.being.player.PlayerData;
 import model.collectable.AbstractCollectable;
+import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.Spawn;
 
 import java.io.*;
@@ -33,8 +34,7 @@ public class GameStateTransactionHandler {
 
         if (writeQuery(model, newState)) {
             commit(newState);
-            File f = new File(".");
-            System.out.println(f.getAbsolutePath()); //print the path of where it was saved for testing
+            //todo save worked dialog
             return true;
         }
         return false;
@@ -43,19 +43,23 @@ public class GameStateTransactionHandler {
     private boolean writeQuery(ModelData model, GameState newState) {
 
         /* spawnEnemies the newState with validated data, otherwise signal failed save */
-        if (!validateAndUpdatePlayer(newState, model.getPlayer())) {
+        if (!validateAndUpdatePlayer(newState, model.loadPlayer())) {
             System.out.println("bad player");
             return false;
         }
-        if (!validateAndUpdateEnemies(newState, model.getEnemies())) {
+        if (!validateAndUpdateEnemies(newState, model.loadEnemies())) {
             System.out.println("bad enemies");
             return false;
         }
-        if (!validateAndUpdateCollectables(newState, model.getCollectables())) {
+        if (!validateAndUpdateLevel(newState, model.loadLevel())) {
+            System.out.println("bad level");
+            return false;
+        }
+        if (!validateAndUpdateCollectables(newState, model.loadCollectables())) {
             System.out.println("bad items");
             return false;
         }
-        if (!validateAndUpdateSpawns(newState, model.getSpawnTriggers(), model.getSpawns())) {
+        if (!validateAndUpdateSpawns(newState, model.loadSpawnTriggers(), model.loadSpawns())) {
             System.out.println("bad spawns");
             return false;
         }
@@ -68,7 +72,7 @@ public class GameStateTransactionHandler {
      *
      * @return
      */
-    public StateQuery load() throws InvalidTransactionException {
+    public ModelData load() throws InvalidTransactionException {
         GameState latest = repository.pullSoft();
         if (latest == null)
             return null;
@@ -79,15 +83,20 @@ public class GameStateTransactionHandler {
         }
 
         try {
-            PlayerData validatedPlayerData = validateAndReturnPlayerData(latest);
-            List<AbstractEnemy> validatedEnemies = validateAndReturnEnemies(latest);
-            List<AbstractCollectable> validatedCollectables = validateAndReturnCollectables(latest);
-            List<Rectangle> validatedTriggers = validateAndReturnSpawnTriggers(latest);
-            List<Spawn> validatedSpawns = validateAndReturnSpawns(latest);
 
             //if all data is valid, remove it from stack finally
+            ModelData loadedData = new ModelData();
+            loadedData.setPlayerData(validateAndReturnPlayerData(latest));
+            loadedData.setEnemies(validateAndReturnEnemies(latest));
+            loadedData.setLevel(validateAndReturnLevel(latest));
+            loadedData.setCollectables(validateAndReturnCollectables(latest));
+            loadedData.setSpawnTriggers(validateAndReturnSpawnTriggers(latest));
+            loadedData.setSpawns(validateAndReturnSpawns(latest));
+
+            //unit of work complete, we now commit the change permanently
             repository.pullHard();
-            return new StateQuery(validatedPlayerData, validatedEnemies, validatedCollectables, validatedTriggers, validatedSpawns); //give the model a loader object to directly call validated data
+
+            return loadedData; //give the model a loader object to directly call validated data
 
         } catch (InvalidTransactionException e) {
             repository.pullHard(); //remove corrupted data
@@ -157,6 +166,25 @@ public class GameStateTransactionHandler {
             enemiesSer = serializeInBase64(newFoes);
 
             newState.setEnemiesInPref(enemiesSer);
+            return true;
+
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+
+    private boolean validateAndUpdateLevel(GameState newState, AbstractLevel newLevel) {
+        if (newLevel == null) {
+            return false;
+        }
+
+        //now serialise the Enemies List and add to Preferences
+        String levelSer = "";
+        try {
+            levelSer = serializeInBase64(newLevel);
+
+            newState.setLevelInPref(levelSer);
             return true;
 
         } catch (IOException e) {
@@ -262,6 +290,20 @@ public class GameStateTransactionHandler {
             }
 
             return enemies;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new InvalidTransactionException(e.getMessage());
+        }
+    }
+
+    private AbstractLevel validateAndReturnLevel(GameState latest) throws InvalidTransactionException {
+        try {
+            Object l = deserializeFromBase64(latest.getPref().getString("Level"));
+
+            if (!(l instanceof List))
+                throw new InvalidTransactionException("Deserialized Level object isn't an AbstractLevel");
+
+            return (AbstractLevel) l;
+
         } catch (IOException | ClassNotFoundException e) {
             throw new InvalidTransactionException(e.getMessage());
         }
@@ -392,8 +434,6 @@ public class GameStateTransactionHandler {
      * done upon the database
      */
     public class InvalidTransactionException extends RuntimeException {
-        private static final long serialVersionUID = -4130249240390391522L;
-
         public InvalidTransactionException(String msg) {
             super(msg);
         }

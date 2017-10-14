@@ -12,19 +12,14 @@ import java.util.List;
 public class LevelTwo extends AbstractLevel {
 
     public LevelTwo() {
-        super();
+        super(2);
     }
-
 
     @Override
     public String getLevelName() {
         return "Snowy Peak";
     }
 
-    @Override
-    public int getLevelNumber() {
-        return 2;
-    }
 
     @Override
     public AbstractLevel getNextLevel() {
@@ -45,13 +40,11 @@ public class LevelTwo extends AbstractLevel {
         spawnRates.put(8,"Shotgun");
         spawnRates.put(9,"Shotgun");
         spawnRates.put(10,"Shotgun");
-
-
         return spawnRates;
     }
 
     @Override
-    public List<AbstractCollectable> getCollectables() {
+    public List<AbstractCollectable> getCollectibles() {
         return collectables;
     }
 
