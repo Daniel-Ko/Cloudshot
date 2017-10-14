@@ -354,14 +354,14 @@ public class GameModel implements GameModelInterface {
             List<Spawn> validatedSpawns = loader.loadSpawns();
 
             reinitGame(this.level);
+            
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
             loadLevel(loader.loadLevel());
-            loadCollectables(loadedCollectables);
-            loadSpawns(validatedTriggers, validatedSpawns);
-
-
-            //TODO: Jerem + jake, you can replace your data with my loaded data
+            
+            //loadCollectables(loadedCollectables);
+            //loadSpawns(validatedTriggers, validatedSpawns);
+            
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             //TODO: msg dialog: load failed
         }
@@ -370,7 +370,7 @@ public class GameModel implements GameModelInterface {
     private void loadPlayer(PlayerData pdata) {
         GameScreen.inputMultiplexer.removeProcessor(player); //remove the old player from input-handling
 
-        player = EntityFactory.producePlayer(this,
+        this.player = EntityFactory.producePlayer(this,
                 new Vector2(
                         //scale player pos back down to the normal world scale
                         pdata.getPos().x * PPM,
@@ -440,6 +440,8 @@ public class GameModel implements GameModelInterface {
         newLevel.setPortals(levelToLoad.getPortals());
         newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
         newLevel.setSpawns(levelToLoad.getSpawns());
+        
+        this.level = newLevel;
     }
 
     private void loadCollectables(List<AbstractCollectable> collectsToLoad) {
