@@ -12,7 +12,7 @@ import java.util.List;
 public class LevelTwo extends AbstractLevel {
 
     public LevelTwo() {
-        super();
+        super(2);
     }
 
 
@@ -21,10 +21,6 @@ public class LevelTwo extends AbstractLevel {
         return "Snowy Peak";
     }
 
-    @Override
-    public int getLevelNumber() {
-        return 2;
-    }
 
     @Override
     public AbstractLevel getNextLevel() {

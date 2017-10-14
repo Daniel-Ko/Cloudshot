@@ -16,6 +16,7 @@ import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.collectable.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,23 +26,25 @@ import java.util.List;
  * An interface for describing a level.
  * This includes the various ground heights and platforms, as well as potentially including enemy spawns in the future.
  */
-public abstract class AbstractLevel {
+public abstract class AbstractLevel implements Serializable{
+    public final int levelNum;
 
-
-    protected TiledMap tiledMap;
-    protected TiledMapRenderer tiledMapRenderer;
-    protected Array<Rectangle> tiles = new Array<>();
+    protected transient TiledMap tiledMap;
+    protected transient TiledMapRenderer tiledMapRenderer;
+    protected transient Array<Rectangle> tiles = new Array<>();
     protected List<AbstractCollectable> collectables;
 
     protected Rectangle endZone;
     protected List<Rectangle> spawnTriggers;
     protected List<Spawn> spawns;
-    protected Array<Portal> portals;
-    protected Array<Rectangle> hurtyTiles;
+    protected List<Portal> portals;
+    protected transient Array<Rectangle> hurtyTiles;
 
 
 
-    public AbstractLevel() {
+    public AbstractLevel(int lev) {
+        levelNum = lev;
+
         tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
         // load information from .tmx file.
@@ -215,7 +218,7 @@ public abstract class AbstractLevel {
             }
         }
 
-        for (int i = 0; i < portals.size; i++) {
+        for (int i = 0; i < portals.size(); i++) {
             if (!portals.get(i).isActive()) continue;
             Rectangle rect = portals.get(i).getEntry();
             if (rect.contains(p.getPos())) {
@@ -238,7 +241,7 @@ public abstract class AbstractLevel {
     }
 
     public void loadPortals() {
-        portals = new Array<>();
+        portals = new ArrayList<>();
         MapLayer ml = tiledMap.getLayers().get("Portals");
         for (int i = 0; i < ml.getObjects().getCount(); i += 2) {
             RectangleMapObject rmo1 = (RectangleMapObject) ml.getObjects().get(i);
@@ -266,7 +269,9 @@ public abstract class AbstractLevel {
 
     public abstract String getLevelName();
 
-    public abstract int getLevelNumber();
+    public int getLevelNumber() {
+        return this.levelNum;
+    }
 
     public abstract AbstractLevel getNextLevel();
 
@@ -290,5 +295,9 @@ public abstract class AbstractLevel {
 
     public Array<Rectangle> getTiles() {
         return tiles;
+    }
+
+    public void setCollectables(List<AbstractCollectable> collects) {
+        collectables = collects;
     }
 }
