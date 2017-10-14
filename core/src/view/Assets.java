@@ -39,6 +39,9 @@ public class Assets {
 
     public static CustomSprite slimeWalk;
 
+    /**
+     * Slime2 sprites.
+     */
     public static CustomSprite slime2AttackLeft;
     public static CustomSprite slime2AttackRight;
     public static CustomSprite slime2Dead;
@@ -46,7 +49,27 @@ public class Assets {
     public static CustomSprite slime2WalkRight;
     public static CustomSprite slime2WalkLeft;
 
+    public static CustomSprite spikeBlock;
 
+    /**
+     * Buff sprites.
+     */
+    public static CustomSprite deathPack;
+    public static CustomSprite healthPack;
+    public static CustomSprite heavyAmmoPack;
+    public static CustomSprite lightAmmoPack;
+
+    /**
+     * Weapon sprites.
+     */
+    public static CustomSprite pistol;
+    public static CustomSprite pistolBullet;
+    public static CustomSprite semiAuto;
+    public static CustomSprite semiAutoBullet;
+    public static CustomSprite shotgun;
+    public static CustomSprite shotgunBullet;
+    public static CustomSprite sniper;
+    public static CustomSprite sniperBullet;
 
     public static void load(){
         gameSkin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
@@ -77,5 +100,25 @@ public class Assets {
         slime2Idle = new MovingSprite("slime_walk.png",1, 9);
         slime2WalkRight = new MovingSprite("slime_walk.png",1, 9);
         slime2WalkLeft = new MovingSprite("slime_walk_left.png",1, 9);
+
+        spikeBlock = new StaticSprite("spikeBlock.png");
+
+        deathPack = new StaticSprite("deathpack.png");
+        healthPack = new StaticSprite("healthpack.png");
+        heavyAmmoPack = new StaticSprite("ammo.png");
+        lightAmmoPack = new StaticSprite("ammo.png");
+        pistol = new StaticSprite("pistol.png");
+        pistolBullet = new StaticSprite("bullet.png");
+
+        semiAuto = new StaticSprite("Tec-9.png");
+        semiAuto.flipHorizontal();
+        semiAutoBullet = new StaticSprite("bullet.png");
+
+        shotgun = new StaticSprite("shotgun.png");
+        shotgunBullet = new StaticSprite("bullet.png");
+
+        sniper = new StaticSprite("sniper.png");
+        sniperBullet = new StaticSprite("bullet.png");
+
     }
 }

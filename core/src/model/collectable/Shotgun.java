@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
@@ -13,16 +14,11 @@ public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 25;
 	protected final int SHOTGUN_DAMAGE = 15;
-	private transient StaticSprite bulImage;
-	private transient StaticSprite image;
-	
 
 	public Shotgun(Vector2 position, float width, float height) {
 		super(position, width, height);
 		this.ammo = MAX_AMMO;
 		this.setDamage(SHOTGUN_DAMAGE);
-		bulImage = new StaticSprite("bullet.png");
-		image = new StaticSprite("shotgun.png");
 	}
 
 	/**
@@ -71,13 +67,13 @@ public class Shotgun extends AbstractWeapon {
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
-		return this.image;
+		return Assets.shotgun;
 	}
 
 	
 	public CustomSprite getBulletImage() {
 		// TODO Auto-generated method stub
-		return this.bulImage;
+		return Assets.shotgunBullet;
 	}
 	
 	@Override

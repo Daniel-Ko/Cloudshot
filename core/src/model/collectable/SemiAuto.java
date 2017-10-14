@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.projectile.BulletImpl;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
@@ -17,22 +18,15 @@ public class SemiAuto extends AbstractWeapon{
 
     protected final float SemiAuto_DAMAGE = 8;
 
-    private transient CustomSprite image;
-
-    private transient CustomSprite bulImage;
 
     public SemiAuto(Vector2 position, float width, float height) {
         super(position, width, height);
         setAmmo(MAX_AMMO);
-        this.setDamage(SemiAuto_DAMAGE);
-        this.image = new StaticSprite("Tec-9.png");
-        this.image.flipHorizontal();
-        this.bulImage = new StaticSprite("bullet.png");
     }
 
     @Override
     public CustomSprite getBulletImage() {
-        return this.bulImage;
+        return Assets.semiAutoBullet;
     }
 
     /**
@@ -95,6 +89,6 @@ public class SemiAuto extends AbstractWeapon{
 
     @Override
     public CustomSprite getImage() {
-        return this.image;
+        return Assets.semiAuto;
     }
 }

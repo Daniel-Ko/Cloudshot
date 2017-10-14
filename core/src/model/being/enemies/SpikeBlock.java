@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
 import model.being.enemystates.HorizontalMovement;
 import model.being.player.AbstractPlayer;
+import view.Assets;
 import view.sprites.CustomSprite;
 import view.sprites.StaticSprite;
 
@@ -18,7 +19,6 @@ public class SpikeBlock extends AbstractEnemy{
 
     private Vector2 initPos;
     private float maxDist;
-    private transient StaticSprite img;
 
     public SpikeBlock(World world, AbstractPlayer player, Vector2 pos) {
         super(world,player,pos, AbstractEnemy.entity_type.spikeblock);
@@ -29,8 +29,8 @@ public class SpikeBlock extends AbstractEnemy{
         width = 100/ GameModel.PPM;
         height = 100/ GameModel.PPM;
         boundingBox = new Rectangle(position.x,position.y,width,height);
-        img = new StaticSprite("spikeBlock.png");
     }
+
     public SpikeBlock(){
         damage = 5;
         initPos = new Vector2(0,0);
@@ -40,7 +40,7 @@ public class SpikeBlock extends AbstractEnemy{
         width = 100/ GameModel.PPM;
         height = 100/ GameModel.PPM;
         boundingBox = new Rectangle(position.x,position.y,width,height);
-        img = new StaticSprite("spikeBlock.png");
+
     }
 
     @Override
@@ -90,6 +90,6 @@ public class SpikeBlock extends AbstractEnemy{
 
     @Override
     public CustomSprite getImage() {
-        return img;
+        return Assets.spikeBlock;
     }
 }
