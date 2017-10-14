@@ -23,8 +23,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 	protected float damage;
 
-	public void setSpeed() {
-		this.speed = (float) 5;
+	public void setSpeed(float newSpeed) {
+		this.speed = newSpeed;
 	}
 
 	protected float speed = 3;
@@ -125,7 +125,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 				if (e.getBoundingBox().contains(this.getX(),this.getY())){
 					e.hit((int)this.getDamage());
 
-					this.setToRemove(true);
+					this.setToRemove();
 					System.out.println("enemy health =" +  e.getHealth());
 
 				}
@@ -134,7 +134,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 		else{
 			if (player.getBoundingBox().contains(this.getX(),this.getY())){
 				player.hit(this.getDamage());
-				this.setToRemove(true);
+				this.setToRemove();
 			}
 		}
 
@@ -191,8 +191,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 	/**
 	 */
-	public void setToRemove(boolean removing) {
-		this.toRemove = removing;
+	public void setToRemove() {
+		this.toRemove = true;
 	}
 
 	/**
