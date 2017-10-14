@@ -321,11 +321,15 @@ public class GameModel implements GameModelInterface {
     }
 
     public void save() {
-        if (!repoScraper.save(
-                new ModelData(
-                        this.player, this.enemies, this.getCollectables(), this.level.getSpawnTriggers(), this.level.getSpawns()
-                )
-        ))
+        ModelData data = new ModelData();
+        data.setPlayer(this.player);
+        data.setEnemies(this.enemies);
+        data.setCollectables(this.getCollectables());
+        data.setSpawnTriggers(this.level.getSpawnTriggers());
+        data.setSpawns(this.level.getSpawns());
+
+        //actually save
+        if (!repoScraper.save(data))
         {
             //TODO: msg dialog: save failed
         }

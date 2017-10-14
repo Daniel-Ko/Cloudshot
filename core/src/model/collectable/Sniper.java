@@ -45,7 +45,7 @@ public class Sniper extends AbstractWeapon {
         ArrayList<BulletImpl> bullets = new ArrayList<>();
         this.ammo --;
         BulletImpl bul = new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true);
-        bul.setSpeed();
+        bul.setSpeed(5f);
         bullets.add(bul);
         return bullets;
     }

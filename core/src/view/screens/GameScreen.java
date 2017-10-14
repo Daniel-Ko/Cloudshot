@@ -1,6 +1,7 @@
 package view.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -30,7 +31,7 @@ import java.util.List;
 public class GameScreen extends ScreenAdapter {
 
     public enum State{
-        GAME_PAUSED, GAME_RUNNING, GAME_OVER
+        GAME_PAUSED, GAME_RUNNING, GAME_OVER, GAME_PAUSED_MENU
     }
 
     /**
@@ -71,10 +72,7 @@ public class GameScreen extends ScreenAdapter {
      * UI elements;
      */
     private HealthBar healthBar;
-    private TextButton save;
     private TextButton mute;
-    private TextButton menu;
-    private TextButton load;
     private TextButton pause;
     private Label levelText;
     private InventoryActor inventoryActor;
@@ -82,6 +80,7 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(GameModelInterface gameModel) {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
+
         initGameModel();
 
         this.batch = new SpriteBatch();
@@ -146,38 +145,19 @@ public class GameScreen extends ScreenAdapter {
      * Initialise all the buttons in the GameScreen.
      */
     private void initialiseButtons(){
-        // Create the buttons first.
-        save = ButtonFactory.saveButton(
+
+        mute = ButtonFactory.muteButton(
                 Gdx.graphics.getWidth() - PADDING,
                 PADDING,
                 gameModel);
 
-        mute = ButtonFactory.muteButton(
-                Gdx.graphics.getWidth() - PADDING * 2,
-                PADDING,
-                gameModel);
-
-        menu = ButtonFactory.menuButton(
-                Gdx.graphics.getWidth() - PADDING * 3,
-                PADDING
-        );
-
-        load = ButtonFactory.loadButton(
-                Gdx.graphics.getWidth() - PADDING * 4,
-                PADDING,
-                gameModel
-        );
-
         pause = ButtonFactory.pauseButton(
-                Gdx.graphics.getWidth() - PADDING *5,
+                Gdx.graphics.getWidth() - PADDING * 2,
                 PADDING
         );
 
         // Add buttons into the staging area.
         stage.addActor(mute);
-        stage.addActor(save);
-        stage.addActor(menu);
-        stage.addActor(load);
         stage.addActor(pause);
     }
 
@@ -188,22 +168,16 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(gameModel.getCamera().combined);
 
-        // Update the gameModel and elapsed time only if the game is running.
-        if(state.equals(State.GAME_RUNNING)) {
-            elapsedTime += delta;
-            gameModel.update();
-        }
-
         // Draw the terrains.
         gameModel.getTiledMapRenderer().setView(gameModel.getCamera()); // Game map.
         gameModel.getTiledMapRenderer().render();
-
-        // Drawing logic begins here.
-        batch.begin();
+        
+        // Check if the esc key is clicked.
+        checkIfNeedToGoBackToMenu();
 
         switch(state){
             case GAME_RUNNING:
-                presentRunningGame();
+                presentRunningGame(delta);
                 break;
             case GAME_PAUSED:
                 presentPausedGame();
@@ -211,14 +185,35 @@ public class GameScreen extends ScreenAdapter {
             case GAME_OVER:
                 //TODO: Display game over screen.
                 break;
+            case GAME_PAUSED_MENU:
+                presentMenu();
         }
-
-
-        batch.end();
 
     }
 
-    private void presentRunningGame(){
+    private void presentMenu() {
+        MenuScreen.game.setScreen(new MenuScreen(MenuScreen.game, this, gameModel));
+        state = State.GAME_PAUSED;
+    }
+
+    /**
+     * Update the state of the game if the "esc" key is pressed.
+     * The game will be redirected to the main menu with the option to resume the game.
+     */
+    private void checkIfNeedToGoBackToMenu() {
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            state = State.GAME_PAUSED_MENU;
+        }
+    }
+
+    private void presentRunningGame(float delta){
+        // Update the gameModel and elapsed time only if the game is running.
+        elapsedTime += delta;
+        gameModel.update();
+
+        pause.setText("Pause");
+
+        batch.begin();
 
         // Update levelText and healthBar.
         levelText.setText(gameModel.getLevelName());
@@ -231,11 +226,15 @@ public class GameScreen extends ScreenAdapter {
         drawEnemies(gameModel.getEnemies(), player);
         drawCollectables(gameModel.getCollectables());
 
+        batch.end();
         stage.act();
         stage.draw();
     }
 
     private void presentPausedGame() {
+        pause.setText("Resume");
+        batch.begin();
+
         // Update levelText and healthBar.
         levelText.setText(gameModel.getLevelName());
         healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
@@ -247,6 +246,7 @@ public class GameScreen extends ScreenAdapter {
         drawEnemies(gameModel.getEnemies(), player);
         drawCollectables(gameModel.getCollectables());
 
+        batch.end();
         stage.act();
         stage.draw();
     }

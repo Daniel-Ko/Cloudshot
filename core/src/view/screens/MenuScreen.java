@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import model.GameModelInterface;
 import view.utils.ButtonFactory;
 import view.utils.LabelFactory;
 
@@ -28,6 +29,44 @@ public class MenuScreen extends ScreenAdapter {
 
         stage.addActor(startButton);
     }
+
+    public MenuScreen(Game game, GameScreen gameScreen, GameModelInterface gameModel){
+        this.game = game;
+        this.stage = new Stage(new ScreenViewport());
+
+        stage.addActor(LabelFactory.mainMenuLabel());
+
+        TextButton startButton = ButtonFactory.startButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2
+        );
+
+        TextButton resumebutton = ButtonFactory.resumeGameButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2,
+                gameScreen
+        );
+
+        TextButton saveButton = ButtonFactory.saveButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2,
+                gameModel
+        );
+
+        TextButton loadButton = ButtonFactory.loadButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2,
+                gameModel,
+                gameScreen
+        );
+
+        stage.addActor(resumebutton);
+        stage.addActor(startButton);
+        stage.addActor(saveButton);
+        stage.addActor(loadButton);
+
+    }
+
 
     @Override
     public void show() {

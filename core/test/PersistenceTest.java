@@ -53,9 +53,9 @@ public class PersistenceTest extends GameTest{
 
         enems.add(new Rogue(new World(new Vector2(0, -8), true), pl, new Vector2(15, 15)));
 
-        repoScraper.save(new ModelData(
-                pl, enems, collects, spawnTrigs, spawns
-        ));
+//        repoScraper.save(new ModelData(
+//                pl, enems, collects, spawnTrigs, spawns
+//        ));
     }
 
 

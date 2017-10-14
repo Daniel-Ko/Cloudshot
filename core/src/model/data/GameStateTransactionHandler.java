@@ -3,6 +3,7 @@ package model.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import model.GameObjectInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.being.player.PlayerData;
@@ -133,6 +134,7 @@ public class GameStateTransactionHandler {
             return false;
         }
     }
+
 
     /**
      * Serialise the List of enemies obtained from the model and store it
