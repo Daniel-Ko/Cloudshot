@@ -22,9 +22,9 @@ import model.data.GameStateTransactionHandler;
 import model.mapObject.levels.LevelOne;
 import model.projectile.BulletImpl;
 import view.utils.ButtonFactory;
-import view.utils.LabelFactory;
 import view.utils.HealthBar;
 import view.utils.InventoryActor;
+import view.utils.LabelFactory;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class GameScreen extends ScreenAdapter {
         initGameModel();
 
         this.batch = new SpriteBatch();
-        this.state = State.GAME_RUNNING;
+        state = State.GAME_RUNNING;
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);

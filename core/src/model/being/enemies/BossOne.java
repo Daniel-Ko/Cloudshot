@@ -10,16 +10,14 @@ import model.being.player.AbstractPlayer;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
 
 import java.util.*;
 
 public class BossOne extends AbstractEnemy{
+    private static final long serialVersionUID = -6972282922822093237L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.boss1;
 
-    //Fields for
-    private int detectionRadius = 10;
     private int attackRadius = 9;
 
 
@@ -136,6 +134,7 @@ public class BossOne extends AbstractEnemy{
 
     private void foundPlayerMovement(){
         if(state == enemy_state.EDEAD)return;
+        int detectionRadius = 10;
         if(position.dst(player.getPos())< detectionRadius){
             if(getX()<player.getX())
                 body.setLinearVelocity(1f,body.getLinearVelocity().y);

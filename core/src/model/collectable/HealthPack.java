@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class HealthPack extends AbstractBuff {
 
 
-	public HealthPack(Vector2 position, float width, float height) {
-		super(position, width, height);
-		// TODO Auto-generated constructor stub
+    private static final long serialVersionUID = 6727531646815304787L;
+
+    public HealthPack(Vector2 position, float width, float height) {
+		super(position, width, height, buff_type.health);
 	}
 	
 	@Override

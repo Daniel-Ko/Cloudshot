@@ -6,17 +6,17 @@ import model.being.player.Player;
 import model.projectile.BulletImpl;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 import java.util.ArrayList;
 
 public class Shotgun extends AbstractWeapon {
 
 	public static final int MAX_AMMO = 25;
+	private static final long serialVersionUID = 4480309599284992958L;
 	protected final int SHOTGUN_DAMAGE = 15;
 
 	public Shotgun(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, weapon_type.shotgun);
 		this.ammo = MAX_AMMO;
 		this.setDamage(SHOTGUN_DAMAGE);
 	}
@@ -87,7 +87,7 @@ public class Shotgun extends AbstractWeapon {
 	}
 	@Override
 	public int getMaxAmmo() {
-		return this.MAX_AMMO;
+		return MAX_AMMO;
 	}
 
 }

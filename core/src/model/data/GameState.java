@@ -1,10 +1,8 @@
 package model.data;
 
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.math.Rectangle;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
-import model.mapObject.levels.Spawn;
 
 import java.util.List;
 

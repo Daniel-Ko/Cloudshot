@@ -6,6 +6,7 @@ import model.being.player.AbstractPlayer;
 
 public class HorizontalMovement implements EnemyState, java.io.Serializable {
 
+    private static final long serialVersionUID = 1130047908880394807L;
     //range of how much it can move
     private float range =3;
     private Vector2 leftTargetLocation;

@@ -4,6 +4,8 @@ import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 
 public class Death implements EnemyState, java.io.Serializable {
+    private static final long serialVersionUID = 5816888526012116669L;
+
     @Override
     public void update(AbstractEnemy e, AbstractPlayer p) {
         e.getWorld().destroyBody(e.getBody());

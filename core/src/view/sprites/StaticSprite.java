@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class StaticSprite extends CustomSprite {
 
+    private static final long serialVersionUID = -385280789516080722L;
     private int width;
     private int height;
 

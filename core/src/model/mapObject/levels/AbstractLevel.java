@@ -149,10 +149,7 @@ public abstract class AbstractLevel {
     }
 
     public boolean hasPlayerWon(AbstractPlayer p) {
-        if (endZone.contains(p.getPos())) {
-            return true;
-        }
-        return false;
+        return endZone.contains(p.getPos());
     }
 
     public void loadSpawnTriggerPoints() {
@@ -187,12 +184,12 @@ public abstract class AbstractLevel {
         }
     }
 
-    public void spawnEnemies(AbstractPlayer p, GameModel gm) {
+    public void update(AbstractPlayer p, GameModel gm) {
         if (p.getPos().y < -40) {//falling off map kills, but with a bit of delay (can fall off screen for a few seconds)
             p.hit(p.getHealth());
         }
         if (endZone.contains(p.getPos())) {
-            gm.setNewLevel(new LevelTwo());
+            gm.setNewLevel(this.getNextLevel());
         }
         for (int i = 0; i < spawnTriggers.size(); i++) {
             if (spawnTriggers.get(i).contains(p.getPos())) {
@@ -219,7 +216,7 @@ public abstract class AbstractLevel {
         }
 
         for (int i = 0; i < portals.size; i++) {
-            if (portals.get(i).isActive() == false) continue;
+            if (!portals.get(i).isActive()) continue;
             Rectangle rect = portals.get(i).getEntry();
             if (rect.contains(p.getPos())) {
                 portals.get(i).setActive(false);
@@ -270,6 +267,8 @@ public abstract class AbstractLevel {
     public abstract String getLevelName();
 
     public abstract int getLevelNumber();
+
+    public abstract AbstractLevel getNextLevel();
 
     public abstract HashMap<Integer, String> getSpawnRates();
 

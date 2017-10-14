@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(
         {CollectableTests.class, GameTest.class, GUIElementTest.class,
         LevelTest.class, PersistenceTest.class, PlayerTest.class,
-        SlimeTest.class, SpikeBlockTest.class, ViewTest.class
+        SlimeTest.class, SpikeBlockTest.class, //ViewTest.class
         }
 )
 public class AllTests {

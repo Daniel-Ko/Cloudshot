@@ -11,6 +11,7 @@ import view.screens.GameScreen;
  */
 public class MovingSprite extends CustomSprite {
 
+    private static final long serialVersionUID = -2819338593935085134L;
     /**
      * Stores all the TextureRegion of the frames for animation.
      */
@@ -54,6 +55,7 @@ public class MovingSprite extends CustomSprite {
         }
 
         // Create the animation.
+        //noinspection unchecked
         animation = new Animation(GameScreen.FRAME_RATE, animationFrames);
     }
 

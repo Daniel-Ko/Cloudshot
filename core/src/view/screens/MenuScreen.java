@@ -17,7 +17,7 @@ public class MenuScreen extends ScreenAdapter {
     private Stage stage;
 
     public MenuScreen(Game game){
-        this.game = game;
+        MenuScreen.game = game;
         this.stage = new Stage(new ScreenViewport());
 
         stage.addActor(LabelFactory.mainMenuLabel());

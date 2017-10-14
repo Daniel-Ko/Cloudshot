@@ -11,10 +11,10 @@ import model.being.enemystates.HorizontalMovement;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.StaticSprite;
 
 public class SpikeBlock extends AbstractEnemy{
 
+    private static final long serialVersionUID = -1155054338574041353L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.spikeblock;
 
     private Vector2 initPos;

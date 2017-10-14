@@ -1,8 +1,6 @@
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemies.Rogue;
 import model.being.player.AbstractPlayer;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
 /**
  * Created by kodani on 28/09/17.
@@ -56,8 +53,10 @@ public class PersistenceTest extends GameTest{
 
         enems.add(new Rogue(new World(new Vector2(0, -8), true), pl, new Vector2(15, 15)));
 
-        repoScraper.save(new ModelData(
-                pl, enems, collects, spawnTrigs, spawns
-        ));
+//        repoScraper.save(new ModelData(
+//                pl, enems, collects, spawnTrigs, spawns
+//        ));
     }
+
+
 }

@@ -154,7 +154,7 @@ public class GameModel implements GameModelInterface {
         updateCollectables();
         updateCamera();
 
-        level.spawnEnemies(player, this);
+        level.update(player, this);
         world.step(1 / 30f, 12, 4);
         debugRenderer.render(world, camera.combined);
 
@@ -193,8 +193,7 @@ public class GameModel implements GameModelInterface {
 
     public void updateEnemies() {
         // Clean up all dead enemies.
-        for (AbstractEnemy ae : enemiesToRemove)
-            enemies.remove(ae);
+        enemies.removeAll(enemiesToRemove);
 
         for (AbstractEnemy ae : enemies) {
             ae.update();
@@ -217,7 +216,7 @@ public class GameModel implements GameModelInterface {
         // Iterate through all of the collectables in the scene.
         for (AbstractCollectable ac : level.getCollectables()) {
             // Check if the player have collected it.
-            if (ac.checkCollide(getPlayer()) == true) {
+            if (ac.checkCollide(getPlayer())) {
                 remove = ac;
                 break;
             }
@@ -322,11 +321,15 @@ public class GameModel implements GameModelInterface {
     }
 
     public void save() {
-        if (!repoScraper.save(
-                new ModelData(
-                        this.player, this.enemies, this.getCollectables(), this.level.getSpawnTriggers(), this.level.getSpawns()
-                )
-        ))
+        ModelData data = new ModelData();
+        data.setPlayer(this.player);
+        data.setEnemies(this.enemies);
+        data.setCollectables(this.getCollectables());
+        data.setSpawnTriggers(this.level.getSpawnTriggers());
+        data.setSpawns(this.level.getSpawns());
+
+        //actually save
+        if (!repoScraper.save(data))
         {
             //TODO: msg dialog: save failed
         }

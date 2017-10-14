@@ -18,14 +18,9 @@ public class ModelData {
     private List<Rectangle> spawnTriggers;
     private List<Spawn> spawns;
 
-
-    public ModelData(AbstractPlayer pl, List<AbstractEnemy> enems, List<AbstractCollectable> collects, List<Rectangle> spwTrig, List<Spawn> spwns) {
-        player = pl;
-        enemies = enems;
-        collectables = collects;
-        spawnTriggers = spwTrig;
-        spawns = spwns;
-    }
+    //
+    //  GETTERS
+    //
 
     public AbstractPlayer getPlayer() {
         return player;
@@ -45,5 +40,29 @@ public class ModelData {
 
     public List<Spawn> getSpawns() {
         return spawns;
+    }
+
+    //
+    //  SETTERS
+    //
+
+    public void setPlayer(AbstractPlayer player) {
+        this.player = player;
+    }
+
+    public void setEnemies(List<AbstractEnemy> enemies) {
+        this.enemies = enemies;
+    }
+
+    public void setCollectables(List<AbstractCollectable> collectables) {
+        this.collectables = collectables;
+    }
+
+    public void setSpawnTriggers(List<Rectangle> spawnTriggers) {
+        this.spawnTriggers = spawnTriggers;
+    }
+
+    public void setSpawns(List<Spawn> spawns) {
+        this.spawns = spawns;
     }
 }

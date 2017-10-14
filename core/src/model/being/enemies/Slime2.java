@@ -10,10 +10,10 @@ import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
 import view.Assets;
 import view.sprites.CustomSprite;
-import view.sprites.MovingSprite;
 
 public class Slime2 extends AbstractEnemy{
 
+    private static final long serialVersionUID = -3298496178944027533L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.slime;
 
     private int splitID = 0;//0 = original smile,1 = second gen..

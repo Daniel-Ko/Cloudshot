@@ -16,6 +16,7 @@ import java.io.Serializable;
  *
  * */
 public class ShooterAttack implements EnemyState, Serializable{
+    private static final long serialVersionUID = -2701395268946815992L;
     private long lastBulletFired;
     private int secondsBetweenShots = 1;
 

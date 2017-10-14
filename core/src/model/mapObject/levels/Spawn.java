@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Spawn implements Serializable{
 
+    private static final long serialVersionUID = 8464898726152861533L;
     private AbstractEnemy.entity_type enemyType;
     private int number;
     private float x,y;//location
