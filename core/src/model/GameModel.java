@@ -429,6 +429,9 @@ public class GameModel implements GameModelInterface {
             newLevel = new LevelTwo();
         else if(levelToLoad.levelNum == 3)
             newLevel = new LevelThree();
+        else if(levelToLoad.levelNum == 4)
+            newLevel = new LevelThree();
+        
     
         newLevel.setCollectables(levelToLoad.getCollectables());
         newLevel.setPortals(levelToLoad.getPortals());

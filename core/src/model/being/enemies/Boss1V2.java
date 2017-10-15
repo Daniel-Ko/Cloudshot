@@ -27,7 +27,7 @@ public class Boss1V2 extends AbstractEnemy{
     private Queue<BulletImpl> bulletsShot = new LinkedList<>();
 
     //For spawning slimes
-    private GameModel game;
+    private transient GameModel game;
     private long lastSlimeSpawned;
     private int secondsBetweenSpawss = 1;
 
