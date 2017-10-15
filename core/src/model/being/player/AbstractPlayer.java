@@ -77,7 +77,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.health = 10;
 		this.damage = 1;
 		this.pos = new Vector2(0,0);
-		this.boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
+		this.boundingBox = new Rectangle(pos.x,pos.y, 1, 1);
 		this.inventory = new ArrayList<>();
 	}
 

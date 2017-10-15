@@ -122,7 +122,7 @@ public class Assets {
         playerWalkHurt = new MovingSprite("player_walk_hurt.png", 3, 3);
         playerIdleHurt = new MovingSprite("player_idle_hurt.png", 2, 2);
 
-        shootingEnemyBulletSprite =  new StaticSprite("bullet.png");
+        shootingEnemyBulletSprite =  new StaticSprite("enemyBullet.png");
         shootingEnemyAttackingRight = new MovingSprite("archer_attack.png",1,10);
         shootingEnemyAttackingLeft = new MovingSprite("archer_attack_left.png",1,10);
         shootingEnemyWalking = new MovingSprite("archer_walk.png",1,10);

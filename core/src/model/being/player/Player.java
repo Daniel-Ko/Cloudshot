@@ -41,7 +41,6 @@ public class Player extends AbstractPlayer {
 		super();
 		damage = 1;
 		health = 150;
-
 		curWeapon = null;
 	}
 
