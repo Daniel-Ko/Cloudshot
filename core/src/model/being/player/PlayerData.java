@@ -252,13 +252,6 @@ public class PlayerData implements Serializable{
         this.bodyLinearVelocity = bodyLinearVelocity;
     }
 
-//    public Shape getShape() {
-//        return shape;
-//    }
-//
-//    public void setShape(Shape shape) {
-//        this.shape = shape;
-//    }
 
     public float getFriction() {
         return friction;

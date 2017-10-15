@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
-import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
 import model.collectable.*;
@@ -28,7 +27,8 @@ import java.util.List;
  * Library for creating levels by loading TMX files into java objects that can easily be tested for collisions.
  */
 public abstract class AbstractLevel implements Serializable{
-    public final int levelNum;
+    public static final float COLLECTABLE_SIZE = 31.4f;
+    public final int LEVEL_NUM;
 
     protected transient TiledMap tiledMap;
     protected transient TiledMapRenderer tiledMapRenderer;
@@ -46,7 +46,7 @@ public abstract class AbstractLevel implements Serializable{
      * Constructs the level by loading the tmx file, and filling the fields with various rectangles to test for collisions/intersections.
      */
     public AbstractLevel(int lev) {
-        levelNum = lev;
+        LEVEL_NUM = lev;
 
         tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
@@ -87,6 +87,7 @@ public abstract class AbstractLevel implements Serializable{
         for (MapObject o : CollectableObjs) {
             RectangleMapObject r = (RectangleMapObject) o;
             AbstractCollectable collectable;
+           
             if (r.getProperties().get("Type") != null) {//Check for specifically named Collectable objects in Collectables layer.
                 String s = r.getProperties().get("Type").toString();
                 if(s.equals("Sniper")){
@@ -300,7 +301,7 @@ public abstract class AbstractLevel implements Serializable{
      * @return level number.
      */
     public int getLevelNumber() {
-        return this.levelNum;
+        return this.LEVEL_NUM;
     }
 
 

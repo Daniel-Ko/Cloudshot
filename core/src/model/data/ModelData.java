@@ -16,9 +16,6 @@ import java.util.List;
 public class ModelData {
     private AbstractPlayer player;
     private List<AbstractEnemy> enemies;
-    private List<AbstractCollectable> collectables;
-    private List<Rectangle> spawnTriggers;
-    private List<Spawn> spawns;
     private PlayerData playerData;
     private AbstractLevel level;
 
@@ -42,17 +39,6 @@ public class ModelData {
         return level;
     }
 
-    public List<AbstractCollectable> loadCollectables() {
-        return collectables;
-    }
-
-    public List<Rectangle> loadSpawnTriggers() {
-        return spawnTriggers;
-    }
-
-    public List<Spawn> loadSpawns() {
-        return spawns;
-    }
 
     //
     //  SETTERS
@@ -68,18 +54,6 @@ public class ModelData {
 
     public void setLevel(AbstractLevel level) {
         this.level = level;
-    }
-
-    public void setCollectables(List<AbstractCollectable> collectables) {
-        this.collectables = collectables;
-    }
-
-    public void setSpawnTriggers(List<Rectangle> spawnTriggers) {
-        this.spawnTriggers = spawnTriggers;
-    }
-
-    public void setSpawns(List<Spawn> spawns) {
-        this.spawns = spawns;
     }
  
     public void setPlayerData(PlayerData playerData) {

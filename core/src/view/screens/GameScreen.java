@@ -372,6 +372,7 @@ public class GameScreen extends ScreenAdapter {
                     ac.getBoundingBox().getWidth(),
                     ac.getBoundingBox().getHeight()
             );
+            //System.out.println(ac.getClass() + " ("+ac.getBoundingBox().getWidth() + ", " + ac.getBoundingBox().getHeight()+")");
         }
     }
 

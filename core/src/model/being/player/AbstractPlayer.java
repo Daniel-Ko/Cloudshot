@@ -24,8 +24,8 @@ import java.util.Optional;
 public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor, java.io.Serializable{
 
 	private static final long serialVersionUID = 1313414442696252302L;
-
-	/**
+    
+    /**
 	 * Used to represent the different states of the player
 	 */
 
@@ -417,6 +417,10 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	public void setAimedAt(Vector2 aimedAt) {
 		this.aimedAt = aimedAt;
+	}
+	
+	public void setLinearVelocity(Vector2 newVel) {
+		this.body.get().setLinearVelocity(newVel);
 	}
 
 	public boolean flip(){
