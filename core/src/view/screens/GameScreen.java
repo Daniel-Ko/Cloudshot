@@ -222,6 +222,7 @@ public class GameScreen extends ScreenAdapter {
 
         // Update and draw the game model.
         Player player = (Player) gameModel.getPlayer();
+        inventoryActor.setPlayer(player); // To check if player was updated
         drawPlayer(player);
         drawBullets(player);
         drawEnemies(gameModel.getEnemies(), player);
@@ -370,7 +371,6 @@ public class GameScreen extends ScreenAdapter {
                     ac.getBoundingBox().getWidth(),
                     ac.getBoundingBox().getHeight()
             );
-            //System.out.println(ac.getClass() + " ("+ac.getBoundingBox().getWidth() + ", " + ac.getBoundingBox().getHeight()+")");
         }
     }
 

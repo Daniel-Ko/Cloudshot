@@ -360,8 +360,9 @@ public class GameModel implements GameModelInterface {
     
     private void loadPlayer(PlayerData pdata) {
         GameScreen.inputMultiplexer.removeProcessor(player); //remove the old player from input-handling
-        
-        this.player = EntityFactory.producePlayer(this,
+    
+    
+        AbstractPlayer newPlayer = EntityFactory.producePlayer(this,
                 new Vector2(
                         //scale player pos back down to the normal world scale
                         pdata.getPos().x * PPM,
@@ -369,55 +370,61 @@ public class GameModel implements GameModelInterface {
                 ));
         
         //reconfirm that player has a new Box2D world (removes existing bodies)
-        player.setWorld(java.util.Optional.of(this.world));
+        newPlayer.setWorld(java.util.Optional.of(this.world));
         
         //set all fields
         if (pdata.isLiving())
-            this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
+            newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
-            this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
+            newPlayer.setPlayerState(AbstractPlayer.player_state.DEAD);
         
-        player.setHealth(pdata.getHealth());
-        player.setDamage(pdata.getDamage());
-        player.setBoundingBox(pdata.getBoundingBox());
+        newPlayer.setHealth(pdata.getHealth());
+        newPlayer.setDamage(pdata.getDamage());
+        newPlayer.setBoundingBox(pdata.getBoundingBox());
         
         //set inventory with "deep clone" gunes
-        player.getInventory().clear();
+        newPlayer.getInventory().clear();
         
-        System.out.println(pdata.getInventory().size());
 
         if(!pdata.getInventory().isEmpty()) {
             for (AbstractWeapon invWep : pdata.getInventory()) {
                 AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon(
                         invWep.type,
-                        new Vector2(invWep.getX(), invWep.getY()
+                        new Vector2(
+                                invWep.getX() * PPM,
+                                invWep.getY()* PPM
                         ));
                 loadedWeapon.setAmmo(invWep.getAmmo());
                 loadedWeapon.setPickedUp(invWep.isPickedUp());
         
-                player.getInventory().add(loadedWeapon);
+                newPlayer.getInventory().add(loadedWeapon);
             }
+            System.out.println(newPlayer);
         }
 
         if(pdata.getCurWeapon() != null) {
             // Now set cur weapon with another cloned weapon
             AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
                             pdata.getCurWeapon()).type,
-                    new Vector2(pdata.getCurWeapon().getX(), pdata.getCurWeapon().getY()
+                    new Vector2(
+                            pdata.getCurWeapon().getX() * PPM,
+                            pdata.getCurWeapon().getY() * PPM
                     ));
             curWep.setAmmo(pdata.getCurWeapon().getAmmo());
             curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
-            player.setCurWeapon(curWep);
+            newPlayer.setCurWeapon(curWep);
         }
         
-        player.setInAir(pdata.isInAir());
-        player.setGrounded(pdata.isGrounded());
+        newPlayer.setInAir(pdata.isInAir());
+        newPlayer.setGrounded(pdata.isGrounded());
         
-        player.setAttacking(pdata.isAttacking());
+        newPlayer.setAttacking(pdata.isAttacking());
         
-        player.setMovingLeft(pdata.isMovingLeft());
-        player.setMovingRight(pdata.isMovingRight());
-        player.setLinearVelocity(pdata.getBodyLinearVelocity()); // This sets physics and movement!
+        newPlayer.setMovingLeft(pdata.isMovingLeft());
+        newPlayer.setMovingRight(pdata.isMovingRight());
+        newPlayer.setLinearVelocity(pdata.getBodyLinearVelocity()); // This sets physics and movement!
+        
+        this.player = newPlayer;
         
         GameScreen.inputMultiplexer.addProcessor(player); //finally, set the input to recognise this new player
     }

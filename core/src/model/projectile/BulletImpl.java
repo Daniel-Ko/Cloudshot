@@ -126,8 +126,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 					e.hit((int)this.getDamage());
 
 					this.setToRemove();
-					System.out.println("enemy health =" +  e.getHealth());
-
 				}
 			}
 		}

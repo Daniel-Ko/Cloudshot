@@ -17,6 +17,10 @@ public class InventoryActor extends Actor {
     public InventoryActor(AbstractPlayer player){
         this.player = player;
     }
+    
+    public void setPlayer(AbstractPlayer player){
+        this.player = player;
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -29,6 +33,7 @@ public class InventoryActor extends Actor {
 
         // Get the inventory from the player.
         List<AbstractWeapon> weapons = player.getInventory();
+        System.out.println(player);
 
         // Iterate all of the weapons owned by the player.
         for(AbstractWeapon weapon : weapons){
