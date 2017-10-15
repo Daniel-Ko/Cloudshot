@@ -16,6 +16,7 @@ import view.sprites.CustomSprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class ShootingEnemy extends AbstractEnemy{
@@ -88,6 +89,12 @@ public class ShootingEnemy extends AbstractEnemy{
 		if(bullets.size() > 10){
 			bullets.poll();//remove the oldest 1st
 		}
+		//Removes bullets that have already impacted the player.
+		List<BulletImpl> toRemove = new ArrayList<>();
+		for(BulletImpl b :bullets)
+			if(b.isToRemove())toRemove.add(b);
+		bullets.removeAll(toRemove);
+
 	}
 
 	private void updateAndCheckFields(){
