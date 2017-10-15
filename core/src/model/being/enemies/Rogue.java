@@ -94,11 +94,6 @@ public class Rogue extends AbstractEnemy {
     }
 
     @Override
-    protected void movement() {
-        throw new Error("Going to Remove, should be called");
-    }
-
-    @Override
     public CustomSprite getImage() {
         if(enemyState instanceof MeleeAttack){
             if(player.getX()<this.getX()){

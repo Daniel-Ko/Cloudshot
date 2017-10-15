@@ -15,11 +15,8 @@ public class Utility {
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
         pixmap.fill();
-
         TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
-
         pixmap.dispose();
-
         return drawable;
     }
 }

@@ -60,10 +60,6 @@ public class BossTwo extends AbstractEnemy{
         return true;
     }
 
-    @Override
-    protected void movement() {
-
-    }
 
     @Override
     public void update() {

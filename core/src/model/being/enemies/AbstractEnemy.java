@@ -22,7 +22,8 @@ import view.sprites.CustomSprite;
 public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface, java.io.Serializable {
 
 	private static final long serialVersionUID = -5230554639550482142L;
-
+	/**Enemy's max health it has used for displaying enemy hp bars etc*/
+	private int MAX_HEALTH = 50;
 	public entity_type type;
 
 	/** Used for collisions and getting X & Y coords */
@@ -63,7 +64,10 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;
 
-
+	/**
+	 * Used in animation, for when to display a hurting anim.
+	 * */
+	protected boolean hurtThisFrame;
 
 	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, entity_type enemyType){
 		this.type = enemyType;
@@ -96,10 +100,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected abstract boolean attack();
 
 	protected abstract void defineBody();
-	/**
-	 * Method used to define this enemy's movement patterns
-	 * */
-	protected abstract void movement();
+
 
 	/**
 	 * Classic spawnEnemies method which should be called each 'frame'/spawnEnemies
@@ -152,6 +153,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public enemy_state getState(){return this.state; }
 	public float getDrawingWidth(){ return  drawingWidth;}
 	public float getDrawingHeight(){return  drawingHeight;}
+	public int getMaxHealth(){return this.MAX_HEALTH;}
 	public void setPlayer(AbstractPlayer p){this.player = p; }
 	@Override
 	public abstract CustomSprite getImage();

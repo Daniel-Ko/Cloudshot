@@ -51,6 +51,8 @@ public class Assets {
      */
     public static CustomSprite slime2AttackLeft;
     public static CustomSprite slime2AttackRight;
+    public static CustomSprite slime2AttackLeftHurt;
+    public static CustomSprite slime2AttackRightHurt;
     public static CustomSprite slime2Dead;
     public static CustomSprite slime2Idle;
     public static CustomSprite slime2WalkRight;
@@ -95,6 +97,9 @@ public class Assets {
     public static Drawable music_on;
     public static Drawable music_off;
 
+    public static Texture full_health;
+    public static Texture no_health;
+
     public static void load(){
         gameSkin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
 
@@ -122,10 +127,11 @@ public class Assets {
 
         slime2AttackLeft =  new MovingSprite("slime_attack.png",1,7);
         slime2AttackRight =  new MovingSprite("slime_attack_right.png",1,7);
-        slime2Dead = new MovingSprite("Skeleton Dead.png",1,1);
         slime2Idle = new MovingSprite("slime_walk.png",1, 9);
         slime2WalkRight = new MovingSprite("slime_walk.png",1, 9);
         slime2WalkLeft = new MovingSprite("slime_walk_left.png",1, 9);
+        slime2AttackLeftHurt = new MovingSprite("slime_attack_left_hurt.png",1,7);
+        slime2AttackRightHurt = new MovingSprite("slime_attack_right_hurt.png",1,7);
 
         bossEnemyBulletSprite = new MovingSprite("fireBullet.png",4,4);
         bossWalk = new MovingSprite("kingSlime_walk.png",1,7);
@@ -163,6 +169,9 @@ public class Assets {
         music_off = new TextureRegionDrawable(
                 new TextureRegion(new Texture(Gdx.files.internal("buttons/music_off.png")))
         );
+
+        full_health = new Texture(Gdx.files.internal("full_health.png"));
+        no_health = new Texture(Gdx.files.internal("no_health.png"));
 
     }
 }

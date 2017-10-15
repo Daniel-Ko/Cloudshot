@@ -1,15 +1,11 @@
 package view.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModel;
 import model.GameModelInterface;
@@ -17,13 +13,13 @@ import model.being.enemies.*;
 import model.being.player.Player;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
-import model.mapObject.levels.LevelOne;
 import model.mapObject.levels.LevelThree;
 import model.projectile.BulletImpl;
-import view.utils.ButtonFactory;
-import view.utils.HealthBar;
+import view.Assets;
+import view.factories.ButtonFactory;
+import view.factories.LabelFactory;
+import view.utils.PlayerHealthBar;
 import view.utils.InventoryActor;
-import view.utils.LabelFactory;
 
 import java.util.List;
 
@@ -70,7 +66,7 @@ public class GameScreen extends ScreenAdapter {
     /**
      * UI elements;
      */
-    private HealthBar healthBar;
+    private PlayerHealthBar healthBar;
     private Button mute;
     private Button pause;
     private Label levelText;
@@ -83,7 +79,7 @@ public class GameScreen extends ScreenAdapter {
         initGameModel();
 
         this.batch = new SpriteBatch();
-        state = State.GAME_RUNNING;
+        this.state = State.GAME_RUNNING;
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -124,7 +120,7 @@ public class GameScreen extends ScreenAdapter {
      * Initialise healthBar which displays the player's health rate.
      */
     private void initialiseHealthBar(){
-        healthBar = new HealthBar(100, 10);
+        healthBar = new PlayerHealthBar(100, 10);
         healthBar.setPosition(10, Gdx.graphics.getHeight() - 20);
         stage.addActor(healthBar);
     }
@@ -210,25 +206,15 @@ public class GameScreen extends ScreenAdapter {
         elapsedTime += delta;
         gameModel.update();
 
-        batch.begin();
-
-        // Update levelText and healthBar.
-        levelText.setText(gameModel.getLevelName());
-        healthBar.setValue(gameModel.getPlayer().getHealth() / 150.0f);
-
-        // Update and draw the game model.
-        Player player = (Player) gameModel.getPlayer();
-        drawPlayer(player);
-        drawBullets(player);
-        drawEnemies(gameModel.getEnemies(), player);
-        drawCollectables(gameModel.getCollectables());
-
-        batch.end();
-        stage.act();
-        stage.draw();
+        renderGame();
     }
 
     private void presentPausedGame() {
+        renderGame();
+
+    }
+
+    private void renderGame(){
         batch.begin();
 
         // Update levelText and healthBar.
@@ -245,6 +231,8 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
         stage.act();
         stage.draw();
+
+
     }
 
     /**
@@ -308,6 +296,22 @@ public class GameScreen extends ScreenAdapter {
      */
     private void drawEnemies(List<AbstractEnemy> enemies, Player player) {
         for (AbstractEnemy ae : enemies) {
+
+            // Draw the enemy health bar.
+            float ratio = (float)ae.getHealth() / (float)ae.getMaxHealth();
+            //TODO: Fix enemies max health
+            batch.draw(Assets.no_health,
+                    ae.getX() - ae.getDrawingWidth() / 2,
+                    ae.getY() + ae.getDrawingHeight(),
+                    0.7f,
+                    0.1f);
+
+            batch.draw(Assets.full_health,
+                    ae.getX() - ae.getDrawingWidth() / 2,
+                    ae.getY() + ae.getDrawingHeight(),
+                    0.7f * ratio,
+                    0.1f);
+
             if (ae.getImage() == null) continue;//TODO this shouldnt be null look into this
             batch.draw(ae.getImage().getFrameFromTime(elapsedTime),
                     ae.getX() - ae.getDrawingWidth() / 2,

@@ -33,6 +33,7 @@ public class Boss1V2 extends AbstractEnemy{
 
     public Boss1V2(World world, AbstractPlayer player, Vector2 pos){
         super(world,player,pos, entity_type.boss1);
+        health = 100;
         this.player = player;
         this.world = world;
         enemyState = new HorizontalMovement(body.getPosition(),3);
@@ -79,10 +80,6 @@ public class Boss1V2 extends AbstractEnemy{
         body.createFixture(fDef);
     }
 
-    @Override
-    protected void movement() {
-
-    }
 
     @Override
     public void update() {

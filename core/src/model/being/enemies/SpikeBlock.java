@@ -72,10 +72,6 @@ public class SpikeBlock extends AbstractEnemy{
         body.createFixture(fDef).setUserData("spikeBlock");
     }
 
-    @Override
-    protected void movement() {
-
-    }
 
     @Override
     public void update() {
