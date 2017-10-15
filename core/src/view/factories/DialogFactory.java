@@ -9,7 +9,7 @@ public class DialogFactory {
     public static CustomDialog saveSuccessfulDialog(){
         return new CustomDialog("Save status") // this is the dialog title
             .text("Save succesful!") // text appearing in the dialog
-            .button("EXIT", new InputListener() { // button to exit app
+            .button("Ok", new InputListener() { // button to exit app
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     return true;
                 }

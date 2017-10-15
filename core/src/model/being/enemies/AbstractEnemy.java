@@ -69,7 +69,6 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	 * */
 	protected boolean hurtThisFrame;
 
-
 	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, entity_type enemyType){
 		this.type = enemyType;
 		this.world = world;

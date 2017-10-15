@@ -17,7 +17,7 @@ public class CustomDialog extends Dialog {
         padTop(60); // set padding on top of the dialog title
         getButtonTable().defaults().height(60); // set buttons height
         setModal(true);
-        setMovable(false);
+        setMovable(true);
         setResizable(false);
     }
 
