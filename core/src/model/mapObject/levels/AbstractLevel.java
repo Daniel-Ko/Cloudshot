@@ -24,11 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Author: Thomas Herdson
  * Library for creating levels by loading TMX files into java objects that can easily be tested for collisions.
  */
 public abstract class AbstractLevel implements Serializable{
     public static final float COLLECTABLE_SIZE = 31.4f;
-    public final int LEVEL_NUM;
+    //public final int LEVEL_NUM;
 
     protected transient TiledMap tiledMap;
     protected transient TiledMapRenderer tiledMapRenderer;
@@ -45,11 +46,26 @@ public abstract class AbstractLevel implements Serializable{
     /**
      * Constructs the level by loading the tmx file, and filling the fields with various rectangles to test for collisions/intersections.
      */
-    public AbstractLevel(int lev) {
-        LEVEL_NUM = lev;
+    public AbstractLevel(/*int lev*/) {
+        //LEVEL_NUM = lev;
 
         tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
+
+        // load information from .tmx file.
+        generateCollidablePolygons();
+        loadCollectables();
+        loadEndPoint();
+        loadSpawnTriggerPoints();
+        loadSpawns();
+        loadHurtyTiles();
+        loadPortals();
+    }
+
+    public AbstractLevel(boolean b) {
+
+
+        tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
 
         // load information from .tmx file.
         generateCollidablePolygons();

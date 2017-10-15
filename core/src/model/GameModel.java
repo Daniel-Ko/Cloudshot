@@ -456,13 +456,13 @@ public class GameModel implements GameModelInterface {
     private void loadLevel(AbstractLevel levelToLoad) {
         AbstractLevel newLevel = null;
         
-        if(levelToLoad.LEVEL_NUM == 1)
+        if(levelToLoad.getLevelNumber() == 1)
             newLevel = new LevelOne();
-        else if(levelToLoad.LEVEL_NUM == 2)
+        else if(levelToLoad.getLevelNumber() == 2)
             newLevel = new LevelTwo();
-        else if(levelToLoad.LEVEL_NUM == 3)
+        else if(levelToLoad.getLevelNumber() == 3)
             newLevel = new LevelThree();
-        else if(levelToLoad.LEVEL_NUM == 4)
+        else if(levelToLoad.getLevelNumber() == 4)
             newLevel = new LevelThree();
         
         
