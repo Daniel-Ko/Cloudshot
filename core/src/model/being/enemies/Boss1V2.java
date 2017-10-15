@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
+import model.GameModelInterface;
 import model.being.EntityFactory;
 import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
@@ -27,7 +28,7 @@ public class Boss1V2 extends AbstractEnemy{
     private Queue<BulletImpl> bulletsShot = new LinkedList<>();
 
     //For spawning slimes
-    private transient GameModel game;
+    private transient GameModelInterface game;
     private long lastSlimeSpawned;
     private int secondsBetweenSpawss = 1;
 
@@ -44,7 +45,7 @@ public class Boss1V2 extends AbstractEnemy{
 
     }
 
-    public void provideGameModel(GameModel gm){
+    public void provideGameModel(GameModelInterface gm){
         game = gm;
     }
 

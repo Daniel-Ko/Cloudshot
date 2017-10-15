@@ -36,4 +36,12 @@ public interface GameModelInterface {
     void setRepoScraper(GameStateTransactionHandler saveLoadHandler);
 
     void setLevel(AbstractLevel level);
+
+    void addEnemy(AbstractEnemy enemy);
+
+    void setupCamera();
+    void setupGame();
+    void loadTerrain();
+    void loadMusic();
+
 }

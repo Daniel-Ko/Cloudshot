@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
+import model.GameModelInterface;
 import model.being.enemystates.*;
 import model.being.player.AbstractPlayer;
 import view.Assets;
@@ -30,7 +31,8 @@ public class Slime2 extends AbstractEnemy{
         detectionRadius = 3;
         attackRadius = 0.5f;
     }
-    public void provideGameModel(GameModel gm){
+
+    public void provideGameModel(GameModelInterface gm){
         game = gm;
     }
 

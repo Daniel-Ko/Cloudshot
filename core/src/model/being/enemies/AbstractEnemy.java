@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import model.GameModel;
+import model.GameModelInterface;
 import model.GameObjectInterface;
 import model.being.EntityInterface;
 import model.being.enemystates.EnemyState;
@@ -56,7 +57,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected transient Body body;
 	protected transient FixtureDef fDef;
 
-	protected transient GameModel game;
+	protected transient GameModelInterface game;
 
 	public EnemyState enemyState;
 
@@ -188,7 +189,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	}
 
 
-	public GameModel getGame() {
+	public GameModelInterface getGame() {
 		return game;
 	}
 

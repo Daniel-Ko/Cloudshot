@@ -26,7 +26,7 @@ public class EntityFactory {
 	 *
 	 * @return returns the enemy which matches enemyType
 	 */
-	public static AbstractEnemy produceEnemy(GameModel game, Vector2 position, AbstractEnemy.entity_type enemyType) {
+	public static AbstractEnemy produceEnemy(GameModelInterface game, Vector2 position, AbstractEnemy.entity_type enemyType) {
 		if (enemyType == AbstractEnemy.entity_type.archer) {
             return new ShootingEnemy(game.getWorld(),game.getPlayer(),position);
 		} else if (enemyType == AbstractEnemy.entity_type.slime) {

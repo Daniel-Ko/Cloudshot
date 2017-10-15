@@ -7,19 +7,19 @@ import model.being.EntityFactory;
 import model.being.player.AbstractPlayer;
 import org.junit.Test;
 
-public class DrawPlayerTopRight extends ViewTest {
+public class DrawPlayerBottomLeft extends ViewTest {
     /**
      * Test that the player can be drawn at the top right of the screen.
      * @throws InterruptedException
      */
     @Test
-    public void testDrawPlayer_TopRight() throws InterruptedException {
+    public void testDrawPlayer_BottomLeft() throws InterruptedException {
         MockGameModel gameModel = new MockGameModel(){
             @Override
             public AbstractPlayer getPlayer() {
                 // Create and draw player the the bottom left of the screen.
                 AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(0,0));
-                player.setPos(new Vector2(19.0f, 10.0f));
+                player.setPos(new Vector2(1, 1));
                 return player;
             }
         };
