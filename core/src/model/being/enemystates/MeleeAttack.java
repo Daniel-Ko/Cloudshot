@@ -25,6 +25,9 @@ public class MeleeAttack implements EnemyState, java.io.Serializable {
     @Override
     public int attack(AbstractEnemy e, AbstractPlayer p) {
         p.hit(e.getDamage());
+        //apply knock back only if on same y
+        if(e.getX()<p.getX() && ((int)e.getY()) == ((int)p.getY()))p.applyKnockBack(AbstractPlayer.knock_back.EAST);
+        if(e.getX()>p.getX() && ((int)e.getY()) == ((int)p.getY()))p.applyKnockBack(AbstractPlayer.knock_back.WEST);
         return (int)e.getDamage();
     }
 

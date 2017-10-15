@@ -31,7 +31,6 @@ public class IdleMovement implements EnemyState, java.io.Serializable{
     @Override
     public void damage(AbstractEnemy e, int damage) {
         e.internalDamage(damage);
-        System.out.println("dam dealt: "+ damage+" cur hp:  "+e.getHealth());
         if(e.getHealth() <= 0){
             e.enemyState = new Death();
         }

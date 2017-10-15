@@ -102,25 +102,10 @@ public class BossOne extends AbstractEnemy{
 
         position.set(body.getPosition());
         boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
-        movement();
+
         attackIfPossible();
     }
 
-    @Override
-    public void movement(){
-        if(position.dst(player.getPos())>attackRadius)state = enemy_state.EIDLE;
-        if(position.dst(player.getPos())<attackRadius){
-            if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE)attack();
-        }
-        //MOVEMENT
-        if(state == enemy_state.EIDLE){
-            idleMovement();
-        }else {
-            foundPlayerMovement();
-        }
-        //if not within attacking range
-        if(position.dst(player.getPos())>attackRadius){ state = enemy_state.EIDLE;}
-    }
 
     private void updateBullets(){
         //updating bullets enemy has fired
