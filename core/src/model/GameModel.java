@@ -383,9 +383,29 @@ public class GameModel implements GameModelInterface {
         player.setHealth(pdata.getHealth());
         player.setDamage(pdata.getDamage());
         player.setBoundingBox(pdata.getBoundingBox());
-
-        player.setInventory(pdata.getInventory());
-        player.setCurWeapon(pdata.getCurWeapon());
+        
+        //set inventory with "deep clone" gunes
+        player.getInventory().clear();
+        
+        for(AbstractWeapon invWep : pdata.getInventory()) {
+            AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon(
+                            invWep.type,
+                            new Vector2(invWep.getX(), invWep.getY()
+                    ));
+            loadedWeapon.setAmmo( invWep.getAmmo());
+            loadedWeapon.setPickedUp(invWep.isPickedUp());
+            
+            player.getInventory().add(loadedWeapon);
+        }
+        
+        // Now set cur weapon with another cloned weapon
+        AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
+                        pdata.getCurWeapon()).type,
+                        new Vector2(pdata.getCurWeapon().getX(), pdata.getCurWeapon().getY()
+                ));
+        curWep.setAmmo(pdata.getCurWeapon().getAmmo());
+        curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
+        player.setCurWeapon(curWep);
 
         player.setInAir(pdata.isInAir());
         player.setAttacking(pdata.isAttacking());
@@ -432,48 +452,45 @@ public class GameModel implements GameModelInterface {
         else if(levelToLoad.levelNum == 4)
             newLevel = new LevelThree();
         
-    
-        newLevel.setCollectables(levelToLoad.getCollectables());
+        
+        loadCollectables(levelToLoad.getCollectables()); //must load each collectable by itself
+        
         newLevel.setPortals(levelToLoad.getPortals());
         newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
         newLevel.setSpawns(levelToLoad.getSpawns());
         
         this.level = newLevel;
     }
-
+    
     private void loadCollectables(List<AbstractCollectable> collectsToLoad) {
         //clear the level's existing collectables
         this.level.getCollectables().clear();
-
+        
         for(AbstractCollectable c : collectsToLoad) {
-
+            
             if(c instanceof AbstractBuff) {
-                    //create new buff and set the loaded properties in
-                    AbstractBuff loadedBuff = CollectableFactory.produceAbstractBuff((
-                        (AbstractBuff) c).type,
+                //create new buff and set the loaded properties in
+                AbstractBuff loadedBuff = CollectableFactory.produceAbstractBuff((
+                                (AbstractBuff) c).type,
                         new Vector2(c.getX(), c.getY()
-                    ));
-                    loadedBuff.setPickedUp(c.isPickedUp());
-
+                        ));
+                loadedBuff.setPickedUp(c.isPickedUp());
+                
                 this.level.getCollectables().add(loadedBuff); //add to level
-
+                
             } else { //else case is if c instanceof AbstractWeapon
-
+                
                 //create new Weapon and set the loaded properties in
                 AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon((
-                                    (AbstractWeapon) c).type,
-                                    new Vector2(c.getX(), c.getY()
-                                    ));
+                                (AbstractWeapon) c).type,
+                        new Vector2(c.getX(), c.getY()
+                        ));
                 loadedWeapon.setAmmo(((AbstractWeapon) c).getAmmo());
                 loadedWeapon.setPickedUp(c.isPickedUp());
-
+                
                 this.level.getCollectables().add(loadedWeapon); //add to level
             }
         }
     }
-
-    private void loadSpawns(List<Rectangle> validatedTriggers, List<Spawn> validatedSpawns) {
-        this.level.setSpawnTriggers(validatedTriggers);
-        this.level.setSpawns(validatedSpawns);
-    }
+    
 }

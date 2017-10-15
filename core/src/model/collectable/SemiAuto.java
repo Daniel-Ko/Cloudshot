@@ -22,6 +22,7 @@ public class SemiAuto extends AbstractWeapon{
     public SemiAuto(Vector2 position, float width, float height) {
         super(position, width, height, weapon_type.semiauto);
         setAmmo(MAX_AMMO);
+        this.setDamage(SemiAuto_DAMAGE);
     }
 
     @Override
