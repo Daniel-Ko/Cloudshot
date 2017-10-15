@@ -15,7 +15,7 @@ public class LevelOne extends AbstractLevel {
 
 
     public LevelOne() {
-        super();
+        super(1);
     }
 
     @Override

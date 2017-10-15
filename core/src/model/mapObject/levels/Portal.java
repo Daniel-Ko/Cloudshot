@@ -4,10 +4,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.io.Serializable;
 
-/**
- * Author: Thomas Herdson
- * Represents a portal that teleports player from start to finish.
- */
 public class Portal implements Serializable{
     private Rectangle entry;
     private Rectangle exit;

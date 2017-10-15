@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="57">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="56">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
@@ -14,7 +14,7 @@
  </imagelayer>
  <layer name="Terrain" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2U1uwjAQBlCzYV/6ty49QeEEvf+laqmyApVrkiGEtH5P+lYGZGVsK4xTAgAAAAAAAAAAAACAZT3eewKceb/3BDijHuuiHuuiHm2bzTyfGUs9UnrOecl5rYw95OxS/b2nNbYLRj3a3nL2qf6cWmP7YHqsR2s//PSRc8g5Thw7BFP7LYgo63xsxuwH+KumnPvw39kPMLAfKLbpuw81Zy+qd9Ge0Wncz8WdruenFO8Z9d4/mqL0UC9ljlqox2Wlh7pU1GNQu08oPdSlor86aN0n9GzsmX3Ne0vtv0brPqFntzizrfm4W5zZ1jxA22fwe7/1srZXzYapd+xrvIP/Ahd8KHs=
+   eJzt2UtuwjAQAFCzYV/awhp6gpYT9P6XqqUqClj5GLuEUL8nzcJIBitjW2EmBAAAAAAAAAAAAAAAWNbroxfAlY9HL4Ar8rEu8rEu8jFts1n29+QjhPcY+xiHi89eYuxC/74zN07nlYZ8DDvGOIX++cyN03ml0WI+hs5D6jPGV4xz5jidVxrp90Gpbp/nxtR5gGeXc+9DK5wH6DkPdLbht1a1dL3qP6upG3WhP1fucj+/hbq6Ucv1o1vk1kv/IhfyMa+2Xiof5YZ6CrX1UvXVcmM9hdbV9rhy3luG/muM9RRad487254vd487254HmPZdOG+slrWtWg239tjX2IP/Ad0TKnQ=
   </data>
  </layer>
  <layer name="Decoration" width="100" height="60">
@@ -36,9 +36,10 @@
   <object id="7" x="1344.43" y="1248.2" width="416.707" height="32.7206"/>
   <object id="9" x="1793.86" y="1183.72" width="95.2748" height="32.7206"/>
   <object id="10" x="1920.89" y="1119.24" width="94.3124" height="31.7583"/>
-  <object id="12" x="2145.89" y="1121.16" width="92.3876" height="92.3876"/>
-  <object id="13" x="2370.11" y="1118.9" width="93.35" height="94.3124"/>
-  <object id="14" x="2592.44" y="1121.16" width="477.516" height="93.35"/>
+  <object id="11" x="2081.61" y="1122.12" width="93.35" height="89.5005"/>
+  <object id="12" x="2209.6" y="1121.16" width="92.3876" height="92.3876"/>
+  <object id="13" x="2337.6" y="1120.2" width="93.35" height="94.3124"/>
+  <object id="14" x="2530.07" y="1121.16" width="539.89" height="93.35"/>
   <object id="15" x="3040.13" y="929.081" width="28.8711" height="204.592"/>
   <object id="16" x="1631.56" y="1887.74" width="671.752" height="28.4641"/>
   <object id="17" x="1634.98" y="1858.14" width="26.187" height="28.4641"/>
@@ -65,16 +66,16 @@
   </object>
  </objectgroup>
  <objectgroup name="End Zone">
-  <object id="53" x="2988.76" y="1021.12" width="51.8617" height="97.6326"/>
+  <object id="53" x="2975.82" y="1021.12" width="64.8004" height="97.6326"/>
  </objectgroup>
  <objectgroup name="SpawnTrigger">
   <object id="38" x="179.436" y="1502.42" width="35.6024" height="190.829"/>
-  <object id="40" x="773.873" y="1548.59" width="35.6024" height="190.829"/>
-  <object id="42" x="1197.8" y="1372" width="61.2361" height="273.427"/>
-  <object id="45" x="1097.4" y="1102" width="78.3252" height="273.427"/>
+  <object id="40" x="1041.73" y="1525.21" width="35.6024" height="190.829"/>
+  <object id="42" x="1372.12" y="1348.62" width="61.2361" height="273.427"/>
+  <object id="45" x="1273.85" y="1050.98" width="78.3252" height="273.427"/>
  </objectgroup>
  <objectgroup name="Spawn Location">
-  <object id="39" x="627.656" y="1656.28">
+  <object id="39" x="551.125" y="1669.04">
    <properties>
     <property name="Number" type="int" value="2"/>
     <property name="Type" value="Slime"/>
@@ -101,10 +102,9 @@
  </objectgroup>
  <objectgroup name="Text"/>
  <objectgroup name="Hurty Tiles">
-  <object id="31" x="2431.8" y="1111.09" width="32.4251" height="11.5057"/>
+  <object id="31" x="2142.67" y="1110.82" width="32.4251" height="11.5057"/>
   <object id="32" x="1984.88" y="1494.63" width="62.0772" height="15.9172"/>
   <object id="33" x="2080.32" y="1879.3" width="64.3259" height="14.7414"/>
   <object id="34" x="1342.66" y="1557.92" width="66.591" height="18.5835"/>
-  <object id="56" x="2144.07" y="1111.27" width="32.4251" height="11.5057"/>
  </objectgroup>
 </map>
