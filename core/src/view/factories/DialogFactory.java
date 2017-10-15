@@ -8,11 +8,21 @@ public class DialogFactory {
 
     public static CustomDialog saveSuccessfulDialog(){
         return new CustomDialog("Save status") // this is the dialog title
-            .text("Save succesful!") // text appearing in the dialog
+            .text("Save successful!") // text appearing in the dialog
             .button("Ok", new InputListener() { // button to exit app
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     return true;
                 }
             });
+    }
+
+    public static CustomDialog saveSaveFailedDialog(){
+        return new CustomDialog("Save status") // this is the dialog title
+                .text("Save failed :(\n") // text appearing in the dialog
+                .button("Ok", new InputListener() { // button to exit app
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        return true;
+                    }
+                });
     }
 }

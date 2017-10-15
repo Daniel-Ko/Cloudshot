@@ -72,8 +72,12 @@ public class ButtonFactory {
         saveButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                gameModel.save();
-                DialogFactory.saveSuccessfulDialog().show(MenuScreen.stage);
+                try {
+                    gameModel.save();
+                    DialogFactory.saveSuccessfulDialog().show(MenuScreen.stage);
+                } catch (GameStateTransactionHandler.InvalidTransactionException e) {
+                    DialogFactory.saveSaveFailedDialog().show(MenuScreen.stage);
+                }
             }
 
             @Override

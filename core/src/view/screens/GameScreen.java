@@ -312,8 +312,6 @@ public class GameScreen extends ScreenAdapter {
                     0.7f * ratio,
                     0.1f);
 
-
-
             if (ae.getImage() == null) continue;//TODO this shouldnt be null look into this
             batch.draw(ae.getImage().getFrameFromTime(elapsedTime),
                     ae.getX() - ae.getDrawingWidth() / 2,
