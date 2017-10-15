@@ -6,7 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.io.Serializable;
 
-
+/**
+ * CustomSprite is an abstract class which handles loading and drawing the sprites for the
+ * different element of the game.
+ * @author Yi Sian Lim
+ */
 public abstract class CustomSprite implements Serializable{
     private static final long serialVersionUID = 8723458913423623379L;
     /**
@@ -20,7 +24,10 @@ public abstract class CustomSprite implements Serializable{
     protected boolean horizontal;
     protected boolean vertical;
 
-    protected String name;
+    /**
+     * File name of the image to load.
+     */
+    private String name;
 
     public CustomSprite(String imageName){
         this.name = imageName;
@@ -35,14 +42,6 @@ public abstract class CustomSprite implements Serializable{
      */
     public void flipHorizontal(){
         this.horizontal = true;
-    }
-
-    /**
-     * Set the vertical flip to true.
-     * The sprite will be drawn such that it is flipped vertically.
-     */
-    public void flipVertical(){
-        this.vertical = true;
     }
 
     /**

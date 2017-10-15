@@ -1,6 +1,7 @@
 package view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -22,6 +23,8 @@ public class Assets {
      */
     public static Skin gameSkin;
 
+    public static Music music;
+
     /**
      * Player sprites.
      */
@@ -30,7 +33,7 @@ public class Assets {
     public static CustomSprite playerJump;
     public static CustomSprite playerWalk;
     public static CustomSprite playerDeath;
-    //moving
+    // Moving sprites.
     public static CustomSprite playerWalkHurt;
     public static CustomSprite playerIdleHurt;
 
@@ -183,6 +186,8 @@ public class Assets {
 
         full_health = new Texture(Gdx.files.internal("full_health.png"));
         no_health = new Texture(Gdx.files.internal("no_health.png"));
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
 
     }
 }
