@@ -27,6 +27,7 @@ public class BossOne extends AbstractEnemy{
 
     //TESTING
     public List<BulletImpl> huh = new ArrayList<>();
+    
     public BossOne(World world, AbstractPlayer player, Vector2 pos){
         super(world,player,pos, AbstractEnemy.entity_type.boss1);
         speed = 6;

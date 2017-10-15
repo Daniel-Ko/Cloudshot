@@ -21,6 +21,7 @@ import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
 import model.mapObject.levels.*;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import view.screens.GameScreen;
 
 import java.util.ArrayList;
@@ -320,23 +321,21 @@ public class GameModel implements GameModelInterface {
         enemiesToAdd.push(enemy);
     }
 
-    public void save() {
+    public void save() throws GameStateTransactionHandler.InvalidTransactionException {
         ModelData data = new ModelData();
         data.setPlayer(this.player);
         data.setEnemies(this.enemies);
-        data.setCollectables(this.getCollectables());
         data.setLevel(this.level);
-        data.setSpawnTriggers(this.level.getSpawnTriggers());
-        data.setSpawns(this.level.getSpawns());
-
+    
         //actually save
-        if (!repoScraper.save(data))
-        {
-            //TODO: msg dialog: save failed
+        try {
+            repoScraper.save(data);
+        }catch(GameStateTransactionHandler.InvalidTransactionException e) {
+            throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
         }
     }
 
-    public void load() {
+    public void load() throws GameStateTransactionHandler.InvalidTransactionException{
         try {
             ModelData loader = repoScraper.load();
             if (loader == null)
@@ -358,7 +357,7 @@ public class GameModel implements GameModelInterface {
             
             
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
-            //TODO: msg dialog: load failed
+            throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
         }
     }
 
