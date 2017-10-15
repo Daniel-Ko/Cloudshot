@@ -21,18 +21,19 @@ import java.util.Queue;
 import java.util.Vector;
 
 public class Boss1V2 extends AbstractEnemy{
-
-
+    private static final long serialVersionUID = 7387484870840919165L;
+    
     //bullet and attacking fields
     private Queue<BulletImpl> bulletsShot = new LinkedList<>();
 
     //For spawning slimes
     private GameModel game;
     private long lastSlimeSpawned;
-    private int secondsBetweenSpawms = 1;
+    private int secondsBetweenSpawss = 1;
 
     public Boss1V2(World world, AbstractPlayer player, Vector2 pos){
         super(world,player,pos, entity_type.boss1);
+        health = 100;
         this.player = player;
         this.world = world;
         enemyState = new HorizontalMovement(body.getPosition(),3);
@@ -79,10 +80,6 @@ public class Boss1V2 extends AbstractEnemy{
         body.createFixture(fDef);
     }
 
-    @Override
-    protected void movement() {
-
-    }
 
     @Override
     public void update() {

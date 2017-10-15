@@ -18,16 +18,12 @@ public class Slime2 extends AbstractEnemy{
 
     private int splitID = 0;//0 = original smile,1 = second gen..
 
-    //DIFFERENT IMAGES FOR DIFFERENT STATES
-    private String walking = "Skeleton Walk.png";
-    private String attacking = "Skeleton Walk.png";
-
     private Vector2 initPos;
 
     public Slime2(World world, AbstractPlayer player, Vector2 pos){
         super(world,player,pos, AbstractEnemy.entity_type.slime);
         initPos = new Vector2(pos.x/ GameModel.PPM,pos.y/ GameModel.PPM);
-        health = 20;
+        health = 50;
 
         damage = 1;
 
@@ -92,28 +88,14 @@ public class Slime2 extends AbstractEnemy{
      * */
     @Override
     public void update() {
+        this.setHurtThisFrame(false);//re updates
+
         if(world != null || body != null) {
             enemyState.update(this, player);
             if (enemyState instanceof Death) {
-                if (splitID < 1) {
-                    //split slime into 2 but half that stats
-                    Slime2 e1 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) - 10, body.getPosition().y * GameModel.PPM));
-                    Slime2 e2 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) + 10, body.getPosition().y * GameModel.PPM));
-                    e1.drawingWidth = drawingWidth / 1.5f;
-                    e1.drawingHeight = drawingHeight / 1.5f;
-                    e2.drawingWidth = drawingWidth / 1.5f;
-                    e2.drawingHeight = drawingHeight / 1.5f;
-                    e1.splitID = splitID + 1;
-                    e2.splitID = splitID + 1;
-                    e1.damage = damage / 2;
-                    e2.damage = damage / 2;
-                    game.addEnemy(e1);
-                    game.addEnemy(e2);
-                }
-                //world.destroyBody(body);
+                splitOnDeath();
             }
             if (enemyState instanceof Death) return;
-
             position.set(body.getPosition());
             boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());
         }
@@ -131,23 +113,43 @@ public class Slime2 extends AbstractEnemy{
         attack();
 
     }
-
-    @Override
-    public void movement(){
-
-
+    /**Method splits slime into more sub slimes if it can when this slime dies*/
+    private void splitOnDeath(){
+        if (splitID < 1) {
+            //split slime into 2 but half that stats
+            Slime2 e1 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) - 10, body.getPosition().y * GameModel.PPM));
+            Slime2 e2 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) + 10, body.getPosition().y * GameModel.PPM));
+            e1.drawingWidth = drawingWidth / 1.5f;
+            e1.drawingHeight = drawingHeight / 1.5f;
+            e2.drawingWidth = drawingWidth / 1.5f;
+            e2.drawingHeight = drawingHeight / 1.5f;
+            e1.splitID = splitID + 1;
+            e2.splitID = splitID + 1;
+            e1.damage = damage / 2;
+            e2.damage = damage / 2;
+            game.addEnemy(e1);
+            game.addEnemy(e2);
+        }
     }
+
 
     @Override
     public CustomSprite getImage() {
+        if(this.hurtThisFrame){
+            System.out.println("hurt");
+        }
         if(state == enemy_state.EDEAD){
             return Assets.slime2Dead;
         }
 
         if(enemyState instanceof MeleeAttack){
             if(getPosition().dst(player.getPos())<0){
+                if(this.hurtThisFrame)
+                    return  Assets.slime2AttackLeftHurt;
                return Assets.slime2AttackLeft;
             }
+            if(this.hurtThisFrame)
+                return  Assets.slime2AttackRightHurt;
             return Assets.slime2AttackRight;
         }
         //IDLE STATE
