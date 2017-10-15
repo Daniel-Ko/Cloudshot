@@ -298,16 +298,20 @@ public class GameScreen extends ScreenAdapter {
         for (AbstractEnemy ae : enemies) {
 
             // Draw the enemy health bar.
+            float ratio = (float)ae.getHealth() / (float)ae.getMaxHealth();
+            //TODO: Fix enemies max health
             batch.draw(Assets.no_health,
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() + ae.getDrawingHeight(),
                     0.7f,
                     0.1f);
-            batch.draw(Assets.no_health,
+
+            batch.draw(Assets.full_health,
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() + ae.getDrawingHeight(),
-                    0.7f * (ae.getHealth() / 20),
+                    0.7f * ratio,
                     0.1f);
+
 
 
             if (ae.getImage() == null) continue;//TODO this shouldnt be null look into this
