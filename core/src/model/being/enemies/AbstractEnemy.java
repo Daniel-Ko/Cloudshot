@@ -23,7 +23,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 
 	private static final long serialVersionUID = -5230554639550482142L;
 	/**Enemy's max health it has used for displaying enemy hp bars etc*/
-	private int MAX_HEALTH = 50;
+	protected int MAX_HEALTH = 50;
 	public entity_type type;
 
 	/** Used for collisions and getting X & Y coords */

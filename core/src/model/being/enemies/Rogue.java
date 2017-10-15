@@ -22,7 +22,8 @@ public class Rogue extends AbstractEnemy {
         super(world,player,pos, AbstractEnemy.entity_type.rogue);
         this.detectionRadius = 4;
         this.attackRadius = 0.4f;
-        this.health = 30;
+        this.MAX_HEALTH  = 150;
+        this.health = 150;
     }
 
     /**

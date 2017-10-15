@@ -32,6 +32,8 @@ public class ShootingEnemy extends AbstractEnemy{
 		movement.setIdleMovementSpeed(0);
 		enemyState = movement;
 		attackRadius = 5;
+		this.MAX_HEALTH = 120;
+		this.health = 120;
 	}
 
 	protected void defineBody(){
