@@ -24,12 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Author: Thomas Herdson
  * Library for creating levels by loading TMX files into java objects that can easily be tested for collisions.
  */
 public abstract class AbstractLevel implements Serializable{
     public static final float COLLECTABLE_SIZE = 31.4f;
-    //public final int LEVEL_NUM;
+    public final int LEVEL_NUM;
 
     protected transient TiledMap tiledMap;
     protected transient TiledMapRenderer tiledMapRenderer;
@@ -46,26 +45,11 @@ public abstract class AbstractLevel implements Serializable{
     /**
      * Constructs the level by loading the tmx file, and filling the fields with various rectangles to test for collisions/intersections.
      */
-    public AbstractLevel(/*int lev*/) {
-        //LEVEL_NUM = lev;
+    public AbstractLevel(int lev) {
+        LEVEL_NUM = lev;
 
         tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
-
-        // load information from .tmx file.
-        generateCollidablePolygons();
-        loadCollectables();
-        loadEndPoint();
-        loadSpawnTriggerPoints();
-        loadSpawns();
-        loadHurtyTiles();
-        loadPortals();
-    }
-
-    public AbstractLevel(boolean b) {
-
-
-        tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
 
         // load information from .tmx file.
         generateCollidablePolygons();
@@ -103,7 +87,7 @@ public abstract class AbstractLevel implements Serializable{
         for (MapObject o : CollectableObjs) {
             RectangleMapObject r = (RectangleMapObject) o;
             AbstractCollectable collectable;
-           
+
             if (r.getProperties().get("Type") != null) {//Check for specifically named Collectable objects in Collectables layer.
                 String s = r.getProperties().get("Type").toString();
                 if(s.equals("Sniper")){
@@ -341,16 +325,16 @@ public abstract class AbstractLevel implements Serializable{
 
     public  Dimension getLevelDimension(){
 
-            MapProperties properties = tiledMap.getProperties();
-            int mapWidth = properties.get("width", Integer.class);
-            int mapHeight = properties.get("height", Integer.class);
-            int tilePixelWidth = properties.get("tilewidth", Integer.class);
-            int tilePixelHeight = properties.get("tileheight", Integer.class);
+        MapProperties properties = tiledMap.getProperties();
+        int mapWidth = properties.get("width", Integer.class);
+        int mapHeight = properties.get("height", Integer.class);
+        int tilePixelWidth = properties.get("tilewidth", Integer.class);
+        int tilePixelHeight = properties.get("tileheight", Integer.class);
 
-            int mapPixelWidth = mapWidth * tilePixelWidth;
-            int mapPixelHeight = mapHeight * tilePixelHeight;
+        int mapPixelWidth = mapWidth * tilePixelWidth;
+        int mapPixelHeight = mapHeight * tilePixelHeight;
 
-            return new Dimension(mapPixelWidth, mapPixelHeight);
+        return new Dimension(mapPixelWidth, mapPixelHeight);
 
     }
 
