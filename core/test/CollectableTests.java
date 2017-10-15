@@ -1,10 +1,13 @@
 import com.badlogic.gdx.math.Vector2;
+import model.being.enemies.Slime2;
 import model.being.player.Player;
 import model.collectable.*;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CollectableTests extends GameTest {
 
@@ -13,9 +16,8 @@ public class CollectableTests extends GameTest {
     }
 
     @Test
-    public void TestHealthPackIncreaseHealth() {
+    public void testHealthPackIncreaseHealth() {
         Player p = new Player();
-
         HealthPack pck = new HealthPack(new Vector2(p.getX(), p.getY()), 10, 10);
         p.setHealth(p.getHealth()- 50);
         int initHealth = p.getHealth();
@@ -24,7 +26,7 @@ public class CollectableTests extends GameTest {
     }
 
     @Test
-    public void TestDeathPackDecreaseHealth() {
+    public void testDeathPackDecreaseHealth() {
         Player p = new Player();
         int initHealth = p.getHealth();
         DeathPack pck = new DeathPack(new Vector2(p.getX(), p.getY()), 10, 10);
@@ -33,101 +35,131 @@ public class CollectableTests extends GameTest {
     }
 
     @Test
-    public void TestPickUpPistol() {
+    public void testPickUpPistol() {
         Player p = new Player();
-        assert p.getInventory().isEmpty();
+        assertTrue(p.getInventory().isEmpty());
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10, 10);
         pistol.pickedUp(p);
-        assert p.getInventory().contains(pistol);
+        assertTrue(p.getInventory().contains(pistol));
     }
 
     @Test
-    public void TestPickUpShotgun() {
+    public void testPickUpShotgun() {
         Player p = new Player();
-        assert p.getInventory().isEmpty();
+        assertTrue(p.getInventory().isEmpty());
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         shotgun.pickedUp(p);
-        assert p.getInventory().contains(shotgun);
+        assertTrue(p.getInventory().contains(shotgun));
     }
     @Test
-    public void TestPickUpSemiAuto() {
+    public void testPickUpSemiAuto() {
         Player p = new Player();
-        assert p.getInventory().isEmpty();
+        assertTrue(p.getInventory().isEmpty());
         SemiAuto semiAuto = new SemiAuto(new Vector2(p.getX(), p.getY()), 10, 10);
         semiAuto.pickedUp(p);
-        assert p.getInventory().contains(semiAuto);
+        semiAuto.shoot(p);
+        assertEquals(semiAuto.getMaxAmmo() -1, semiAuto.getAmmo());
+        assertEquals(p.getCurWeapon(),semiAuto);
+        assertTrue(p.getInventory().contains(semiAuto));
     }
     @Test
-    public void TestPickUpSniper() {
+    public void testPickUpSniper() {
         Player p = new Player();
-        assert p.getInventory().isEmpty();
+        assertTrue(p.getInventory().isEmpty());
         Sniper sniper = new Sniper(new Vector2(p.getX(), p.getY()), 10, 10);
         sniper.pickedUp(p);
-        assert p.getInventory().contains(sniper);
+        assertTrue(p.getInventory().contains(sniper));
     }
 
-
     @Test
-    public void TestDecreaseAmmo() {
+    public void testDecreaseAmmo() {
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         p.setCurWeapon(shotgun);
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
-        assert shotgun.getAmmo() == ammo - 2;
+        assertEquals(shotgun.getAmmo() ,ammo - 2);
     }
 
     @Test
-    public void TestLightAmmoPack() {
+    public void testLightAmmoPack() {
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
+        Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10,10);
+        pistol.pickedUp(p);
+        p.setCurWeapon(pistol);
+        p.shoot();
+        p.shoot();
+        int ammo2 = pistol.getAmmo();
         p.setCurWeapon(shotgun);
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
-        assert shotgun.getAmmo() == ammo - 2;
+        assertEquals(shotgun.getAmmo(), ammo - 2);
         LightAmmoPack pack = new LightAmmoPack(new Vector2(p.getX(), p.getY()), 10, 10);
         pack.pickedUp(p);
-        assert shotgun.getAmmo() == shotgun.getMaxAmmo();
+        //check shotguns ammo has been reset but pistols hasnt.
+        assertEquals(shotgun.getAmmo(), shotgun.getMaxAmmo());
+        assertEquals(ammo2, pistol.getAmmo());
     }
 
     @Test
-    public void TestHeavyAmmoPack() {
+    public void testHeavyAmmoPack() {
+        //Heavy Ammo pack should reset all guns in inventories ammo
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
+        Sniper sniper = new Sniper(new Vector2(p.getX(), p.getY()), 10, 10);
+        sniper.pickedUp(p);
+        p.shoot();
+        p.shoot();
+        int ammoS = sniper.getAmmo();
         //NEED the statement below.
         shotgun.pickedUp(p);
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
-        assert shotgun.getAmmo() == ammo - 2;
+        assertEquals(shotgun.getAmmo(), ammo - 2);
         HeavyAmmoPack pack = new HeavyAmmoPack(new Vector2(p.getX(), p.getY()), 10, 10);
         pack.pickedUp(p);
-        assert shotgun.getAmmo() == shotgun.getMaxAmmo();
+        assertEquals(shotgun.getAmmo(), shotgun.getMaxAmmo());
+        assertEquals( sniper.getAmmo(), sniper.getMaxAmmo());
     }
 
     @Test
-    public void TestPickUp2guns() {
+    public void testPickUp2guns() {
+        //Should be able to pick up different guns.
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         shotgun.pickedUp(p);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10, 10);
         pistol.pickedUp(p);
-        assert p.getInventory().contains(pistol);
-        assert p.getInventory().contains(shotgun);
+        assertTrue(p.getInventory().contains(pistol));
+        assertTrue (p.getInventory().contains(shotgun));
     }
 
 
     @Test
-    public void TestPickUp2SameGuns() {
+    public void testPickUp2SameGuns() {
+        //Shouldnt be able to pick up 2 of the same type
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         shotgun.pickedUp(p);
+        p.shoot();
         Shotgun shotgun2 = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         shotgun2.pickedUp(p);
         assertFalse(p.getInventory().contains(shotgun2));
+        //Ensure that ammo is reloaded if same instance
+        assertEquals(shotgun.getAmmo() , shotgun.getMaxAmmo());
     }
+
+//    @Test
+//    public void testGunsCorrectDamage{
+//        //
+//
+//    }
+
+
 
 
 

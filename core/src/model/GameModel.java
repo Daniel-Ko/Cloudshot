@@ -57,6 +57,10 @@ public class GameModel implements GameModelInterface {
     private List<AbstractEnemy> enemies;
     private Stack<AbstractEnemy> enemiesToAdd;
     private List<AbstractEnemy> enemiesToRemove;
+
+
+
+    private Array<Rectangle> terrain;
     
     /**
      * Keeps track of what level we are currently at.
@@ -140,7 +144,7 @@ public class GameModel implements GameModelInterface {
      * Load the terrain for the map for the model of the game.
      */
     public void loadTerrain() {
-        Array<Rectangle> terrain = level.getTiles();
+        this.terrain = level.getTiles();
         for (Rectangle r : terrain) {
 
             // Load the terrains.
@@ -341,6 +345,14 @@ public class GameModel implements GameModelInterface {
      */
     public void setLevel(AbstractLevel level) {
         this.level = level;
+    }
+
+    public Array<Rectangle> getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Array<Rectangle> terrain) {
+        this.terrain = terrain;
     }
 
     /**

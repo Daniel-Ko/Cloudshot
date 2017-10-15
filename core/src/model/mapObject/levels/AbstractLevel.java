@@ -87,7 +87,7 @@ public abstract class AbstractLevel implements Serializable{
         for (MapObject o : CollectableObjs) {
             RectangleMapObject r = (RectangleMapObject) o;
             AbstractCollectable collectable;
-           
+
             if (r.getProperties().get("Type") != null) {//Check for specifically named Collectable objects in Collectables layer.
                 String s = r.getProperties().get("Type").toString();
                 if(s.equals("Sniper")){
@@ -325,16 +325,16 @@ public abstract class AbstractLevel implements Serializable{
 
     public  Dimension getLevelDimension(){
 
-            MapProperties properties = tiledMap.getProperties();
-            int mapWidth = properties.get("width", Integer.class);
-            int mapHeight = properties.get("height", Integer.class);
-            int tilePixelWidth = properties.get("tilewidth", Integer.class);
-            int tilePixelHeight = properties.get("tileheight", Integer.class);
+        MapProperties properties = tiledMap.getProperties();
+        int mapWidth = properties.get("width", Integer.class);
+        int mapHeight = properties.get("height", Integer.class);
+        int tilePixelWidth = properties.get("tilewidth", Integer.class);
+        int tilePixelHeight = properties.get("tileheight", Integer.class);
 
-            int mapPixelWidth = mapWidth * tilePixelWidth;
-            int mapPixelHeight = mapHeight * tilePixelHeight;
+        int mapPixelWidth = mapWidth * tilePixelWidth;
+        int mapPixelHeight = mapHeight * tilePixelHeight;
 
-            return new Dimension(mapPixelWidth, mapPixelHeight);
+        return new Dimension(mapPixelWidth, mapPixelHeight);
 
     }
 

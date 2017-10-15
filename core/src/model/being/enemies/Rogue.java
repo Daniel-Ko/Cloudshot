@@ -19,24 +19,30 @@ public class Rogue extends AbstractEnemy {
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.rogue;
 
     public Rogue(World world, AbstractPlayer player, Vector2 pos) {
-        super(world,player,pos, AbstractEnemy.entity_type.rogue);
+        super(world, player, pos, AbstractEnemy.entity_type.rogue);
         this.detectionRadius = 4;
         this.attackRadius = 0.4f;
-        this.MAX_HEALTH  = 150;
+        this.MAX_HEALTH = 150;
         this.health = 150;
     }
 
     /**
-     * For Testing
-     * */
-    public Rogue(){
+     * Constructor which was/is used for Testing
+     */
+    public Rogue() {
         super();
     }
 
+    /***
+     * Method checks if the player is within this enemy's attack radius and is still alive
+     * if so this enemy's state changes into meleeAttack which will handle attacking behaviour..
+     *
+     * @return true if this enemy can attack,o.w false.
+     */
     @Override
     protected boolean attack() {
-        if(position.dst(player.getPos())<=attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
-            if(!(enemyState instanceof MeleeAttack)){
+        if (position.dst(player.getPos()) <= attackRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE) {
+            if (!(enemyState instanceof MeleeAttack)) {
                 enemyState = new MeleeAttack();
                 return true;
             }
@@ -53,7 +59,7 @@ public class Rogue extends AbstractEnemy {
 
         //shape def for main fixture
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(0.2f,0.2f);
+        shape.setAsBox(0.2f, 0.2f);
 
         //fixture def
         fDef = new FixtureDef();
@@ -63,48 +69,50 @@ public class Rogue extends AbstractEnemy {
         fDef.filter.groupIndex = -1;
 
         //
-        bodyDef.position.set(position.x / GameModel.PPM,position.y/GameModel.PPM);
+        bodyDef.position.set(position.x / GameModel.PPM, position.y / GameModel.PPM);
         body = world.createBody(bodyDef);
         //adding main fixture
         body.createFixture(fDef).setUserData("Rogue");
     }
 
+    /**
+     * updates this enemy's fields and states based on the players location and this enemy's attack and detection radius.
+     * */
     @Override
     public void update() {
-        //this condition if testing
-        if(world != null || body != null) {
+        if (world != null || body != null) {
             enemyState.update(this, player);
-            enemyState.attack(this,player);
+            enemyState.attack(this, player);
             if (enemyState instanceof Death) return;
             position.set(body.getPosition());
             boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());
         }
-        //UPDATING STATES
-        if(position.dst(player.getPos())<detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE){
-            if(! (enemyState instanceof AggroDash) )
-            enemyState = new AggroDash();
-            ((AggroDash)enemyState).setDashSpeed();
+        //UPDATING STATES.
+        if (position.dst(player.getPos()) < detectionRadius && player.getPlayerState() == AbstractPlayer.player_state.ALIVE) {
+            if (!(enemyState instanceof AggroDash))
+                enemyState = new AggroDash();
+            ((AggroDash) enemyState).setDashSpeed();
         }
-        //
-        if(position.dst(player.getPos())>detectionRadius){
+        if (position.dst(player.getPos()) > detectionRadius) {
             enemyState = new IdleMovement();
             //make stationary
-            ((IdleMovement)enemyState).setIdleMovementSpeed(0f);
+            ((IdleMovement) enemyState).setIdleMovementSpeed(0f);
         }
+        //Check if we can attack.
         attack();
     }
 
     @Override
     public CustomSprite getImage() {
-        if(enemyState instanceof MeleeAttack){
-            if(player.getX()<this.getX()){
+        if (enemyState instanceof MeleeAttack) {
+            if (player.getX() < this.getX()) {
                 return Assets.rogueEnemyAttackLeft;
             }
             return Assets.rogueEnemyAttackRight;
         }
-        if(enemyState instanceof  AggroDash){
+        if (enemyState instanceof AggroDash) {
 
-            if(player.getX()<this.getX()){
+            if (player.getX() < this.getX()) {
                 return Assets.rogueEnemyAttackLeft;
             }
             return Assets.rogueEnemyWalkRight;

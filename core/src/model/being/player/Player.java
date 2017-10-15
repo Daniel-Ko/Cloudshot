@@ -1,5 +1,6 @@
 package model.being.player;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import model.GameModel;
@@ -114,7 +115,7 @@ public class Player extends AbstractPlayer {
 		ArrayList<BulletImpl> toRemove = new ArrayList<>();
 		//updating players bullets
 		for (BulletImpl b : bullets) {
-			b.update(enemies,this);
+			b.update(enemies,this, );
 			if (b.isToRemove()) {
 				toRemove.add(b);
 			}
