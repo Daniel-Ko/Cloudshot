@@ -4,13 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import view.factories.ButtonFactory;
 import view.factories.LabelFactory;
 
+/**
+ * GameOverScreen displays a "Game Over" label as well as a button to restart the game to the user.
+ * @author Yi Sian Lim
+ */
 public class GameOverScreen extends ScreenAdapter {
 
+    /**
+     * Stage of the GameOverScreen.
+     */
     private Stage stage;
 
     public GameOverScreen(){

@@ -16,6 +16,7 @@ import view.sprites.CustomSprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class ShootingEnemy extends AbstractEnemy{
@@ -62,6 +63,9 @@ public class ShootingEnemy extends AbstractEnemy{
 		body.createFixture(fDef).setUserData("mob2");
 	}
 
+	/**
+	 * Updates state & fields & bulletShot.
+	 * */
 	@Override
 	public void update() {
 		updateBullets();
@@ -72,19 +76,27 @@ public class ShootingEnemy extends AbstractEnemy{
 		attack();
 
 	}
-	protected void movement(){
-		//Depre to remove
-	}
 
+	/**
+	 * For all bullets that this enemy has fired update them.
+	 * Clean up the oldest bullets if bullets.size > 10.
+	 * */
 	private void updateBullets(){
 		//updating bullets enemy has fired
 		for(BulletImpl b : bullets)
-			b.update(new ArrayList<AbstractEnemy>(),player);//FIXME
+			b.update(new ArrayList<>(),player);
 		//Cleans up bullets
 		if(bullets.size() > 10){
 			bullets.poll();//remove the oldest 1st
 		}
+		//Removes bullets that have already impacted the player.
+		List<BulletImpl> toRemove = new ArrayList<>();
+		for(BulletImpl b :bullets)
+			if(b.isToRemove())toRemove.add(b);
+		bullets.removeAll(toRemove);
+
 	}
+
 	private void updateAndCheckFields(){
 		position = body.getPosition();
 		boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());

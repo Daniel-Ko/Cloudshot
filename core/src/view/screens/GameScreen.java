@@ -1,13 +1,15 @@
 package view.screens;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import model.GameModel;
 import model.GameModelInterface;
 import model.being.enemies.*;
 import model.being.player.Player;
@@ -18,16 +20,34 @@ import model.projectile.BulletImpl;
 import view.Assets;
 import view.factories.ButtonFactory;
 import view.factories.LabelFactory;
-import view.utils.PlayerHealthBar;
 import view.utils.InventoryActor;
+import view.utils.PlayerHealthBar;
 
 import java.util.List;
 
+/**
+ * GameScreen displays the screen of the game, drawing out the sprites for each component of the game
+ * such as the player, player inventory, collectables in the game, enemies and etc.
+ * @author Yi Sian Lim
+ */
 public class GameScreen extends ScreenAdapter {
 
+    /**
+     * Different states of the game:
+     *      - GAME_PAUSED is when the game is paused on screen.
+     *      - GAME_RUNNING is when the game is still running.
+     *      - GAME_OVER is when the game is over
+     *      - GAME_PAUSED_MENU is when the game is paused by pressing "ESC"
+     *        and goes to the menu screen.
+     */
     public enum State{
         GAME_PAUSED, GAME_RUNNING, GAME_OVER, GAME_PAUSED_MENU
     }
+
+    /**
+     * Current state.
+     */
+    public static State state;
 
     /**
      * Constants.
@@ -35,12 +55,15 @@ public class GameScreen extends ScreenAdapter {
     private static final float PADDING = 10;
     public static final float FRAME_RATE = 0.09f;
 
-    public static State state;
 
     /**
      * inputMultiplexer is the controller which listens for user input.
      */
     public static InputMultiplexer inputMultiplexer;
+
+    /**
+     * To handle the save and load of the current game model.
+     */
     private GameStateTransactionHandler saveLoadHandler;
 
     /**
@@ -75,13 +98,12 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(GameModelInterface gameModel) {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
-
-        if(gameModel instanceof GameModel)
-            initGameModel();
-
         this.batch = new SpriteBatch();
         this.state = State.GAME_RUNNING;
 
+        initGameModel();
+
+        // Set up the controllers (buttons and player)
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         inputMultiplexer.addProcessor(gameModel.getPlayer());
@@ -90,9 +112,11 @@ public class GameScreen extends ScreenAdapter {
         initialiseHealthBar();
         initialiseInventory();
         initialiseButtons();
-
     }
 
+    /**
+     * Initialise the game model by setting up the respective components.
+     */
     private void initGameModel() {
         // Finally, load in the first level.
         gameModel.setLevel(new LevelThree());//TODO change back to lvl 1
@@ -139,7 +163,6 @@ public class GameScreen extends ScreenAdapter {
      * Initialise all the buttons in the GameScreen.
      */
     private void initialiseButtons(){
-
         mute = ButtonFactory.muteButton(
                 Gdx.graphics.getWidth() - PADDING,
                 -30,
@@ -162,13 +185,14 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(gameModel.getCamera().combined);
 
-        // Draw the terrains.
-        gameModel.getTiledMapRenderer().setView(gameModel.getCamera()); // Game map.
+        // Draw the game map.
+        gameModel.getTiledMapRenderer().setView(gameModel.getCamera());
         gameModel.getTiledMapRenderer().render();
         
-        // Check if the esc key is clicked.
+        // Check if the "ESC" key is clicked.
         checkIfNeedToGoBackToMenu();
 
+        // Display to the player based on the state of the game.
         switch(state){
             case GAME_RUNNING:
                 presentRunningGame(delta);
@@ -177,17 +201,12 @@ public class GameScreen extends ScreenAdapter {
                 presentPausedGame();
                 break;
             case GAME_OVER:
-                //TODO: Display game over screen.
+                presentGameOver();
                 break;
             case GAME_PAUSED_MENU:
                 presentMenu();
         }
 
-    }
-
-    private void presentMenu() {
-        MenuScreen.game.setScreen(new MenuScreen(MenuScreen.game, this, gameModel));
-        state = State.GAME_PAUSED;
     }
 
     /**
@@ -200,19 +219,42 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Present the running game. Increases the elapsed time as well as update the game model.
+     * @param delta
+     */
     private void presentRunningGame(float delta){
         // Update the gameModel and elapsed time only if the game is running.
         elapsedTime += delta;
         gameModel.update();
-
         renderGame();
     }
 
+    /**
+     * Displays the game over screen.
+     */
+    public void presentGameOver() {
+        MenuScreen.game.setScreen(new GameOverScreen());
+    }
+
+    /**
+     * Presents the paused game, which pretty much renders the game without updating the model.
+     */
     private void presentPausedGame() {
         renderGame();
-
     }
 
+    /**
+     * Present the menu to the player, which effectively pauses the game as well.
+     */
+    private void presentMenu() {
+        MenuScreen.game.setScreen(new MenuScreen(MenuScreen.game, this, gameModel));
+        state = State.GAME_PAUSED;
+    }
+
+    /**
+     * Logic to render the game lies here.
+     */
     private void renderGame(){
         batch.begin();
 
@@ -228,17 +270,18 @@ public class GameScreen extends ScreenAdapter {
         drawEnemies(gameModel.getEnemies(), player);
         drawCollectables(gameModel.getCollectables());
 
-        batch.end();
         stage.act();
         stage.draw();
+        batch.end();
     }
 
     /**
-     * Draw the player using batch.
+     * Draw the player as well as its equipped weapon (if any) using batch.
      * @param player
      *          Player that we are going to draw.
      */
     private void drawPlayer(Player player){
+        // Draw the player.
         float x = player.getX() - 0.9f;
         float y = player.getY() - 0.6f;
         float width = 1.80f;
@@ -248,9 +291,11 @@ public class GameScreen extends ScreenAdapter {
                 player.flip() ? x + width : x, y,
                 player.flip() ? -width : width, height
         );
+
+        // Draw the current weapon.
         if(player.getCurWeapon() != null){
             if(player.flip()){
-                //should be facing left
+                // Should be facing left.
                 batch.draw(player.getCurWeapon().getImage().getFrameFromTime(elapsedTime),
                         player.flip() ? x + width/2 : x, y+height/2,
                         player.flip() ? -0.5f : 0.5f,0.5f
@@ -273,7 +318,6 @@ public class GameScreen extends ScreenAdapter {
      *
      */
     private void drawBullets(Player player){
-        //drawing player bullets
         for (BulletImpl b : player.getBullets()) {
             batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),
                     b.getX() - 0.25f,
@@ -297,25 +341,29 @@ public class GameScreen extends ScreenAdapter {
 
             // Draw the enemy health bar.
             float ratio = (float)ae.getHealth() / (float)ae.getMaxHealth();
+            // Draw out the no health state first.
             batch.draw(Assets.no_health,
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() + ae.getDrawingHeight(),
                     0.7f,
                     0.1f);
 
+            // Then draw out the full health bar with the width being based off the health.
             batch.draw(Assets.full_health,
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() + ae.getDrawingHeight(),
                     0.7f * ratio,
                     0.1f);
 
-            if (ae.getImage() == null) continue;//TODO this shouldnt be null look into this
+            // Draw the enemy.
             batch.draw(ae.getImage().getFrameFromTime(elapsedTime),
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() - ae.getDrawingHeight() / 4,
                     ae.getDrawingWidth(),
                     ae.getDrawingHeight()
             );
+
+            // Draw the bullets that the enemy shoots.
             if (ae instanceof ShootingEnemy) {
                 ShootingEnemy s = (ShootingEnemy) ae;
                 for (BulletImpl b : s.getBullets())
@@ -342,16 +390,6 @@ public class GameScreen extends ScreenAdapter {
                         s.width,
                         s.height
                 );
-            }
-            if (ae instanceof BossOne) {
-                BossOne s = (BossOne) ae;
-                for (BulletImpl b : s.bullets)
-                    batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),
-                            b.getX() - 0.25f,
-                            b.getY() - 0.25f,
-                            0.5f,
-                            0.5f
-                    );
             }
         }
     }
@@ -382,9 +420,4 @@ public class GameScreen extends ScreenAdapter {
     public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
-
-    public static void displayGameOverScreen() {
-        MenuScreen.game.setScreen(new GameOverScreen());
-    }
-
 }

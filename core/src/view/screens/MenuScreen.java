@@ -11,30 +11,40 @@ import model.GameModelInterface;
 import view.factories.ButtonFactory;
 import view.factories.LabelFactory;
 
+/**
+ * MenuScreen displays the main menu to the user. There are 2 different types of main menu:
+ *  - Menu that we see when we start up the game. The player can only start the game.
+ *  - Menu that we see when we pause the game by clicking "ESC". The player can choose to restart, resume, save or
+ *    load a saved game.
+ * @author Yi Sian Lim
+ */
 public class MenuScreen extends ScreenAdapter {
 
+    /**
+     * Cloudshot game, allows us to change between screens.
+     */
     public static Game game;
+
+    /**
+     * Stage of the MenuScreen.
+     */
     public static Stage stage;
 
     public MenuScreen(Game game){
         MenuScreen.game = game;
         this.stage = new Stage(new ScreenViewport());
 
+        // Add UI elements.
         stage.addActor(LabelFactory.mainMenuLabel());
-
-        TextButton startButton = ButtonFactory.startButton(
+        stage.addActor(ButtonFactory.startButton(
                 Gdx.graphics.getWidth()/2,
                 Gdx.graphics.getHeight()/2
-        );
-
-        stage.addActor(startButton);
+        ));
     }
 
     public MenuScreen(Game game, GameScreen gameScreen, GameModelInterface gameModel){
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
-
-        stage.addActor(LabelFactory.mainMenuLabel());
 
         TextButton restartButton = ButtonFactory.restartButton(
                 Gdx.graphics.getWidth()/2,
@@ -60,6 +70,10 @@ public class MenuScreen extends ScreenAdapter {
                 gameScreen
         );
 
+        // Add label.
+        stage.addActor(LabelFactory.mainMenuLabel());
+
+        // Add the buttons into the stage.
         stage.addActor(resumebutton);
         stage.addActor(restartButton);
         stage.addActor(saveButton);
@@ -68,6 +82,7 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        // Set the button controllers.
         Gdx.input.setInputProcessor(stage);
     }
 

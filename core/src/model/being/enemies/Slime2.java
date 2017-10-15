@@ -17,8 +17,12 @@ public class Slime2 extends AbstractEnemy{
     private static final long serialVersionUID = -3298496178944027533L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.slime;
 
-    private int splitID = 0;//0 = original smile,1 = second gen..
-
+    /**
+     * Used in spawning new smaller slimes on slime death.
+     * 0 = original slime, 1 = second generation slime...
+     * */
+    private int splitID = 0;
+    private int numberOfSplits = 2;
     private Vector2 initPos;
 
     public Slime2(World world, AbstractPlayer player, Vector2 pos){
@@ -36,6 +40,7 @@ public class Slime2 extends AbstractEnemy{
         game = gm;
     }
 
+    /**Used for testing*/
     public Slime2(){
         super();
         initPos = position;
@@ -68,8 +73,8 @@ public class Slime2 extends AbstractEnemy{
     }
 
     /**
-     * DESC
-     * @return true if landed and attack o.w false
+     * Checks if the player is withing attackRadius if so we change the enemyState to MeleeAttack.
+     * @return true if it can attack o.w false
      * */
     @Override
     protected boolean attack() {
@@ -83,10 +88,8 @@ public class Slime2 extends AbstractEnemy{
     }
 
     /**
-     * if the player is within this enemys detection radius then it follows the player
-     * if the player is also in hitting range it damages the player
-     *
-     * finally updates the players position by the velocity
+     * if the player is within this enemys detection radius then it follows the player by changing state.
+     *  Updates the player states.
      * */
     @Override
     public void update() {
@@ -116,7 +119,8 @@ public class Slime2 extends AbstractEnemy{
     }
     /**Method splits slime into more sub slimes if it can when this slime dies*/
     private void splitOnDeath(){
-        if (splitID < 1) {
+        if(game == null)return;
+        if (splitID < numberOfSplits) {
             //split slime into 2 but half that stats
             Slime2 e1 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) - 10, body.getPosition().y * GameModel.PPM));
             Slime2 e2 = new Slime2(world,player, new Vector2((body.getPosition().x * GameModel.PPM) + 10, body.getPosition().y * GameModel.PPM));
@@ -136,9 +140,6 @@ public class Slime2 extends AbstractEnemy{
 
     @Override
     public CustomSprite getImage() {
-        if(this.hurtThisFrame){
-            System.out.println("hurt");
-        }
         if(state == enemy_state.EDEAD){
             return Assets.slime2Dead;
         }
