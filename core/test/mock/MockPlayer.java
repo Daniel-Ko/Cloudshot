@@ -4,17 +4,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
-import model.being.AbstractEnemy;
-import model.being.AbstractPlayer;
-import model.being.EnemyState;
+import model.being.enemies.AbstractEnemy;
+import model.being.enemystates.EnemyState;
+import model.being.player.AbstractPlayer;
 import model.collectable.AbstractWeapon;
-import model.GameModel;
 import model.collectable.Shotgun;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
+import view.sprites.CustomSprite;
+import view.sprites.MovingSprite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,7 @@ public class MockPlayer {
     /**
      * Used to represent the different states of the player
      */
-    public static enum player_state {
+    public enum player_state {
         ALIVE, DEAD
     }
 
@@ -91,16 +88,17 @@ public class MockPlayer {
 
 
 
-    public MockPlayer(Vector2 pos) {
+    public MockPlayer() {
         health = 10;
-        this.pos = pos;
         velocity = new Vector2(0,0);
-        boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
-
+//        boundingBox = new Rectangle(pos.x,pos.y, 8/GameModel.PPM, 8/GameModel.PPM);
+        bullets = new ArrayList<>();
         this.inventory = new ArrayList<AbstractWeapon>();
 
 //        body = new Body();
     }
+
+
 
 
     public void update(List<AbstractEnemy> enemies){
@@ -114,14 +112,12 @@ public class MockPlayer {
         ArrayList<BulletImpl> toRemove = new ArrayList<>();
         //updating players bullets
         for(BulletImpl b: bullets ){
-            b.update(enemies);
+            // b.update(enemies,);
             if (b.isToRemove()) {
                 toRemove.add(b);
             }
         }
-        for(BulletImpl b: toRemove){
-            bullets.remove(b);
-        }
+        bullets.removeAll(toRemove);
 
     }
 
@@ -145,15 +141,8 @@ public class MockPlayer {
     }
 
     public void shoot() {
-//        if(this.getCurWeapon()== null){return;}
-//        //ArrayList<BulletImpl> bul = this.getCurWeapon().shoot(this);
-//        if(bul == null){return;}
-//        for(BulletImpl b: bul){
-//            if(bul != null){
-//                this.bullets.add(b);
-//            }
-//        }
-//        System.out.println("gets here");
+        if(this.getCurWeapon()== null){return;}
+
 
     }
 
@@ -366,12 +355,18 @@ public class MockPlayer {
         this.playerState = playerState;
     }
 
+    public void setPos(Vector2 newPos) {pos = newPos;}
+
     public Vector2 getPos() {
         return pos;
     }
 
     public Vector2 getVelocity() {
         return velocity;
+    }
+
+    public void setBullets(List<BulletImpl> newBullets) {
+        bullets = newBullets;
     }
 
     public Vector2 getAimedAt(){ return aimedAt; }

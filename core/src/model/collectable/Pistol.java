@@ -1,58 +1,70 @@
 package model.collectable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.badlogic.gdx.math.Vector2;
-
-import model.being.Player;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.Assets;
+import view.sprites.CustomSprite;
+
+import java.util.ArrayList;
 
 public class Pistol extends AbstractWeapon{
-	
-	public final int MAX_AMMO = 100;
 
-	protected final float PISTOL_DAMAGE = 5;
+	private static final long serialVersionUID = -5640172337987396467L;
+	//concrete fields for pistol
+	public final int MAX_AMMO = 50;
 
-	private CustomSprite image;
+	protected final float PISTOL_DAMAGE = 8;
 
-	private CustomSprite bulImage;
-
-	
-	
-	
 	public Pistol(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, weapon_type.pistol);
 		this.setDamage(PISTOL_DAMAGE);
-		bulImage = new MovingSprite("bullet.png", 3, 2);
-		this.image = new StaticSprite("pistol.png");
 		this.ammo = MAX_AMMO;
 	}
 
-	@Override
-	public CustomSprite getImage() {
-		return this.image;
-	}
-	
-	public CustomSprite getBulletImage() {
-		return this.bulImage;
-	}
-	
-
+	/**
+	 * Shoots one bullet.
+	 * @param p
+	 * @return bullet to be shot
+     */
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
-		//shoots single pistol bullet.
-		//dont shoot if theres no ammo
-		System.out.println("gets here");
-
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();
 		this.ammo --;
-		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage()));
+		bullets.add(new BulletImpl(p.getPos(), p.getAimedAt(), getDamage(), getBulletImage(), true));
 		return bullets;
+	}
+	/**
+	 * Adds pistol to players inventory if not one there
+	 * @param p
+	 *
+	 */
+	@Override
+	public void pickedUp(AbstractPlayer p) {
+		for (AbstractWeapon w: p.getInventory()) {
+			if(w.getClass().equals(this.getClass())){
+				w.setAmmo(getMaxAmmo());
+				return;
+			}
+		}
+		p.getInventory().add(this);
+		Player player = (Player)p;
+		player.setCurWeapon(this);
+
+	}
+
+
+	//---------------------GETTERS AND SETTERS------------------------
+
+	@Override
+	public CustomSprite getImage() {
+		return Assets.pistol;
+	}
+
+	public CustomSprite getBulletImage() {
+		return Assets.pistolBullet;
 	}
 
 	@Override

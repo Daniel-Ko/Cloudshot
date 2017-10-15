@@ -1,33 +1,34 @@
 package model.collectable;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
-
-import model.GameModel;
-import model.being.Player;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
-import view.MovingSprite;
-import view.StaticSprite;
+import view.Assets;
+import view.sprites.CustomSprite;
+
+import java.util.ArrayList;
 
 public class Shotgun extends AbstractWeapon {
 
-	public static final int MAX_AMMO = 50;
-	private MovingSprite bulImage;
-	private StaticSprite image;
-	
+	public static final int MAX_AMMO = 25;
+	private static final long serialVersionUID = 4480309599284992958L;
+	protected final int SHOTGUN_DAMAGE = 15;
 
 	public Shotgun(Vector2 position, float width, float height) {
-		super(position, width, height);
+		super(position, width, height, weapon_type.shotgun);
 		this.ammo = MAX_AMMO;
-		bulImage = new MovingSprite("bullet.png", 3, 2);
-		image = new StaticSprite("shotgun.png");
+		this.setDamage(SHOTGUN_DAMAGE);
 	}
+
+	/**
+	 * Shoots 3 bullets which spread out.
+	 * @param  p abstract player
+	 * @return list of bullets
+     */
 
 	@Override
 	public ArrayList<BulletImpl> shoot(Player p) {
-		//System.out.println("gets here");
 		if(this.ammo <= 0){return null;}
 		ArrayList<BulletImpl> bullets = new ArrayList<>();		
 		this.ammo --;
@@ -36,24 +37,43 @@ public class Shotgun extends AbstractWeapon {
 		Vector2 aimAbove = new Vector2(aim.x,  (float) (aim.y + 0.5));
 		Vector2 aimBelow =  new Vector2(aim.x, (float) (aim.y - 0.5));
 		
-		bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage()));
-		bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage()));
-		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage()));
-		System.out.println(bullets.size());
+		bullets.add(new BulletImpl(p.getPos(),aim, getDamage(), getBulletImage(), true));
+		bullets.add(new BulletImpl(p.getPos(), aimAbove, getDamage(), getBulletImage(), true));
+		bullets.add(new BulletImpl(p.getPos(), aimBelow, getDamage(), getBulletImage(),true));
 		return bullets;
 		
+	}
+
+	/**
+	 * adds a shotgun to inventory if there isnt one there already.
+	 * @param p
+     */
+	@Override
+	public void pickedUp(AbstractPlayer p) {
+		for (AbstractWeapon w: p.getInventory()) {
+			if(w.getClass().equals(this.getClass())){
+				w.setAmmo(getMaxAmmo());
+				return;
+			}
+		}
+		//adds the weapon to the players inventory.
+
+		p.getInventory().add(this);
+		Player player = (Player)p;
+		player.setCurWeapon(this);
+
 	}
 
 	@Override
 	public CustomSprite getImage() {
 		// TODO Auto-generated method stub
-		return this.image;
+		return Assets.shotgun;
 	}
 
 	
 	public CustomSprite getBulletImage() {
 		// TODO Auto-generated method stub
-		return this.bulImage;
+		return Assets.shotgunBullet;
 	}
 	
 	@Override
@@ -67,7 +87,7 @@ public class Shotgun extends AbstractWeapon {
 	}
 	@Override
 	public int getMaxAmmo() {
-		return this.MAX_AMMO;
+		return MAX_AMMO;
 	}
 
 }

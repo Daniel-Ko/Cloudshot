@@ -1,226 +1,379 @@
 package model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import model.being.*;
-
+import model.being.EntityFactory;
+import model.being.enemies.*;
+import model.being.enemystates.Death;
+import model.being.player.AbstractPlayer;
+import model.being.player.PlayerData;
+import model.collectable.AbstractBuff;
 import model.collectable.AbstractCollectable;
+import model.collectable.AbstractWeapon;
+import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
-import model.data.StateQuery;
-import model.mapObject.levels.AbstractLevel;
-import model.projectile.BulletImpl;
+import model.data.ModelData;
+import model.mapObject.levels.*;
 import view.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-
-public class GameModel {
+public class GameModel implements GameModelInterface {
     
-    AbstractPlayer player;
-    List<AbstractEnemy> enemies;
-
-    Stack<AbstractEnemy> enemiesToAdd;
-    List<AbstractEnemy> enemiesToRemove;
-    AbstractLevel level;
-    private GameStateTransactionHandler repoScraper;
-
-    private float elapsedTime = 0f;
-
-    //Box2D
+    /**
+     * Constants for the game.
+     */
     public static final float PPM = 50;
-    private int GRAVITY = -8;
-    World world;
-    Box2DDebugRenderer debugRenderer;
-    OrthographicCamera cam;
-    //End
-
-    public GameModel(AbstractLevel level, OrthographicCamera cam) {
-        //Box2D
-        this.cam = cam;
-        world = new World(new Vector2(0, GRAVITY), true);
-        debugRenderer = new Box2DDebugRenderer();
-
+    private static final int GRAVITY = -8;
+    private static final int WORLD_HEIGHT = 2000;
+    private static final int WORLD_WIDTH = 3000;
+    public static final int VIEW_WIDTH = 1000;
+    
+    /**
+     * Player of Cloudshot.
+     */
+    private AbstractPlayer player;
+    
+    /**
+     * Manage the enemies in the game.
+     
+     */
+    private List<AbstractEnemy> enemies;
+    private Stack<AbstractEnemy> enemiesToAdd;
+    private List<AbstractEnemy> enemiesToRemove;
+    
+    /**
+     * Keeps track of what level we are currently at.
+     */
+    private AbstractLevel level;
+    
+    /**
+     * Save or load game state happens here.
+     */
+    private GameStateTransactionHandler repoScraper;
+    
+    /**
+     * Game world.
+     */
+    private World world;
+    
+    /**
+     * Box2D handles the physics of the game.
+     */
+    private Box2DDebugRenderer debugRenderer;
+    
+    /**
+     * The camera which would essentially be following the player.
+     */
+    private OrthographicCamera camera;
+    
+    /**
+     * Soundtrack playing during the game.
+     */
+    private Music music;
+    
+    
+    
+    public void setupGame() {
+        this.world = new World(new Vector2(0, GRAVITY), true);
+        this.debugRenderer = new Box2DDebugRenderer();
+        this.enemies = new ArrayList<>();
+        this.enemiesToRemove = new ArrayList<>();
+        this.enemiesToAdd = new Stack<>();
+        this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
+    }
+    
+    public void setRepoScraper(GameStateTransactionHandler repoScraper) {
+        this.repoScraper = repoScraper;
+    }
+    
+    private void reinitGame(AbstractLevel level) {
         enemies = new ArrayList<>();
         enemiesToRemove = new ArrayList<>();
         enemiesToAdd = new Stack<>();
+        
+        world = new World(new Vector2(0, GRAVITY), true);
+        
         this.level = level;
-        player = new Player(this,new Vector2(50,500));
-
+        loadTerrain();
+    }
+    
+    
+    public void setupCamera() {
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        this.camera = new OrthographicCamera(
+                VIEW_WIDTH / GameModel.PPM,
+                ((VIEW_WIDTH * (h / w)) / GameModel.PPM)
+        );
+        this.camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        this.camera.update();
+    }
+    
+    public void loadTerrain() {
         Array<Rectangle> terrain = level.getTiles();
-        for(Rectangle r : terrain){
+        for (Rectangle r : terrain) {
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
-            terrainPiece.position.set(new Vector2((r.x+r.width/2)/PPM,(r.y+r.height/2)/PPM));
-            //enemies.add(new Slime2(this, new Vector2(r.x,r.y)));
+            terrainPiece.position.set(new Vector2((r.x + r.width / 2) / PPM, (r.y + r.height / 2) / PPM));
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
-            groundBox.setAsBox((r.width/2)/GameModel.PPM,(r.height/2)/GameModel.PPM);
-            //userdata to tell us which things are colliding
-            groundBody.createFixture(groundBox,0.0f).setUserData("platform");
+            groundBox.setAsBox((r.width / 2) / GameModel.PPM, (r.height / 2) / GameModel.PPM);
+            
+            // User data to tell us what things are colliding.
+            groundBody.createFixture(groundBox, 0.0f).setUserData("platform");
             groundBox.dispose();
         }
-        //boss
-       // enemies.add(new BossTwo(this,new Vector2(300,500)));
-        //enemies.add(new BossOne(this,new Vector2(300,500)));
-        enemies.add(new Slime2(this,new Vector2(300,500)));
-
-        //enemies.add(new Slime(this,new Vector2(300,500)));
-
-        //ground.
-        //End
-
-
-        //enemies.add(new Slime(20,player, new Vector2(70,500),world));
-        GameScreen.inputMultiplexer.addProcessor(player);
-
-        //generateLevel();
-
-        repoScraper = new GameStateTransactionHandler();
+        enemies.add(EntityFactory.produceEnemy(this,new Vector2(2100,400),AbstractEnemy.entity_type.boss1));
+        
     }
-
-    public void updateState(float elapsedTime){
-        this.elapsedTime = elapsedTime;
+    
+    public void loadMusic() {
+        music = Gdx.audio.newMusic(Gdx.files.internal("soundtrack.mp3"));
+        music.setVolume(0.6f);
+        music.setLooping(true);
+    }
+    
+    @Override
+    public void update() {
         updatePlayerModel();
         updateEnemies();
         updateCollectables();
-        world.step(1/60f,6,2);
+        updateCamera();
+        
+        level.update(player, this);
+        world.step(1 / 30f, 12, 4);
+        debugRenderer.render(world, camera.combined);
+        
+        checkIfGameOver();
+        
     }
-    public void updateEnemies(){
-        //First Clean up all dead enemies
-        for(AbstractEnemy ae:enemiesToRemove)
-            enemies.remove(ae);
-        for(AbstractEnemy ae : enemies){
-            ae.update();
-            //added dead enemies to be removed
-            if(ae.enemyState instanceof Death)enemiesToRemove.add(ae);
+    
+    private void updateCamera() {
+        float effectiveViewportWidth = camera.viewportWidth * camera.zoom;
+        float effectiveViewportHeight = camera.viewportHeight * camera.zoom;
+        
+        camera.position.set(player.getX(), player.getY(), 0);//lock camera to player's position
+        
+        camera.position.x = MathUtils.clamp(camera.position.x,
+                effectiveViewportWidth / 2f,
+                level.getLevelDimension().width/PPM - effectiveViewportWidth/2f
+        );
+        
+        camera.position.y = MathUtils.clamp(camera.position.y,
+                effectiveViewportHeight / 2f,
+                level.getLevelDimension().height/PPM - effectiveViewportHeight / 2f
+        );
+        
+        camera.update();
+    }
+    
+    private void updatePlayerModel() {
+        // Let the player knows about the enemies around it.
+        player.update(enemies);
+        
+        // Attack the enemy if the player is attacking a valid enemy.
+        for (AbstractEnemy e : enemies) {
+            player.attack(e);
         }
-        for(int i = 0;i< enemiesToAdd.size();i++){
+        
+    }
+    
+    public void updateEnemies() {
+        // Clean up all dead enemies.
+        enemies.removeAll(enemiesToRemove);
+        
+        for (AbstractEnemy ae : enemies) {
+            ae.update();
+            
+            if(ae.getPosition().y < -40){// kill enemy if it falls off map.
+                ae.hit(ae.getHealth());
+            }
+            
+            // Dead enemies to be removed.
+            if (ae.enemyState instanceof Death)
+                enemiesToRemove.add(ae);
+        }
+        
+        // Add enemies into the game.
+        for (int i = 0; i < enemiesToAdd.size(); i++) {
             enemies.add(enemiesToAdd.pop());
         }
     }
-
-
+    
+    
     public void updateCollectables() {
-    	AbstractCollectable remove = null;
-        for(AbstractCollectable ac : level.getCollectables()){
-           if(ac.checkCollide(getPlayer()) == true){
-        	   remove = ac;
-        	   break;
-           } 
-        }
-        if(remove != null){level.getCollectables().remove(remove);} 
-	}
-
-    /**
-     * Used to add to enemies at runtime, to avoid concurrentModification
-     * */
-	public void addEnemy(AbstractEnemy enemy){
-        enemiesToAdd.push(enemy);
-    }
-
-    public void draw(SpriteBatch sb){
-	    Player play = (Player) player;
-	    
-        sb.draw(player.getImage().getFrameFromTime(elapsedTime),player.getX()-0.9f,player.getY()-0.6f,1.80f,1.80f);
-        //drawing player bullets
-        for(BulletImpl b : play.getBullets()){
-            sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
-        }
-        for(AbstractEnemy ae : enemies){
-            if(ae.getImage() == null)continue;
-            sb.draw(ae.getImage().getFrameFromTime(elapsedTime),ae.getX()-ae.getDrawingWidth()/2,ae.getY()-ae.getDrawingHeight()/4,ae.getDrawingWidth(),ae.getDrawingHeight());
-            if(ae instanceof ShootingEnemy){
-                ShootingEnemy s = (ShootingEnemy)ae;
-                for(BulletImpl b : s.bullets)
-                    sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
-            }
-            if(ae instanceof BossOne){
-                BossOne s = (BossOne)ae;
-                for(BulletImpl b : s.bullets)
-                    sb.draw(play.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),b.getX()-0.25f,b.getY()-0.25f,0.5f,0.5f);
+        AbstractCollectable remove = null;
+        
+        // Iterate through all of the collectables in the scene.
+        for (AbstractCollectable ac : level.getCollectables()) {
+            // Check if the player have collected it.
+            if (ac.checkCollide(getPlayer())) {
+                remove = ac;
+                ac.setPickedUp(true);
+                break;
             }
         }
-        for(AbstractCollectable ac : level.getCollectables()){
-            sb.draw(ac.getImage().getFrameFromTime(elapsedTime),ac.getX(),ac.getY(),ac.getBoundingBox().getWidth(),ac.getBoundingBox().getHeight());
-        }
-
-        //Box2D
-        debugRenderer.render(world, cam.combined);
-        world.step(1/60f, 6, 2);
-
-    }
-
-    private void updatePlayerModel(){
-        player.update(enemies);
-        for(AbstractEnemy e : enemies){
-            player.attack(e);
+        
+        // Remove the collectable in the game.
+        if (remove != null) {
+            getCollectables().remove(remove);
         }
     }
-
-    public TiledMapRenderer getTiledMapRenderer() {
-        return level.getTiledMapRenderer();
-    }
-
-
+    
+    @Override
     public AbstractPlayer getPlayer() {
         return player;
     }
-
+    
+    @Override
     public List<AbstractEnemy> getEnemies() {
         return enemies;
     }
-
+    
+    @Override
     public List<AbstractCollectable> getCollectables() {
         return level.getCollectables();
     }
-
-    public OrthographicCamera getCamera(){ return cam;}
-
-    public World getWorld(){ return this.world; }
-
-    public void save() {
-        if(!repoScraper.save(this)) {
-            //TODO: msg dialog: save failed
-        }
+    
+    
+    @Override
+    public OrthographicCamera getCamera() {
+        return camera;
     }
-
-    public void load() {
-        try {
-            StateQuery loader = repoScraper.load();
-
-            //beautiful waterfall design of method calls into assignments
-            PlayerData loadedPlayerData = loader.loadPlayerData();
-            List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
-            List<AbstractCollectable> loadedCollectables = loader.loadCollectables();
-            
-            
-            loadPlayer(loadedPlayerData);
-            this.enemies = loadedEnemies;
-            //this.
-
-            //TODO: Jerem + jake, you can replace your data with my loaded data
-        } catch (GameStateTransactionHandler.InvalidTransactionException e) {
-            //TODO: msg dialog: load failed
-        }
+    
+    @Override
+    public TiledMapRenderer getTiledMapRenderer() {
+        return level.getTiledMapRenderer();
     }
-
+    
+    @Override
+    public World getWorld() {
+        return this.world;
+    }
+    
     public AbstractLevel getLevel() {
         return level;
     }
     
-    private void loadPlayer(PlayerData pdata) {
-        AbstractPlayer newPlayer = new Player(this, pdata.getPos());
+    @Override
+    public String getLevelName() {
+        return level.getLevelName();
+    }
+    
+    /**
+     * Mutes or plays the soundtrack in the background.
+     */
+    public void setMuted() {
+        if (music.isPlaying()) {
+            music.pause();
+        } else {
+            music.play();
+        }
+    }
+    
+    /**
+     * Return true if the music is playing. False otherwise.
+     *
+     * @return true if music is playing.
+     */
+    public boolean musicIsPlaying() {
+        return music.isPlaying();
+    }
+    
+    public void setLevel(AbstractLevel leve) {
+        this.level = leve;
+    }
+    
+    public void setNewLevel(AbstractLevel level) {
+        // Reload all the fields.
+        reinitGame(level);
+        loadPlayer(new PlayerData(player)); //load PERSISTENT player data over levels!
+        player.setPos(new Vector2(5, 5)); //set to the expected start of the level
+    }
+    
+    private void checkIfGameOver() {
+        //TODO: Change this once the game over condition is more or less confirmed.
+        if (player.getHealth() <= 0) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            GameScreen.displayGameOverScreen();
+            music.dispose();
+        }
+    }
+    
+    /**
+     * Used to add to enemies at runtime, to avoid concurrentModification
+     */
+    public void addEnemy(AbstractEnemy enemy) {
+        enemiesToAdd.push(enemy);
+    }
+    
+    public void save() throws GameStateTransactionHandler.InvalidTransactionException {
+        ModelData data = new ModelData();
+        data.setPlayer(this.player);
+        data.setEnemies(this.enemies);
+        data.setLevel(this.level);
         
-        if(pdata.isLiving())
+        //actually save
+        try {
+            repoScraper.save(data);
+        }catch(GameStateTransactionHandler.InvalidTransactionException e) {
+            throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
+        }
+    }
+    
+    public void load() throws GameStateTransactionHandler.InvalidTransactionException{
+        try {
+            ModelData loader = repoScraper.load();
+            if (loader == null)
+                return; //todo say nothing to load?
+            
+            //beautiful waterfall design of method calls into assignments
+            PlayerData loadedPlayerData = loader.loadPlayerData();
+            List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
+            
+            reinitGame(this.level);
+            
+            loadPlayer(loadedPlayerData);
+            loadEnemies(loadedEnemies);
+            loadLevel(loader.loadLevel());
+            loadTerrain(); //reset terrain physics for this level
+            
+            
+        } catch (GameStateTransactionHandler.InvalidTransactionException e) {
+            throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
+        }
+    }
+    
+    private void loadPlayer(PlayerData pdata) {
+        GameScreen.inputMultiplexer.removeProcessor(player); //remove the old player from input-handling
+    
+    
+        AbstractPlayer newPlayer = EntityFactory.producePlayer(this,
+                new Vector2(
+                        //scale player pos back down to the normal world scale
+                        pdata.getPos().x * PPM,
+                        pdata.getPos().y * PPM
+                ));
+        
+        //reconfirm that player has a new Box2D world (removes existing bodies)
+        newPlayer.setWorld(java.util.Optional.of(this.world));
+        
+        //set all fields
+        if (pdata.isLiving())
             newPlayer.setPlayerState(AbstractPlayer.player_state.ALIVE);
         else
             newPlayer.setPlayerState(AbstractPlayer.player_state.DEAD);
@@ -229,17 +382,136 @@ public class GameModel {
         newPlayer.setDamage(pdata.getDamage());
         newPlayer.setBoundingBox(pdata.getBoundingBox());
         
-        //TODO set inventory  newPlayer.setInventory(pdata.getInventory());
-    
+        //set inventory with "deep clone" gunes
+        newPlayer.getInventory().clear();
+        
+
+        if(!pdata.getInventory().isEmpty()) {
+            for (AbstractWeapon invWep : pdata.getInventory()) {
+                AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon(
+                        invWep.type,
+                        new Vector2(
+                                invWep.getX() * PPM,
+                                invWep.getY()* PPM
+                        ));
+                loadedWeapon.setAmmo(invWep.getAmmo());
+                loadedWeapon.setPickedUp(invWep.isPickedUp());
+        
+                newPlayer.getInventory().add(loadedWeapon);
+            }
+            System.out.println(newPlayer);
+        }
+
+        if(pdata.getCurWeapon() != null) {
+            // Now set cur weapon with another cloned weapon
+            AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
+                            pdata.getCurWeapon()).type,
+                    new Vector2(
+                            pdata.getCurWeapon().getX() * PPM,
+                            pdata.getCurWeapon().getY() * PPM
+                    ));
+            curWep.setAmmo(pdata.getCurWeapon().getAmmo());
+            curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
+            newPlayer.setCurWeapon(curWep);
+        }
+        
         newPlayer.setInAir(pdata.isInAir());
-        newPlayer.setAttacking(pdata.isAttacking());
         newPlayer.setGrounded(pdata.isGrounded());
+        
+        newPlayer.setAttacking(pdata.isAttacking());
+        
         newPlayer.setMovingLeft(pdata.isMovingLeft());
         newPlayer.setMovingRight(pdata.isMovingRight());
-
-        //TODO REPLACE BODY newPlayer.getBody().setTransform();
-        //TODO REPLACE FIXTURE
+        newPlayer.setLinearVelocity(pdata.getBodyLinearVelocity()); // This sets physics and movement!
         
         this.player = newPlayer;
+        
+        GameScreen.inputMultiplexer.addProcessor(player); //finally, set the input to recognise this new player
     }
+    
+    private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
+        this.enemies.clear();
+        enemies.addAll(enemiesToRemove);
+        for (AbstractEnemy e : enemiesToLoad) {
+            AbstractEnemy newEnemy = EntityFactory.produceEnemy(this,
+                    new Vector2(
+                            e.getPosition().x * PPM,
+                            e.getPosition().y * PPM
+                    ),
+                    e.type);
+            
+            newEnemy.setSpeed(e.getSpeed());
+            newEnemy.setDamage(e.getDamage());
+            newEnemy.setHealth(e.getHealth());
+            newEnemy.setEnemyState(e.enemyState);
+            
+            newEnemy.setDrawingWidth(e.getDrawingWidth());
+            newEnemy.setDrawingHeight(e.getDrawingHeight());
+            
+            //enemies.add(newEnemy);
+            enemiesToAdd.push(newEnemy);
+        }
+    }
+    
+    private void loadLevel(AbstractLevel levelToLoad) {
+        AbstractLevel newLevel = null;
+        
+        if(levelToLoad.LEVEL_NUM == 1)
+            newLevel = new LevelOne();
+        else if(levelToLoad.LEVEL_NUM == 2)
+            newLevel = new LevelTwo();
+        else if(levelToLoad.LEVEL_NUM == 3)
+            newLevel = new LevelThree();
+        else if(levelToLoad.LEVEL_NUM == 4)
+            newLevel = new LevelThree();
+        
+        
+        loadCollectables(newLevel, levelToLoad.getCollectables()); //must load each collectable by itself
+        
+        newLevel.setPortals(levelToLoad.getPortals());
+        newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
+        newLevel.setSpawns(levelToLoad.getSpawns());
+        
+        this.level = newLevel;
+    }
+    
+    private void loadCollectables(AbstractLevel newLevel, List<AbstractCollectable> collectsToLoad) {
+        //clear the level's existing collectables
+        newLevel.getCollectables().clear();
+        
+        for(AbstractCollectable c : collectsToLoad) {
+            
+            if(!c.isPickedUp()) { //check if this buff isn't supposed to be loaded in
+                
+                Vector2 pos = new Vector2(
+                        c.getX()* PPM,
+                        c.getY()* PPM
+                );
+                
+                if (c instanceof AbstractBuff) {
+                    //create new buff and set the loaded properties in
+                    AbstractBuff loadedBuff = CollectableFactory.produceAbstractBuff((
+                                    (AbstractBuff) c).type,
+                                    pos);
+                    loadedBuff.setPickedUp(c.isPickedUp());
+    
+                    newLevel.getCollectables().add(loadedBuff); //add to level
+        
+                } else { //else case is if c instanceof AbstractWeapon
+        
+                    //create new Weapon and set the loaded properties in
+                    AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon((
+                                    (AbstractWeapon) c).type,
+                                    pos);
+
+                    
+                    loadedWeapon.setAmmo(((AbstractWeapon) c).getAmmo());
+                    loadedWeapon.setPickedUp(c.isPickedUp());
+    
+                    newLevel.getCollectables().add(loadedWeapon); //add to level
+                }
+            }
+        }
+    }
+    
 }

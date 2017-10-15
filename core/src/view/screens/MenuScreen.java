@@ -4,34 +4,65 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import view.CloudShotGame;
+import model.GameModelInterface;
+import view.factories.ButtonFactory;
+import view.factories.LabelFactory;
 
 public class MenuScreen extends ScreenAdapter {
 
-    private Game game;
-    private Stage stage;
+    public static Game game;
+    public static Stage stage;
 
     public MenuScreen(Game game){
+        MenuScreen.game = game;
+        this.stage = new Stage(new ScreenViewport());
+
+        stage.addActor(LabelFactory.mainMenuLabel());
+
+        TextButton startButton = ButtonFactory.startButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2
+        );
+
+        stage.addActor(startButton);
+    }
+
+    public MenuScreen(Game game, GameScreen gameScreen, GameModelInterface gameModel){
         this.game = game;
         this.stage = new Stage(new ScreenViewport());
 
-        Label title = new Label("Main Menu", CloudShotGame.gameSkin, "title");
-        title.setAlignment(Align.center);
-        title.setY(Gdx.graphics.getHeight()*2/3);
-        title.setWidth(Gdx.graphics.getWidth());
-        title.setFontScale(1);
-        stage.addActor(title);
+        stage.addActor(LabelFactory.mainMenuLabel());
 
-        TextButton startButton = createStartButton();
-        TextButton loadButton = createLoadButton();
-        stage.addActor(startButton);
+        TextButton restartButton = ButtonFactory.restartButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2
+        );
+
+        TextButton resumebutton = ButtonFactory.resumeGameButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2,
+                gameScreen
+        );
+
+        TextButton saveButton = ButtonFactory.saveButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2,
+                gameModel
+        );
+
+        TextButton loadButton = ButtonFactory.loadButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2,
+                gameModel,
+                gameScreen
+        );
+
+        stage.addActor(resumebutton);
+        stage.addActor(restartButton);
+        stage.addActor(saveButton);
         stage.addActor(loadButton);
     }
 
@@ -53,46 +84,4 @@ public class MenuScreen extends ScreenAdapter {
         stage.dispose();
     }
 
-    private TextButton createStartButton(){
-        TextButton startButton = new TextButton("Start", CloudShotGame.gameSkin);
-        startButton.setWidth(Gdx.graphics.getWidth()/2);
-        startButton.setPosition(
-                Gdx.graphics.getWidth()/2 - startButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2 - startButton.getHeight()/2
-        );
-        startButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return startButton;
-    }
-
-    private TextButton createLoadButton() {
-        TextButton loadButton = new TextButton("Load", CloudShotGame.gameSkin);
-        loadButton.setWidth(Gdx.graphics.getWidth()/2);
-        loadButton.setPosition(
-                Gdx.graphics.getWidth()/2 - loadButton.getWidth()/2,
-                Gdx.graphics.getHeight()/2 - loadButton.getHeight()*2
-        );
-        loadButton.addListener(new InputListener(){
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // Load game here.
-                System.out.println("LOAD GAME");
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-        });
-        return loadButton;
-    }
 }
