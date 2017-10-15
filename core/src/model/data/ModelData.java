@@ -14,13 +14,13 @@ import java.util.List;
  * Created by kodani on 13/10/17.
  */
 public class ModelData {
-    private AbstractPlayer player;
-    private List<AbstractEnemy> enemies;
-    private List<AbstractCollectable> collectables;
-    private List<Rectangle> spawnTriggers;
-    private List<Spawn> spawns;
-    private PlayerData playerData;
-    private AbstractLevel level;
+    protected AbstractPlayer player;
+    protected List<AbstractEnemy> enemies;
+    protected List<AbstractCollectable> collectables;
+    protected List<Rectangle> spawnTriggers;
+    protected List<Spawn> spawns;
+    protected PlayerData pData;
+    protected AbstractLevel level;
 
     //
     //  GETTERS
@@ -31,7 +31,7 @@ public class ModelData {
     }
     
     public PlayerData loadPlayerData() {
-        return playerData;
+        return pData;
     }
 
     public List<AbstractEnemy> loadEnemies() {
@@ -83,7 +83,7 @@ public class ModelData {
     }
  
     public void setPlayerData(PlayerData playerData) {
-        this.playerData = playerData;
+        this.pData = playerData;
     }
 
 

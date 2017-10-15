@@ -3,6 +3,7 @@ package model.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import model.GameModel;
 import model.GameObjectInterface;
 import model.being.enemies.AbstractEnemy;
 import model.being.player.AbstractPlayer;
@@ -57,28 +58,30 @@ public class GameStateTransactionHandler {
      *
      * @return
      */
-    public ModelData load() throws InvalidTransactionException {
+    public ModelLoader load(GameModel model) throws InvalidTransactionException {
         GameState latest = repository.pullSoft();
         if (latest == null)
-            return null;
+            throw new InvalidTransactionException("No Saved Games to Load!");
 
         if (!latest.containsPlayer() || !latest.containsEnemies()) {
             repository.pullHard(); //cleanse the repo of the bad state
-            throw new InvalidTransactionException("Corrupted state");
+            throw new InvalidTransactionException("Corrupted Save");
         }
 
         try {
 
             //if all data is valid, remove it from stack finally
-            ModelData loadedData = new ModelData();
+            ModelLoader loadedData = new ModelLoader(model);
             loadedData.setPlayerData(validateAndReturnPlayerData(latest));
             loadedData.setEnemies(validateAndReturnEnemies(latest));
             loadedData.setLevel(validateAndReturnLevel(latest));
+            
+            loadedData.load();
 
             //unit of work complete, we now commit the change permanently
             repository.pullHard();
-
-            return loadedData; //give the model a loader object to directly call validated data
+            
+            return loadedData;
 
         } catch (InvalidTransactionException e) {
             repository.pullHard(); //remove corrupted data

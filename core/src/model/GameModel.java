@@ -20,6 +20,7 @@ import model.collectable.AbstractWeapon;
 import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
+import model.data.ModelLoader;
 import model.mapObject.levels.*;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 import view.screens.GameScreen;
@@ -297,7 +298,7 @@ public class GameModel implements GameModelInterface {
     public void setNewLevel(AbstractLevel level) {
         // Reload all the fields.
         reinitGame(level);
-        loadPlayer(new PlayerData(player)); //load PERSISTENT player data over levels!
+        loadPlayer(this.player); //load PERSISTENT player data over levels!
         player.setPos(new Vector2(5, 5)); //set to the expected start of the level
     }
 
@@ -320,7 +321,11 @@ public class GameModel implements GameModelInterface {
     public void addEnemy(AbstractEnemy enemy) {
         enemiesToAdd.push(enemy);
     }
-
+    
+    /** Opens a save query in the TransactionHandler and creates a ModelData object that contains
+     * the data needed to be saved.
+     * @throws GameStateTransactionHandler.InvalidTransactionException if save data was corrupted
+     */
     public void save() throws GameStateTransactionHandler.InvalidTransactionException {
         ModelData data = new ModelData();
         data.setPlayer(this.player);
@@ -337,112 +342,38 @@ public class GameModel implements GameModelInterface {
 
     public void load() throws GameStateTransactionHandler.InvalidTransactionException{
         try {
-            ModelData loader = repoScraper.load();
-            if (loader == null)
-                return; //todo say nothing to load?
-
-            //beautiful waterfall design of method calls into assignments
-            PlayerData loadedPlayerData = loader.loadPlayerData();
-            List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
-            List<AbstractCollectable> loadedCollectables = loader.loadCollectables();
-            List<Rectangle> validatedTriggers = loader.loadSpawnTriggers();
-            List<Spawn> validatedSpawns = loader.loadSpawns();
-
+            ModelLoader loader = repoScraper.load(this);
+    
             reinitGame(this.level);
-            
-            loadPlayer(loadedPlayerData);
-            loadEnemies(loadedEnemies);
+    
+            loadPlayer(loader.loadPlayer());
+            loadEnemies(loader.loadEnemies());
             loadLevel(loader.loadLevel());
             loadTerrain(); //reset terrain physics for this level
-            
             
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
         }
     }
 
-    private void loadPlayer(PlayerData pdata) {
+    private void loadPlayer(AbstractPlayer playerToLoad) {
+        PlayerData pdata = new PlayerData(playerToLoad);
         GameScreen.inputMultiplexer.removeProcessor(player); //remove the old player from input-handling
-
-        this.player = EntityFactory.producePlayer(this,
-                new Vector2(
-                        //scale player pos back down to the normal world scale
-                        pdata.getPos().x * PPM,
-                        pdata.getPos().y * PPM
-                ));
-
-        //reconfirm that player has a new Box2D world (removes existing bodies)
-        player.setWorld(java.util.Optional.of(this.world));
-
-        //set all fields
-        if (pdata.isLiving())
-            this.player.setPlayerState(AbstractPlayer.player_state.ALIVE);
-        else
-            this.player.setPlayerState(AbstractPlayer.player_state.DEAD);
-
-        player.setHealth(pdata.getHealth());
-        player.setDamage(pdata.getDamage());
-        player.setBoundingBox(pdata.getBoundingBox());
-        
-        //set inventory with "deep clone" gunes
-        player.getInventory().clear();
-        
-        for(AbstractWeapon invWep : pdata.getInventory()) {
-            AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon(
-                            invWep.type,
-                            new Vector2(invWep.getX(), invWep.getY()
-                    ));
-            loadedWeapon.setAmmo( invWep.getAmmo());
-            loadedWeapon.setPickedUp(invWep.isPickedUp());
-            
-            player.getInventory().add(loadedWeapon);
-        }
-        
-        // Now set cur weapon with another cloned weapon
-        AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
-                        pdata.getCurWeapon()).type,
-                        new Vector2(pdata.getCurWeapon().getX(), pdata.getCurWeapon().getY()
-                ));
-        curWep.setAmmo(pdata.getCurWeapon().getAmmo());
-        curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
-        player.setCurWeapon(curWep);
-
-        player.setInAir(pdata.isInAir());
-        player.setAttacking(pdata.isAttacking());
-        player.setGrounded(pdata.isGrounded());
-        player.setMovingLeft(pdata.isMovingLeft());
-        player.setMovingRight(pdata.isMovingRight());
-
+    
+        this.player = playerToLoad;
         GameScreen.inputMultiplexer.addProcessor(player); //finally, set the input to recognise this new player
     }
 
     private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
         this.enemies.clear();
         enemies.addAll(enemiesToRemove);
-        for (AbstractEnemy e : enemiesToLoad) {
-            AbstractEnemy newEnemy = EntityFactory.produceEnemy(this,
-                    new Vector2(
-                            e.getPosition().x * PPM,
-                            e.getPosition().y * PPM
-                    ),
-                    e.type);
-
-            newEnemy.setSpeed(e.getSpeed());
-            newEnemy.setDamage(e.getDamage());
-            newEnemy.setHealth(e.getHealth());
-            newEnemy.setEnemyState(e.enemyState);
-
-            newEnemy.setDrawingWidth(e.getDrawingWidth());
-            newEnemy.setDrawingHeight(e.getDrawingHeight());
-
-            //enemies.add(newEnemy);
-            enemiesToAdd.push(newEnemy);
-        }
+        
+        enemiesToAdd.addAll(enemiesToLoad);
     }
 
     private void loadLevel(AbstractLevel levelToLoad) {
         AbstractLevel newLevel = null;
-
+    
         if(levelToLoad.levelNum == 1)
             newLevel = new LevelOne();
         else if(levelToLoad.levelNum == 2)
@@ -451,14 +382,14 @@ public class GameModel implements GameModelInterface {
             newLevel = new LevelThree();
         else if(levelToLoad.levelNum == 4)
             newLevel = new LevelThree();
-        
-        
+    
+    
         loadCollectables(levelToLoad.getCollectables()); //must load each collectable by itself
-        
+    
         newLevel.setPortals(levelToLoad.getPortals());
         newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
         newLevel.setSpawns(levelToLoad.getSpawns());
-        
+    
         this.level = newLevel;
     }
     
@@ -475,7 +406,7 @@ public class GameModel implements GameModelInterface {
                         new Vector2(c.getX(), c.getY()
                         ));
                 loadedBuff.setPickedUp(c.isPickedUp());
-                
+    
                 this.level.getCollectables().add(loadedBuff); //add to level
                 
             } else { //else case is if c instanceof AbstractWeapon
@@ -487,10 +418,9 @@ public class GameModel implements GameModelInterface {
                         ));
                 loadedWeapon.setAmmo(((AbstractWeapon) c).getAmmo());
                 loadedWeapon.setPickedUp(c.isPickedUp());
-                
+    
                 this.level.getCollectables().add(loadedWeapon); //add to level
             }
         }
     }
-    
 }
