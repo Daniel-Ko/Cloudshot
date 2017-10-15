@@ -76,7 +76,8 @@ public class GameScreen extends ScreenAdapter {
         this.stage = new Stage(new ScreenViewport());
         this.gameModel = gameModel;
 
-        initGameModel();
+        if(gameModel instanceof GameModel)
+            initGameModel();
 
         this.batch = new SpriteBatch();
         this.state = State.GAME_RUNNING;
@@ -93,19 +94,17 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void initGameModel() {
-        GameModel model = (GameModel) gameModel;
-
         // Finally, load in the first level.
         gameModel.setLevel(new LevelThree());//TODO change back to lvl 1
 
-        model.setupCamera();
-        model.setupGame();
-        model.loadTerrain();
-        model.loadMusic();
+        gameModel.setupCamera();
+        gameModel.setupGame();
+        gameModel.loadTerrain();
+        gameModel.loadMusic();
 
         // Set separate module to handle save/load.
         saveLoadHandler = new GameStateTransactionHandler();
-        model.setRepoScraper(saveLoadHandler);
+        gameModel.setRepoScraper(saveLoadHandler);
     }
 
     /**
@@ -299,7 +298,6 @@ public class GameScreen extends ScreenAdapter {
 
             // Draw the enemy health bar.
             float ratio = (float)ae.getHealth() / (float)ae.getMaxHealth();
-            //TODO: Fix enemies max health
             batch.draw(Assets.no_health,
                     ae.getX() - ae.getDrawingWidth() / 2,
                     ae.getY() + ae.getDrawingHeight(),

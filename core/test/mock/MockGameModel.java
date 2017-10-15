@@ -13,6 +13,7 @@ import model.being.player.AbstractPlayer;
 import model.collectable.AbstractCollectable;
 import model.data.GameStateTransactionHandler;
 import model.mapObject.levels.AbstractLevel;
+import model.mapObject.levels.LevelOne;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class MockGameModel implements GameModelInterface {
 
     @Override
     public AbstractPlayer getPlayer() {
-        return EntityFactory.producePlayer(this, new Vector2(50,500));
+        return EntityFactory.producePlayer(this, new Vector2(-50,-50));
     }
 
     @Override
@@ -48,7 +49,7 @@ public class MockGameModel implements GameModelInterface {
 
     @Override
     public TiledMapRenderer getTiledMapRenderer() {
-        return null;
+        return new LevelOne().getTiledMapRenderer();
     }
 
     @Override
@@ -77,12 +78,37 @@ public class MockGameModel implements GameModelInterface {
     }
 
     @Override
+    public void setupCamera() {
+
+    }
+
+    @Override
+    public void setupGame() {
+
+    }
+
+    @Override
+    public void loadTerrain() {
+
+    }
+
+    @Override
+    public void loadMusic() {
+
+    }
+
+    @Override
     public void setRepoScraper(GameStateTransactionHandler saveLoadHandler) {
 
     }
 
     @Override
     public void setLevel(AbstractLevel level) {
+
+    }
+
+    @Override
+    public void addEnemy(AbstractEnemy enemy) {
 
     }
 }

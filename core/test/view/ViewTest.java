@@ -13,6 +13,8 @@ import model.being.player.AbstractPlayer;
 import org.junit.Test;
 import view.CloudShotGame;
 
+import java.io.File;
+
 public class ViewTest{
 
     void launchAndExitIn3Seconds(Game game) throws InterruptedException {
@@ -29,54 +31,6 @@ public class ViewTest{
         Thread.sleep(3000);
         game.dispose();
         Gdx.app.exit();
-    }
-
-    /**
-     * Test that the MenuScreen can be successfully rendered without errors.
-     * @throws InterruptedException
-     */
-    @Test
-    public void testMenuScreen() throws InterruptedException {
-        Game menu = new CloudShotGame(CloudShotGame.Screen.MENU);
-        launchAndExitIn3Seconds(menu);
-    }
-
-    /**
-     * Test that the player can be drawn at the bottom left of the screen.
-     * @throws InterruptedException
-     */
-    @Test
-    public void testDrawPlayer_BottomLeft() throws InterruptedException {
-        MockGameModel gameModel = new MockGameModel(){
-            @Override
-            public AbstractPlayer getPlayer() {
-                // Create and draw player the the bottom left of the screen.
-                AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(0,0));
-                player.setPos(new Vector2(1.0f, 1.0f));
-                return player;
-            }
-        };
-        Game game = new CloudShotGame(CloudShotGame.Screen.TEST, gameModel);
-        launchAndExitIn3Seconds(game);
-    }
-
-    /**
-     * Test that the player can be drawn at the top right of the screen.
-     * @throws InterruptedException
-     */
-    @Test
-    public void testDrawPlayer_TopRight() throws InterruptedException {
-        MockGameModel gameModel = new MockGameModel(){
-            @Override
-            public AbstractPlayer getPlayer() {
-                // Create and draw player the the bottom left of the screen.
-                AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(0,0));
-                player.setPos(new Vector2(10.0f, 10.0f));
-                return player;
-            }
-        };
-        Game game = new CloudShotGame(CloudShotGame.Screen.TEST, gameModel);
-        launchAndExitIn3Seconds(game);
     }
 
 }
