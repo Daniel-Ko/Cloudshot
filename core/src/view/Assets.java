@@ -10,8 +10,16 @@ import view.sprites.CustomSprite;
 import view.sprites.MovingSprite;
 import view.sprites.StaticSprite;
 
+/**
+ * Assets loads all of the assets in the game during startup.
+ * Returning the needed assets just needs a call to the fields.
+ * @author Yi Sian Lim
+ */
 public class Assets {
 
+    /**
+     * Skin for the game.
+     */
     public static Skin gameSkin;
 
     /**
@@ -97,6 +105,9 @@ public class Assets {
     public static Drawable music_on;
     public static Drawable music_off;
 
+    /**
+     * Enemy health bar textures.
+     */
     public static Texture full_health;
     public static Texture no_health;
 

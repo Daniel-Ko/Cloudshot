@@ -64,9 +64,7 @@ public class MenuScreen extends ScreenAdapter {
         stage.addActor(restartButton);
         stage.addActor(saveButton);
         stage.addActor(loadButton);
-
     }
-
 
     @Override
     public void show() {

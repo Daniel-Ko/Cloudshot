@@ -15,11 +15,11 @@ public class GameOverScreen extends ScreenAdapter {
 
     public GameOverScreen(){
         this.stage = new Stage(new ScreenViewport());
-
-        stage.addActor(LabelFactory.gameOverLabel());
-
-        TextButton restartButton = ButtonFactory.restartButton(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        stage.addActor(restartButton);
+        this.stage.addActor(LabelFactory.gameOverLabel());
+        this.stage.addActor(ButtonFactory.restartButton(
+                Gdx.graphics.getWidth()/2,
+                Gdx.graphics.getHeight()/2
+        ));
     }
 
     @Override

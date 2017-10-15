@@ -9,14 +9,24 @@ import model.GameModel;
 import model.GameModelInterface;
 import model.data.GameStateTransactionHandler;
 import view.Assets;
-import view.factories.DialogFactory;
 import view.screens.GameScreen;
 import view.screens.MenuScreen;
 
-import java.awt.*;
-
+/**
+ * ButtonFactory creates subclasses of Buttons such as TextButton(s), ImageButton(s) to be rendered in
+ * the screen in order for the user to interact with it. Each button have its own purpose when it has been
+ * pressed up.
+ * @author Yi Sian Lim
+ */
 public class ButtonFactory {
 
+    /**
+     * Create a start button which starts a new game.
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @return
+     *      TextButton to start the game.
+     */
     public static TextButton startButton(float x, float y) {
         TextButton startButton = new TextButton("Start", Assets.gameSkin);
         startButton.setWidth(Gdx.graphics.getWidth() / 3);
@@ -39,6 +49,15 @@ public class ButtonFactory {
         return startButton;
     }
 
+    /**
+     * Creates a resume game button which allows the player to resume the game after pausing (pressing ESC key).
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @param gameScreen
+     *          Screen to go back to in order to resume the game.
+     * @return
+     *          TextButton which resumes the game.
+     */
     public static TextButton resumeGameButton(float x, float y, GameScreen gameScreen) {
         TextButton resumeGame = new TextButton("Resume Game", Assets.gameSkin);
         resumeGame.setWidth(Gdx.graphics.getWidth() / 3);
@@ -61,6 +80,15 @@ public class ButtonFactory {
         return resumeGame;
     }
 
+    /**
+     * Create a button which saves the current game.
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @param gameModel
+     *          Model of the current game to save.
+     * @return
+     *          TextButton which saves the game.
+     */
     public static TextButton saveButton(float x, float y, GameModelInterface gameModel) {
         TextButton saveButton = new TextButton("Save", Assets.gameSkin);
         saveButton.setWidth(Gdx.graphics.getWidth() / 3);
@@ -76,7 +104,7 @@ public class ButtonFactory {
                     gameModel.save();
                     DialogFactory.saveSuccessfulDialog().show(MenuScreen.stage);
                 } catch (GameStateTransactionHandler.InvalidTransactionException e) {
-                    DialogFactory.saveSaveFailedDialog().show(MenuScreen.stage);
+                    DialogFactory.saveFailedDialog().show(MenuScreen.stage);
                 }
             }
 
@@ -88,6 +116,17 @@ public class ButtonFactory {
         return saveButton;
     }
 
+    /**
+     * Create a button which load the current game.
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @param gameModel
+     *          Model of the game to load.
+     * @param gameScreen
+     *          Screen to go back to in order to load the game.
+     * @return
+     *          TextButton which loads the game.
+     */
     public static TextButton loadButton(float x, float y, GameModelInterface gameModel, GameScreen gameScreen) {
         TextButton loadButton = new TextButton("Load", Assets.gameSkin);
         loadButton.setWidth(Gdx.graphics.getWidth() / 3);
@@ -101,10 +140,9 @@ public class ButtonFactory {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 try {
                     gameModel.load();
-                    GameScreen.state = GameScreen.State.GAME_RUNNING;
-                    MenuScreen.game.setScreen(gameScreen);
+                    DialogFactory.loadSuccessfulDialog(gameScreen).show(MenuScreen.stage);
                 } catch (GameStateTransactionHandler.InvalidTransactionException e) {
-
+                    DialogFactory.loadFailedDialog().show(MenuScreen.stage);
                 }
             }
 
@@ -116,6 +154,16 @@ public class ButtonFactory {
         return loadButton;
     }
 
+
+    /**
+     * Creates an ImageButton which mutes the music of the game.
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @param gameModel
+     *          gameModel to mute / play the music.
+     * @return
+     *          ImageButton which mutes/unmutes the music.
+     */
     public static ImageButton muteButton(float x, float y, GameModelInterface gameModel) {
         ImageButton muteButton = new ImageButton(Assets.music_off, Assets.music_off, Assets.music_on);
         muteButton.setWidth(Gdx.graphics.getWidth()/20);
@@ -143,6 +191,13 @@ public class ButtonFactory {
         return muteButton;
     }
 
+    /**
+     * Creates a button which pauses or runs the game.
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @return
+     *      ImageButton which pauses or runs the game.
+     */
     public static ImageButton pauseButton(float x, float y){
         ImageButton pauseButton = new ImageButton(Assets.pause_button, Assets.pause_button, Assets.play_button);
         pauseButton.setWidth(Gdx.graphics.getWidth()/20);
@@ -172,6 +227,13 @@ public class ButtonFactory {
         return pauseButton;
     }
 
+    /**
+     * Create a button which restarts the game.
+     * @param x coordinate of the button in the x-axis.
+     * @param y coordinate of the button in the y-axis.
+     * @return
+     *      TextButton which restarts the game.
+     */
     public static TextButton restartButton(float x, float y) {
         TextButton restartButton = new TextButton("Restart", Assets.gameSkin);
         restartButton.setWidth(Gdx.graphics.getWidth() / 3);

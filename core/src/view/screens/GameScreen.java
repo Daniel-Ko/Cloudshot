@@ -231,8 +231,6 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
         stage.act();
         stage.draw();
-
-
     }
 
     /**
