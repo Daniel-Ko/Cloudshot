@@ -1,6 +1,9 @@
 package model.projectile;
 
+
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.GameObjectInterface;
 import model.being.enemies.AbstractEnemy;
@@ -9,38 +12,39 @@ import view.sprites.CustomSprite;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Arrays;
 
 /**
  * Implements ProjectileInterface and provides functionality specific to a bullet.
- * @author tomherdson
+ * @author Jacob Robson
  *
  */
 public class BulletImpl implements ProjectileInterface, GameObjectInterface, Serializable {
+	/**
+	 * fields which define a bullet.
+     */
 	private static final long serialVersionUID = 120954733508781847L;
 	protected Vector2 startingPos;
 	protected Vector2 endPos;
 	protected Vector2 pos;
 
 	protected float damage;
-
-	public void setSpeed(float newSpeed) {
-		this.speed = newSpeed;
-	}
-
 	protected float speed = 3;
 	private float xVel;
 	private float yVel;
 	private transient CustomSprite image;
 
-
-	private double angle;
 	private boolean toRemove = false;
 	private boolean playerBullet;
 
-
-	public BulletImpl(Vector2 startingPos) {
-		this.startingPos = startingPos;
-	}
+	/**
+	 * This represents a bullet object which is created by a gun
+	 * @param start starting position
+	 * @param end end Position (aimedAt field in player)
+	 * @param damage damaged of this bullet(declared in bullet);
+	 * @param t bullet image
+     * @param owner true if owned by player.
+     */
 
 	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t, boolean owner){
 		this.pos = new Vector2(start.x,start.y + 0.3f);
@@ -49,41 +53,70 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 		this.damage = damage;
 		this.image = t;
 		this.playerBullet = owner;
-
-
-		
-	/*	float tX = startingPos.x/GameModel.PPM - endPos.x/GameModel.PPM;
-		float tY = startingPos.y/GameModel.PPM - endPos.y/GameModel.PPM;*/
 		float tX = startingPos.x - endPos.x;
 		float tY = startingPos.y - endPos.y;
 		float mag = (float) java.lang.Math.hypot(tX, tY);
 		tX/=mag;
 	    tY/=mag;
-//		this.angle = java.lang.Math.atan2(endPos.y, endPos.x) -java.lang.Math.atan2(startingPos.y, startingPos.x);
-//		if(startingPos.x*endPos.y - startingPos.y*endPos.x < 0) {
-//			angle = -angle;
-//		}
-//
-//
-//		this.angle *= 180/Math.PI;
-
-
-
-
 		//scaling speed
 	    tX*=speed/GameModel.PPM;
 		tY*=speed/GameModel.PPM;
 		xVel = tX;
 	    yVel = tY;
 	}
-	public double getAngle() {
-		return angle;
+
+	/**
+	 * Update increments the bullets position, And removes the bullets that
+	 * have collided.
+	 * @param enemies
+	 * @param player
+     */
+	public void update(List<AbstractEnemy> enemies, AbstractPlayer player, Array<Rectangle> terrain){
+		if(pos.dst2(this.getStartingPos()) > 1000){
+			this.setToRemove();
+		}
+		doCollide(enemies,player, terrain);
+		pos.set(pos.x-xVel*speed,pos.y-yVel*speed);
 	}
 
-	public void setAngle(double angle) {
-		this.angle = angle;
+	/**
+	 * Checks if the bullets have collided with player, or enemies.
+	 * And does damage to them if true.
+	 * @param enemies
+	 * @param player
+     */
+	private void doCollide(List<AbstractEnemy> enemies, AbstractPlayer player, Array<Rectangle> terrain) {
+
+		if (this.playerBullet){
+			for (Rectangle r : terrain){
+				if(r.contains(this.getX(),this.getY())){
+					this.setToRemove();
+				}
+			}
+			for (AbstractEnemy e: enemies){
+				if (e.getBoundingBox().contains(this.getX(),this.getY())){
+					e.hit((int)this.getDamage());
+					this.setToRemove();
+				}
+			}
+		}
+		else{
+			if (player.getBoundingBox().contains(this.getX(),this.getY())){
+				player.hit(this.getDamage());
+				this.setToRemove();
+			}
+		}
+
+
 	}
 
+
+
+	//--------------------------GETTERS AND SETTER---------------------------
+
+	public void setSpeed(float newSpeed) {
+		this.speed = newSpeed;
+	}
 
 	/* (non-Javadoc)
 	 * @see model.GameObjectInterface#getX()
@@ -109,33 +142,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 	@Override
 	public CustomSprite getImage() {
 		return this.image;
-	}
-
-	public void update(List<AbstractEnemy> enemies, AbstractPlayer player){
-		if(pos.dst2(this.getStartingPos()) > 1000){
-			this.setToRemove();
-		}
-		doCollide(enemies,player);
-		pos.set(pos.x-xVel*speed,pos.y-yVel*speed);
-	}
-
-	private void doCollide(List<AbstractEnemy> enemies, AbstractPlayer player) {
-		if (this.playerBullet){
-			for (AbstractEnemy e: enemies){
-				if (e.getBoundingBox().contains(this.getX(),this.getY())){
-					e.hit((int)this.getDamage());
-
-					this.setToRemove();
-				}
-			}
-		}
-		else{
-			if (player.getBoundingBox().contains(this.getX(),this.getY())){
-				player.hit(this.getDamage());
-				this.setToRemove();
-			}
-		}
-
 	}
 
 	/**
