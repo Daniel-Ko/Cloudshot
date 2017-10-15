@@ -88,7 +88,6 @@ public class Slime2 extends AbstractEnemy{
      * */
     @Override
     public void update() {
-        this.setHurtThisFrame(false);//re updates
 
         if(world != null || body != null) {
             enemyState.update(this, player);

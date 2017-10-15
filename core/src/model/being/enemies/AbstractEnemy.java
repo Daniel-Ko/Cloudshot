@@ -154,6 +154,7 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	public enemy_state getState(){return this.state; }
 	public float getDrawingWidth(){ return  drawingWidth;}
 	public float getDrawingHeight(){return  drawingHeight;}
+	public int getMaxHealth(){return this.MAX_HEALTH;}
 	public void setPlayer(AbstractPlayer p){this.player = p; }
 	@Override
 	public abstract CustomSprite getImage();
