@@ -1,13 +1,9 @@
 package model.data;
 
 import com.badlogic.gdx.Preferences;
-import model.being.AbstractEnemy;
-import model.being.AbstractPlayer;
+import model.being.enemies.AbstractEnemy;
+import model.being.player.AbstractPlayer;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 
 /**
@@ -16,8 +12,6 @@ import java.util.List;
 public class GameState{
     private Preferences state;
 
-    private AbstractPlayer player;
-    private List<AbstractEnemy> enemies;
 
     public GameState(Preferences pref) {
         state = pref;
@@ -32,7 +26,7 @@ public class GameState{
     }
 
     
-    /** puts the bytecode of a AbstractPlayer
+    /** puts the bytecode of a PlayerData
      *  into the Preference
      *  @param player as bytecode
      */
@@ -46,6 +40,32 @@ public class GameState{
      */
     public void setEnemiesInPref(String enemies) {
         state.putString("Enemies", enemies);
+    }
+    
+    /** puts the bytecode of a List<AbstractCollectable>
+     *  into the Preference
+     * @param collectables
+     */
+    public void setCollectablesInPref(String collectables) {
+        state.putString("Collectables", collectables);
+    }
+
+    /** puts the bytecode of an AbstractLevel
+     * into the Preference
+     * @param level
+     */
+    public void setLevelInPref(String level) {
+        state.putString("Level", level);
+    }
+
+    /** puts the bytecode of a List<Rectangle> and List<Spawn>
+     *  into the Preference
+     * @param spawnTriggers
+     * @param spawns
+     */
+    public void setSpawningInPref(String spawnTriggers, String spawns) {
+        state.putString("SpawnTriggers", spawnTriggers);
+        state.putString("Spawns", spawns);
     }
 
     /** As the model will load this value in, assure the TransactionHandler
@@ -63,4 +83,6 @@ public class GameState{
     public boolean containsEnemies() {
         return state.contains("Enemies");
     }
+
+
 }

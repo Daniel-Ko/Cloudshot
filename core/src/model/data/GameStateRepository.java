@@ -22,10 +22,14 @@ public class GameStateRepository{
      * @return
      */
     public GameState pullSoft() {
+        if(gameStates.isEmpty())
+            return null;
         return gameStates.peek();
     }
 
     public GameState pullHard() {
+        if(gameStates.isEmpty())
+            return null;
         return gameStates.pop();
     }
 

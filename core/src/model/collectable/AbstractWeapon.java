@@ -2,22 +2,42 @@ package model.collectable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-
-import model.being.AbstractPlayer;
-import model.being.Player;
+import model.being.player.Player;
 import model.projectile.BulletImpl;
-import view.CustomSprite;
+import view.sprites.CustomSprite;
+
+import java.util.ArrayList;
 
 public abstract class AbstractWeapon extends AbstractCollectable {
-	
-
+	private static final long serialVersionUID = -9094601317027252528L;
+	public final weapon_type type;
+	//fields which every bullet needs
+	protected int ammo;
 	private float damage;
-	private Texture gunImage;
+	private transient Texture gunImage;
 
-	public AbstractWeapon(Vector2 position, float width, float height) {
-		super(position, width, height);
-		// TODO Auto-generated constructor stub
+	public enum weapon_type {
+		pistol, semiauto, sniper, shotgun
 	}
+
+
+	public AbstractWeapon(Vector2 position, float width, float height, weapon_type type) {
+		super(position, width, height);
+		this.type = type;
+	}
+
+	/**
+	 * Defines how each gun should shoot.
+	 * @param p player
+	 * @return the bullets which get shot by the gun
+     */
+	public abstract ArrayList<BulletImpl> shoot(Player p);
+
+
+
+
+  //-----------------GETTERS AND SETTERS-------------------
+
 
 	public float getDamage() {
 		return damage;
@@ -26,20 +46,14 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	public void setDamage(float damage) {
 		this.damage = damage;
 	}
-
-	@Override
-	public void pickedUp(AbstractPlayer p) {
-		//adds the weapon to the players inventory.
-		p.getInventory().add(this);
-		
-	}
 	
 	public abstract CustomSprite getBulletImage();
 	
-	public abstract BulletImpl shoot(Player p);
-
+	public abstract void setAmmo(int i);
 	
+	public abstract int getAmmo();
 	
+	public abstract int getMaxAmmo();
 	
 
 }
