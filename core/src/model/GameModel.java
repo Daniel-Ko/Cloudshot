@@ -309,7 +309,7 @@ public class GameModel implements GameModelInterface {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            GameScreen.displayGameOverScreen();
+            GameScreen.state = GameScreen.State.GAME_OVER;
             music.dispose();
         }
     }
