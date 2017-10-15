@@ -62,6 +62,9 @@ public class ShootingEnemy extends AbstractEnemy{
 		body.createFixture(fDef).setUserData("mob2");
 	}
 
+	/**
+	 * Updates state & fields & bulletShot.
+	 * */
 	@Override
 	public void update() {
 		updateBullets();
@@ -72,19 +75,21 @@ public class ShootingEnemy extends AbstractEnemy{
 		attack();
 
 	}
-	protected void movement(){
-		//Depre to remove
-	}
 
+	/**
+	 * For all bullets that this enemy has fired update them.
+	 * Clean up the oldest bullets if bullets.size > 10.
+	 * */
 	private void updateBullets(){
 		//updating bullets enemy has fired
 		for(BulletImpl b : bullets)
-			b.update(new ArrayList<AbstractEnemy>(),player);//FIXME
+			b.update(new ArrayList<>(),player);
 		//Cleans up bullets
 		if(bullets.size() > 10){
 			bullets.poll();//remove the oldest 1st
 		}
 	}
+
 	private void updateAndCheckFields(){
 		position = body.getPosition();
 		boundingBox.set(position.x, position.y, boundingBox.getWidth(), boundingBox.getHeight());

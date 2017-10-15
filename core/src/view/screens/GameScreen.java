@@ -343,16 +343,6 @@ public class GameScreen extends ScreenAdapter {
                         s.height
                 );
             }
-            if (ae instanceof BossOne) {
-                BossOne s = (BossOne) ae;
-                for (BulletImpl b : s.bullets)
-                    batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),
-                            b.getX() - 0.25f,
-                            b.getY() - 0.25f,
-                            0.5f,
-                            0.5f
-                    );
-            }
         }
     }
 
