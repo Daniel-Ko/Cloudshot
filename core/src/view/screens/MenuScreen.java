@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import model.GameModelInterface;
-import view.utils.ButtonFactory;
-import view.utils.LabelFactory;
+import view.factories.ButtonFactory;
+import view.factories.LabelFactory;
 
 public class MenuScreen extends ScreenAdapter {
 

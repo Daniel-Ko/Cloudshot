@@ -95,6 +95,9 @@ public class Assets {
     public static Drawable music_on;
     public static Drawable music_off;
 
+    public static Texture full_health;
+    public static Texture no_health;
+
     public static void load(){
         gameSkin = new Skin(Gdx.files.internal("skin/comic-ui.json"));
 
@@ -163,6 +166,9 @@ public class Assets {
         music_off = new TextureRegionDrawable(
                 new TextureRegion(new Texture(Gdx.files.internal("buttons/music_off.png")))
         );
+
+        full_health = new Texture(Gdx.files.internal("full_health.png"));
+        no_health = new Texture(Gdx.files.internal("no_health.png"));
 
     }
 }

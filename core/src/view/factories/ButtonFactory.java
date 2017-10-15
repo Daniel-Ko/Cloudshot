@@ -1,4 +1,4 @@
-package view.utils;
+package view.factories;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

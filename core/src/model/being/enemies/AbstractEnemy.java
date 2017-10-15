@@ -63,8 +63,6 @@ public abstract class AbstractEnemy implements GameObjectInterface, EntityInterf
 	protected float drawingWidth =0.6f;
 	protected float drawingHeight = 0.8f;
 
-
-
 	public AbstractEnemy(World world, AbstractPlayer player, Vector2 pos, entity_type enemyType){
 		this.type = enemyType;
 		this.world = world;
