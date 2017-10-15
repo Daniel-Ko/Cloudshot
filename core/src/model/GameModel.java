@@ -411,11 +411,13 @@ public class GameModel implements GameModelInterface {
         }
         
         player.setInAir(pdata.isInAir());
-        player.setAttacking(pdata.isAttacking());
         player.setGrounded(pdata.isGrounded());
+        
+        player.setAttacking(pdata.isAttacking());
+        
         player.setMovingLeft(pdata.isMovingLeft());
         player.setMovingRight(pdata.isMovingRight());
-        player.setLinearVelocity(pdata.getBodyLinearVelocity());
+        player.setLinearVelocity(pdata.getBodyLinearVelocity()); // This sets physics and movement!
         
         GameScreen.inputMultiplexer.addProcessor(player); //finally, set the input to recognise this new player
     }
