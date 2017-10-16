@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import model.GameModel;
+import model.GameModelInterface;
 import model.GameObjectInterface;
 import model.being.EntityInterface;
 import model.being.enemies.AbstractEnemy;
@@ -70,6 +72,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	//Used for converting mouse pressed coords into world coords
 	private transient OrthographicCamera cam;
+	private GameModel game;
 
 	public AbstractPlayer() {
 		world = Optional.empty();
@@ -377,6 +380,15 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/**Provides the player the game camera, to allow us to convert coordinates*/
 	public void setCamera(OrthographicCamera gameCam){
 		cam = gameCam;
+	}
+	/**
+	 * Provided the list of terrain in the map.
+	 * */
+	public void provideGameModel(GameModel game){
+		this.game = game;
+	}
+	public Array<Rectangle> getTerrainScaled(){
+		return game.scaledTerrain;
 	}
 
 	public void setWorld(Optional<World> world) {

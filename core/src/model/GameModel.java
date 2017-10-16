@@ -54,6 +54,8 @@ public class GameModel implements GameModelInterface {
 
 
     private Array<Rectangle> terrain;
+    public Array<Rectangle> scaledTerrain = new Array<>();
+
     
     /**
      * Keeps track of what level we are currently at.
@@ -124,7 +126,7 @@ public class GameModel implements GameModelInterface {
     }
     
     public void loadTerrain() {
-        this.terrain = level.getTiles();
+        setTerrain(level.getTiles());
         for (Rectangle r : terrain) {
             BodyDef terrainPiece = new BodyDef();
             terrainPiece.type = BodyDef.BodyType.StaticBody;
@@ -132,7 +134,10 @@ public class GameModel implements GameModelInterface {
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width / 2) / GameModel.PPM, (r.height / 2) / GameModel.PPM);
-            
+
+            //for getting scaled bounding boxes of terrain to do collisions
+            scaledTerrain.add(new Rectangle(r.getX()/PPM,r.getY()/PPM,(r.width/PPM),(r.height/PPM)));
+
             // User data to tell us what things are colliding.
             groundBody.createFixture(groundBox, 0.0f).setUserData("platform");
             groundBox.dispose();
@@ -358,7 +363,7 @@ public class GameModel implements GameModelInterface {
             List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
             
             reinitGame(this.level);
-            
+
             loadPlayer(loadedPlayerData);
             loadEnemies(loadedEnemies);
             loadLevel(loader.loadLevel());
