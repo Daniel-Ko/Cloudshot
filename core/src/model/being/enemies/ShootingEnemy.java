@@ -125,6 +125,7 @@ public class ShootingEnemy extends AbstractEnemy{
 	 * @return false if the enemy cannot attack at this time o.w can attack therefore true.
 	 * */
 	@Override
+
 	protected boolean attack() {
 		if(player.getPlayerState() == AbstractPlayer.player_state.ALIVE
 				&& enemyState instanceof ShooterAttack){

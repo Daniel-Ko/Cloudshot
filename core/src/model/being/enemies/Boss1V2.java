@@ -30,7 +30,7 @@ public class Boss1V2 extends AbstractEnemy{
     //For spawning slimes
     private transient GameModelInterface game;
     private long lastSlimeSpawned;
-    private int secondsBetweenSpawss = 1;
+    private int secondsBetweenSpawns = 1;
 
     public Boss1V2(World world, AbstractPlayer player, Vector2 pos){
         super(world,player,pos, entity_type.boss1);

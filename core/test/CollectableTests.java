@@ -4,6 +4,7 @@ import model.being.player.Player;
 import model.collectable.*;
 import org.junit.Assert;
 import org.junit.Test;
+import sun.plugin2.gluegen.runtime.BufferFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -59,7 +60,7 @@ public class CollectableTests extends GameTest {
         semiAuto.pickedUp(p);
         semiAuto.shoot(p);
         assertEquals(semiAuto.getMaxAmmo() -1, semiAuto.getAmmo());
-        assertEquals(p.getCurWeapon(),semiAuto);
+        assertEquals(p.getInventory().get(p.getCurWeapon()),semiAuto);
         assertTrue(p.getInventory().contains(semiAuto));
     }
     @Test
@@ -75,7 +76,11 @@ public class CollectableTests extends GameTest {
     public void testDecreaseAmmo() {
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
-        p.setCurWeapon(shotgun);
+
+        p.getInventory().add(shotgun);
+//        p.setCurWeapon(0);
+        assertEquals(0, p.getCurWeapon());
+
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
@@ -87,12 +92,20 @@ public class CollectableTests extends GameTest {
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10,10);
+
+
         pistol.pickedUp(p);
-        p.setCurWeapon(pistol);
+//        p.setCurWeapon(0);
+        assertEquals(0, p.getCurWeapon());
+
         p.shoot();
         p.shoot();
         int ammo2 = pistol.getAmmo();
-        p.setCurWeapon(shotgun);
+
+        shotgun.pickedUp(p);
+//        p.setCurWeapon(1);
+        assertEquals(1, p.getCurWeapon());
+
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
@@ -153,11 +166,25 @@ public class CollectableTests extends GameTest {
         assertEquals(shotgun.getAmmo() , shotgun.getMaxAmmo());
     }
 
-//    @Test
-//    public void testGunsCorrectDamage{
-//        //
-//
-//    }
+    @Test
+    public void testGunsCorrectDamage(){
+        Player p = new Player();
+
+        Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
+        Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10, 10);
+        SemiAuto semiAuto = new SemiAuto(new Vector2(p.getX(), p.getY()), 10, 10);
+        Sniper sniper = new Sniper(new Vector2(p.getX(), p.getY()), 10, 10);
+        assertEquals(sniper.getDamage(), 40);
+        assertEquals(shotgun.getDamage(), 15);
+
+    }
+
+    @Test
+    public void testBuffFactory(){
+        AbstractBuff test = CollectableFactory.produceAbstractBuff( AbstractBuff.buff_type.heavyammo, new Vector2(0,0));
+        assertTrue(test instanceof HeavyAmmoPack);
+
+    }
 
 
 

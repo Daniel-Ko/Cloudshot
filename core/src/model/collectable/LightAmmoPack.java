@@ -30,7 +30,7 @@ public class LightAmmoPack extends AbstractBuff {
 	public void pickedUp(AbstractPlayer p) {
 		//need to change this to equipped weapon not the first element in inventory
 		Player player = (Player)p;
-		AbstractWeapon wep = player.getCurWeapon();
+		AbstractWeapon wep = player.getInventory().get(player.getCurWeapon());
 		wep.setAmmo(wep.getMaxAmmo());
 
 	}

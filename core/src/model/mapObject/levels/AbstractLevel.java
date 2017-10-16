@@ -77,6 +77,7 @@ public abstract class AbstractLevel implements Serializable{
         loadSpawns();
         loadHurtyTiles();
         loadPortals();
+        loadPlayerSpawn();
     }
 
     /**
