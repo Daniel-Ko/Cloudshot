@@ -99,7 +99,7 @@ public abstract class AbstractLevel implements Serializable{
         MapLayer spawn = tiledMap.getLayers().get("Player Spawn");
         MapObject spawnObj = spawn.getObjects().get(0);
         RectangleMapObject rect = (RectangleMapObject) spawnObj;
-        Vector2 loc = new Vector2(rect.getRectangle().x,rect.getRectangle().y);
+        Vector2 loc = new Vector2(rect.getRectangle().x/GameModel.PPM,rect.getRectangle().y/GameModel.PPM);
         spawnPoint = loc;
     }
 
@@ -283,6 +283,7 @@ public abstract class AbstractLevel implements Serializable{
      * @param gm the game model
      */
     public void update(AbstractPlayer p, GameModel gm) {
+
         if (p.getPos().y < -40) {//falling off map kills, but with a bit of delay (can fall off screen for a few seconds)
             p.hit(p.getHealth());
         }
@@ -355,8 +356,11 @@ public abstract class AbstractLevel implements Serializable{
      */
     public abstract List<AbstractCollectable> getCollectables();
 
+    /**
+     * Calculates dimensions of level.
+     * @return Dimension of level in pixels
+     */
     public  Dimension getLevelDimension(){
-
         MapProperties properties = tiledMap.getProperties();
         int mapWidth = properties.get("width", Integer.class);
         int mapHeight = properties.get("height", Integer.class);
@@ -387,6 +391,9 @@ public abstract class AbstractLevel implements Serializable{
         this.spawns = spawns;
     }
 
+    public Array<Rectangle> getHurtyTiles() {
+        return hurtyTiles;
+    }
 
     public TiledMap getTiledMap() {
         return tiledMap;

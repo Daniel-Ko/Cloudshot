@@ -319,6 +319,10 @@ public class GameModel implements GameModelInterface {
     public String getLevelName() {
         return level.getLevelName();
     }
+
+    public void setEnemies(List<AbstractEnemy> list) {
+        enemies = list;
+    }
     
     /**
      * Mutes or plays the soundtrack in the background.
@@ -351,6 +355,8 @@ public class GameModel implements GameModelInterface {
     public Array<Rectangle> getTerrain() {
         return terrain;
     }
+
+    public void setWorld(World world) { this.world = world; }
 
     public void setTerrain(Array<Rectangle> terrain) {
         this.terrain = terrain;

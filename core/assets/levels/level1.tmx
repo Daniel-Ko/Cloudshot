@@ -58,7 +58,7 @@
     <property name="Type" value="Pistol"/>
    </properties>
   </object>
-  <object id="55" x="256.353" y="1664.61" width="30.7847" height="30.7847">
+  <object id="55" x="338.259" y="1565.33" width="30.7847" height="30.7847">
    <properties>
     <property name="Type" value="Sniper"/>
    </properties>
@@ -71,7 +71,7 @@
   <object id="53" x="2988.76" y="1021.12" width="51.8617" height="97.6326"/>
  </objectgroup>
  <objectgroup name="SpawnTrigger">
-  <object id="38" x="179.436" y="1502.42" width="35.6024" height="190.829"/>
+  <object id="38" x="157.053" y="1504.57" width="35.6024" height="190.829"/>
   <object id="40" x="773.873" y="1548.59" width="35.6024" height="190.829"/>
   <object id="42" x="1197.8" y="1372" width="61.2361" height="273.427"/>
   <object id="45" x="1097.4" y="1102" width="78.3252" height="273.427"/>

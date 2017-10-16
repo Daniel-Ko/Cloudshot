@@ -81,7 +81,7 @@ public class Player extends AbstractPlayer {
 		playerProperties.friction = 15;
 
 		//
-		bodyDef.position.set(pos.x / GameModel.PPM, pos.y / GameModel.PPM);
+		bodyDef.position.set(pos.x, pos.y);
 		body = Optional.of(world.get().createBody(bodyDef));
 
 		//adding main fixture
