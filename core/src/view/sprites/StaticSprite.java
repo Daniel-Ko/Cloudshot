@@ -3,17 +3,19 @@ package view.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * StaticSprite loads and draws the sprite which does not require any sort of animation.
+ * It is a still image, used for drawing collectables etc.
+ * @author Yi Sian Lim
+ */
 public class StaticSprite extends CustomSprite {
-
     private static final long serialVersionUID = -385280789516080722L;
+
+    /**
+     * Dimensions of the sprite.
+     */
     private int width;
     private int height;
-
-    public StaticSprite(String imageName, int width, int height){
-        super(imageName);
-        this.width = width;
-        this.height = height;
-    }
 
     public StaticSprite(String imageName){
         super(imageName);

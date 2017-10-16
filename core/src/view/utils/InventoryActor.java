@@ -10,8 +10,17 @@ import view.factories.LabelFactory;
 
 import java.util.List;
 
+/**
+ * InventoryActor is a subclass of Actor which will be used to add it into the stage during the game.
+ * Effectively takes in an AbstractPlayer and query its inventory in order to display the state of the
+ * inventory to the user.
+ * @author Yi Sian Lim
+ */
 public class InventoryActor extends Actor {
 
+    /**
+     * Player to based the inventory from.
+     */
     private AbstractPlayer player;
 
     public InventoryActor(AbstractPlayer player){
