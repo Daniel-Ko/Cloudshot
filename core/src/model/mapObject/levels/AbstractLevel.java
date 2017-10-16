@@ -83,7 +83,7 @@ public abstract class AbstractLevel implements Serializable{
      * Loads the 'Collisions' layer of TMX file.
      * Collidable objects are stored in Rectangles.
      */
-    public void generateCollidablePolygons() {
+    private void generateCollidablePolygons() {
         MapLayer layer = tiledMap.getLayers().get("Collisions");
         MapObjects objects = layer.getObjects();
         //add terrain to map.
@@ -94,7 +94,7 @@ public abstract class AbstractLevel implements Serializable{
         }
     }
 
-    public void loadPlayerSpawn(){
+    private void loadPlayerSpawn(){
         MapLayer spawn = tiledMap.getLayers().get("Player Spawn");
         MapObject spawnObj = spawn.getObjects().get(0);
         RectangleMapObject rect = (RectangleMapObject) spawnObj;
@@ -106,7 +106,7 @@ public abstract class AbstractLevel implements Serializable{
      * Loads the 'Collectables' layer of the TMX file. This layer contains the spawn points of the various Collectables.
      * Collectables are stored as 'AbstractCollectable' objects.
      */
-    public void loadCollectables() {
+    private void loadCollectables() {
         MapLayer collectables = tiledMap.getLayers().get("Collectables");
         MapObjects collectableObjs = collectables.getObjects();
         this.collectables = new ArrayList<>();
@@ -184,7 +184,7 @@ public abstract class AbstractLevel implements Serializable{
      * Gets the EndZone from the 'End Zone' layer of TMX file.
      * Stores it in a Rectangle, so it can be decided if player has won level.
      */
-    public void loadEndPoint() {
+    private void loadEndPoint() {
         MapLayer endLayer = tiledMap.getLayers().get("End Zone");
         RectangleMapObject r = (RectangleMapObject) endLayer.getObjects().get(0);//assuming only one endzone
         endZone = new Rectangle(r.getRectangle().x / GameModel.PPM, r.getRectangle().y / GameModel.PPM, r.getRectangle().width / GameModel.PPM, r.getRectangle().height / GameModel.PPM);
@@ -203,7 +203,7 @@ public abstract class AbstractLevel implements Serializable{
      * Loads spawn triggers from 'SpawnTrigger' layer in TMX file.
      * SpawnTriggers are stored in Rectangle objects. They can be used to see if enemies should be spawned if player is within rectangle.
      */
-    public void loadSpawnTriggerPoints() {
+    private void loadSpawnTriggerPoints() {
         spawnTriggers = new ArrayList<>();
         MapLayer spawns = tiledMap.getLayers().get("SpawnTrigger");
         for (MapObject r : spawns.getObjects()) {
@@ -219,7 +219,7 @@ public abstract class AbstractLevel implements Serializable{
      * Multiple enemies can be spawned at one location, specified by 'Number' property in file.
      * Spawns are stored in a 'Spawn' class.
      */
-    public void loadSpawns() {
+    private void loadSpawns() {
         // spawns = new Array<>();
         spawns = new ArrayList<>();
         MapLayer layer = tiledMap.getLayers().get("Spawn Location");
@@ -249,7 +249,7 @@ public abstract class AbstractLevel implements Serializable{
      * Hurty Tiles refer to spikes on the map, which injure the player when stepped upon.
      * This method loads the 'Hurty Tiles' layer of the TMX file, and turns it into rectangle objects.
      */
-    public void loadHurtyTiles() {
+    private void loadHurtyTiles() {
         hurtyTiles = new Array<>();
         MapLayer mp = tiledMap.getLayers().get("Hurty Tiles");
         for (MapObject mo : mp.getObjects()) {
@@ -264,7 +264,7 @@ public abstract class AbstractLevel implements Serializable{
      * Portals are stored in Portal objects, which defined the start and end point of the portal, and if it has already been used.
      * Portals are stored in pairs in the TMX file, the object i and i+1 are paired as an entry and end point in the layer.
      */
-    public void loadPortals() {
+    private void loadPortals() {
         portals = new ArrayList<>();
         MapLayer ml = tiledMap.getLayers().get("Portals");
         for (int i = 0; i < ml.getObjects().getCount(); i += 2) {

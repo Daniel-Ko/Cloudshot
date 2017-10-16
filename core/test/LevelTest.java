@@ -2,6 +2,9 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Vector2;
+import model.being.EntityFactory;
+import model.being.player.Player;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
 import model.mapObject.levels.LevelTwo;
@@ -33,12 +36,8 @@ public class LevelTest extends GameTest{
     }
 
     @Test
-    public void test2(){
-        //assertTrue(level.getNextLevel() instanceof LevelTwo);
-    }
-
-    @Test
-    public void test3(){
+    public void testSpawnLocation(){
+        Player p = new Player();
 
     }
 

@@ -20,10 +20,7 @@ import model.collectable.AbstractWeapon;
 import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
-import model.mapObject.levels.AbstractLevel;
-import model.mapObject.levels.LevelOne;
-import model.mapObject.levels.LevelThree;
-import model.mapObject.levels.LevelTwo;
+import model.mapObject.levels.*;
 import view.Assets;
 import view.screens.GameScreen;
 
