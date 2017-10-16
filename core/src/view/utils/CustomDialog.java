@@ -6,6 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import view.Assets;
 
+/**
+ * CustomDialog customized the dialog to be displayed by subclassing the Dialog class.
+ * Reference: http://pimentoso.blogspot.co.nz/2014/01/libgdx-scene2d-dialog-resize-and-style.html
+ * @author Yi Sian Lim
+ */
 public class CustomDialog extends Dialog {
 
     public CustomDialog (String title) {
@@ -14,8 +19,12 @@ public class CustomDialog extends Dialog {
     }
 
     private void initialize() {
-        padTop(60); // set padding on top of the dialog title
-        getButtonTable().defaults().height(60); // set buttons height
+        // Set the padding on the top of the dialog title.
+        padTop(60);
+
+        // Set buttons height.
+        getButtonTable().defaults().height(60);
+
         setModal(true);
         setMovable(true);
         setResizable(false);
@@ -29,7 +38,9 @@ public class CustomDialog extends Dialog {
 
     /**
      * Adds a text button to the button table.
-     * @param listener the input listener that will be attached to the button.
+     * @param listener
+     *          InputListener with the respective action to carry out prior to button click
+     *          that will be attached to the button.
      */
     public CustomDialog button(String buttonText, InputListener listener) {
         TextButton button = new TextButton(buttonText, Assets.gameSkin);
@@ -40,13 +51,11 @@ public class CustomDialog extends Dialog {
 
     @Override
     public float getPrefWidth() {
-        // force dialog width
         return 480f;
     }
 
     @Override
     public float getPrefHeight() {
-        // force dialog height
         return 240f;
     }
 }

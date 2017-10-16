@@ -6,12 +6,22 @@ import model.GameModelInterface;
 import view.screens.GameScreen;
 import view.screens.MenuScreen;
 
+/**
+ * Encapsulates the entire CloudShotGame in order to switch between screens.
+ * @author Yi Sian Lim
+ */
 public class CloudShotGame extends Game {
 
+    /**
+     * Different states of the screen.
+     */
     public enum Screen {
         MENU, GAME, TEST
     }
 
+    /**
+     * Model of the game.
+     */
     private GameModelInterface model;
 
     /**
@@ -31,9 +41,7 @@ public class CloudShotGame extends Game {
 
     @Override
     public void create() {
-
         Assets.load();
-
         switch (screen){
             case MENU:
                 this.setScreen(new MenuScreen(this));
@@ -44,7 +52,6 @@ public class CloudShotGame extends Game {
             case TEST:
                 this.setScreen(new GameScreen(model));
         }
-
     }
 
     @Override
