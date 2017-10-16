@@ -74,15 +74,16 @@ public class SlimeTest extends GameTest {
     @Test
     public void TestMainConstructor(){
         World world = new World(new Vector2(0, 10), true);
-//        Player p = new Player();
-//        p.initBox2D(world,new Vector2(0,0));
-//        Slime2 s = new Slime2(world,p,new Vector2(0,1));
+        Player p = new Player();
+        p.initBox2D(world,new Vector2(0,0));
+        Slime2 s = new Slime2(world,p,new Vector2(0,1));
 
     }
     @Test
     public void TestUpdate(){
-    //World world = new World(new Vector2(0, 10), true);
-    //Player p = new Player();
-    //Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
+        World world = new World(new Vector2(0, 10), true);
+        Player p = new Player();
+        Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
+        s.update();
     }
 }
