@@ -9,7 +9,7 @@ import model.collectable.*;
 import model.projectile.BulletImpl;
 import org.junit.Assert;
 import org.junit.Test;
-import sun.plugin2.gluegen.runtime.BufferFactory;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
