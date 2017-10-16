@@ -4,6 +4,7 @@ import model.being.player.Player;
 import model.collectable.*;
 import org.junit.Assert;
 import org.junit.Test;
+import sun.plugin2.gluegen.runtime.BufferFactory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -153,11 +154,23 @@ public class CollectableTests extends GameTest {
         assertEquals(shotgun.getAmmo() , shotgun.getMaxAmmo());
     }
 
-//    @Test
-//    public void testGunsCorrectDamage{
-//        //
-//
-//    }
+    @Test
+    public void testGunsCorrectDamage(){
+        Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
+        Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10, 10);
+        SemiAuto semiAuto = new SemiAuto(new Vector2(p.getX(), p.getY()), 10, 10);
+        Sniper sniper = new Sniper(new Vector2(p.getX(), p.getY()), 10, 10);
+        assertEquals(sniper.getDamage(), 40);
+        assertEquals(shotgun.getDamage(), 15);
+
+    }
+
+    @Test
+    public void testBuffFactory(){
+        AbstractBuff test = CollectableFactory.produceAbstractBuff( AbstractBuff.buff_type.heavyammo, new Vector2(0,0));
+        assertTrue(test instanceof HeavyAmmoPack);
+
+    }
 
 
 
