@@ -12,6 +12,7 @@ import view.screens.MenuScreen;
  */
 public class CloudShotGame extends Game {
 
+
     /**
      * Different states of the screen.
      */
