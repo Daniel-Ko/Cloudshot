@@ -18,6 +18,10 @@ public class LevelOne extends AbstractLevel {
         super(1);
     }
 
+    public LevelOne(boolean b){
+        super();
+    }
+
     @Override
     public String getLevelName() {
         return "Welcome to Cloudshot";

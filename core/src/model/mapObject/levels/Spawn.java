@@ -34,6 +34,10 @@ public class Spawn implements Serializable{
             else if(enemyType == AbstractEnemy.entity_type.archer){
                 enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), AbstractEnemy.entity_type.archer));
             }
+            else if(enemyType == AbstractEnemy.entity_type.boss1){
+                enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), AbstractEnemy.entity_type.boss1));
+
+            }
         }
     }
 

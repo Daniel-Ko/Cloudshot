@@ -40,6 +40,7 @@ public abstract class AbstractLevel implements Serializable{
     protected List<Spawn> spawns;
     protected List<Portal> portals;
     protected transient Array<Rectangle> hurtyTiles;
+    protected Vector2 spawnPoint;
 
 
     /**
@@ -50,6 +51,23 @@ public abstract class AbstractLevel implements Serializable{
 
         tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
+
+        // load information from .tmx file.
+        generateCollidablePolygons();
+        loadCollectables();
+        loadEndPoint();
+        loadSpawnTriggerPoints();
+        loadSpawns();
+        loadHurtyTiles();
+        loadPortals();
+        loadPlayerSpawn();
+    }
+
+    public AbstractLevel() {
+        LEVEL_NUM = 1;
+
+        tiledMap = new TmxMapLoader().load("levels/level" + getLevelNumber() + ".tmx");
+        //tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / GameModel.PPM);
 
         // load information from .tmx file.
         generateCollidablePolygons();
@@ -76,15 +94,23 @@ public abstract class AbstractLevel implements Serializable{
         }
     }
 
+    public void loadPlayerSpawn(){
+        MapLayer spawn = tiledMap.getLayers().get("Player Spawn");
+        MapObject spawnObj = spawn.getObjects().get(0);
+        RectangleMapObject rect = (RectangleMapObject) spawnObj;
+        Vector2 loc = new Vector2(rect.getRectangle().x,rect.getRectangle().y);
+        spawnPoint = loc;
+    }
+
     /**
      * Loads the 'Collectables' layer of the TMX file. This layer contains the spawn points of the various Collectables.
      * Collectables are stored as 'AbstractCollectable' objects.
      */
     public void loadCollectables() {
-        MapLayer Collectables = tiledMap.getLayers().get("Collectables");
-        MapObjects CollectableObjs = Collectables.getObjects();
-        collectables = new ArrayList<>();
-        for (MapObject o : CollectableObjs) {
+        MapLayer collectables = tiledMap.getLayers().get("Collectables");
+        MapObjects collectableObjs = collectables.getObjects();
+        this.collectables = new ArrayList<>();
+        for (MapObject o : collectableObjs) {
             RectangleMapObject r = (RectangleMapObject) o;
             AbstractCollectable collectable;
 
@@ -105,7 +131,7 @@ public abstract class AbstractLevel implements Serializable{
                 int rand = (int) (Math.random() * 10);
                 collectable = getCollectableFromRand(rand, r);
             }
-            collectables.add(collectable);
+            this.collectables.add(collectable);
         }
     }
 
@@ -205,9 +231,14 @@ public abstract class AbstractLevel implements Serializable{
             String type = (String) rmo.getProperties().get("Type");
             if (type.equals("Rogue")) {
                 enemyType = AbstractEnemy.entity_type.rogue;
-            } else if (type.equals("Shooter")) {
+            }
+            else if (type.equals("Shooter")) {
                 enemyType = AbstractEnemy.entity_type.archer;
-            } else {
+            }
+            else if (type.equals("Boss1")){
+                enemyType = AbstractEnemy.entity_type.boss1;
+            }
+            else {
                 enemyType = AbstractEnemy.entity_type.slime;
             }
             spawns.add(new Spawn(enemyType, (int) rmo.getProperties().get("Number"), rect.x, rect.y));
@@ -383,4 +414,6 @@ public abstract class AbstractLevel implements Serializable{
     public List<Portal> getPortals() {
         return portals;
     }
+
+    public Vector2 getPlayerSpawnPoint() { return spawnPoint; }
 }

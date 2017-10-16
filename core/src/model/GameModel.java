@@ -89,7 +89,7 @@ public class GameModel implements GameModelInterface {
         this.enemies = new ArrayList<>();
         this.enemiesToRemove = new ArrayList<>();
         this.enemiesToAdd = new Stack<>();
-        this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
+        this.player = EntityFactory.producePlayer(this, new Vector2(level.getPlayerSpawnPoint()));
     }
     
     public void setRepoScraper(GameStateTransactionHandler repoScraper) {
@@ -133,7 +133,7 @@ public class GameModel implements GameModelInterface {
             groundBody.createFixture(groundBox, 0.0f).setUserData("platform");
             groundBox.dispose();
         }
-        enemies.add(EntityFactory.produceEnemy(this,new Vector2(2100,400),AbstractEnemy.entity_type.boss1));
+      //  enemies.add(EntityFactory.produceEnemy(this,new Vector2(2100,400),AbstractEnemy.entity_type.boss1));
         
     }
     
