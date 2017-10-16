@@ -44,7 +44,11 @@ public class BulletTest extends GameTest{
         assertTrue(p.getHealth() == 140);
     }
 
-    //Tom external test
+
+    /**
+     * External test by Tom.
+     * tests that when bullet is fired at enemy, the bullet is set to be removed so that it doesnt continue flying across map.
+     */
     @Test
     public void testBulletSetToRemove(){
         BulletImpl b = new BulletImpl(new Vector2(0,0),new Vector2(0,0),10,null,true);
@@ -58,7 +62,11 @@ public class BulletTest extends GameTest{
         b.update(enemies,p,mine);
         assertTrue(b.isToRemove());
     }
-    //Tom external test
+
+    /**
+     * External test by Tom.
+     * Tests that player cannot damage itself with its own bullet (by running into them)
+     */
     @Test
     public void testPlayerBulletDoesntDamagePlayer(){
         //true = player bullet
@@ -71,7 +79,11 @@ public class BulletTest extends GameTest{
         assertTrue(p.getHealth() == 150);
         assertFalse(b.isToRemove());
     }
-    //Tom external test
+
+    /**
+     * External test by Tom.
+     * Tests that enemy bullets dont damage enemies.
+     */
     @Test
     public void testEnemyBulletDoesntDamageEnemy(){
         //false for enemy bullet
@@ -86,7 +98,10 @@ public class BulletTest extends GameTest{
         b.update(enemies,p,mine);
         assertTrue(slime.getHealth() == 20);
     }
-    //Tom external test
+    /**
+     * External test by Tom.
+     * Tests that bullets are stopped when they hit terrain.
+     */
     @Test
     public void testBulletRemovedByTerrain(){
         Rectangle r = new Rectangle(0,0,10,10);
