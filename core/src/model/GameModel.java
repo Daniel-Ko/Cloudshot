@@ -379,7 +379,6 @@ public class GameModel implements GameModelInterface {
     }
     
     private void checkIfGameOver() {
-        //TODO: Change this once the game over condition is more or less confirmed.
         if (player.getHealth() <= 0) {
 
             try {
