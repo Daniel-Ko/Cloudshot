@@ -467,8 +467,8 @@ public class GameModel implements GameModelInterface {
         AbstractPlayer newPlayer = EntityFactory.producePlayer(this,
                 new Vector2(
                         //scale player pos back down to the normal world scale
-                        pdata.getPos().x * PPM,
-                        pdata.getPos().y * PPM
+                        pdata.getPos().x,
+                        pdata.getPos().y
                 ));
         
         // Reconfirm that player has a new Box2D world (removes existing bodies).
@@ -492,8 +492,8 @@ public class GameModel implements GameModelInterface {
                 AbstractWeapon loadedWeapon = CollectableFactory.produceAbstractWeapon(
                         invWep.type,
                         new Vector2(
-                                invWep.getX() * PPM,
-                                invWep.getY()* PPM
+                                invWep.getX(),
+                                invWep.getY()
                         ));
                 loadedWeapon.setAmmo(invWep.getAmmo());
                 loadedWeapon.setPickedUp(invWep.isPickedUp());
@@ -504,25 +504,14 @@ public class GameModel implements GameModelInterface {
             newPlayer.setCurWeapon(pdata.getCurWeapon());
         }
 
-//        if(pdata.getCurWeapon() != null) {
-//            // Now set current weapon with another cloned weapon.
-//            AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
-//                            pdata.getCurWeapon()).type,
-//                    new Vector2(
-//                            pdata.getCurWeapon().getX() * PPM,
-//                            pdata.getCurWeapon().getY() * PPM
-//                    ));
-//            curWep.setAmmo(pdata.getCurWeapon().getAmmo());
-//            curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
-//            newPlayer.setCurWeapon(curWep);
-//        }
-
         // Initialise the loaded player with the saved data of the physics and movement.
         newPlayer.setInAir(pdata.isInAir());
         newPlayer.setGrounded(pdata.isGrounded());
+
         newPlayer.setAttacking(pdata.isAttacking());
         newPlayer.setMovingLeft(pdata.isMovingLeft());
         newPlayer.setMovingRight(pdata.isMovingRight());
+
         newPlayer.setLinearVelocity(pdata.getBodyLinearVelocity());
 
         // Set the model player with this loaded player
@@ -590,6 +579,13 @@ public class GameModel implements GameModelInterface {
         newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers()); // spawning tiles with their trigger state
         newLevel.setSpawns(levelToLoad.getSpawns()); // Spawns with trigger state
 
+        newLevel.setSpawnPoint(levelToLoad.getPlayerSpawnPoint());
+//                new Vector2(
+//                        levelToLoad.getPlayerSpawnPoint().x * PPM,
+//                        levelToLoad.getPlayerSpawnPoint().y * PPM
+//                ));
+
+        newLevel.setEndZone(levelToLoad.getEndZone());
         // Update model's level
         this.level = newLevel;
     }
@@ -611,8 +607,8 @@ public class GameModel implements GameModelInterface {
             if(!c.isPickedUp()) {
                 
                 Vector2 pos = new Vector2(
-                        c.getX()* PPM,
-                        c.getY()* PPM
+                        c.getX() * PPM,
+                        c.getY() * PPM
                 );
                 
                 if (c instanceof AbstractBuff) {
