@@ -26,8 +26,9 @@ import java.util.Optional;
 public abstract class AbstractPlayer implements GameObjectInterface, EntityInterface, InputProcessor, java.io.Serializable{
 
 	private static final long serialVersionUID = 1313414442696252302L;
-    
-    /**
+
+
+	/**
 	 * Used to represent the different states of the player
 	 */
 
@@ -329,6 +330,9 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
         body.ifPresent(body -> body.setTransform(pos, 0));
 	}
 
+	public int getCurWeapon() {
+		return curWeapon;
+	}
 	
 	public Vector2 getAimedAt(){ return aimedAt; }
 	

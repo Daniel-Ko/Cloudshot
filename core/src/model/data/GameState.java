@@ -20,9 +20,6 @@ public class GameState{
         state = pref;
     }
 
-    public void getPref(Preferences state) {
-        this.state = state;
-    }
 
     public Preferences getPref() {
         return state;
@@ -44,14 +41,7 @@ public class GameState{
     public void setEnemiesInPref(String enemies) {
         state.putString("Enemies", enemies);
     }
-    
-    /** puts the bytecode of a List<AbstractCollectable>
-     *  into the Preference
-     * @param collectables
-     */
-    public void setCollectablesInPref(String collectables) {
-        state.putString("Collectables", collectables);
-    }
+
 
     /** puts the bytecode of an AbstractLevel
      * into the Preference
@@ -61,15 +51,7 @@ public class GameState{
         state.putString("Level", level);
     }
 
-    /** puts the bytecode of a List<Rectangle> and List<Spawn>
-     *  into the Preference
-     * @param spawnTriggers
-     * @param spawns
-     */
-    public void setSpawningInPref(String spawnTriggers, String spawns) {
-        state.putString("SpawnTriggers", spawnTriggers);
-        state.putString("Spawns", spawns);
-    }
+
 
     /** As the model will load this value in, assure the TransactionHandler
      * that this value exists inside the GameState
@@ -85,6 +67,10 @@ public class GameState{
      */
     public boolean containsEnemies() {
         return state.contains("Enemies");
+    }
+
+    public boolean containsLevel() {
+        return state.contains("Level");
     }
 
 

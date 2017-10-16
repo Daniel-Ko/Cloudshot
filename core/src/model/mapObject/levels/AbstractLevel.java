@@ -267,8 +267,17 @@ public abstract class AbstractLevel implements Serializable{
         for (int i = 0; i < ml.getObjects().getCount(); i += 2) {
             RectangleMapObject rmo1 = (RectangleMapObject) ml.getObjects().get(i);
             RectangleMapObject rmo2 = (RectangleMapObject) ml.getObjects().get(i + 1);
-            portals.add(new Portal(new Rectangle(rmo1.getRectangle().x / GameModel.PPM, rmo1.getRectangle().y / GameModel.PPM, rmo1.getRectangle().getWidth() / GameModel.PPM, rmo1.getRectangle().getHeight() / GameModel.PPM),
-                    new Rectangle(rmo2.getRectangle().x / GameModel.PPM, rmo2.getRectangle().y / GameModel.PPM, rmo2.getRectangle().getWidth() / GameModel.PPM, rmo2.getRectangle().getHeight() / GameModel.PPM)));
+            portals.add(new Portal(new Rectangle(rmo1.getRectangle().x / GameModel.PPM,
+                    rmo1.getRectangle().y / GameModel.PPM,
+                    rmo1.getRectangle().getWidth() / GameModel.PPM,
+                    rmo1.getRectangle().getHeight() / GameModel.PPM),
+                    new Rectangle(
+                            rmo2.getRectangle().x / GameModel.PPM,
+                            rmo2.getRectangle().y / GameModel.PPM,
+                            rmo2.getRectangle().getWidth() / GameModel.PPM,
+                            rmo2.getRectangle().getHeight() / GameModel.PPM
+                    )
+            ));
         }
     }
 
@@ -420,4 +429,12 @@ public abstract class AbstractLevel implements Serializable{
     }
 
     public Vector2 getPlayerSpawnPoint() { return spawnPoint; }
+
+    public void setSpawnPoint(Vector2 spawnPoint) {
+        this.spawnPoint = spawnPoint;
+    }
+
+    public Rectangle getEndZone() {
+        return endZone;
+    }
 }
