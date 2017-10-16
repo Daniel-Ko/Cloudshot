@@ -66,13 +66,11 @@ public class Shotgun extends AbstractWeapon {
 
 	@Override
 	public CustomSprite getImage() {
-		// TODO Auto-generated method stub
 		return Assets.shotgun;
 	}
 
 	
 	public CustomSprite getBulletImage() {
-		// TODO Auto-generated method stub
 		return Assets.shotgunBullet;
 	}
 	

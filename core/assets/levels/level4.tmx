@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="96">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="97">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
@@ -83,7 +83,7 @@
   <object id="45" x="57.85" y="1506.98" width="476.325" height="193.427"/>
   <object id="89" x="266.838" y="1510.29" width="476.325" height="193.427"/>
   <object id="92" x="47.382" y="1489.95" width="697.236" height="273.427"/>
-  <object id="94" x="1159.84" y="1228.29" width="476.325" height="193.427"/>
+  <object id="94" x="1150.84" y="1210.29" width="476.325" height="193.427"/>
  </objectgroup>
  <objectgroup name="Spawn Location">
   <object id="39" x="551.125" y="1669.04">
@@ -116,7 +116,7 @@
     <property name="Type" value="Rogue"/>
    </properties>
   </object>
-  <object id="95" x="2007" y="1061">
+  <object id="96" x="1984" y="1171">
    <properties>
     <property name="Number" type="int" value="1"/>
     <property name="Type" value="Boss1"/>

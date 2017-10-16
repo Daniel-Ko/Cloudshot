@@ -7,12 +7,10 @@ import view.sprites.CustomSprite;
 
 public class DeathPack extends AbstractBuff {
 
-
 	private static final long serialVersionUID = -852110705429714932L;
 
 	public DeathPack(Vector2 position, float width, float height) {
 		super(position, width, height, buff_type.death);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

@@ -7,7 +7,10 @@ import model.GameObjectInterface;
 import model.being.player.AbstractPlayer;
 import view.sprites.CustomSprite;
 
-
+/**
+ * AbstractBuff contains the logic for all types collectables in the game.
+ * @author Jake Robson
+ */
 public abstract class AbstractCollectable implements GameObjectInterface, java.io.Serializable{
 
     private static final long serialVersionUID = 2484518252244346432L;
@@ -15,9 +18,6 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 	protected Vector2 pos;
 	protected Rectangle boundingBox;
 	protected boolean pickedUp = false;
-	
-	public final float COLLECTABLE_WIDTH = 10;
-	public final float COLLECTABLE_HIEGHT = 10;
 
 	/**
 	 * This class represents anything on the map which can be collected.
