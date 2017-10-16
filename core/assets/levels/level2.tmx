@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="94">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="96">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
@@ -25,7 +25,7 @@
  </layer>
  <layer name="Decoration" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt1W0KgkAQAFA1hK5gnaC6QNFBqwtUt6hulj8ULMTYxY/A92DwY1ZXHHYnSQAAAAAAAAAAAAAAAAAAAGiz/ZHryjM+9WDOXllcjuk81WVwq45YN8YV1T2mdSrXxNm6GFVXf7iWuVumh4zh4R//vfXXdTHJV9BU94yL9dO7TcQzdc+4B9ZjFzHX3MTUI9Zc67FsnC/KSKvjvoy8Ou6r/KGnOdP0M/KWMcee5qrffc7Cwx47nFsWHqF7LAAA/XgDXHAgUw==
+   eJzt1W0KgkAQANC0gugG5QmqCxQdtLpAdovqZvlDwUoMl02D3oPBj1mdxWHd0QgAAAAAAAAAAAAAAAAAAIAm6w+5tjz90w/+2T0NyzGcm7583bIlstq4RXmPYR2KNXG0LnrVtj+ci1ye2kP6cPWNf172cr0YZBbUVXvGyfqJbhXwTLVnXDr2YxNQ69+E9CPUL/RjMkDNWe18XERSHrdFTMvjtszvItVMkueYNozZR6pVvfuYdo95pDnwLk+7R9d/LAAAcTwARiAfxg==
   </data>
  </layer>
  <objectgroup name="Portals">
@@ -60,6 +60,16 @@
   <object id="85" x="1474" y="1473.33" width="60" height="4"/>
   <object id="86" x="1574.67" y="1386" width="18.6667" height="19.3333"/>
   <object id="88" x="1928" y="1696" width="985.5" height="4.5"/>
+  <object id="94" x="1120.3" y="1473.31" width="32.1617" height="32.9275">
+   <properties>
+    <property name="Type" value="HeavyAmmoPack"/>
+   </properties>
+  </object>
+  <object id="95" x="1247.42" y="1376.06" width="34.459" height="32.1617">
+   <properties>
+    <property name="Type" value="HeavyAmmoPack"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Collectables">
   <object id="27" x="1215.9" y="1505.04" width="32.5792" height="32.5792"/>

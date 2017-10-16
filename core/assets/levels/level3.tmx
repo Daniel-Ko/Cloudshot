@@ -5,8 +5,7 @@
   <image source="textures/spikes.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="258" source="tiledset.tsx"/>
- <tileset firstgid="483" source="tiledset.tsx"/>
- <tileset firstgid="708" source="woodtiledset.tsx"/>
+ <tileset firstgid="483" source="woodtiledset.tsx"/>
  <imagelayer name="Image Layer 1" offsetx="-233.67" offsety="742">
   <image source="textures/BG3.png" width="1920" height="1080"/>
  </imagelayer>
@@ -20,12 +19,12 @@
  </layer>
  <layer name="Terrain" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2FlqwzAUBVDjXXRYeJtOnyWlG+hA11blo1AUy8Ty8OL4HLgfNgE/51qxSNMAAAAAAAAAAAAAAAAAAADAdjylPKe8RA+yEb7vy/MYPcAZug289nvgtTm29T6mWAtTvjfyPvx+xfrOjte4Xq5SrlNuogeZwRr7WErEfvZ/H3/X70pppvuU3cBQlq+PrvXSt4b2KW8DQ9nYPj5SPgfmnEXvb8b2UeOunTe7tn626PdpRB+v7bzZd/RReu7z81vsI0LpHk65/yXp47TPLUUf/cc/Td2e/pCHCebUx7GaPf0hXxPMmf+fUjq3NmP6qNnT13TRN+elWcv7I+LZ/wWUko0z
+   eJzt2MtOg0AUBmB4DC8v7n2tcW+qxqXxsZwuTMyUIWW4nFK+L/kXkCYc+jNl0qYBAAAAAAAAAAAAAAAAAACA7XhIeUx5ih5kI3zf5+c+eoATdB147dfAa3No631MsRamfG/kffj9ivWZHa9xvVykXKZcRQ8ygzX2sZSI/ez/Pv6u35XSTDcptwNDWb4+utZL3xp6TnkZGMrG9rFLeR+YUxa9vxnbR423dt7s2vrZot+nEX18t/Pmp6OP0nOfn99iHxFK93DM/S9JH8d9bin66D/+aur29PvcTTCnPg7V7On3+Zhgzvz/lNK5tRnTR82evqaLvjnPzVreHxHP/i8poJMP
   </data>
  </layer>
  <layer name="Decoration" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2LENgDAUQ8FkNmYhTEBYP38EGuQI3Umvd+3WAAAAAAAAAAAAAAAAAAAA+NJZjepKDwEAALbXe3oBAPDGkR4AP+VP38tdzepJDwGAgAW8XgQM
+   eJzt2MENQFAURFE/sdKWWlAB2vdakPgZ4Zxk9nc9wwAAAAAAAAAAAAAAAAAAAEBPS22tbekQAAD4qTEdcENr6YL+pnQAADxgTgfAR/nT32WvHbUzHQIAARfJZQQa
   </data>
  </layer>
  <objectgroup name="Portals">
