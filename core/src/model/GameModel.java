@@ -492,20 +492,22 @@ public class GameModel implements GameModelInterface {
         
                 newPlayer.getInventory().add(loadedWeapon);
             }
+
+            newPlayer.setCurWeapon(pdata.getCurWeapon());
         }
 
-        if(pdata.getCurWeapon() != null) {
-            // Now set current weapon with another cloned weapon.
-            AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
-                            pdata.getCurWeapon()).type,
-                    new Vector2(
-                            pdata.getCurWeapon().getX() * PPM,
-                            pdata.getCurWeapon().getY() * PPM
-                    ));
-            curWep.setAmmo(pdata.getCurWeapon().getAmmo());
-            curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
-            newPlayer.setCurWeapon(curWep);
-        }
+//        if(pdata.getCurWeapon() != null) {
+//            // Now set current weapon with another cloned weapon.
+//            AbstractWeapon curWep = CollectableFactory.produceAbstractWeapon((
+//                            pdata.getCurWeapon()).type,
+//                    new Vector2(
+//                            pdata.getCurWeapon().getX() * PPM,
+//                            pdata.getCurWeapon().getY() * PPM
+//                    ));
+//            curWep.setAmmo(pdata.getCurWeapon().getAmmo());
+//            curWep.setPickedUp(pdata.getCurWeapon().isPickedUp());
+//            newPlayer.setCurWeapon(curWep);
+//        }
 
         // Initialise the loaded player with the saved data of the physics and movement.
         newPlayer.setInAir(pdata.isInAir());

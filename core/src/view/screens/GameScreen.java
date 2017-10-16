@@ -294,16 +294,16 @@ public class GameScreen extends ScreenAdapter {
         );
 
         // Draw the current weapon.
-        if(player.getCurWeapon() != null){
+        if(!player.getInventory().isEmpty()){
             if(player.flip()){
                 // Should be facing left.
-                batch.draw(player.getCurWeapon().getImage().getFrameFromTime(elapsedTime),
+                batch.draw(player.getInventory().get(player.getCurWeapon()).getImage().getFrameFromTime(elapsedTime),
                         player.flip() ? x + width/2 : x, y+height/2,
                         player.flip() ? -0.5f : 0.5f,0.5f
                 );
             }
             else{
-                batch.draw(player.getCurWeapon().getImage().getFrameFromTime(elapsedTime),
+                batch.draw(player.getInventory().get(player.getCurWeapon()).getImage().getFrameFromTime(elapsedTime),
                         x + width/2, y+height/2,
                         player.flip() ? -0.5f : 0.5f,0.5f
                 );
@@ -320,7 +320,7 @@ public class GameScreen extends ScreenAdapter {
      */
     private void drawBullets(Player player){
         for (BulletImpl b : player.getBullets()) {
-            batch.draw(player.getCurWeapon().getBulletImage().getFrameFromTime(elapsedTime),
+            batch.draw(player.getInventory().get(player.getCurWeapon()).getBulletImage().getFrameFromTime(elapsedTime),
                     b.getX() - 0.25f,
                     b.getY() - 0.25f,
                     0f, 0f,

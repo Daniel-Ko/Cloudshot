@@ -42,7 +42,7 @@ public class Player extends AbstractPlayer {
 		super();
 		damage = 1;
 		health = 150;
-		curWeapon = null;
+		curWeapon = 0;
 	}
 
 	@Override
@@ -56,12 +56,8 @@ public class Player extends AbstractPlayer {
 	/**
 	 * @param curWeapon the curWeapon to set
 	 */
-	public void setCurWeapon(AbstractWeapon curWeapon) {
+	public void setCurWeapon(int curWeapon) {
 		this.curWeapon = curWeapon;
-	}
-
-	public AbstractWeapon getCurWeapon(AbstractWeapon curWeapon) {
-		return this.curWeapon;
 	}
 
 
@@ -151,10 +147,10 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-		if (this.getCurWeapon() == null) {
+		if (this.getInventory().isEmpty()) {
 			return;
 		}
-		ArrayList<BulletImpl> bul = this.getCurWeapon().shoot(this);
+		ArrayList<BulletImpl> bul = this.inventory.get(getCurWeapon()).shoot(this);
 		if (bul == null) {
 			return;
 		}
@@ -238,7 +234,7 @@ public class Player extends AbstractPlayer {
 		this.meleeRange = meleeRange;
 	}
 
-	public AbstractWeapon getCurWeapon() {
+	public int getCurWeapon() {
 		return this.curWeapon;
 	}
 
