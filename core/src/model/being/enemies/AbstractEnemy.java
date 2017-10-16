@@ -16,7 +16,6 @@ import view.sprites.CustomSprite;
 
 /**
  * Class contains attributes which is common among all 'enemys'
- *
  * @author Jeremy Southon
  */
 public abstract class AbstractEnemy implements GameObjectInterface, EntityInterface, java.io.Serializable {
