@@ -1,21 +1,20 @@
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import model.GameModel;
 import model.being.enemies.Slime2;
-import model.being.enemystates.AggroDash;
-import model.being.enemystates.Death;
-import model.being.enemystates.IdleMovement;
-import model.being.enemystates.MeleeAttack;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.collectable.Pistol;
 import model.collectable.Shotgun;
+import model.collectable.Sniper;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
-import view.sprites.CustomSprite;
+/**
+ *
+ * @author Jeremy Southon
+ * */
 public class PlayerTest extends GameTest{
 
     @Test
@@ -59,8 +58,8 @@ public class PlayerTest extends GameTest{
     public void TestPlayerDeath(){
         Player p = new Player();
         int initHP = p.getHealth();
-        p.hit(initHP);//TODO spawnEnemies check and spawnEnemies for death state in hit
-        //TODO spawnEnemies player state method
+        p.hit(initHP);
+        p.update(new ArrayList<>());
         assertEquals(AbstractPlayer.player_state.DEAD,p.getPlayerState());
     }
 
@@ -100,19 +99,17 @@ public class PlayerTest extends GameTest{
         assertTrue(slimeHP == s.getHealth());
     }
 
-    @Test
-    public void TestGetImage(){
-        //TODO
-        //change state -> check image returned from getImage, repeat.
-    }
 
     @Test
     public void TestPlayersInventory(){
         Player p = new Player();
         Shotgun gun = new Shotgun(p.getPos(),1,1);
-        assertNull(p.getCurWeapon());
+        assertTrue(p.getCurWeapon() == 0 );
         gun.pickedUp(p);//player picks up shot gun
-        assertNotNull(p.getCurWeapon());
+        assertTrue(p.getCurWeapon()==0);
+        Sniper sip = new Sniper(p.getPos(),1,1);
+        sip.pickedUp(p);
+        assertTrue(p.getCurWeapon() == 1);
     }
 
     @Test
@@ -124,6 +121,57 @@ public class PlayerTest extends GameTest{
         assertNotNull(p.getWorld());
         assertNotNull(p.getBody());
     }
+    @Test
+    public void TestLeftMovement(){
+        World world = new World(new Vector2(0,-10),true);
+        Player p = new Player();
+        p.initBox2D(world,new Vector2(0,0));
+        p.update(null);
+        Vector2 beforeleftMove = new Vector2(p.getPos().x,p.getPos().y);
+        p.moveLeft();
+        world.step(1 /30f, 12, 4);
+        p.update(null);
+        assertTrue(p.getX()<beforeleftMove.x);
+    }
+
+    @Test
+    public void TestRightMovement(){
+        World world = new World(new Vector2(0,-10),true);
+        Player p = new Player();
+        p.initBox2D(world,new Vector2(0,0));
+        p.update(null);
+        Vector2 beforeMoveRight = new Vector2(p.getPos().x,p.getPos().y);
+        p.moveRight();
+        world.step(1 /30f, 12, 4);
+        p.update(null);
+        assertTrue(p.getX()>beforeMoveRight.x);
+    }
+
+    @Test
+    public void emptyInventoryTest(){
+        Player p = new Player();
+        World world = new World(new Vector2(0, -50), true);
+        p.initBox2D(world,new Vector2(0,0));
+        p.shoot();//should do nothing
+        assertTrue(p.getBullets().size() == 0);
+        p.update(null);
+    }
+
+    @Test
+    public void jumpingTest(){
+        Player p = new Player();
+        World world = new World(new Vector2(0, -50), true);
+        Vector2 pos = new Vector2(0,0);
+        p.initBox2D(world,pos);
+        Vector2 prePos = new Vector2(p.getX(),p.getY());
+        p.jump();
+        world.step(1 /30f, 12, 4);
+        p.update(null);
+        assertTrue(p.getY()>prePos.y);
+
+    }
+
+
 
 
 }

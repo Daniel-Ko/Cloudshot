@@ -134,8 +134,6 @@ public class Slime2 extends AbstractEnemy{
             e2.damage = damage / 2;
             game.addEnemy(e1);
             game.addEnemy(e2);
-            System.out.println(game.getEnemies().size());
-
         }
     }
 

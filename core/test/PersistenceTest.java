@@ -10,8 +10,11 @@ import model.being.enemies.Rogue;
 import model.being.enemies.Slime2;
 import model.being.player.AbstractPlayer;
 import model.being.player.Player;
+import model.being.player.PlayerData;
+import model.collectable.*;
 import model.data.GameState;
 import model.data.GameStateTransactionHandler;
+import model.mapObject.levels.Spawn;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -328,9 +331,63 @@ public class PersistenceTest extends GameTest{
 
     @Test
     public void testValidLoad() {
+        MockSaveLoader repoScraper = new MockSaveLoader();
 
+        repoScraper.save(setUpValidModelData()); // Be sure to check if validSave test is working!
+
+        MockModelData loader = repoScraper.load();
+
+        //===============
+        // VERIFY PLAYER
+        PlayerData pdata = loader.loadPlayerData();
+
+        // Player properties
+        assertTrue(pdata.getHealth() == 20);
+        assertTrue(pdata.isInAir());
+
+        // Player Inventory + curWeapon + ammo
+        assertTrue(pdata.getInventory().size() == 2);
+        assertTrue(pdata.getInventory().get(0) instanceof Shotgun);
+        assertTrue(pdata.getInventory().get(1) instanceof Pistol);
+        assertTrue(pdata.getCurWeapon() == 1);
+        assertTrue(pdata.getInventory().get(pdata.getCurWeapon()).getAmmo() == 20);
+
+        //===============
+        // VERIFY ENEMIES
+        List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
+
+        //Verify type
+        assertTrue(loadedEnemies.size() == 2);
+        assertTrue(loadedEnemies.get(0) instanceof Rogue);
+        assertTrue(loadedEnemies.get(1) instanceof Slime2);
+
+        //Verify enemy conditions
+        assertTrue(loadedEnemies.get(0).getHealth() == 10);
+
+        //===============
+        // VERIFY LEVEL
+        MockLevel loadedLevel = loader.loadLevel();
+
+        // Test collectables
+        List<AbstractCollectable> collects = loadedLevel.getCollectables();
+        assertTrue(collects.size() == 3);
+        assertTrue(collects.get(0) instanceof Sniper);
+        assertTrue(collects.get(1) instanceof SemiAuto);
+        assertTrue(collects.get(2) instanceof HealthPack);
+
+        // Test Spawn Trigger Points
+        assertTrue(loadedLevel.getSpawnTriggers().size() == 1);
+        assertTrue(loadedLevel.getSpawnTriggers().get(0).height == 20);
+
+        // Test Spawns
+        List<Spawn> spawns = loadedLevel.getSpawns();
+        assertTrue(spawns.size() == 1);
+        assertTrue(spawns.get(0).getEnemyType() == AbstractEnemy.entity_type.archer);
+        assertTrue(spawns.get(0).getNumber() == 1);
+
+        // Test Portals
+        assertTrue(loadedLevel.getPortals().isEmpty());
     }
-
 
 
     //
@@ -338,12 +395,10 @@ public class PersistenceTest extends GameTest{
     //
 
     private MockModelData setUpValidModelData() {
-        AbstractPlayer pl = new Player();
+        AbstractPlayer pl = setUpValidPlayer();
         List<AbstractEnemy> enems = setUpValidEnemies();
         MockLevel level = setUpValidLevel();
 
-        pl.setHealth(20);
-        pl.setInAir(true);
 
         MockModelData data = new MockModelData();
 
@@ -354,15 +409,34 @@ public class PersistenceTest extends GameTest{
         return data;
     }
 
+
     private GameState setUpValidState(String name) {
         return new GameState(
                 Gdx.app.getPreferences(name));
     }
 
+    private AbstractPlayer setUpValidPlayer() {
+        AbstractPlayer pl = new Player();
+        pl.setHealth(20);
+        pl.setInAir(true);
+
+        Shotgun wep1 = new Shotgun(new Vector2(0, 0), 20, 20);
+        wep1.pickedUp(pl);
+
+        Pistol wep2 = new Pistol(new Vector2(0, 0), 20, 20);
+        wep2.pickedUp(pl);
+        wep2.setAmmo(20);
+
+        return pl;
+    }
+
     private List<AbstractEnemy> setUpValidEnemies() {
         List<AbstractEnemy> enems = new ArrayList<>();
 
-        enems.add(new Rogue());
+        Rogue rogue = new Rogue();
+        rogue.setHealth(10);
+
+        enems.add(rogue);
         enems.add(new Slime2());
 
         return enems;
