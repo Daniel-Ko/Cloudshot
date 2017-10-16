@@ -24,10 +24,13 @@ public class MockSaveLoader {
     public GameStateRepository repository;
 
     public Map<String, String> serVals;
+    public Map<String, String> deserVals;
+    public PlayerData serPData;
 
     public MockSaveLoader() {
         repository = new GameStateRepository();
         serVals = new HashMap<>();
+        deserVals = new HashMap<>();
     }
 
     public void save(MockModelData model) {
@@ -111,7 +114,7 @@ public class MockSaveLoader {
     @SuppressWarnings("Duplicates")
     public boolean validateAndUpdatePlayer(GameState newState, AbstractPlayer newPlayer) {
         if (newPlayer == null) {
-            return false;
+            throw new GameStateTransactionHandler.InvalidTransactionException("Player was null");
         }
 
         //create a PlayerData object that makes serializable objects out of a not-entirely serializable AbstractPlayer
@@ -127,6 +130,8 @@ public class MockSaveLoader {
             newState.setPlayerInPref(playerSer);
 
             serVals.put("Player", playerSer); //save serialised string to test
+            serPData = playerProps;
+
             return true;
 
         } catch (IOException e) {
@@ -146,7 +151,7 @@ public class MockSaveLoader {
     @SuppressWarnings("Duplicates")
     public boolean validateAndUpdateEnemies(GameState newState, List<AbstractEnemy> newFoes) {
         if (newFoes == null) {
-            return false;
+            throw new GameStateTransactionHandler.InvalidTransactionException("Enemies were null");
         }
 
         //now serialise the Enemies List and add to Preferences
@@ -167,7 +172,7 @@ public class MockSaveLoader {
 
     public boolean validateAndUpdateLevel(GameState newState, MockLevel newLevel) {
         if (newLevel == null) {
-            return false;
+            throw new GameStateTransactionHandler.InvalidTransactionException("Level was null");
         }
 
         //now serialise the Enemies List and add to Preferences
@@ -195,6 +200,7 @@ public class MockSaveLoader {
      */
     public PlayerData validateAndReturnPlayerData(GameState latest) throws GameStateTransactionHandler.InvalidTransactionException {
         try {
+            deserVals.put("Player", latest.getPref().getString("Player"));
             Object p = deserializeFromBase64(latest.getPref().getString("Player"));
             if (!(p instanceof PlayerData))
                 throw new GameStateTransactionHandler.InvalidTransactionException("Deserialized player object isn't a PlayerData");
@@ -213,6 +219,7 @@ public class MockSaveLoader {
      */
     public List<AbstractEnemy> validateAndReturnEnemies(GameState latest) throws GameStateTransactionHandler.InvalidTransactionException {
         try {
+            deserVals.put("Enemies", latest.getPref().getString("Enemies"));
             Object e = deserializeFromBase64(latest.getPref().getString("Enemies"));
 
             if (!(e instanceof List))
@@ -233,6 +240,7 @@ public class MockSaveLoader {
 
     public MockLevel validateAndReturnLevel(GameState latest) throws GameStateTransactionHandler.InvalidTransactionException {
         try {
+            deserVals.put("Level", latest.getPref().getString("Level"));
             Object l = deserializeFromBase64(latest.getPref().getString("Level"));
 
             if (!(l instanceof MockLevel))
