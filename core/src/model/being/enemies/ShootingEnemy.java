@@ -84,7 +84,7 @@ public class ShootingEnemy extends AbstractEnemy{
 	private void updateBullets(){
 		//updating bullets enemy has fired
 		for(BulletImpl b : bullets)
-			b.update(new ArrayList<>(),player);
+			b.update(new ArrayList<>(),player,null);
 		//Cleans up bullets
 		if(bullets.size() > 10){
 			bullets.poll();//remove the oldest 1st

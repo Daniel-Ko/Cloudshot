@@ -370,8 +370,8 @@ public class GameScreen extends ScreenAdapter {
                 for (BulletImpl b : s.getBullets())
                     batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),
                             b.getX() - 0.25f, b.getY() - 0.25f,
-                            0.5f,
-                            0.5f
+                            0.2f,
+                            0.2f
                     );
             }
             if (ae instanceof Boss1V2) {

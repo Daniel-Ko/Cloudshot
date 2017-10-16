@@ -101,7 +101,7 @@ public class Boss1V2 extends AbstractEnemy{
     private void updateBullets(){
         //updating bullets enemy has fired
         for(BulletImpl b : getBulletsShot())
-            b.update(new ArrayList<AbstractEnemy>(),player);//FIXME
+            b.update(new ArrayList<>(),player,null);//FIXME
         //Cleans up bullets
         if(getBulletsShot().size() > 300){
             getBulletsShot().clear();//remove the oldest 1st
