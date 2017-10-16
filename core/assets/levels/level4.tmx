@@ -56,10 +56,10 @@
   <object id="81" x="1474.67" y="1540" width="409.333" height="24.6667"/>
   <object id="82" x="1666.67" y="1504.67" width="218.667" height="30.6667"/>
   <object id="83" x="1824.67" y="1554.67" width="30" height="49.3333"/>
-  <object id="84" x="1376.67" y="1598" width="92.6667" height="7.33333"/>
-  <object id="85" x="1474" y="1468" width="60" height="9.33333"/>
+  <object id="84" x="1376.67" y="1602" width="92.6667" height="3.33333"/>
+  <object id="85" x="1474" y="1473.33" width="60" height="4"/>
   <object id="86" x="1574.67" y="1386" width="18.6667" height="19.3333"/>
-  <object id="88" x="1928" y="1696" width="948.5" height="4.5"/>
+  <object id="88" x="1928" y="1696" width="985.5" height="4.5"/>
  </objectgroup>
  <objectgroup name="Collectables">
   <object id="27" x="1215.9" y="1505.04" width="32.5792" height="32.5792"/>
