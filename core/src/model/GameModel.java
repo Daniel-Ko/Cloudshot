@@ -61,6 +61,8 @@ public class GameModel implements GameModelInterface {
 
 
     private Array<Rectangle> terrain;
+    public Array<Rectangle> scaledTerrain = new Array<>();
+
     
     /**
      * Keeps track of what level we are currently at.
@@ -101,7 +103,7 @@ public class GameModel implements GameModelInterface {
         this.enemies = new ArrayList<>();
         this.enemiesToRemove = new ArrayList<>();
         this.enemiesToAdd = new Stack<>();
-        this.player = EntityFactory.producePlayer(this, new Vector2(50, 500));
+        this.player = EntityFactory.producePlayer(this, new Vector2(level.getPlayerSpawnPoint()));
     }
 
     /**
@@ -144,7 +146,7 @@ public class GameModel implements GameModelInterface {
      * Load the terrain for the map for the model of the game.
      */
     public void loadTerrain() {
-        this.terrain = level.getTiles();
+        setTerrain(level.getTiles());
         for (Rectangle r : terrain) {
 
             // Load the terrains.
@@ -156,14 +158,15 @@ public class GameModel implements GameModelInterface {
             Body groundBody = world.createBody(terrainPiece);
             PolygonShape groundBox = new PolygonShape();
             groundBox.setAsBox((r.width / 2) / GameModel.PPM, (r.height / 2) / GameModel.PPM);
-            
+
+            //for getting scaled bounding boxes of terrain to do collisions
+            scaledTerrain.add(new Rectangle(r.getX()/PPM,r.getY()/PPM,(r.width/PPM),(r.height/PPM)));
+
             // User data to tell us what things are colliding.
             groundBody.createFixture(groundBox, 0.0f).setUserData("platform");
             groundBox.dispose();
         }
 
-        // Add the enemies into the map.
-        enemies.add(EntityFactory.produceEnemy(this,new Vector2(2100,400),AbstractEnemy.entity_type.boss1));
     }
 
     /**

@@ -89,7 +89,7 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 
 		if (this.playerBullet){
 			for (Rectangle r : terrain){
-				if(r.contains(this.getX(),this.getY())){
+				if(r.contains(this.pos)){
 					this.setToRemove();
 				}
 			}

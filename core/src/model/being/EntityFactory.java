@@ -62,6 +62,7 @@ public class EntityFactory {
 		Player p = new Player();
 		p.initBox2D(gameModel.getWorld(),pos);
 		p.setCamera(gameModel.getCamera());
+		p.provideGameModel(((GameModel)gameModel));
 		return p;
 	}
 }
