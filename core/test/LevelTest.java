@@ -21,6 +21,12 @@ import static model.GameModel.PPM;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * @author tomherdson
+ * Test class for JUnit testing the level and its components.
+ * LevelOne and its .tmx file are used to test the level.
+ * When spawning the player, the specific values used are to put the player in a position desired for the test.
+ */
 public class LevelTest extends GameTest{
     //test spikes hurt player.
     //test player dies when falling off map
