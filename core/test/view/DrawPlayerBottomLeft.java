@@ -19,7 +19,7 @@ public class DrawPlayerBottomLeft extends ViewTest {
             public AbstractPlayer getPlayer() {
                 // Create and draw player the the bottom left of the screen.
                 AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(0,0));
-                player.setPos(new Vector2(1, 1));
+                player.setPos(new Vector2(1,1));
                 return player;
             }
         };

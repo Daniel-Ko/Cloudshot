@@ -72,7 +72,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 
 	//Used for converting mouse pressed coords into world coords
 	private transient OrthographicCamera cam;
-	private transient GameModel game;
+	private transient GameModelInterface game;
 
 	public AbstractPlayer() {
 		world = Optional.empty();
@@ -384,11 +384,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	/**
 	 * Provided the list of terrain in the map.
 	 * */
-	public void provideGameModel(GameModel game){
+	public void provideGameModel(GameModelInterface game){
 		this.game = game;
 	}
 	public Array<Rectangle> getTerrainScaled(){
-		return game.scaledTerrain;
+		return game.getScaledTerrain();
 	}
 
 	public void setWorld(Optional<World> world) {

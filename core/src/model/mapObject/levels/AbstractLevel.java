@@ -170,10 +170,6 @@ public abstract class AbstractLevel implements Serializable{
                 collectable = new Shotgun(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
                 break;
             }
-            case "SlowPack": {
-                collectable = new SlowPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
-                break;
-            }
             default: {
                 collectable = new HealthPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
             }

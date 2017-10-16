@@ -1,7 +1,12 @@
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import model.being.enemies.AbstractEnemy;
 import model.being.enemies.Slime2;
+import model.being.player.AbstractPlayer;
 import model.being.player.Player;
 import model.collectable.*;
+import model.projectile.BulletImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import sun.plugin2.gluegen.runtime.BufferFactory;
@@ -9,6 +14,9 @@ import sun.plugin2.gluegen.runtime.BufferFactory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import model.GameModel;
+
+import java.util.ArrayList;
 
 public class CollectableTests extends GameTest {
 
@@ -150,6 +158,15 @@ public class CollectableTests extends GameTest {
         assertTrue(p.getInventory().contains(pistol));
         assertTrue (p.getInventory().contains(shotgun));
     }
+    @Test
+    public void testCollectableCollisionDetection(){
+        Player p = new Player();
+        p.setPos(new Vector2(0,0));
+        HealthPack hp = new HealthPack(new Vector2(0,0), 10,10);
+        assertFalse(hp.isPickedUp());
+        hp.checkCollide(p);
+        assertTrue(hp.isPickedUp());
+    }
 
 
     @Test
@@ -169,13 +186,14 @@ public class CollectableTests extends GameTest {
     @Test
     public void testGunsCorrectDamage(){
         Player p = new Player();
-
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10, 10);
         SemiAuto semiAuto = new SemiAuto(new Vector2(p.getX(), p.getY()), 10, 10);
         Sniper sniper = new Sniper(new Vector2(p.getX(), p.getY()), 10, 10);
-        assertEquals(sniper.getDamage(), 40);
-        assertEquals(shotgun.getDamage(), 15);
+        assertTrue(sniper.getDamage() == 40);
+        assertTrue(shotgun.getDamage() == 15);
+        assertTrue(pistol.getDamage() == 8);
+        assertTrue(semiAuto.getDamage() == 8);
 
     }
 
@@ -183,7 +201,56 @@ public class CollectableTests extends GameTest {
     public void testBuffFactory(){
         AbstractBuff test = CollectableFactory.produceAbstractBuff( AbstractBuff.buff_type.heavyammo, new Vector2(0,0));
         assertTrue(test instanceof HeavyAmmoPack);
+        AbstractBuff test2 = CollectableFactory.produceAbstractBuff( AbstractBuff.buff_type.lightammo, new Vector2(0,0));
+        assertTrue(test2 instanceof LightAmmoPack);
+        AbstractBuff test3 = CollectableFactory.produceAbstractBuff( AbstractBuff.buff_type.health, new Vector2(0,0));
+        assertTrue(test3 instanceof HealthPack);
+        AbstractBuff test4 = CollectableFactory.produceAbstractBuff( AbstractBuff.buff_type.death, new Vector2(0,0));
+        assertTrue(test4 instanceof DeathPack);
 
+    }
+    @Test
+    public void testWepFactory(){
+        AbstractWeapon test = CollectableFactory.produceAbstractWeapon(AbstractWeapon.weapon_type.pistol, new Vector2(0,0));
+        assertTrue(test instanceof Pistol);
+        AbstractWeapon test2 = CollectableFactory.produceAbstractWeapon(AbstractWeapon.weapon_type.sniper, new Vector2(0,0));
+        assertTrue(test2 instanceof Sniper);
+        AbstractWeapon test3 = CollectableFactory.produceAbstractWeapon(AbstractWeapon.weapon_type.semiauto, new Vector2(0,0));
+        assertTrue(test3 instanceof SemiAuto );
+        AbstractWeapon test4 = CollectableFactory.produceAbstractWeapon(AbstractWeapon.weapon_type.shotgun, new Vector2(0,0));
+        assertTrue(test4 instanceof Shotgun);
+    }
+    @Test
+    public void testAbstractCollectableMethods(){
+        HealthPack hp = new HealthPack(new Vector2(0,0), 5,5);
+        assertTrue(hp.getX() == 0);
+        assertTrue(hp.getY() == 0);
+    }
+
+
+    @Test
+    public void testBulletDamgesEnemy(){
+        BulletImpl b = new BulletImpl(new Vector2(0,0),new Vector2(0,0),10,null,true);
+        Slime2 slime = new Slime2();
+        slime.setPosition(new Vector2(0,0));
+        slime.setHealth(20);
+        ArrayList<AbstractEnemy> enemies = new ArrayList<>();
+        enemies.add(slime);
+        AbstractPlayer p = new Player();
+        Array mine = new Array<>();
+        b.update(enemies,p,mine);
+        assertTrue(slime.getHealth() == 10);
+    }
+
+    @Test
+    public void testBulletDamgesPlayer(){
+        BulletImpl b = new BulletImpl(new Vector2(0,0),new Vector2(0,0),10,null,false);
+        ArrayList<AbstractEnemy> enemies = new ArrayList<>();
+        AbstractPlayer p = new Player();
+        p.setPos(new Vector2(0,0));
+        Array mine = new Array<>();
+        b.update(enemies,p,mine);
+        assertTrue(p.getHealth() == 140);
     }
 
 
