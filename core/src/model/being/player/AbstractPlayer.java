@@ -60,7 +60,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	
 	// Players inventory
 	protected List<AbstractWeapon> inventory;
-	protected AbstractWeapon curWeapon;
+	protected int curWeapon;
 	
 	// Position of the mouse
 	protected Vector2 aimedAt = new Vector2(50,50);
@@ -227,15 +227,15 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	 * */
 	private void switchingWeaponInput(int keycode){
 		if(keycode == Input.Keys.NUM_1){
-			if(inventory.size()>=1)curWeapon = inventory.get(0);
+			if(inventory.size()>=1)curWeapon = 0;
 		}else if (keycode == Input.Keys.NUM_2){
-			if(inventory.size()>=2)curWeapon = inventory.get(1);
+			if(inventory.size()>=2)curWeapon = 1;
 		}else if (keycode == Input.Keys.NUM_3){
-			if(inventory.size()>=3)curWeapon = inventory.get(2);
+			if(inventory.size()>=3)curWeapon = 2;
 		}else if (keycode == Input.Keys.NUM_4){
-			if(inventory.size()>=4)curWeapon = inventory.get(3);
+			if(inventory.size()>=4)curWeapon = 3;
 		}else if (keycode == Input.Keys.NUM_5){
-			if(inventory.size()>=5)curWeapon = inventory.get(4);
+			if(inventory.size()>=5)curWeapon = 4;
 		}
 	}
 	@Override
@@ -423,7 +423,7 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 		this.inventory = inventory;
 	}
 
-	public void setCurWeapon(AbstractWeapon curWeapon) {
+	public void setCurWeapon(int curWeapon) {
 		this.curWeapon = curWeapon;
 	}
 	

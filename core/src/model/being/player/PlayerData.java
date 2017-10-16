@@ -40,7 +40,7 @@ public class PlayerData implements Serializable{
 
     // Players inventory
     protected List<AbstractWeapon> inventory;
-    protected AbstractWeapon curWeapon;
+    protected int curWeapon;
 
     // Position of the mouse
     protected Vector2 aimedAt = new Vector2(50,50);
@@ -128,7 +128,7 @@ public class PlayerData implements Serializable{
     /** GETTERS */
 
 
-    public AbstractWeapon getCurWeapon() {
+    public int getCurWeapon() {
         return curWeapon;
     }
 
