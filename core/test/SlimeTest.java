@@ -101,11 +101,11 @@ public class SlimeTest extends GameTest {
         Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
         s.provideGameModel(gm);
 
-        Player p = new Player();
-        Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
-        s.hit(s.getHealth());
-        s.update();
-        assertTrue(s.enemyState instanceof Death);
+//        Player p = new Player();
+//        Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
+//        s.hit(s.getHealth());
+//        s.update();
+//        assertTrue(s.enemyState instanceof Death);
 
         //Enemys should increase because of slime split
         assertEquals(0,gm.getEnemies().size());

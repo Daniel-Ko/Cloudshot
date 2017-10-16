@@ -193,7 +193,7 @@ public abstract class AbstractLevel implements Serializable{
      * @return true if player has won level, false otherwise.
      */
     public boolean hasPlayerWon(AbstractPlayer p) {
-        return endZone.contains(p.getPos());
+        return endZone.contains(p.getPos()) && p.getModel().getEnemies().isEmpty();
     }
 
     /**

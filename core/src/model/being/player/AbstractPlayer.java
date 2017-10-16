@@ -372,7 +372,11 @@ public abstract class AbstractPlayer implements GameObjectInterface, EntityInter
 	public Body getBody() {
         return body.orElse(null);
     }
-	
+
+    public GameModelInterface getModel(){
+		return game;
+	}
+
 	public FixtureDef getPlayerProperties() {
 		return playerProperties;
 	}
