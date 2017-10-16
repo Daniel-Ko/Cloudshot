@@ -147,9 +147,9 @@ public class Player extends AbstractPlayer {
 
 	@Override
 	public void shoot() {
-//		if (this.getCurWeapon() == null) {
-//			return;
-//		}
+		if (this.getInventory().isEmpty()) {
+			return;
+		}
 		ArrayList<BulletImpl> bul = this.inventory.get(getCurWeapon()).shoot(this);
 		if (bul == null) {
 			return;

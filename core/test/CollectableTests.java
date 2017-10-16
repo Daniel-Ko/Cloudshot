@@ -90,22 +90,19 @@ public class CollectableTests extends GameTest {
     @Test
     public void testLightAmmoPack() {
         Player p = new Player();
-        System.out.println(p.getInventory().size());
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10,10);
-        pistol.pickedUp(p);
 
-        System.out.println(p.getInventory().size());
-        p.getInventory().add(pistol);
+
+        pistol.pickedUp(p);
 //        p.setCurWeapon(0);
         assertEquals(0, p.getCurWeapon());
 
         p.shoot();
         p.shoot();
         int ammo2 = pistol.getAmmo();
-        System.out.println(p.getInventory().size());
-        p.getInventory().add(shotgun);
-        System.out.println(p.getInventory().size());
+
+        shotgun.pickedUp(p);
 //        p.setCurWeapon(1);
         assertEquals(1, p.getCurWeapon());
 
@@ -171,6 +168,8 @@ public class CollectableTests extends GameTest {
 
     @Test
     public void testGunsCorrectDamage(){
+        Player p = new Player();
+
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10, 10);
         SemiAuto semiAuto = new SemiAuto(new Vector2(p.getX(), p.getY()), 10, 10);
