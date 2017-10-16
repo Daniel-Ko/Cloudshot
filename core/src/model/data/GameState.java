@@ -7,6 +7,9 @@ import model.being.player.AbstractPlayer;
 import java.util.List;
 
 /**
+ * A wrapper class for a Preference instance. A GameState object is the intermediary between the
+ * libgdx.Preferences (which store Strings mapped to primitive values) and the TransactionHandler which
+ * opens write/read/contains queries on the GameState object.
  * Created by Dan Ko on 9/19/2017.
  */
 public class GameState{

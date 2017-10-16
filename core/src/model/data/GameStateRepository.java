@@ -3,6 +3,9 @@ package model.data;
 import java.util.Stack;
 
 /**
+ * As part of the Repository design pattern, this repository stores GameStates.
+ * The behaviour acts as a simplified Stack (only the latest game save stored can be accessed)
+ *
  * Created by Dan Ko on 9/19/2017.
  */
 public class GameStateRepository{

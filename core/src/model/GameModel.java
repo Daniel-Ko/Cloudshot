@@ -392,19 +392,28 @@ public class GameModel implements GameModelInterface {
         enemiesToAdd.push(enemy);
     }
 
+
+
+    /*
+    //============================================================================
+    //===========================LOAD AND SAVE====================================
+    //============================================================================
+    */
+
     /**
      * Saves the game by storing all of the data of the game into ModelData data.
      * Serialization logic begins here.
      * @throws GameStateTransactionHandler.InvalidTransactionException
      */
     public void save() throws GameStateTransactionHandler.InvalidTransactionException {
-        // Create the data for the current model.
+
+        // Create the data for the current model
         ModelData data = new ModelData();
         data.setPlayer(this.player);
         data.setEnemies(this.enemies);
         data.setLevel(this.level);
         
-        // Actually save.
+        // Create a save query
         try {
             repoScraper.save(data);
         }catch(GameStateTransactionHandler.InvalidTransactionException e) {
@@ -420,19 +429,18 @@ public class GameModel implements GameModelInterface {
         try {
             ModelData loader = repoScraper.load();
             if (loader == null)
-                return; //todo say nothing to load?
-            
-            //beautiful waterfall design of method calls into assignments
-            PlayerData loadedPlayerData = loader.loadPlayerData();
-            List<AbstractEnemy> loadedEnemies = loader.loadEnemies();
-            
+                throw new GameStateTransactionHandler.InvalidTransactionException("Egregious error : Data could not be loaded");
+
+            // Calling to reset game physics (remove all Box2D bodies) and restart all entity Collections
             reinitGame(this.level);
 
             // Load the components of the game.
-            loadPlayer(loadedPlayerData);
-            loadEnemies(loadedEnemies);
+            loadPlayer(loader.loadPlayerData());
+            loadEnemies(loader.loadEnemies());
             loadLevel(loader.loadLevel());
-            loadTerrain(); //reset terrain physics for this level
+
+            // Reset terrain physics for the updated level
+            loadTerrain();
 
         } catch (GameStateTransactionHandler.InvalidTransactionException e) {
             throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
@@ -469,7 +477,7 @@ public class GameModel implements GameModelInterface {
         newPlayer.setDamage(pdata.getDamage());
         newPlayer.setBoundingBox(pdata.getBoundingBox());
         
-        // Set inventory with "deep clone" weapons.
+        // Set inventory with "deep cloned" weapons.
         newPlayer.getInventory().clear();
         if(!pdata.getInventory().isEmpty()) {
             for (AbstractWeapon invWep : pdata.getInventory()) {
@@ -506,7 +514,8 @@ public class GameModel implements GameModelInterface {
         newPlayer.setMovingLeft(pdata.isMovingLeft());
         newPlayer.setMovingRight(pdata.isMovingRight());
         newPlayer.setLinearVelocity(pdata.getBodyLinearVelocity());
-        
+
+        // Set the model player with this loaded player
         this.player = newPlayer;
 
         // Finally, set the input to recognise this new player.
@@ -519,8 +528,13 @@ public class GameModel implements GameModelInterface {
      *           Saved enemies to be loaded into the game.
      */
     private void loadEnemies(List<AbstractEnemy> enemiesToLoad) {
+
+        // Clear the current enemies of the game via the model's own idioms
         this.enemies.clear();
         enemies.addAll(enemiesToRemove);
+
+        // Create a new enemy via factory for each deserialised enemy. Set the newly-generated
+        // enemy to have the loaded properties
         for (AbstractEnemy e : enemiesToLoad) {
             AbstractEnemy newEnemy = EntityFactory.produceEnemy(this,
                     new Vector2(
@@ -537,7 +551,7 @@ public class GameModel implements GameModelInterface {
             newEnemy.setDrawingWidth(e.getDrawingWidth());
             newEnemy.setDrawingHeight(e.getDrawingHeight());
 
-            enemiesToAdd.push(newEnemy);
+            enemiesToAdd.push(newEnemy); //add this "loaded" enemy to the model
         }
     }
 
@@ -548,7 +562,8 @@ public class GameModel implements GameModelInterface {
      */
     private void loadLevel(AbstractLevel levelToLoad) {
         AbstractLevel newLevel = null;
-        
+
+        // In lieu of a level factory, we use the final identifier field for each level to replicate a new level instance
         if(levelToLoad.LEVEL_NUM == 1)
             newLevel = new LevelOne();
         else if(levelToLoad.LEVEL_NUM == 2)
@@ -558,18 +573,19 @@ public class GameModel implements GameModelInterface {
         else if(levelToLoad.LEVEL_NUM == 4)
             newLevel = new LevelThree();
         
-        
-        loadCollectables(newLevel, levelToLoad.getCollectables()); //must load each collectable by itself
-        
-        newLevel.setPortals(levelToLoad.getPortals());
-        newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers());
-        newLevel.setSpawns(levelToLoad.getSpawns());
-        
+        // Set loaded properties into the level buffer
+        loadCollectables(newLevel, levelToLoad.getCollectables()); // Each collectable must be loaded individually
+
+        newLevel.setPortals(levelToLoad.getPortals()); // teleporting portals (in or between levels)
+        newLevel.setSpawnTriggers(levelToLoad.getSpawnTriggers()); // spawning tiles with their trigger state
+        newLevel.setSpawns(levelToLoad.getSpawns()); // Spawns with trigger state
+
+        // Update model's level
         this.level = newLevel;
     }
 
     /**
-     * Load the collectables into the game.
+     * Load a List of deserialised Collectables into a Level
      * @param newLevel
      *          Load the new level.
      * @param collectsToLoad
@@ -605,8 +621,8 @@ public class GameModel implements GameModelInterface {
                                     (AbstractWeapon) c).type,
                                     pos);
 
-                    
-                    loadedWeapon.setAmmo(((AbstractWeapon) c).getAmmo());
+
+                    loadedWeapon.setAmmo(((AbstractWeapon) c).getAmmo()); // weapons have ammo field to remember
                     loadedWeapon.setPickedUp(c.isPickedUp());
     
                     newLevel.getCollectables().add(loadedWeapon); // Add to level.
