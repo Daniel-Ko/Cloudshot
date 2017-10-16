@@ -3,8 +3,10 @@ package mock;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.GameModelInterface;
 import model.being.EntityFactory;
@@ -95,6 +97,11 @@ public class MockGameModel implements GameModelInterface {
     @Override
     public void loadMusic() {
 
+    }
+
+    @Override
+    public Array<Rectangle> getScaledTerrain() {
+        return null;
     }
 
     @Override

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="92">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="94">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="258" source="tiledset.tsx"/>
  <tileset firstgid="483" source="tiledset.tsx"/>
+ <tileset firstgid="708" source="woodtiledset.tsx"/>
  <imagelayer name="Image Layer 1">
   <image source="textures/BG.png" width="3200" height="2400"/>
  </imagelayer>
@@ -14,7 +15,7 @@
  </objectgroup>
  <layer name="Background" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt1rENgDAMBEArU2UYWIRkeIqkQGIAW3DFSS5f/417RHQAAAAAAAAAAAAAAAAAAKCEo71lZ/qrU/cAAHzM5cctxR45Rlvdz2087uxsAAAAANRxA53nJB8=
+   eJzt181twjAYBuAoXYJRmKBTlEWA/aA9gq/Qa8fAqEYySQggAY7Cc3hkx1KkL37ln0yrqpoCAAAAAAAAAAAAAAAAAACD8FW3la7pXc3S3K9iu46+6/N+6fre0XH+N9E2Co3+SiYvk8/70Wd1LmSZyOX1eXStkXysdL1j15dHkEfxTJrPzXxK1zpmpzPhkm22RkK6a/3I5CnmPfepS317ljzGZlH/z/0yWaT2r4fz+7munRMn6477VLjxPf/x102Se/ele/r52GQA3zx08hgWeYzXrm7bR7/Ojof46FC6JgCAWx0Aplinfg==
   </data>
  </layer>
  <layer name="Terrain" width="100" height="60">
@@ -24,7 +25,7 @@
  </layer>
  <layer name="Decoration" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt1WEKgkAQBlD1FuYNOkHXiQ5VXaC6RXWzDBJUZKPFdgXfg/mho6z4MUxRAAAAAAAAAAAAAAAAAAAAMGX7pRfqk548WLNnFdcjn4dc/m4TqKb3XP25R17HdiZO5iKp0H64tL1rZYekcPePF68ZXddZvoK+bmeczc/s9hHvdDvj9mMeh4iz1iYmj1jyGNqN6m2uPMpyWFPkAQAAy/ACQ3IP8Q==
+   eJzt1W0KgkAQAFA1hK5gnaC6QNFBqwtUt6hulj8ULMTYxY/A92DwY1ZXHHYnSQAAAAAAAAAAAAAAAAAAAGiz/ZHryjM+9WDOXllcjuk81WVwq45YN8YV1T2mdSrXxNm6GFVXf7iWuVumh4zh4R//vfXXdTHJV9BU94yL9dO7TcQzdc+4B9ZjFzHX3MTUI9Zc67FsnC/KSKvjvoy8Ou6r/KGnOdP0M/KWMcee5qrffc7Cwx47nFsWHqF7LAAA/XgDXHAgUw==
   </data>
  </layer>
  <objectgroup name="Portals">
@@ -34,8 +35,8 @@
  <objectgroup name="Collisions">
   <object id="1" x="2.99162" y="1695.25" width="1943.38" height="90.7459"/>
   <object id="57" x="929.333" y="1534.67" width="222.667" height="30"/>
-  <object id="58" x="961.333" y="1568.67" width="28.6667" height="37.3333"/>
-  <object id="59" x="937.333" y="1514" width="19.3333" height="17.3333"/>
+  <object id="58" x="961.333" y="1549.67" width="28.6667" height="56.3333"/>
+  <object id="59" x="937.333" y="1514" width="35.3333" height="33.3333"/>
   <object id="62" x="957.333" y="1506" width="194" height="26.6667"/>
   <object id="63" x="1153.33" y="1408" width="28" height="124.667"/>
   <object id="65" x="1156" y="1537.33" width="216" height="28"/>
@@ -54,11 +55,11 @@
   <object id="80" x="1634" y="1439.33" width="29.3333" height="94"/>
   <object id="81" x="1474.67" y="1540" width="409.333" height="24.6667"/>
   <object id="82" x="1666.67" y="1504.67" width="218.667" height="30.6667"/>
-  <object id="83" x="1824.67" y="1570.67" width="30" height="33.3333"/>
+  <object id="83" x="1824.67" y="1554.67" width="30" height="49.3333"/>
   <object id="84" x="1376.67" y="1598" width="92.6667" height="7.33333"/>
   <object id="85" x="1474" y="1468" width="60" height="9.33333"/>
   <object id="86" x="1574.67" y="1386" width="18.6667" height="19.3333"/>
-  <object id="88" x="1951" y="1696" width="512.5" height="4.5"/>
+  <object id="88" x="1928" y="1696" width="948.5" height="4.5"/>
  </objectgroup>
  <objectgroup name="Collectables">
   <object id="27" x="1215.9" y="1505.04" width="32.5792" height="32.5792"/>
@@ -75,13 +76,14 @@
   </object>
  </objectgroup>
  <objectgroup name="End Zone">
-  <object id="53" x="2417.82" y="1593.12" width="64.8004" height="97.6326"/>
+  <object id="53" x="2842.82" y="1595.12" width="64.8004" height="97.6326"/>
  </objectgroup>
  <objectgroup name="SpawnTrigger">
   <object id="38" x="179.436" y="1502.42" width="35.6024" height="190.829"/>
   <object id="42" x="33.12" y="1498.62" width="697.236" height="273.427"/>
   <object id="45" x="57.85" y="1506.98" width="476.325" height="193.427"/>
   <object id="89" x="266.838" y="1510.29" width="476.325" height="193.427"/>
+  <object id="92" x="47.382" y="1489.95" width="697.236" height="273.427"/>
  </objectgroup>
  <objectgroup name="Spawn Location">
   <object id="39" x="551.125" y="1669.04">
@@ -106,6 +108,12 @@
    <properties>
     <property name="Number" type="int" value="1"/>
     <property name="Type" value="Shooter"/>
+   </properties>
+  </object>
+  <object id="93" x="1548" y="1505.33">
+   <properties>
+    <property name="Number" type="int" value="3"/>
+    <property name="Type" value="Rogue"/>
    </properties>
   </object>
  </objectgroup>

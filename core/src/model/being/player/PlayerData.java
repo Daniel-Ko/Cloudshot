@@ -32,7 +32,7 @@ public class PlayerData implements Serializable{
     protected Rectangle boundingBox;
     
     // Variables of player actions
-    protected  boolean inAir = false;
+    protected boolean inAir = false;
     protected boolean attacking = false;
     protected boolean grounded = false;
     protected boolean movingLeft;
@@ -66,7 +66,9 @@ public class PlayerData implements Serializable{
         setActionProperties(player);
         setInventory(player);
         setPhysicsProperties(player);
-        setBox2DProperties(player);
+        if(player.getBody() != null) {
+            setBox2DProperties(player);
+        }
         setAimLocation(player);
         setLiving(player);
         setInstanceProperties(player);
@@ -109,7 +111,6 @@ public class PlayerData implements Serializable{
     }
     
     private void setBox2DFixtureDef(AbstractPlayer player) {
-        //this.shape = player.getPlayerProperties().shape;
         this.density = player.getPlayerProperties().density;
         this.friction = player.getPlayerProperties().friction;
         this.isSensor = player.getPlayerProperties().isSensor;

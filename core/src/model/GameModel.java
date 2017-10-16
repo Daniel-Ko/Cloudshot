@@ -58,7 +58,7 @@ public class GameModel implements GameModelInterface {
 
 
     private Array<Rectangle> terrain;
-    public Array<Rectangle> scaledTerrain = new Array<>();
+    private Array<Rectangle> scaledTerrain = new Array<>();
 
     
     /**
@@ -175,7 +175,12 @@ public class GameModel implements GameModelInterface {
         music.setVolume(0.6f);
         music.setLooping(true);
     }
-    
+
+    @Override
+    public Array<Rectangle> getScaledTerrain() {
+        return scaledTerrain;
+    }
+
     @Override
     public void update() {
         // Update the various components of the game.

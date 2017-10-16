@@ -52,7 +52,7 @@ public class EntityFactory {
 	/**
 	 *
 	 * @param gameModel used to gain access to the Box2D world in which to place our player, also used to get
-	 *                  the camera to provide to init method for player.
+	 *                  the camera to provide to init method for player.ad
 	 * @param pos position in pixels where the player is located, definePlayer will scale this down into approp
 	 *            box2D world cords.
 	 *
@@ -62,7 +62,7 @@ public class EntityFactory {
 		Player p = new Player();
 		p.initBox2D(gameModel.getWorld(),pos);
 		p.setCamera(gameModel.getCamera());
-		p.provideGameModel(((GameModel)gameModel));
+		p.provideGameModel(gameModel);
 		return p;
 	}
 }

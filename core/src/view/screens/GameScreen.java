@@ -271,9 +271,9 @@ public class GameScreen extends ScreenAdapter {
         drawEnemies(gameModel.getEnemies(), player);
         drawCollectables(gameModel.getCollectables());
 
+        batch.end();
         stage.act();
         stage.draw();
-        batch.end();
     }
 
     /**
@@ -308,7 +308,6 @@ public class GameScreen extends ScreenAdapter {
                         player.flip() ? -0.5f : 0.5f,0.5f
                 );
             }
-
         }
     }
 
