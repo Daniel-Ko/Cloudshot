@@ -343,7 +343,7 @@ public class PersistenceTest extends GameTest{
         MockLevel level = setUpValidLevel();
 
         pl.setHealth(20);
-        pl.setLinearVelocity(new Vector2(10, 10));
+        pl.setInAir(true);
 
         MockModelData data = new MockModelData();
 
