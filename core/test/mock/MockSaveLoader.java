@@ -11,7 +11,9 @@ import model.data.GameStateTransactionHandler;
 
 import java.io.*;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Mock GameStateTransactionHandler class for testing, with all fields and methods as public
@@ -21,8 +23,11 @@ import java.util.List;
 public class MockSaveLoader {
     public GameStateRepository repository;
 
+    public Map<String, String> serVals;
+
     public MockSaveLoader() {
         repository = new GameStateRepository();
+        serVals = new HashMap<>();
     }
 
     public void save(MockModelData model) {
@@ -42,11 +47,11 @@ public class MockSaveLoader {
 
     private void writeQuery(MockModelData model, GameState newState) {
 
-        /* spawnEnemies the newState with validated data, otherwise signal failed save */
         try {
             validateAndUpdatePlayer(newState, model.loadPlayer());
             validateAndUpdateEnemies(newState, model.loadEnemies());
             validateAndUpdateLevel(newState, model.loadLevel());
+
         } catch(GameStateTransactionHandler.InvalidTransactionException e) {
             throw new GameStateTransactionHandler.InvalidTransactionException(e.getMessage());
         }
@@ -89,6 +94,7 @@ public class MockSaveLoader {
 
 
     private void commit(GameState newState) {
+        newState.getPref().flush();
         repository.push(newState);
     }
 
@@ -119,6 +125,8 @@ public class MockSaveLoader {
             playerSer = serializeInBase64(playerProps);
 
             newState.setPlayerInPref(playerSer);
+
+            serVals.put("Player", playerSer); //save serialised string to test
             return true;
 
         } catch (IOException e) {
@@ -147,6 +155,8 @@ public class MockSaveLoader {
             enemiesSer = serializeInBase64(newFoes);
 
             newState.setEnemiesInPref(enemiesSer);
+
+            serVals.put("Enemies", enemiesSer); //save serialised string to test
             return true;
 
         } catch (IOException e) {
@@ -166,6 +176,8 @@ public class MockSaveLoader {
             levelSer = serializeInBase64(newLevel);
 
             newState.setLevelInPref(levelSer);
+
+            serVals.put("Level", levelSer); //save serialised string to test
             return true;
 
         } catch (IOException e) {

@@ -41,8 +41,6 @@ public class GameStateTransactionHandler {
     }
     
     private void writeQuery(ModelData model, GameState newState) {
-
-        /* spawnEnemies the newState with validated data, otherwise signal failed save */
         try {
             validateAndUpdatePlayer(newState, model.loadPlayer());
             validateAndUpdateEnemies(newState, model.loadEnemies());

@@ -75,7 +75,7 @@ public class PlayerData implements Serializable{
     }
 
     private void setInstanceProperties(AbstractPlayer player) {
-        curWeapon = ((Player) player).getCurWeapon();
+        curWeapon = player.getCurWeapon();
     }
 
     private void setUIProperties(AbstractPlayer player) {
