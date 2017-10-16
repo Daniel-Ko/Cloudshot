@@ -60,7 +60,7 @@ public class Shotgun extends AbstractWeapon {
 
 		p.getInventory().add(this);
 		Player player = (Player)p;
-		player.setCurWeapon(this);
+		player.setCurWeapon(player.getInventory().indexOf(this));
 
 	}
 

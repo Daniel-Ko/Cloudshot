@@ -76,7 +76,11 @@ public class CollectableTests extends GameTest {
     public void testDecreaseAmmo() {
         Player p = new Player();
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
-        p.setCurWeapon(shotgun);
+
+        p.getInventory().add(shotgun);
+//        p.setCurWeapon(0);
+        assertEquals(0, p.getCurWeapon());
+
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
@@ -89,11 +93,19 @@ public class CollectableTests extends GameTest {
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10,10);
         pistol.pickedUp(p);
-        p.setCurWeapon(pistol);
+
+        p.getInventory().add(pistol);
+//        p.setCurWeapon(0);
+        assertEquals(0, p.getCurWeapon());
+
         p.shoot();
         p.shoot();
         int ammo2 = pistol.getAmmo();
-        p.setCurWeapon(shotgun);
+
+        p.getInventory().add(shotgun);
+//        p.setCurWeapon(1);
+        assertEquals(1, p.getCurWeapon());
+
         int ammo = shotgun.getAmmo();
         p.shoot();
         p.shoot();
