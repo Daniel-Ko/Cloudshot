@@ -92,4 +92,30 @@ public class LabelFactory {
         return title;
     }
 
+    /**
+     * Displays a label which says "You won the game"
+     * @return
+     *      "You won the game" label.
+     */
+    public static Label gameWinLabel(){
+        Label title = new Label("You won the game!", Assets.gameSkin, "title");
+        title.setAlignment(Align.center);
+        title.setY(Gdx.graphics.getHeight()*2/3);
+        title.setWidth(Gdx.graphics.getWidth());
+        title.setFontScale(1);
+        return title;
+    }
+
+    /**
+     * Displays a label which says "You won the game"
+     * @return
+     *      "You won the game" label.
+     */
+    public static Label enemyCountLabel(GameModelInterface gameModel){
+        Label title = new Label("Enemy count: " + gameModel.getEnemies().size(), Assets.gameSkin, "big");
+        title.setWidth(Gdx.graphics.getWidth());
+        title.setFontScale(0.8f);
+        return title;
+    }
+
 }

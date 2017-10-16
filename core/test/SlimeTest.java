@@ -5,6 +5,7 @@ import model.being.enemies.Slime2;
 import model.being.enemystates.AggroMovement;
 import model.being.enemystates.Death;
 import model.being.enemystates.HorizontalMovement;
+import model.being.enemystates.MeleeAttack;
 import model.being.player.Player;
 import model.mapObject.levels.LevelOne;
 import org.junit.Test;
@@ -73,6 +74,21 @@ public class SlimeTest extends GameTest {
         s.update();
         assertTrue(s.enemyState instanceof AggroMovement);
     }
+
+    @Test
+    public void TestAttackState(){
+        Player p = new Player();
+        Slime2 s = new Slime2();
+        s.setPlayer(p);
+        p.setHealth(50);
+        //within attack range, state should change to attack melee state.
+        p.setPos(new Vector2(s.attackRadius-0.1f,0));
+        s.update();
+        assertTrue(s.enemyState instanceof MeleeAttack);
+        assertFalse(p.getHealth() == 50);
+
+    }
+
     @Test
     public void TestMainConstructor(){
         World world = new World(new Vector2(0, 10), true);
@@ -100,17 +116,9 @@ public class SlimeTest extends GameTest {
         Player p = new Player();
         Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
         s.provideGameModel(gm);
-
-//        Player p = new Player();
-//        Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
-//        s.hit(s.getHealth());
-//        s.update();
-//        assertTrue(s.enemyState instanceof Death);
-
-        //Enemys should increase because of slime split
         assertEquals(0,gm.getEnemies().size());
+        s.hit(s.getHealth());
         s.update();
-
-
+        assertTrue(s.enemyState instanceof Death);
     }
 }

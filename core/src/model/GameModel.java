@@ -192,7 +192,7 @@ public class GameModel implements GameModelInterface {
         // Update the levels as well as the world.
         level.update(player, this);
         world.step(1 / 30f, 12, 4);
-        debugRenderer.render(world, camera.combined);
+        //debugRenderer.render(world, camera.combined);
 
         // Check if the game is over.
         checkIfGameOver();
