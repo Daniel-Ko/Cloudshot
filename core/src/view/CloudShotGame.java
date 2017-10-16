@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import model.GameModel;
 import model.GameModelInterface;
 import view.screens.GameScreen;
+import view.screens.GameWinScreen;
 import view.screens.MenuScreen;
 
 /**
@@ -17,7 +18,7 @@ public class CloudShotGame extends Game {
      * Different states of the screen.
      */
     public enum Screen {
-        MENU, GAME, TEST
+        MENU, GAME, TEST, GAME_WIN
     }
 
     /**
@@ -52,6 +53,10 @@ public class CloudShotGame extends Game {
                 break;
             case TEST:
                 this.setScreen(new GameScreen(model));
+                break;
+            case GAME_WIN:
+                this.setScreen(new GameWinScreen());
+                break;
         }
     }
 
