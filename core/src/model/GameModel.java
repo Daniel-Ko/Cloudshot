@@ -147,6 +147,7 @@ public class GameModel implements GameModelInterface {
      */
     public void loadTerrain() {
         setTerrain(level.getTiles());
+        scaledTerrain.clear();
         for (Rectangle r : terrain) {
 
             // Load the terrains.
