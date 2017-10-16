@@ -194,6 +194,14 @@ public class CollectableTests extends GameTest {
         assertTrue(shotgun.getDamage() == 15);
         assertTrue(pistol.getDamage() == 8);
         assertTrue(semiAuto.getDamage() == 8);
+        pistol.shoot(p);
+        sniper.shoot(p);
+        semiAuto.shoot(p);
+        shotgun.shoot(p);
+        assertTrue(pistol.getAmmo() == pistol.getMaxAmmo() -1);
+        assertTrue(sniper.getAmmo() == sniper.getMaxAmmo() -1);
+        assertTrue(shotgun.getAmmo() == shotgun.getMaxAmmo() -1);
+        assertTrue(semiAuto.getAmmo() == semiAuto.getMaxAmmo() -1);
 
     }
 
@@ -223,35 +231,13 @@ public class CollectableTests extends GameTest {
     @Test
     public void testAbstractCollectableMethods(){
         HealthPack hp = new HealthPack(new Vector2(0,0), 5,5);
+        assertTrue(hp.getBoundingBox().getWidth() == 5/GameModel.PPM);
+        assertTrue(hp.getBoundingBox().getHeight() == 5/GameModel.PPM);
         assertTrue(hp.getX() == 0);
         assertTrue(hp.getY() == 0);
     }
 
 
-    @Test
-    public void testBulletDamgesEnemy(){
-        BulletImpl b = new BulletImpl(new Vector2(0,0),new Vector2(0,0),10,null,true);
-        Slime2 slime = new Slime2();
-        slime.setPosition(new Vector2(0,0));
-        slime.setHealth(20);
-        ArrayList<AbstractEnemy> enemies = new ArrayList<>();
-        enemies.add(slime);
-        AbstractPlayer p = new Player();
-        Array mine = new Array<>();
-        b.update(enemies,p,mine);
-        assertTrue(slime.getHealth() == 10);
-    }
-
-    @Test
-    public void testBulletDamgesPlayer(){
-        BulletImpl b = new BulletImpl(new Vector2(0,0),new Vector2(0,0),10,null,false);
-        ArrayList<AbstractEnemy> enemies = new ArrayList<>();
-        AbstractPlayer p = new Player();
-        p.setPos(new Vector2(0,0));
-        Array mine = new Array<>();
-        b.update(enemies,p,mine);
-        assertTrue(p.getHealth() == 140);
-    }
 
 
 
