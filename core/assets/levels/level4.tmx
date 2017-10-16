@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="91">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="92">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
@@ -9,6 +9,9 @@
  <imagelayer name="Image Layer 1">
   <image source="textures/BG.png" width="3200" height="2400"/>
  </imagelayer>
+ <objectgroup name="Player Spawn">
+  <object id="91" x="112.227" y="1673.07"/>
+ </objectgroup>
  <layer name="Background" width="100" height="60">
   <data encoding="base64" compression="zlib">
    eJzt1rENgDAMBEArU2UYWIRkeIqkQGIAW3DFSS5f/417RHQAAAAAAAAAAAAAAAAAAKCEo71lZ/qrU/cAAHzM5cctxR45Rlvdz2087uxsAAAAANRxA53nJB8=
