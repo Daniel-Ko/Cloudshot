@@ -17,6 +17,7 @@ import model.being.enemies.AbstractEnemy;
 import model.being.enemies.SpikeBlock;
 import model.being.player.AbstractPlayer;
 import model.collectable.*;
+import view.screens.GameScreen;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -131,6 +132,9 @@ public abstract class AbstractLevel implements Serializable{
                 }
                 else if(s.equals("HeavyAmmoPack")){
                     collectable = new HeavyAmmoPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                }
+                else if(s.equals("Pistol")){
+                    collectable = new Pistol(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
                 }
                 else
                 {
@@ -314,6 +318,10 @@ public abstract class AbstractLevel implements Serializable{
         }
 
         if (hasPlayerWon(p,gm)) {
+            if(getNextLevel() == null) {//game won
+                GameScreen.state = GameScreen.State.GAME_WIN;
+                return;
+            }
             gm.setNewLevel(this.getNextLevel());
         }
 

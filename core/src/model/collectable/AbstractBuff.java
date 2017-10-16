@@ -2,6 +2,10 @@ package model.collectable;
 
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * AbstractBuff contains the logic for the buff collectables in the game.
+ * @author Jake Robson
+ */
 public abstract class AbstractBuff extends AbstractCollectable {
 
     private static final long serialVersionUID = 1144730386837305193L;

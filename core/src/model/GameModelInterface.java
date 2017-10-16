@@ -18,36 +18,10 @@ import java.util.List;
  * data in the model of the game. GameModelInterface is useful for testing the view.
  */
 public interface GameModelInterface {
-
-    /**
-     * Get the player of the game.
-     * @return
-     *      AbstractPlayer of model of the game.
-     */
     AbstractPlayer getPlayer();
-
-    /**
-     * Get the enemies of the game
-     * @return
-     *      Collections of the enemies in the model of the game at the current level.
-     */
     List<AbstractEnemy> getEnemies();
-
-    /**
-     * Get the collectables of the game.
-     * @return
-     *      Collections of the collectables in the model of the game at the current level.
-     */
     List<AbstractCollectable> getCollectables();
-
-    /**
-     * Get the camera of the game.
-     * @return
-     *      OrthographicCamera of model of the game.
-     */
     OrthographicCamera getCamera();
-
-
     TiledMapRenderer getTiledMapRenderer();
     World getWorld();
     String getLevelName();
@@ -62,7 +36,5 @@ public interface GameModelInterface {
     void loadTerrain();
     void loadMusic();
     AbstractLevel getLevel();
-
     Array<Rectangle> getScaledTerrain();
-
 }

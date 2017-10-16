@@ -357,6 +357,8 @@ public class GameModel implements GameModelInterface {
         this.level = level;
     }
 
+    public void setPlayer(AbstractPlayer player) { this.player = player; }
+
     public Array<Rectangle> getTerrain() {
         return terrain;
     }
