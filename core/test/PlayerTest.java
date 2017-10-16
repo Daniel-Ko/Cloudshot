@@ -121,6 +121,57 @@ public class PlayerTest extends GameTest{
         assertNotNull(p.getWorld());
         assertNotNull(p.getBody());
     }
+    @Test
+    public void TestLeftMovement(){
+        World world = new World(new Vector2(0,-10),true);
+        Player p = new Player();
+        p.initBox2D(world,new Vector2(0,0));
+        p.update(null);
+        Vector2 beforeleftMove = new Vector2(p.getPos().x,p.getPos().y);
+        p.moveLeft();
+        world.step(1 /30f, 12, 4);
+        p.update(null);
+        assertTrue(p.getX()<beforeleftMove.x);
+    }
+
+    @Test
+    public void TestRightMovement(){
+        World world = new World(new Vector2(0,-10),true);
+        Player p = new Player();
+        p.initBox2D(world,new Vector2(0,0));
+        p.update(null);
+        Vector2 beforeMoveRight = new Vector2(p.getPos().x,p.getPos().y);
+        p.moveRight();
+        world.step(1 /30f, 12, 4);
+        p.update(null);
+        assertTrue(p.getX()>beforeMoveRight.x);
+    }
+
+    @Test
+    public void emptyInventoryTest(){
+        Player p = new Player();
+        World world = new World(new Vector2(0, -50), true);
+        p.initBox2D(world,new Vector2(0,0));
+        p.shoot();//should do nothing
+        assertTrue(p.getBullets().size() == 0);
+        p.update(null);
+    }
+
+    @Test
+    public void jumpingTest(){
+        Player p = new Player();
+        World world = new World(new Vector2(0, -50), true);
+        Vector2 pos = new Vector2(0,0);
+        p.initBox2D(world,pos);
+        Vector2 prePos = new Vector2(p.getX(),p.getY());
+        p.jump();
+        world.step(1 /30f, 12, 4);
+        p.update(null);
+        assertTrue(p.getY()>prePos.y);
+
+    }
+
+
 
 
 }
