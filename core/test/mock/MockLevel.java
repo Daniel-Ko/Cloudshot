@@ -50,13 +50,6 @@ public class MockLevel implements Serializable{
 
     public MockLevel() {
         LEVEL_NUM = 1;
-
-        loadCollectables();
-        //loadEndPoint();
-        loadSpawnTriggerPoints();
-        loadSpawns();
-
-        loadPortals();
     }
 
     /**

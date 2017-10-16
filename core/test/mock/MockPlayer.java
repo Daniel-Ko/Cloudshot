@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import model.being.enemies.AbstractEnemy;
 import model.being.enemystates.EnemyState;
 import model.being.player.AbstractPlayer;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by Dan Ko on 10/5/2017.
  */
-public class MockPlayer {
+public class MockPlayer extends AbstractPlayer{
     /**
      * Used to represent the different states of the player
      */
@@ -54,7 +55,7 @@ public class MockPlayer {
     private float meleeRange = 1;
     protected AbstractWeapon curWeapon;
 
-
+    private MockGameModel model;
 
     private CustomSprite current;
 
@@ -95,10 +96,14 @@ public class MockPlayer {
         bullets = new ArrayList<>();
         this.inventory = new ArrayList<AbstractWeapon>();
 
+        model = new MockGameModel();
 //        body = new Body();
     }
 
+    @Override
+    protected void definePlayer(Vector2 pos) {
 
+    }
 
 
     public void update(List<AbstractEnemy> enemies){
@@ -140,11 +145,11 @@ public class MockPlayer {
         return false;
     }
 
+    @Override
     public void shoot() {
-        if(this.getCurWeapon()== null){return;}
-
 
     }
+
 
     /**
      * Defined what happens when moving right
@@ -226,7 +231,6 @@ public class MockPlayer {
         this.meleeRange = meleeRange;
     }
 
-    public AbstractWeapon getCurWeapon(){ return this.curWeapon; }
 
     public CustomSprite getImage() {
         if(playerState == AbstractPlayer.player_state.DEAD){
