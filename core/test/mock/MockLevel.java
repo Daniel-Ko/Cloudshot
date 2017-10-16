@@ -52,20 +52,6 @@ public class MockLevel implements Serializable{
         LEVEL_NUM = 1;
     }
 
-    /**
-     * Loads the 'Collisions' layer of TMX file.
-     * Collidable objects are stored in Rectangles.
-     */
-    public void generateCollidablePolygons() {
-        MapLayer layer = tiledMap.getLayers().get("Collisions");
-        MapObjects objects = layer.getObjects();
-        //add terrain to map.
-        for (MapObject o : objects) {
-            if (!(o instanceof RectangleMapObject)) continue;
-            RectangleMapObject r = (RectangleMapObject) o;
-            tiles.add(r.getRectangle());
-        }
-    }
 
     public void loadPlayerSpawn(){
         MapLayer spawn = tiledMap.getLayers().get("Player Spawn");
@@ -83,7 +69,7 @@ public class MockLevel implements Serializable{
 
         this.collectables.add(new Sniper(new Vector2(0, 0), COLLECTABLE_SIZE, COLLECTABLE_SIZE));
         this.collectables.add(new SemiAuto(new Vector2(10, 10), COLLECTABLE_SIZE, COLLECTABLE_SIZE));
-        this.collectables.add(new Pistol(new Vector2(20, 20), COLLECTABLE_SIZE, COLLECTABLE_SIZE));
+        this.collectables.add(new HealthPack(new Vector2(10, 10), COLLECTABLE_SIZE, COLLECTABLE_SIZE));
     }
 
 
@@ -112,6 +98,7 @@ public class MockLevel implements Serializable{
      */
     public void loadSpawnTriggerPoints() {
         spawnTriggers = new ArrayList<>();
+        spawnTriggers.add(new Rectangle(0, 0, 20, 20));
     }
 
     /**
@@ -123,6 +110,7 @@ public class MockLevel implements Serializable{
     public void loadSpawns() {
         // spawns = new Array<>();
         spawns = new ArrayList<>();
+        spawns.add(new Spawn(AbstractEnemy.entity_type.archer, LEVEL_NUM, 0, 0));
     }
 
     /**

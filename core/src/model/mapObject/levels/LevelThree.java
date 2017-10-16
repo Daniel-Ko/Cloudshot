@@ -27,7 +27,7 @@ public class LevelThree extends AbstractLevel {
 
     @Override
     public AbstractLevel getNextLevel() {
-        return new LevelOne();
+        return null;
     }
 
     @Override
