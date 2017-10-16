@@ -22,7 +22,7 @@ public class SpikeBlock extends AbstractEnemy{
 
     public SpikeBlock(World world, AbstractPlayer player, Vector2 pos) {
         super(world,player,pos, AbstractEnemy.entity_type.spikeblock);
-        damage = 5;
+        damage = 2;
         initPos = body.getPosition();
         maxDist = 0.1f /GameModel.PPM;
         enemyState = new HorizontalMovement(body.getPosition(),3);
