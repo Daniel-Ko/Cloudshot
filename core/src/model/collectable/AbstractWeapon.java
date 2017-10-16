@@ -8,6 +8,10 @@ import view.sprites.CustomSprite;
 
 import java.util.ArrayList;
 
+/**
+ * AbstractBuff contains the logic for the weapon collectables in the game.
+ * @author Jake Robson
+ */
 public abstract class AbstractWeapon extends AbstractCollectable {
 	private static final long serialVersionUID = -9094601317027252528L;
 	public final weapon_type type;

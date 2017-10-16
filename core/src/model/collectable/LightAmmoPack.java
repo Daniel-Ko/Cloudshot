@@ -16,7 +16,6 @@ public class LightAmmoPack extends AbstractBuff {
 
 	@Override
 	public CustomSprite getImage() {
-		// TODO Auto-generated method stub
 		return Assets.lightAmmoPack;
 		
 	}
