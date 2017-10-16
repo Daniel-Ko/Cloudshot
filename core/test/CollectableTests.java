@@ -237,12 +237,4 @@ public class CollectableTests extends GameTest {
         assertTrue(hp.getY() == 0);
     }
 
-
-
-
-
-
-
-
-
 }
