@@ -20,10 +20,7 @@ import model.collectable.AbstractWeapon;
 import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
-import model.mapObject.levels.AbstractLevel;
-import model.mapObject.levels.LevelOne;
-import model.mapObject.levels.LevelThree;
-import model.mapObject.levels.LevelTwo;
+import model.mapObject.levels.*;
 import view.Assets;
 import view.screens.GameScreen;
 
@@ -327,6 +324,10 @@ public class GameModel implements GameModelInterface {
     public String getLevelName() {
         return level.getLevelName();
     }
+
+    public void setEnemies(List<AbstractEnemy> list) {
+        enemies = list;
+    }
     
     /**
      * Mutes or plays the soundtrack in the background.
@@ -359,6 +360,8 @@ public class GameModel implements GameModelInterface {
     public Array<Rectangle> getTerrain() {
         return terrain;
     }
+
+    public void setWorld(World world) { this.world = world; }
 
     public void setTerrain(Array<Rectangle> terrain) {
         this.terrain = terrain;

@@ -1,10 +1,12 @@
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
 import model.being.enemies.Slime2;
 import model.being.enemystates.AggroMovement;
 import model.being.enemystates.Death;
 import model.being.enemystates.HorizontalMovement;
 import model.being.player.Player;
+import model.mapObject.levels.LevelOne;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
@@ -85,5 +87,30 @@ public class SlimeTest extends GameTest {
         Player p = new Player();
         Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
         s.update();
+    }
+
+    @Test
+    public void TestDeathAction(){
+        World world = new World(new Vector2(0, 10), true);
+        //Setting up model to give to slime to allow it to add its babys to game
+        GameModel gm = new GameModel();
+        gm.setLevel(new LevelOne(false));
+        gm.setupGame();
+
+        Player p = new Player();
+        Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
+        s.provideGameModel(gm);
+
+//        Player p = new Player();
+//        Slime2 s = new Slime2(world,p,new Vector2(0,0));// s.update();
+//        s.hit(s.getHealth());
+//        s.update();
+//        assertTrue(s.enemyState instanceof Death);
+
+        //Enemys should increase because of slime split
+        assertEquals(0,gm.getEnemies().size());
+        s.update();
+
+
     }
 }
