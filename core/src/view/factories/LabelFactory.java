@@ -112,7 +112,8 @@ public class LabelFactory {
      *      "You won the game" label.
      */
     public static Label enemyCountLabel(GameModelInterface gameModel){
-        Label title = new Label("Enemy count: " + gameModel.getEnemies().size(), Assets.gameSkin, "big");
+        int enemyCount = gameModel.getEnemies().size() - gameModel.getLevel().getNumSpikeBlocks();
+        Label title = new Label("Enemy count: " + enemyCount, Assets.gameSkin, "big");
         title.setWidth(Gdx.graphics.getWidth());
         title.setFontScale(0.8f);
         return title;
