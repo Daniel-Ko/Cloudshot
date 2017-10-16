@@ -312,5 +312,47 @@ public class LevelTest extends GameTest{
 
     }
 
+    @Test
+    public void testSpikeBlocksLoaded(){
+        initialiseWorld();
+        initialisePlayer(level.getPlayerSpawnPoint());
+
+        assertTrue(level.getNumSpikeBlocks() == 3);//There should be 3 spike blocks on test level
+    }
+
+    @Test
+    public void testPlayerPicksUpCollectibles(){
+        initialiseWorld();
+        initialisePlayer(new Vector2(23/GameModel.PPM,level.getPlayerSpawnPoint().y));
+        assertTrue(p.getInventory().isEmpty());
+
+        GameModel gm = new GameModel();
+        gm.setPlayer(p);
+        gm.setLevel(level);
+        gm.setWorld(world);
+        gm.setEnemies(new ArrayList<>());
+
+        for (int i = 0; i < 10; i++) {//run over collectible spawn
+            p.moveRight();
+            stepWorld(10,gm);
+            gm.updateCollectables();
+        }
+
+        assertTrue(p.getInventory().size() == 1);
+        assertTrue(p.getInventory().get(0).type == AbstractWeapon.weapon_type.pistol);//pistol shouldve been picked up
+    }
+
+    @Test
+    public void testGoToNextLevel(){
+        initialiseWorld();
+        initialisePlayer(new Vector2(3017/GameModel.PPM,(LEVEL_HEIGHT-1064)/GameModel.PPM));//spawn on end zone
+
+        GameModel gm = new GameModel();
+        level.setSpikeBlocksLoaded(true);
+        gm.setEnemies(new ArrayList<>());
+        // level.update(p,gm);
+        assertTrue(!level.hasPlayerWon(p,gm));
+
+    }
 
 }
