@@ -28,13 +28,6 @@ import static org.junit.Assert.assertTrue;
  * When spawning the player, the specific values used are to put the player in a position desired for the test.
  */
 public class LevelTest extends GameTest{
-    //test spikes hurt player.
-    //test player dies when falling off map
-    //test player stands on collidable
-    //test player is teleported by portal
-    //test player cannot use portal twice
-    //test player goes to next level when in endzone
-    //test correct weapons are spawned in locations
 
     private final float LEVEL_HEIGHT = 1920;
 
@@ -206,7 +199,7 @@ public class LevelTest extends GameTest{
         assertTrue(gm.getEnemies().isEmpty());//there should be no enemies at level begin
         movePlayerRight(3, gm);//move player through location which triggers spawn
         assertFalse(gm.getEnemies().isEmpty());//there should now be enemies
-        assertTrue(gm.getEnemies().size() == 2+3);//there should be 2 enemies spawned, as specified in the spawn property.
+        assertTrue(gm.getEnemies().size() == 2+level.getNumSpikeBlocks());//there should be 2 enemies spawned, as specified in the spawn property.
         assertTrue(gm.getEnemies().get(3) instanceof Slime2);// Slime should be spawned
     }
 
@@ -220,7 +213,7 @@ public class LevelTest extends GameTest{
         gm.setEnemies(new ArrayList<>());
 
         level.update(p,gm);
-        assertTrue(gm.getEnemies().size() == 2+3);//accounting for 3 spike blocks
+        assertTrue(gm.getEnemies().size() == 2+level.getNumSpikeBlocks());//accounting for 3 spike blocks
         assertTrue(gm.getEnemies().get(3) instanceof Rogue);
     }
 
@@ -234,7 +227,7 @@ public class LevelTest extends GameTest{
         gm.setEnemies(new ArrayList<>());
 
         level.update(p,gm);
-        assertTrue(gm.getEnemies().size() == 2+3);
+        assertTrue(gm.getEnemies().size() == 2+level.getNumSpikeBlocks());
         assertTrue(gm.getEnemies().get(3) instanceof ShootingEnemy);
     }
 

@@ -213,16 +213,7 @@ public abstract class AbstractLevel implements Serializable{
      * @return true if player has won level, false otherwise.
      */
     public boolean hasPlayerWon(AbstractPlayer p, GameModel gm) {
-        /*if(p.getModel() == null ) return false;
-        for(AbstractEnemy ae : p.getModel().getEnemies()){
-            if(!(ae instanceof SpikeBlock)) return false;
-        }
-        return endZone.contains(p.getPos());*/
-        for(AbstractEnemy ae : gm.getEnemies()){
-            if(!(ae instanceof SpikeBlock)) return false;
-        }
-        return endZone.contains(p.getPos());
-
+        return endZone.contains(p.getPos()) && ((gm.getEnemies().size() - this.getNumSpikeBlocks()) == 0);
     }
 
     /**
