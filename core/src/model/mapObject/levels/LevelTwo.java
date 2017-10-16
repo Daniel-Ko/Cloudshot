@@ -17,7 +17,7 @@ public class LevelTwo extends AbstractLevel {
 
     @Override
     public String getLevelName() {
-        return "Snowy Peak";
+        return "Forgotten House";
     }
 
 
