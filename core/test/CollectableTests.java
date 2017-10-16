@@ -59,7 +59,7 @@ public class CollectableTests extends GameTest {
         semiAuto.pickedUp(p);
         semiAuto.shoot(p);
         assertEquals(semiAuto.getMaxAmmo() -1, semiAuto.getAmmo());
-        assertEquals(p.getCurWeapon(),semiAuto);
+        assertEquals(p.getInventory().get(p.getCurWeapon()),semiAuto);
         assertTrue(p.getInventory().contains(semiAuto));
     }
     @Test
@@ -89,10 +89,12 @@ public class CollectableTests extends GameTest {
     @Test
     public void testLightAmmoPack() {
         Player p = new Player();
+        System.out.println(p.getInventory().size());
         Shotgun shotgun = new Shotgun(new Vector2(p.getX(), p.getY()), 10, 10);
         Pistol pistol = new Pistol(new Vector2(p.getX(), p.getY()), 10,10);
         pistol.pickedUp(p);
 
+        System.out.println(p.getInventory().size());
         p.getInventory().add(pistol);
 //        p.setCurWeapon(0);
         assertEquals(0, p.getCurWeapon());
@@ -100,8 +102,9 @@ public class CollectableTests extends GameTest {
         p.shoot();
         p.shoot();
         int ammo2 = pistol.getAmmo();
-
+        System.out.println(p.getInventory().size());
         p.getInventory().add(shotgun);
+        System.out.println(p.getInventory().size());
 //        p.setCurWeapon(1);
         assertEquals(1, p.getCurWeapon());
 
