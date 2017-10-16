@@ -61,6 +61,7 @@ public interface GameModelInterface {
     void setupGame();
     void loadTerrain();
     void loadMusic();
+    AbstractLevel getLevel();
 
     Array<Rectangle> getScaledTerrain();
 

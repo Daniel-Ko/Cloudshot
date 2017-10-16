@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import model.GameModel;
 import model.being.enemies.AbstractEnemy;
+import model.being.enemies.SpikeBlock;
 import model.being.player.AbstractPlayer;
 import model.collectable.*;
 
@@ -42,6 +43,9 @@ public abstract class AbstractLevel implements Serializable{
     protected transient Array<Rectangle> hurtyTiles;
     protected Vector2 spawnPoint;
 
+    private boolean spikeBlocksLoaded = false;
+    private int numSpikeBlocks;
+
 
     /**
      * Constructs the level by loading the tmx file, and filling the fields with various rectangles to test for collisions/intersections.
@@ -61,6 +65,7 @@ public abstract class AbstractLevel implements Serializable{
         loadHurtyTiles();
         loadPortals();
         loadPlayerSpawn();
+        loadSpikeBlocks();
     }
 
     public AbstractLevel() {
@@ -78,6 +83,7 @@ public abstract class AbstractLevel implements Serializable{
         loadHurtyTiles();
         loadPortals();
         loadPlayerSpawn();
+        loadSpikeBlocks();
     }
 
     /**
@@ -123,6 +129,9 @@ public abstract class AbstractLevel implements Serializable{
                 else if(s.equals("SemiAuto")){
                     collectable = new SemiAuto(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
                 }
+                else if(s.equals("HeavyAmmoPack")){
+                    collectable = new HeavyAmmoPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                }
                 else
                 {
                     collectable = new SemiAuto(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
@@ -133,6 +142,17 @@ public abstract class AbstractLevel implements Serializable{
                 collectable = getCollectableFromRand(rand, r);
             }
             this.collectables.add(collectable);
+        }
+    }
+
+    private void loadSpikeBlocks(){
+        MapLayer spikelayer = tiledMap.getLayers().get("Spike Blocks");
+        if(spikelayer == null) return;
+        MapObjects spikesObjs = spikelayer.getObjects();
+        for(MapObject m : spikesObjs){
+            RectangleMapObject r = (RectangleMapObject)m;
+            spawns.add(new Spawn(AbstractEnemy.entity_type.spikeblock,1,r.getRectangle().x,r.getRectangle().y));
+            numSpikeBlocks++;
         }
     }
 
@@ -192,8 +212,8 @@ public abstract class AbstractLevel implements Serializable{
      * @param p the player to be checked if they have won.
      * @return true if player has won level, false otherwise.
      */
-    public boolean hasPlayerWon(AbstractPlayer p) {
-        return endZone.contains(p.getPos()) && p.getModel().getEnemies().isEmpty();
+    public boolean hasPlayerWon(AbstractPlayer p, GameModel gm) {
+        return endZone.contains(p.getPos()) && ((gm.getEnemies().size() - this.getNumSpikeBlocks()) == 0);
     }
 
     /**
@@ -293,8 +313,19 @@ public abstract class AbstractLevel implements Serializable{
             p.hit(p.getHealth());
         }
 
-        if (hasPlayerWon(p)) {
+        if (hasPlayerWon(p,gm)) {
             gm.setNewLevel(this.getNextLevel());
+        }
+
+        if(!spikeBlocksLoaded){
+            ArrayList<Spawn> toBeDeleted = new ArrayList<>();
+            for(Spawn s : spawns){
+                if(s.getEnemyType() != AbstractEnemy.entity_type.spikeblock) continue;
+                s.spawn(gm.getEnemies(), gm);
+                toBeDeleted.add(s);
+            }
+            spawns.removeAll(toBeDeleted);
+            spikeBlocksLoaded = true;
         }
 
         for (int i = 0; i < spawnTriggers.size(); i++) {//check if walking over spawn trigger.
@@ -404,6 +435,10 @@ public abstract class AbstractLevel implements Serializable{
         return tiledMap;
     }
 
+    public int getNumSpikeBlocks(){
+        return numSpikeBlocks;
+    }
+
     public TiledMapRenderer getTiledMapRenderer() {
         return tiledMapRenderer;
     }
@@ -436,5 +471,9 @@ public abstract class AbstractLevel implements Serializable{
 
     public Rectangle getEndZone() {
         return endZone;
+    }
+
+    public void setSpikeBlocksLoaded(boolean spikeBlocksLoaded) {
+        this.spikeBlocksLoaded = spikeBlocksLoaded;
     }
 }

@@ -38,6 +38,11 @@ public class MockGameModel implements GameModelInterface {
     }
 
     @Override
+    public AbstractLevel getLevel() {
+        return new LevelOne();
+    }
+
+    @Override
     public OrthographicCamera getCamera() {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();

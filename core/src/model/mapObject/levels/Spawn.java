@@ -38,6 +38,9 @@ public class Spawn implements Serializable{
                 enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX()-i*50,this.getY()), AbstractEnemy.entity_type.boss1));
 
             }
+            else if(enemyType == AbstractEnemy.entity_type.spikeblock){
+                enemies.add(EntityFactory.produceEnemy(gm,new Vector2(this.getX(),this.getY()), AbstractEnemy.entity_type.spikeblock));
+            }
         }
     }
 

@@ -1,11 +1,31 @@
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import model.GameModel;
+import model.being.enemies.Slime2;
+import model.being.enemystates.AggroDash;
+import model.being.enemystates.Death;
+import model.being.enemystates.IdleMovement;
+import model.being.enemystates.MeleeAttack;
+import model.being.player.AbstractPlayer;
+import model.being.player.Player;
+import model.collectable.Pistol;
+import model.collectable.Shotgun;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import view.sprites.CustomSprite;
 public class PlayerTest extends GameTest{
 
-    /*@Test
+    @Test
     public void TestBulletsFiredIncreased(){
 
         Player p = new Player();
         Shotgun gun = new Shotgun(p.getPos(),1,1);
-        p.setCurWeapon(gun);
+        gun.pickedUp(p);
+        assertEquals(1,p.getInventory().size() );
+        p.setCurWeapon(0);
         p.shoot();
         //expect shotgun to fire 3 bullets
         assertEquals(3, p.getBullets().size());
@@ -13,8 +33,9 @@ public class PlayerTest extends GameTest{
         assertEquals(6, p.getBullets().size());
         //changing to 1 bullet shots
         Pistol gun2 = new Pistol(p.getPos(),1,1);
-        p.setCurWeapon(gun2);
-        assertEquals(p.getCurWeapon(), gun2);
+        gun2.pickedUp(p);
+        assertEquals(2,p.getInventory().size());
+        assertEquals(1,p.getCurWeapon());
         p.shoot();
         assertEquals(7, p.getBullets().size());
         p.shoot();
@@ -102,6 +123,7 @@ public class PlayerTest extends GameTest{
         p.initBox2D(world,pos);
         assertNotNull(p.getWorld());
         assertNotNull(p.getBody());
-    }*/
+    }
+
 
 }

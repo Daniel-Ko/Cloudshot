@@ -21,6 +21,7 @@ import model.projectile.BulletImpl;
 import view.Assets;
 import view.factories.ButtonFactory;
 import view.factories.LabelFactory;
+import view.utils.EnemyCountActor;
 import view.utils.InventoryActor;
 import view.utils.PlayerHealthBar;
 
@@ -42,7 +43,7 @@ public class GameScreen extends ScreenAdapter {
      *        and goes to the menu screen.
      */
     public enum State{
-        GAME_PAUSED, GAME_RUNNING, GAME_OVER, GAME_PAUSED_MENU
+        GAME_PAUSED, GAME_RUNNING, GAME_OVER, GAME_PAUSED_MENU, GAME_WIN
     }
 
     /**
@@ -94,6 +95,7 @@ public class GameScreen extends ScreenAdapter {
     private Button mute;
     private Button pause;
     private Label levelText;
+    private EnemyCountActor enemyCountActor;
     private InventoryActor inventoryActor;
 
     public GameScreen(GameModelInterface gameModel) {
@@ -113,6 +115,7 @@ public class GameScreen extends ScreenAdapter {
         initialiseHealthBar();
         initialiseInventory();
         initialiseButtons();
+        initialiseEnemyCount();
     }
 
     /**
@@ -158,6 +161,11 @@ public class GameScreen extends ScreenAdapter {
         inventoryActor.setY(30);
         inventoryActor.setX(120);
         stage.addActor(inventoryActor);
+    }
+
+    private void initialiseEnemyCount(){
+        enemyCountActor = new EnemyCountActor(gameModel);
+        stage.addActor(enemyCountActor);
     }
 
     /**
@@ -206,8 +214,15 @@ public class GameScreen extends ScreenAdapter {
                 break;
             case GAME_PAUSED_MENU:
                 presentMenu();
+                break;
+            case GAME_WIN:
+                presentGameWin();
         }
 
+    }
+
+    private void presentGameWin() {
+        MenuScreen.game.setScreen(new GameWinScreen());
     }
 
     /**
@@ -265,7 +280,12 @@ public class GameScreen extends ScreenAdapter {
 
         // Update and draw the game model.
         Player player = (Player) gameModel.getPlayer();
-        inventoryActor.setPlayer(player); // To check if player was updated
+
+        // Update the actors for drawing.
+        inventoryActor.setPlayer(player);
+        enemyCountActor.setGameModel(gameModel);
+
+        // Draw the components.
         drawPlayer(player);
         drawBullets(player);
         drawEnemies(gameModel.getEnemies(), player);
