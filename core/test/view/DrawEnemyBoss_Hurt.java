@@ -10,9 +10,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kodani on 16/10/17.
- */
 public class DrawEnemyBoss_Hurt extends ViewTest {
     /**
      * Test that the boss enemy as well as its HP bar is drawn after it has been hurt

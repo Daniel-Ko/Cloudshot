@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawMutipleEnemies extends ViewTest {
+public class DrawMultipleEnemies2 extends ViewTest {
 
     /**
      * Test that the mutiple enemies as well as their HP bars are drawn.
@@ -31,14 +31,20 @@ public class DrawMutipleEnemies extends ViewTest {
                 AbstractEnemy enemy3 = EntityFactory.produceEnemy(this,
                         new Vector2(10, 10),
                         AbstractEnemy.entity_type.rogue);
+                AbstractEnemy enemy4 = EntityFactory.produceEnemy(this,
+                        new Vector2(15, 5),
+                        AbstractEnemy.entity_type.boss1);
                 enemy3.internalDamage(50);
+                enemy4.internalDamage(80);
                 enemies.add(enemy1);
                 enemies.add(enemy2);
                 enemies.add(enemy3);
+                enemies.add(enemy4);
                 return enemies;
             }
         };
         Game game = new CloudShotGame(CloudShotGame.Screen.TEST, gameModel);
         launchAndExitIn3Seconds(game);
     }
+
 }

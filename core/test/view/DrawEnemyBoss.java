@@ -10,9 +10,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kodani on 16/10/17.
- */
 public class DrawEnemyBoss extends ViewTest {
 
     /**
