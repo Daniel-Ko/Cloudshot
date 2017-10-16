@@ -8,6 +8,10 @@ import model.being.enemystates.MeleeAttack;
 import model.being.player.Player;
 import org.junit.Test;
 import static org.junit.Assert.*;
+/**
+ *
+ * @author Jeremy Southon
+ * */
 public class RogueTest extends GameTest {
 
     @Test
