@@ -328,11 +328,6 @@ public class PersistenceTest extends GameTest{
 
     @Test
     public void testValidLoad() {
-        MockSaveLoader repoScraper = new MockSaveLoader();
-
-        repoScraper.save(setUpValidModelData()); // Be sure to check if validSave test is working!
-
-
 
     }
 
@@ -344,10 +339,11 @@ public class PersistenceTest extends GameTest{
 
     private MockModelData setUpValidModelData() {
         AbstractPlayer pl = new Player();
-        List<AbstractEnemy> enems = new ArrayList<>();
-        MockLevel level = new MockLevel();
+        List<AbstractEnemy> enems = setUpValidEnemies();
+        MockLevel level = setUpValidLevel();
 
-        enems.add(new Rogue(new World(new Vector2(0, -8), true), pl, new Vector2(15, 15)));
+        pl.setHealth(20);
+        pl.setLinearVelocity(new Vector2(10, 10));
 
         MockModelData data = new MockModelData();
 
