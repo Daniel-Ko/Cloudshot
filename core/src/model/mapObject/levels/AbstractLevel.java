@@ -128,6 +128,9 @@ public abstract class AbstractLevel implements Serializable{
                 else if(s.equals("SemiAuto")){
                     collectable = new SemiAuto(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
                 }
+                else if(s.equals("HeavyAmmoPack")){
+                    collectable = new HeavyAmmoPack(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);
+                }
                 else
                 {
                     collectable = new SemiAuto(new Vector2(r.getRectangle().x, r.getRectangle().y), r.getRectangle().width, r.getRectangle().height);

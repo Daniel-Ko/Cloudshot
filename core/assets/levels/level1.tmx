@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="66">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="70">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
@@ -58,7 +58,17 @@
     <property name="Type" value="Pistol"/>
    </properties>
   </object>
-  <object id="55" x="338.259" y="1565.33" width="30.7847" height="30.7847">
+  <object id="66" x="1472.34" y="1472.34" width="30.778" height="27.915">
+   <properties>
+    <property name="Type" value="HeavyAmmoPack"/>
+   </properties>
+  </object>
+  <object id="68" x="1342.42" y="1218.6" width="30.778" height="27.915">
+   <properties>
+    <property name="Type" value="HeavyAmmoPack"/>
+   </properties>
+  </object>
+  <object id="69" x="1022.71" y="1408.64" width="30.7847" height="30.7847">
    <properties>
     <property name="Type" value="Sniper"/>
    </properties>
@@ -77,9 +87,9 @@
   <object id="45" x="1097.4" y="1102" width="78.3252" height="273.427"/>
  </objectgroup>
  <objectgroup name="Spike Blocks">
-  <object id="63" x="781.281" y="1558.64"/>
-  <object id="64" x="1454.87" y="1394.16"/>
-  <object id="65" x="2030.55" y="1341.3"/>
+  <object id="63" x="704.339" y="1504.91"/>
+  <object id="64" x="1478.07" y="1347.76"/>
+  <object id="65" x="2085.5" y="1311.99"/>
  </objectgroup>
  <objectgroup name="Spawn Location">
   <object id="39" x="627.656" y="1656.28">
