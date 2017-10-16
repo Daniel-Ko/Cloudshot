@@ -36,6 +36,7 @@ public class Assets {
     // Moving sprites.
     public static CustomSprite playerWalkHurt;
     public static CustomSprite playerIdleHurt;
+    public static CustomSprite playerJumpHurt;
 
     /**
      * Shooting enemy sprites.
@@ -124,6 +125,7 @@ public class Assets {
         playerDeath = new MovingSprite("player_death.png", 1, 1);
         playerWalkHurt = new MovingSprite("player_walk_hurt.png", 3, 3);
         playerIdleHurt = new MovingSprite("player_idle_hurt.png", 2, 2);
+        playerJumpHurt = new MovingSprite("player_jump_hurt.png", 2, 3);
 
         shootingEnemyBulletSprite =  new StaticSprite("enemyBullet.png");
         shootingEnemyAttackingRight = new MovingSprite("archer_attack.png",1,10);

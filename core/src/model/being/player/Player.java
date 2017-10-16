@@ -250,13 +250,16 @@ public class Player extends AbstractPlayer {
 		}
 		//JUMPING ANIMATION
 		if (this.inAir) {
+			if(hurtThisFrame)
+				return Assets.playerJumpHurt;
 			return Assets.playerJump;
 		}
 		//IDLE ANIMATION
 		if (body.isPresent()) {
 			if (body.get().getLinearVelocity().x == 0 && body.get().getLinearVelocity().y == 0) {
-				if(hurtThisFrame)
+				if(hurtThisFrame){
 					return Assets.playerIdleHurt;
+				}
 				return Assets.playerIdle;
 			}
 		}

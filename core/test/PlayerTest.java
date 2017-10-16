@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
 /**
  *
  * @author Jeremy Southon
@@ -170,6 +172,9 @@ public class PlayerTest extends GameTest{
         assertTrue(p.getY()>prePos.y);
 
     }
+
+
+
 
 
 

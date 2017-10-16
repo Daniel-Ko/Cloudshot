@@ -24,7 +24,12 @@ public class MockGameModel implements GameModelInterface {
 
     @Override
     public AbstractPlayer getPlayer() {
-        return EntityFactory.producePlayer(this, new Vector2(-50,-50));
+        AbstractPlayer player = EntityFactory.producePlayer(this, new Vector2(-50,-50));
+
+        // Hides the player from the view.
+        player.setPos(new Vector2(-10, -10));
+
+        return player;
     }
 
     @Override

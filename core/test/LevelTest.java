@@ -10,6 +10,8 @@ import model.being.enemies.Rogue;
 import model.being.enemies.ShootingEnemy;
 import model.being.enemies.Slime2;
 import model.being.player.Player;
+import model.collectable.AbstractWeapon;
+import model.collectable.Pistol;
 import model.mapObject.levels.AbstractLevel;
 import model.mapObject.levels.LevelOne;
 import org.junit.Before;
@@ -250,7 +252,7 @@ public class LevelTest extends GameTest{
      */
     @Test
     public void testCollectiblesLoad(){
-        assertTrue(level.getCollectables().size() == 10);//there are 8 collectibles on this level
+        assertTrue(level.getCollectables().size() == 11);//there are 8 collectibles on this level
     }
 
     /**
@@ -309,4 +311,6 @@ public class LevelTest extends GameTest{
         assertTrue(p.getHealth()<150);//player should be damaged by spikes
 
     }
+
+
 }
