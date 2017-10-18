@@ -19,7 +19,7 @@ public class Sniper extends AbstractWeapon {
     protected final int SNIPER_DAMAGE = 40;
 
     public Sniper(Vector2 position, float width, float height) {
-        super(position, width, height, weapon_type.sniper);
+        super(position, width, height, weapon_type.sniper, Assets.sniperBullet);
         this.ammo = getMaxAmmo();
         this.setDamage(SNIPER_DAMAGE);
     }
@@ -29,10 +29,6 @@ public class Sniper extends AbstractWeapon {
         return Assets.sniper;
     }
 
-    @Override
-    public CustomSprite getBulletImage() {
-        return Assets.sniperBullet;
-    }
 
     /**
      * shoots one very strong & fast bullet.

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public abstract class AbstractWeapon extends AbstractCollectable {
 	private static final long serialVersionUID = -9094601317027252528L;
 	public final weapon_type type;
+	public final CustomSprite BULLET_IMAGE;
 	//fields which every bullet needs
 	protected int ammo;
 	private float damage;
@@ -25,9 +26,10 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 	}
 
 
-	public AbstractWeapon(Vector2 position, float width, float height, weapon_type type) {
+	public AbstractWeapon(Vector2 position, float width, float height, weapon_type type, CustomSprite bulImg) {
 		super(position, width, height);
 		this.type = type;
+		this.BULLET_IMAGE = bulImg;
 	}
 
 	/**
@@ -51,8 +53,14 @@ public abstract class AbstractWeapon extends AbstractCollectable {
 		this.damage = damage;
 	}
 	
-	public abstract CustomSprite getBulletImage();
-	
+	public CustomSprite getBulletImage() {
+		return BULLET_IMAGE;
+	}
+
+	//
+	// ABSTRACT
+	//
+
 	public abstract void setAmmo(int i);
 	
 	public abstract int getAmmo();

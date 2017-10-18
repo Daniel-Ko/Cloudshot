@@ -2,7 +2,9 @@ package model.being.player;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import model.collectable.AbstractWeapon;
+import model.projectile.BulletImpl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,6 +43,7 @@ public class PlayerData implements Serializable{
     // Players inventory
     protected List<AbstractWeapon> inventory;
     protected int curWeapon;
+    protected List<BulletImpl> bullets;
 
     // Position of the mouse
     protected Vector2 aimedAt = new Vector2(50,50);
@@ -76,6 +79,8 @@ public class PlayerData implements Serializable{
 
     private void setInstanceProperties(AbstractPlayer player) {
         curWeapon = player.getCurWeapon();
+        Player pInstance = (Player) player;
+        bullets = pInstance.getBullets();
     }
 
     private void setUIProperties(AbstractPlayer player) {
@@ -278,5 +283,7 @@ public class PlayerData implements Serializable{
         isSensor = sensor;
     }
 
-
+    public List<BulletImpl> getBullets() {
+        return bullets;
+    }
 }

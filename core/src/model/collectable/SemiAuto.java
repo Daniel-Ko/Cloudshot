@@ -20,14 +20,9 @@ public class SemiAuto extends AbstractWeapon{
 
 
     public SemiAuto(Vector2 position, float width, float height) {
-        super(position, width, height, weapon_type.semiauto);
+        super(position, width, height, weapon_type.semiauto, Assets.semiAutoBullet);
         setAmmo(MAX_AMMO);
         this.setDamage(SemiAuto_DAMAGE);
-    }
-
-    @Override
-    public CustomSprite getBulletImage() {
-        return Assets.semiAutoBullet;
     }
 
     /**

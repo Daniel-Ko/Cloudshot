@@ -16,6 +16,7 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
     private static final long serialVersionUID = 2484518252244346432L;
     //fields for defining A collectable.
 	protected Vector2 pos;
+
 	protected Rectangle boundingBox;
 	protected boolean pickedUp = false;
 
@@ -60,7 +61,12 @@ public abstract class AbstractCollectable implements GameObjectInterface, java.i
 	/**
 	 * -----------------GETTERS AND SETTERS-------------------
      *
-	 * /
+	 */
+
+	 public Vector2 getPos() {
+	 	return pos;
+	 }
+
 	/**
 	 * @return the pickedUp
 	 */

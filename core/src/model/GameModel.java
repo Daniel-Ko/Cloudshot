@@ -8,11 +8,16 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
 import model.being.EntityFactory;
 import model.being.enemies.AbstractEnemy;
+import model.being.enemies.Boss1V2;
+import model.being.enemies.EnemyShooterInterface;
+import model.being.enemies.ShootingEnemy;
 import model.being.enemystates.Death;
 import model.being.player.AbstractPlayer;
+import model.being.player.Player;
 import model.being.player.PlayerData;
 import model.collectable.AbstractBuff;
 import model.collectable.AbstractCollectable;
@@ -21,6 +26,8 @@ import model.collectable.CollectableFactory;
 import model.data.GameStateTransactionHandler;
 import model.data.ModelData;
 import model.mapObject.levels.*;
+import model.projectile.BulletImpl;
+import model.projectile.ProjectileFactory;
 import view.Assets;
 import view.screens.GameScreen;
 
@@ -502,7 +509,23 @@ public class GameModel implements GameModelInterface {
                 newPlayer.getInventory().add(loadedWeapon);
             }
 
+            // Set cur Weapon
             newPlayer.setCurWeapon(pdata.getCurWeapon());
+
+            // Set bullets shot from cur Weapon (in the air)
+            Player newPlayerInstance = (Player) newPlayer;
+
+            for(BulletImpl bullet : pdata.getBullets()) {
+                newPlayerInstance.getBullets().add(
+                        ProjectileFactory.produceBullet(
+                                bullet.getPos(),   //to make sure bullets are spaced out
+                                bullet.getEndPos(),
+                                bullet.getDamage(),
+                                bullet.getOwner(),
+                                newPlayer
+                        )
+                );
+            }
         }
 
         // Initialise the loaded player with the saved data of the physics and movement.
@@ -550,6 +573,24 @@ public class GameModel implements GameModelInterface {
             
             newEnemy.setDrawingWidth(e.getDrawingWidth());
             newEnemy.setDrawingHeight(e.getDrawingHeight());
+
+            // Set bullets shot (and in the air) from shooting enemies
+            if(newEnemy instanceof EnemyShooterInterface) {
+                EnemyShooterInterface loadedShooter = (EnemyShooterInterface) e;
+                EnemyShooterInterface newShooter = (EnemyShooterInterface) newEnemy;
+
+                for (BulletImpl bullet : loadedShooter.getBulletsShot()) {
+                    newShooter.getBulletsShot().add(
+                            ProjectileFactory.produceBullet(
+                                    bullet.getPos(),
+                                    bullet.getEndPos(),
+                                    bullet.getDamage(),
+                                    bullet.getOwner(),
+                                    newEnemy
+                            )
+                    );
+                }
+            }
 
             enemiesToAdd.push(newEnemy); //add this "loaded" enemy to the model
         }

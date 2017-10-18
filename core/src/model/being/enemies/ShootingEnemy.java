@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class ShootingEnemy extends AbstractEnemy{
+public class ShootingEnemy extends AbstractEnemy implements EnemyShooterInterface{
 
     private static final long serialVersionUID = 1377896803459343312L;
     public final AbstractEnemy.entity_type type = AbstractEnemy.entity_type.archer;
@@ -81,7 +81,8 @@ public class ShootingEnemy extends AbstractEnemy{
 	 * For all bullets that this enemy has fired update them.
 	 * Clean up the oldest bullets if bullets.size > 10.
 	 * */
-	private void updateBullets(){
+	@Override
+	public void updateBullets(){
 		//updating bullets enemy has fired
 		for(BulletImpl b : bullets)
 			b.update(new ArrayList<>(),player,null);
@@ -147,9 +148,10 @@ public class ShootingEnemy extends AbstractEnemy{
 		return Assets.shootingEnemyIdle;
 	}
 
+	@Override
+	public Queue<BulletImpl> getBulletsShot(){return this.bullets;}
 
-	public Queue<BulletImpl> getBullets (){return this.bullets;}
-
+	@Override
 	public CustomSprite getBulletSprite() {
 		return Assets.shootingEnemyBulletSprite;
 	}

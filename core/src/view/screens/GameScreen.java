@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -386,7 +387,7 @@ public class GameScreen extends ScreenAdapter {
             // Draw the bullets that the enemy shoots.
             if (ae instanceof ShootingEnemy) {
                 ShootingEnemy s = (ShootingEnemy) ae;
-                for (BulletImpl b : s.getBullets())
+                for (BulletImpl b : s.getBulletsShot())
                     batch.draw(s.getBulletSprite().getFrameFromTime(elapsedTime),
                             b.getX() - 0.25f, b.getY() - 0.25f,
                             0.2f,

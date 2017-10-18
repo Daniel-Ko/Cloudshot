@@ -30,13 +30,12 @@ public class Player extends AbstractPlayer {
 	private int doubleJump = 0;
 	private float meleeRange = 1;
 
-	Shotgun pistol;
-	List<BulletImpl> bullets = new ArrayList<>();
+	private List<BulletImpl> bullets = new ArrayList<>();
 
 	//being hurt dectection
-	boolean hurtThisFrame;
+	private boolean hurtThisFrame;
 	//Box2D
-	int numFootContact = 0;
+	private int numFootContact = 0;
 
 	public Player() {
 		super();

@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
 
-public class Boss1V2 extends AbstractEnemy{
+public class Boss1V2 extends AbstractEnemy implements EnemyShooterInterface{
     private static final long serialVersionUID = 7387484870840919165L;
     
     //bullet and attacking fields
@@ -97,8 +97,8 @@ public class Boss1V2 extends AbstractEnemy{
         boundingBox.set(position.x,position.y,boundingBox.getWidth(),boundingBox.getHeight());
     }
 
-
-    private void updateBullets(){
+    @Override
+    public void updateBullets(){
         //updating bullets enemy has fired
         for(BulletImpl b : getBulletsShot())
             b.update(new ArrayList<>(),player,null);//FIXME
@@ -108,11 +108,12 @@ public class Boss1V2 extends AbstractEnemy{
         }
     }
 
+    @Override
     public Queue<BulletImpl> getBulletsShot() {
         return bulletsShot;
     }
 
-
+    @Override
     public CustomSprite getBulletSprite() {
         return Assets.bossEnemyBulletSprite;
     }

@@ -16,7 +16,7 @@ public class Shotgun extends AbstractWeapon {
 	protected final int SHOTGUN_DAMAGE = 15;
 
 	public Shotgun(Vector2 position, float width, float height) {
-		super(position, width, height, weapon_type.shotgun);
+		super(position, width, height, weapon_type.shotgun, Assets.shotgunBullet);
 		this.ammo = MAX_AMMO;
 		this.setDamage(SHOTGUN_DAMAGE);
 	}
@@ -69,10 +69,6 @@ public class Shotgun extends AbstractWeapon {
 		return Assets.shotgun;
 	}
 
-	
-	public CustomSprite getBulletImage() {
-		return Assets.shotgunBullet;
-	}
 	
 	@Override
 	public void setAmmo(int i) {

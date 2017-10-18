@@ -28,6 +28,8 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 	protected Vector2 endPos;
 	protected Vector2 pos;
 
+	protected Vector2 prevOrigin;
+
 	protected float damage;
 	protected float speed = 3;
 	private float xVel;
@@ -43,16 +45,16 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 	 * @param end end Position (aimedAt field in player)
 	 * @param damage damaged of this bullet(declared in bullet);
 	 * @param t bullet image
-     * @param owner true if owned by player.
+     * @param isPlayerBullet true if owned by player.
      */
 
-	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t, boolean owner){
+	public BulletImpl(Vector2 start, Vector2 end, float damage, CustomSprite t, boolean isPlayerBullet){
 		this.pos = new Vector2(start.x,start.y + 0.3f);
 		this.startingPos = new Vector2(start.x,start.y + 0.3f);
 		this.endPos = new Vector2(end.x, end.y);
 		this.damage = damage;
 		this.image = t;
-		this.playerBullet = owner;
+		this.playerBullet = isPlayerBullet;
 		float tX = startingPos.x - endPos.x;
 		float tY = startingPos.y - endPos.y;
 		float mag = (float) java.lang.Math.hypot(tX, tY);
@@ -106,8 +108,6 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 				this.setToRemove();
 			}
 		}
-
-
 	}
 
 
@@ -214,5 +214,9 @@ public class BulletImpl implements ProjectileInterface, GameObjectInterface, Ser
 		this.pos = pos;
 	}
 
-	
+
+	public boolean getOwner() {
+		return playerBullet;
+	}
+
 }

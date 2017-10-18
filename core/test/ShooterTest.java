@@ -50,10 +50,10 @@ public class ShooterTest extends GameTest{
         ShootingEnemy s = new ShootingEnemy(w,p,new Vector2(0,0));
         //Should be within firing range.
         p.setPos(new Vector2(s.attackRadius-1,0));
-        assertEquals(0,s.getBullets().size());
+        assertEquals(0,s.getBulletsShot().size());
         s.update();
-        assertEquals(1,s.getBullets().size());
-        Vector2 position = s.getBullets().peek().getPos();
+        assertEquals(1,s.getBulletsShot().size());
+        Vector2 position = s.getBulletsShot().peek().getPos();
         Vector2 oldPos = new Vector2(position.x, position.y);
         s.update();
         assertTrue(oldPos != position);

@@ -16,6 +16,7 @@ import model.GameObjectInterface;
 import model.being.EntityInterface;
 import model.being.enemies.AbstractEnemy;
 import model.collectable.AbstractWeapon;
+import model.projectile.BulletImpl;
 import view.screens.GameScreen;
 import view.screens.GameScreen.State;
 
