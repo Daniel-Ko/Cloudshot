@@ -67,9 +67,9 @@ public class DialogFactory {
      * @return
      *      CustomDialog notifying the user that load have failed.
      */
-    public static CustomDialog loadFailedDialog(){
+    public static CustomDialog loadFailedDialog(String error){
         return new CustomDialog("Load status") // this is the dialog title
-                .text("Load failed :(\n") // text appearing in the dialog
+                .text("Load failed :(\n" + error + "\n") // text appearing in the dialog
                 .button("Ok", new InputListener() { // button to exit app
                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                         return true;

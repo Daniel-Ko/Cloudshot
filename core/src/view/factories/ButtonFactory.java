@@ -141,7 +141,7 @@ public class ButtonFactory {
                     gameModel.load();
                     DialogFactory.loadSuccessfulDialog(gameScreen).show(MenuScreen.stage);
                 } catch (GameStateTransactionHandler.InvalidTransactionException e) {
-                    DialogFactory.loadFailedDialog().show(MenuScreen.stage);
+                    DialogFactory.loadFailedDialog(e.getMessage()).show(MenuScreen.stage);
                 }
             }
 

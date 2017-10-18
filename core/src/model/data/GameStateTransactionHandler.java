@@ -74,8 +74,9 @@ public class GameStateTransactionHandler {
             loadedData.setEnemies(validateAndReturnEnemies(latest));
             loadedData.setLevel(validateAndReturnLevel(latest));
             
-            //unit of work complete, we now commit the change permanently
-            repository.pullHard();
+            //unit of work complete, we now commit the change permanently (only if we have more than one state to load, otherwise
+            //keep on loading the last one over and over
+            if(repository.latestSaveNum() > 1) repository.pullHard();
             
             return loadedData; //give the model a loader object to directly call validated data
             
