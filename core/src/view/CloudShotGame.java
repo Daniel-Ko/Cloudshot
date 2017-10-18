@@ -53,13 +53,13 @@ public class CloudShotGame extends Game {
                 this.setScreen(new GameScreen(new GameModel()));
                 break;
             case TEST:
-                this.setScreen(new GameScreen(model));
+                this.setScreen(new GameScreen(new GameModel()));
                 break;
             case GAME_WIN:
-                this.setScreen(new GameWinScreen());
+                this.setScreen(new GameWinScreen(new GameModel()));
                 break;
             case GAME_OVER:
-                this.setScreen(new GameOverScreen());
+                this.setScreen(new GameOverScreen(new GameModel()));
                 break;
 
         }

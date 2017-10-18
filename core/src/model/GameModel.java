@@ -637,4 +637,7 @@ public class GameModel implements GameModelInterface {
             }
         }
     }
+    public GameStateTransactionHandler getPersistHandler() {
+        return repoScraper;
+    }
 }

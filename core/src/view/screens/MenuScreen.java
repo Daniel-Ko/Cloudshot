@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import model.GameModel;
 import model.GameModelInterface;
 import view.factories.ButtonFactory;
 import view.factories.LabelFactory;
@@ -48,7 +49,8 @@ public class MenuScreen extends ScreenAdapter {
 
         TextButton restartButton = ButtonFactory.restartButton(
                 Gdx.graphics.getWidth()/2,
-                Gdx.graphics.getHeight()/2
+                Gdx.graphics.getHeight()/2,
+                gameModel
         );
 
         TextButton resumebutton = ButtonFactory.resumeGameButton(

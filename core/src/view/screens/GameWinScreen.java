@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import model.GameModelInterface;
 import view.factories.ButtonFactory;
 import view.factories.LabelFactory;
 
@@ -14,12 +15,14 @@ public class GameWinScreen extends ScreenAdapter {
      */
     private Stage stage;
 
-    public GameWinScreen(){
+    public GameWinScreen(GameModelInterface gameModelInterface){
         this.stage = new Stage(new ScreenViewport());
         this.stage.addActor(LabelFactory.gameWinLabel());
         this.stage.addActor(ButtonFactory.restartButton(
                 Gdx.graphics.getWidth()/2,
-                Gdx.graphics.getHeight()/2
+                Gdx.graphics.getHeight()/2,
+                gameModelInterface
+
         ));
     }
 

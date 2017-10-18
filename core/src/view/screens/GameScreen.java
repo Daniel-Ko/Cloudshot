@@ -222,7 +222,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void presentGameWin() {
-        MenuScreen.game.setScreen(new GameWinScreen());
+        MenuScreen.game.setScreen(new GameWinScreen(gameModel));
     }
 
     /**
@@ -250,7 +250,7 @@ public class GameScreen extends ScreenAdapter {
      * Displays the game over screen.
      */
     public void presentGameOver() {
-        MenuScreen.game.setScreen(new GameOverScreen());
+        MenuScreen.game.setScreen(new GameOverScreen(gameModel));
     }
 
     /**
@@ -439,5 +439,12 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+
+
+    public void setPersistHandler(GameStateTransactionHandler persistHandler) {
+        this.saveLoadHandler = persistHandler;
+        this.gameModel.setRepoScraper(persistHandler);
     }
 }

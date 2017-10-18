@@ -112,8 +112,8 @@ except replace "username" with your ECS username and password with...you guess.
 In eclipse try setting the proxy settings.
 Window -> Preferences -> General -> Network Connections
 Set Active Provider: to Manual then edit http
-Add Host: www-cache.ecs.vuw.ac.nz port: 8080
-Tick Requires Authentication and enter your username ☁️ password
+Add Host: www-cache.ecs.vuw.ac.nz, port: 8080
+Tick Requires Authentication and enter your username and password
 
 In Intellij you also have to set the proxy settings
 

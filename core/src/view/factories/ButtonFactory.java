@@ -37,8 +37,7 @@ public class ButtonFactory {
         startButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                GameModel gameModel = new GameModel();
-                MenuScreen.game.setScreen(new GameScreen(gameModel));
+                MenuScreen.game.setScreen(new GameScreen(new GameModel()));
             }
 
             @Override
@@ -234,7 +233,7 @@ public class ButtonFactory {
      * @return
      *      TextButton which restarts the game.
      */
-    public static TextButton restartButton(float x, float y) {
+    public static TextButton restartButton(float x, float y, GameModelInterface gameModelInterface) {
         TextButton restartButton = new TextButton("Restart", Assets.gameSkin);
         restartButton.setWidth(Gdx.graphics.getWidth() / 3);
         restartButton.setPosition(
@@ -244,8 +243,12 @@ public class ButtonFactory {
         restartButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                GameModel gameModel = new GameModel();
-                MenuScreen.game.setScreen(new GameScreen(gameModel));
+                GameModel oldModel = (GameModel) gameModelInterface;
+                GameStateTransactionHandler pastHandler = oldModel.getPersistHandler();
+
+                GameScreen restart = new GameScreen(new GameModel());
+                restart.setPersistHandler(pastHandler);
+                MenuScreen.game.setScreen(restart);
             }
 
             @Override
