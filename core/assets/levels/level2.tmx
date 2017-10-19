@@ -126,7 +126,7 @@
     <property name="Type" value="Rogue"/>
    </properties>
   </object>
-  <object id="97" x="2108" y="1154">
+  <object id="97" x="2228" y="1184">
    <properties>
     <property name="Number" type="int" value="1"/>
     <property name="Type" value="Boss1"/>
