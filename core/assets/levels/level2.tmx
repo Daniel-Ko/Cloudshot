@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="96">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="60" tilewidth="32" tileheight="32" nextobjectid="98">
  <tileset firstgid="1" source="levelOne.tsx"/>
  <tileset firstgid="257" name="spikes" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="textures/spikes.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="258" source="tiledset.tsx"/>
- <tileset firstgid="483" source="tiledset.tsx"/>
- <tileset firstgid="708" source="woodtiledset.tsx"/>
+ <tileset firstgid="483" source="woodtiledset.tsx"/>
  <imagelayer name="Image Layer 1">
   <image source="textures/BG.png" width="3200" height="2400"/>
  </imagelayer>
@@ -15,17 +14,17 @@
  </objectgroup>
  <layer name="Background" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt181twjAYBuAoXYJRmKBTlEWA/aA9gq/Qa8fAqEYySQggAY7Cc3hkx1KkL37ln0yrqpoCAAAAAAAAAAAAAAAAAACD8FW3la7pXc3S3K9iu46+6/N+6fre0XH+N9E2Co3+SiYvk8/70Wd1LmSZyOX1eXStkXysdL1j15dHkEfxTJrPzXxK1zpmpzPhkm22RkK6a/3I5CnmPfepS317ljzGZlH/z/0yWaT2r4fz+7munRMn6477VLjxPf/x102Se/ele/r52GQA3zx08hgWeYzXrm7bR7/Ojof46FC6JgCAWx0Aplinfg==
+   eJzt10tuwjAUBdCkDNgCS2EF3RRsBLo/oEPwlFY1qpFMSPhIgKNwBkd2LEV68ZU/mVZVNQUAAAAAAAAAAAAAAAAAAHphVp8rXdO7mqe5X8V2HW3q037p+t7RYf630S4Kjf5KJi+Tz/vBZ3UqZJnI5fV5tK2RfKx0vUN3KY8gj+KZNJ+b+ZSudciOZ0KXXbZGQrprfcvkKRYX7lNdfXuWPIZmWf/P/VeyTO34o5vz+7munRNH65b7VLjxPf/x102Se/ele/r52KQH39x38ugXeQzXvj73E/06Ox5i1KJ0TQAAt/oD1iu70w==
   </data>
  </layer>
  <layer name="Terrain" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt17FOwzAQBuA0b9AyARNloqgDZap4UcQLIJ6PHXCkWupQS+3VUYL8fdK/xdEplu/irgMAAAAAAAAAAAAAAAAAAObiNuWukPsJ62pR3gum9bPouu+UzZnPD8/+LkYtqWlPgTXP1asg2wfWvFWvgtynIvsxnA99q648v8+dG8c2h/jnqisyOzI9q75Ir8rM9Jg8J07l2vNReq+5UjacgdKde9iP0p38WGm9u3zMNefgUvrYvGynLgD+kfc+no9+3NqWKauGcpPy2cfzNfJ+PKSsG8pjnc82mpeUXUN5rfPZAGBW/gCC20l+
+   eJzt10FqwzAQBVD7CE1WaWgh7SopXbRdlR685AKhx6oMEWQRQTKRsYPeg7+zzGChGavrAAAAAAAAAAAAAAAAAACAuVilPBaynrCuFuW9YFpPfdctUnYXPj88+9yPWlLTtoE1b9WrIPsOrPmpXgW5T0X2Yzgf+lZdeX5fOjdO7Y7xz1VXZHZkelZ9kV6VmekxeU6cy63no/Rec6VsOAOlO/ewH6U7+anSenf5mFvOwbX0sXl5n7oAuCO/fTz7kf8LHlIWDWWZcujj+Rt5PzYpLw3ltc5nG81HymdD+arz2QBgVv4BTt856A==
   </data>
  </layer>
  <layer name="Decoration" width="100" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt1W0KgkAQANC0gugG5QmqCxQdtLpAdovqZvlDwUoMl02D3oPBj1mdxWHd0QgAAAAAAAAAAAAAAAAAAIAm6w+5tjz90w/+2T0NyzGcm7583bIlstq4RXmPYR2KNXG0LnrVtj+ci1ye2kP6cPWNf172cr0YZBbUVXvGyfqJbhXwTLVnXDr2YxNQ69+E9CPUL/RjMkDNWe18XERSHrdFTMvjtszvItVMkueYNozZR6pVvfuYdo95pDnwLk+7R9d/LAAAcTwARiAfxg==
+   eJzt1W0KgkAQANCWCqIblCeoLlB07+oC2S2qo+QPBSsxXDYNeg8GP2Z1Fod1RyMAAAAAAAAAAAAAAAAAAACarD/k2vL0Tz/4Z/cQl2M4N335umVLZLVxi/IewzoUa+JoXfSqbX84F7k82EP6cPWNf172cr0YZBbUVXvGyfpJbhXxTLVnXDr2YxNR69/E9CPWL/RjMkDNWe18XEQoj9sipuVxW+Z3iWqG8BzThjH7RLWqdx9D95gnmgPv8tA9uv5jAQBI4wE6xCTQ
   </data>
  </layer>
  <objectgroup name="Portals">
@@ -94,6 +93,7 @@
   <object id="45" x="57.85" y="1506.98" width="476.325" height="193.427"/>
   <object id="89" x="266.838" y="1510.29" width="476.325" height="193.427"/>
   <object id="92" x="47.382" y="1489.95" width="697.236" height="273.427"/>
+  <object id="96" x="1187.38" y="1229.29" width="425.236" height="175.427"/>
  </objectgroup>
  <objectgroup name="Spawn Location">
   <object id="39" x="551.125" y="1669.04">
@@ -124,6 +124,12 @@
    <properties>
     <property name="Number" type="int" value="3"/>
     <property name="Type" value="Rogue"/>
+   </properties>
+  </object>
+  <object id="97" x="2108" y="1154">
+   <properties>
+    <property name="Number" type="int" value="3"/>
+    <property name="Type" value="Boss1"/>
    </properties>
   </object>
  </objectgroup>
