@@ -579,17 +579,17 @@ public class GameModel implements GameModelInterface {
                 EnemyShooterInterface loadedShooter = (EnemyShooterInterface) e;
                 EnemyShooterInterface newShooter = (EnemyShooterInterface) newEnemy;
 
-                for (BulletImpl bullet : loadedShooter.getBulletsShot()) {
-                    newShooter.getBulletsShot().add(
-                            ProjectileFactory.produceBullet(
-                                    bullet.getPos(),
-                                    bullet.getEndPos(),
-                                    bullet.getDamage(),
-                                    bullet.getOwner(),
-                                    newEnemy
-                            )
-                    );
-                }
+//                for (BulletImpl bullet : loadedShooter.getBulletsShot()) {
+//                    newShooter.getBulletsShot().add(
+//                            ProjectileFactory.produceBullet(
+//                                    bullet.getPos(),
+//                                    bullet.getEndPos(),
+//                                    bullet.getDamage(),
+//                                    bullet.getOwner(),
+//                                    newEnemy
+//                            )
+//                    );
+//                }
             }
 
             enemiesToAdd.push(newEnemy); //add this "loaded" enemy to the model

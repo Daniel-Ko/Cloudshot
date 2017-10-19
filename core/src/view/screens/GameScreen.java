@@ -340,10 +340,11 @@ public class GameScreen extends ScreenAdapter {
      */
     private void drawBullets(Player player){
         for (BulletImpl b : player.getBullets()) {
+            b.setStartingPos(b.getPos());
             batch.draw(player.getInventory().get(player.getCurWeapon()).getBulletImage().getFrameFromTime(elapsedTime),
                     b.getX() - 0.25f,
                     b.getY() - 0.25f,
-                    0f, 0f,
+                    0f, 0f,//b.getStartingPos().x, b.getStartingPos().y,
                     0.1f, 0.1f,
                     1.0f, 1.0f,
                     60f, true);
