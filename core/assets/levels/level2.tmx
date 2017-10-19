@@ -128,7 +128,7 @@
   </object>
   <object id="97" x="2108" y="1154">
    <properties>
-    <property name="Number" type="int" value="3"/>
+    <property name="Number" type="int" value="1"/>
     <property name="Type" value="Boss1"/>
    </properties>
   </object>
